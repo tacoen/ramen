@@ -22,7 +22,7 @@ init python:
 ## ui
 
 define gui.text_font = FONT_PATH+'/WorkSans-Regular.ttf'
-define gui.text_size = 18
+define gui.text_size = 20
 define gui.text_color = '#dddddd'
 define gui.idle_color = "#eeeeee"
 define gui.accent_color = "#C11"
