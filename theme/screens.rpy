@@ -16,6 +16,7 @@ init offset = -1
 style default:
     properties gui.text_properties()
     language gui.language
+    antialias True
 
 style input:
     properties gui.text_properties("input", accent=True)
@@ -99,19 +100,26 @@ style frame:
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
 screen say(who, what):
-    style_prefix "say"
 
     window:
         id "window"
-        
-        if who is not None:
+        style_prefix "say"
 
+        if who is None:
+            background gui.naration_overlay
+            xalign 1.0
+            text what id "what" yalign 0.75
+            ysize None
+            padding (0,16,0,52)
+
+        else:
+            background gui.textbox_background + "99"
             window:
                 id "namebox"
                 style "namebox"
                 text who id "who"             
 
-        text what id "what"
+            text what id "what"
 
 
     ## If there's a side image, display it above the text. Do not display on the
@@ -132,12 +140,11 @@ style namebox is default
 style namebox_label is say_label
 
 style window:
-    xalign 0.0
+    xalign 0.5
     xfill True
     yalign gui.textbox_yalign
     ysize gui.textbox_height
-    background gui.textbox_background
- 
+
 style namebox:
     xpos gui.name_xpos
     xanchor gui.name_xalign
@@ -158,7 +165,12 @@ style say_dialogue:
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
-    
+    background gui.textbox_background
+
+style say_dialoguzze:
+    xpos gui.dialogue_xpos
+    ypos gui.dialogue_ypos
+    xsize config.screen_width - (2 * gui.dialogue_xpos)    
 
 
 ## Input screen ################################################################
