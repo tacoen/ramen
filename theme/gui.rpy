@@ -24,13 +24,15 @@ init python:
 define gui.text_font = FONT_PATH+'/WorkSans-Regular.ttf'
 define gui.text_size = 20
 
-define gui.text_color = '#fff'
-define gui.accent_color = "#c11"
-
-define gui.idle_color = "#999"
-define gui.selected_color = ramu.color_Brighten(gui.idle_color)
+define gui.text_color = '#DDD'
+define gui.idle_color = "#EEE"
+define gui.accent_color = "#C11"
+define gui.hover_color = "#fc1"
+define gui.selected_color = "#ACF"
 define gui.insensitive_color = ramu.color_Darken(gui.idle_color)
-define gui.idle_small_color = gui.insensitive_color
+define gui.hover_muted_color = ramu.color_Darken(gui.hover_color)
+define gui.muted_color = ramu.color_Darken(gui.insensitive_color)
+
 
 ## Out-game / Interface
 define gui.interface_text_font = FONT_PATH+'/WorkSans-Light.ttf'
@@ -61,10 +63,6 @@ define gui.name_text_size = 20
 define gui.name_text_color = '#fff'
 
 
-define gui.hover_color = "#fdca31"
-define gui.hover_muted_color = ramu.color_Darken(gui.hover_color)
-
-define gui.muted_color = ramu.color_Darken(gui.insensitive_color)
 
 define gui.choice_bgr_color = "#fffd"
 
@@ -87,6 +85,8 @@ define gui.navigation_button_text_selected_font = FONT_PATH+'/WorkSans-Regular.t
 
 
 define gui.label_text_size = 24
+define gui.label_text_color = gui.idle_color
+
 define gui.notify_text_size = 16
 define gui.title_text_size = 50
 
@@ -95,14 +95,12 @@ screen theme_info():
     python:
         va = [
             ['text', gui.text_color],
-            ['accent', gui.accent_color], 
             ['selected', gui.selected_color],
             ['idle', gui.idle_color], 
             ['insensitive', gui.insensitive_color],
             ['muted', gui.muted_color ],
+            ['accent', gui.accent_color], 
             ['hover', gui.hover_color],  
-
-            ['idle_small',gui.idle_small_color], 
             ['hover_muted', gui.hover_muted_color], 
         ]
 
@@ -114,58 +112,93 @@ screen theme_info():
             ['muted', gui.interface_muted_color],
         ]
         
-        n = 10
+        n = 180
     
     add Solid("#fffc")
     
-    frame xpos 10 ypos n background gui.interface_bgr_color xsize 200 ysize 600:
-        vbox yalign 0.5:
+    frame xpos 10 ypos 30 background gui.interface_bgr_color xsize 200 ysize 600:
+        vbox yalign 0.25:
             for v in vi:
                 text v[0] color v[1] min_width 180 text_align 1.0 size gui.interface_text_size font gui.interface_text_font
 
-                
-    for v in va:
-        vbox xpos 240 ypos n:
-            hbox yalign 0.5 ysize 30:
-                text v[0] size 12 color "#000" min_width 100  yalign 0.5
-                frame background v[1] xsize 30 ysize 30
-                text v[1] size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-                $ d = ramu.color_Darken(v[1])
-                frame background d xsize 30 ysize 30:
-                    text 'Da'
-                text d size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-                $ b = ramu.color_Brighten(v[1]) 
-                frame background b xsize 30 ysize 30:
-                    text "Br" 
-                text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-                $ b = ramu.color_Invert(v[1])
-                frame background b xsize 30 ysize 30:
-                    text "In"
-                text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-        $ n += 32
-            
-            
-            
-            
+
+    frame xpos 210 ypos 30 background gui.game_menu_background xsize 400 ysize 600 padding (18,8,8,18):
         
+        vbox:
+            text "page label" size gui.label_text_size color gui.idle_color font gui.interface_text_font 
+            null height 30
+            text "label" size gui.label_text_size color gui.idle_color font gui.interface_text_font 
+            hbox:
+                text "I'm a text you " color gui.text_color font gui.interface_text_font size 18
+                text "selected, " color gui.selected_color font gui.interface_text_font size 18
+                text "hover, " color gui.hover_color font gui.interface_text_font size 18
+                text "or " color gui.text_color font gui.interface_text_font size 18
+                text "muted," color gui.muted_color font gui.interface_text_font size 18
+            hbox:
+                text "but sometime " color gui.text_color font gui.interface_text_font size 18
+                text "hover muted." color gui.hover_muted_color font gui.interface_text_font size 18
+                text "because " color gui.text_color font gui.interface_text_font size 18
+                text "idle." color gui.idle_color font gui.interface_text_font size 18
+                
+        for v in va:
+            vbox xpos 0 ypos n:
+            
+                hbox yalign 0.5 ysize 30:
+                    text v[0] size 12 color "#000" min_width 100  yalign 0.5
+                    frame background v[1] xsize 30 ysize 30
+                    text v[1] size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+                    $ d = ramu.color_Darken(v[1])
+                    frame background d xsize 30 ysize 30:
+                        text 'Da'
+                    text d size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+                    $ b = ramu.color_Brighten(v[1]) 
+                    frame background b xsize 30 ysize 30:
+                        text "Br" 
+                    text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+                    $ b = ramu.color_Invert(v[1])
+                    frame background b xsize 30 ysize 30:
+                        text "In"
+                    text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+            $ n += 32
+            
+            
+    frame padding (24,24,24,24) xpos 240 ypos 480 xsize 300:
+        background gui.confirm_frame_background
+        style_prefix "confirm"
+        vbox xalign .5 yalign .5 spacing 30:
+
+            label _("Confirm?"):
+                style "confirm_prompt"
+                xalign 0.5
+
+            hbox:
+                xalign 0.5
+                spacing 20
+                textbutton _("Yes") action Null
+                textbutton _("No") action Null
     
 
 ## The images used for the main and game menus.
 
-if renpy.loadable(THEME_PATH+"/main_menu.png"):
-    define gui.main_menu_background = THEME_PATH+"/main_menu.png"
+if renpy.loadable(THEME_PATH+"/gui/main_menu.png"):
+    define gui.main_menu_background = THEME_PATH+"/gui/main_menu.png"
 else:
-    define gui.main_menu_background = Solid(gui.interface_bgr_color)
+    define gui.main_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+"99")
 
-if renpy.loadable(THEME_PATH+"/game_menu.png"):
-    define gui.game_menu_background = THEME_PATH+"/game_menu.png"
+if renpy.loadable(THEME_PATH+"/gui/game_menu.png"):
+    define gui.game_menu_background = THEME_PATH+"/gui/game_menu.png"
 else:
-    define gui.game_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+"99")
+    define gui.game_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+"CC")
 
-if renpy.loadable(THEME_PATH+"/game_menu.png"):
-    define gui.game_menu_overlay = THEME_PATH+"/overlay.png"
+if renpy.loadable(THEME_PATH+"/gui/ingame-overlay.png"):
+    define gui.game_menu_overlay = THEME_PATH+"/gui/ingame-overlay.png"
 else:
     define gui.game_menu_overlay = gui.game_menu_background
+
+image radio_selected_ = Text(ico("check-square"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=8)
+image radio_ = Text(ico("square"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=8)
+image check_selected_ = Text(ico("toggle-right"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=10)
+image check_ = Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=10)
 
 
 ## Dialogue ####################################################################
@@ -233,12 +266,9 @@ define gui.button_text_xalign = 0.0
 ##
 ## These customizations are used by the default interface:
 
-define gui.radio_button_borders = Borders(18, 4, 4, 4)
-
-define gui.check_button_borders = Borders(18, 4, 4, 4)
-
-
-define gui.page_button_borders = Borders(10, 4, 10, 4)
+define gui.radio_button_borders = Borders(22, 4, 4, 4)
+define gui.check_button_borders = Borders(22, 4, 4, 4)
+define gui.page_button_borders = Borders(22, 4, 10, 4)
 
 
 ## You can also add your own customizations, by adding properly-named variables.
@@ -274,7 +304,7 @@ define gui.slot_button_height = 206
 define gui.slot_button_borders = Borders(10, 10, 10, 10)
 define gui.slot_button_text_size = 14
 define gui.slot_button_text_xalign = 0.5
-define gui.slot_button_text_idle_color = gui.idle_small_color
+define gui.slot_button_text_idle_color = gui.idle_color
 define gui.slot_button_text_selected_idle_color = gui.selected_color
 define gui.slot_button_text_selected_hover_color = gui.hover_color
 

@@ -109,7 +109,9 @@ init -197 python:
           'disk':'/',
           'save':'`',
           'load':'~',
-          'cog':'|'
+          'cog':'|',
+          'selected':'v',
+          'idle':'q'
        }
 
         return i[what]

@@ -537,14 +537,13 @@ style game_menu_side:
 
 style game_menu_label:
     xpos 0
-    padding (40,0,0,0)
+    padding (320,0,0,0)
     ysize 120
     xsize 280
 
 style game_menu_label_text:
     size 3*gui.title_text_size/4
-    color ramu.color_Brighten(gui.interface_bgr_color)
-    hover_color gui.hover_color
+    color gui.accent_color
     yalign 0.5
 
 style return_button:
@@ -587,8 +586,11 @@ screen about():
 define gui.about = ""
 
 style about_label is gui_label
-style about_label_text is gui_label_text
-style about_text is gui_text
+style about_label_text is gui_label_text:
+    color gui.hover_color
+
+style about_text is gui_text:
+    color gui.text_color
 
 style about_label_text:
     size gui.label_text_size
@@ -818,9 +820,11 @@ screen preferences():
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
 
+style smaller_label_text is gui_label_text:
+    size 20
 
 style pref_label is gui_label
-style pref_label_text is gui_label_text
+style pref_label_text is smaller_label_text
 style pref_vbox is vbox
 
 style radio_label is pref_label
@@ -860,7 +864,8 @@ style radio_vbox:
 
 style radio_button:
     properties gui.button_properties("radio_button")
-    foreground "gui/button/radio_[prefix_]foreground.png"
+    foreground "radio_[prefix_]"
+    #foreground "gui/button/radio_[prefix_]foreground.png"
 
 style radio_button_text:
     properties gui.button_text_properties("radio_button")
@@ -870,7 +875,8 @@ style check_vbox:
 
 style check_button:
     properties gui.button_properties("check_button")
-    foreground "gui/button/check_[prefix_]foreground.png"
+    foreground "check_[prefix_]"
+    #foreground "gui/button/check_[prefix_]foreground.png"
 
 style check_button_text:
     properties gui.button_text_properties("check_button")
