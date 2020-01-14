@@ -41,11 +41,12 @@ style label_text is gui_text:
 style prompt_text is gui_text:
     properties gui.text_properties("prompt")
 
-
 style bar:
     ysize gui.bar_size
-    left_bar Frame("gui/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
-    right_bar Frame("gui/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
+    left_bar gui.insensitive_color+"C0"
+    right_bar gui.selected_color
+    #left_bar Frame("gui/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
+    #right_bar Frame("gui/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
 
 style vbar:
     xsize gui.bar_size
@@ -64,8 +65,10 @@ style vscrollbar:
 
 style slider:
     ysize gui.slider_size
-    base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
-    thumb "gui/slider/horizontal_[prefix_]thumb.png"
+    base_bar gui.bar_base_color+"C0"
+    thumb gui.bar_thumb_color   
+    #base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
+    #thumb "gui/slider/horizontal_[prefix_]thumb.png"
 
 style vslider:
     xsize gui.slider_size
@@ -76,8 +79,6 @@ style vslider:
 style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
-
-
 
 ################################################################################
 ## In-game screens
@@ -118,7 +119,6 @@ screen say(who, what):
     if not renpy.variant("small"):
         add SideImage() xalign 0.0 yalign 1.0
 
-
 ## Make the namebox available for styling through the Character object.
 init python:
     config.character_id_prefixes.append('namebox')
@@ -131,14 +131,13 @@ style say_thought is say_dialogue
 style namebox is default
 style namebox_label is say_label
 
-
 style window:
-    xalign 0.5
+    xalign 0.0
     xfill True
     yalign gui.textbox_yalign
     ysize gui.textbox_height
     background gui.textbox_background
-
+ 
 style namebox:
     xpos gui.name_xpos
     xanchor gui.name_xalign
@@ -159,6 +158,7 @@ style say_dialogue:
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
+    
 
 
 ## Input screen ################################################################
@@ -229,9 +229,27 @@ style choice_vbox:
 
     spacing gui.choice_spacing
 
+image choice_ = Frame(
+        Composite(
+            (100,60),
+            (0,0), Solid(gui.choice_bgr_color+"CC"),
+            (0,0), THEME_PATH + "/gui/outline-embose.png"
+        ), Borders(2,1,2,1), tile=False, xalign=0.5)
+
+image choice_hover_ = Frame(
+        Composite(
+            (100,60),
+            (0,0), Solid(gui.hover_color),
+            (0,0), THEME_PATH + "/gui/outline-embose.png"
+        ), Borders(2,1,2,1), tile=False, xalign=0.5)
+
+
+#image choice_hover_ = Solid(ramu.color_Invert(gui.choice_bgr_color)+"EE")
+
+
 style choice_button is default:
     properties gui.button_properties("choice_button")
-    background gui.choice_bgr_color
+    background "choice_[prefix_]"
 
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
@@ -671,7 +689,10 @@ screen file_slots(title):
                         key "save_delete" action FileDelete(slot)
 
             ## Buttons to access other pages.
+            
             hbox:
+
+
                 style_prefix "page"
 
                 xalign 0.5
@@ -1265,10 +1286,12 @@ style skip_triangle is skip_text
 
 style skip_frame:
     ypos gui.skip_ypos
+    xpos gui.skip_xpos
+    xsize 180
     background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
     padding gui.skip_frame_borders.padding
 
-style skip_text:
+style skip_text is abel_font:
     size gui.notify_text_size
 
 style skip_triangle:
@@ -1545,7 +1568,7 @@ style slider_pref_slider:
     xsize 600
 
 style _console is _default:
-    background "#111"
+    background "#9999"
 
 style _console_text is abel_font:
     size 16

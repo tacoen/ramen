@@ -19,13 +19,12 @@ init offset = -1
 init python:
     gui.init(1280, 720)
 
-## in-game
+## ui
 
 define gui.text_font = FONT_PATH+'/WorkSans-Regular.ttf'
-define gui.text_size = 20
-
-define gui.text_color = '#DDD'
-define gui.idle_color = "#EEE"
+define gui.text_size = 18
+define gui.text_color = '#dddddd'
+define gui.idle_color = "#eeeeee"
 define gui.accent_color = "#C11"
 define gui.hover_color = "#fc1"
 define gui.selected_color = "#ACF"
@@ -33,19 +32,21 @@ define gui.insensitive_color = ramu.color_Darken(gui.idle_color)
 define gui.hover_muted_color = ramu.color_Darken(gui.hover_color)
 define gui.muted_color = ramu.color_Darken(gui.insensitive_color)
 
+define gui.bar_thumb_color = gui.selected_color
+define gui.bar_base_color = ramu.color_Darken(gui.bar_thumb_color,50)
 
 ## Out-game / Interface
-define gui.interface_text_font = FONT_PATH+'/WorkSans-Light.ttf'
-define gui.interface_text_size = 24
+
 define gui.interface_bgr_color = "#d9d9d9"
 define gui.interface_idle_color = "#666"
 define gui.interface_hover_color = "#47A"
 define gui.interface_selected_color = ramu.color_Darken(gui.interface_idle_color,40)
 define gui.interface_insensitive_color =  ramu.color_Brighten(gui.interface_idle_color,16)
 define gui.interface_muted_color = ramu.color_Brighten(gui.interface_idle_color,8)
-
+define gui.interface_transparent = "CC"
 define gui.interface_text_color = gui.interface_idle_color
-
+define gui.interface_text_font = FONT_PATH+'/WorkSans-Light.ttf'
+define gui.interface_text_size = 24
 
 define gui.confirm_frame_background = Frame(
         Composite(
@@ -61,10 +62,6 @@ define gui.confirm_button_text_size = 24
 define gui.name_text_font = FONT_PATH+'/WorkSans-SemiBold.ttf'
 define gui.name_text_size = 20
 define gui.name_text_color = '#fff'
-
-
-
-define gui.choice_bgr_color = "#fffd"
 
 define gui.quick_button_text_font = FONT_ICO_RAMEN
 define gui.quick_button_borders = Borders(16, 0, 16, 4)
@@ -90,105 +87,17 @@ define gui.label_text_color = gui.idle_color
 define gui.notify_text_size = 16
 define gui.title_text_size = 50
 
-screen theme_info():
-    
-    python:
-        va = [
-            ['text', gui.text_color],
-            ['selected', gui.selected_color],
-            ['idle', gui.idle_color], 
-            ['insensitive', gui.insensitive_color],
-            ['muted', gui.muted_color ],
-            ['accent', gui.accent_color], 
-            ['hover', gui.hover_color],  
-            ['hover_muted', gui.hover_muted_color], 
-        ]
-
-        vi = [ 
-            ['idle', gui.interface_idle_color],
-            ['hover', gui.interface_hover_color],
-            ['insensitive', gui.interface_insensitive_color],
-            ['selected', gui.interface_selected_color],
-            ['muted', gui.interface_muted_color],
-        ]
-        
-        n = 180
-    
-    add Solid("#fffc")
-    
-    frame xpos 10 ypos 30 background gui.interface_bgr_color xsize 200 ysize 600:
-        vbox yalign 0.25:
-            for v in vi:
-                text v[0] color v[1] min_width 180 text_align 1.0 size gui.interface_text_size font gui.interface_text_font
-
-
-    frame xpos 210 ypos 30 background gui.game_menu_background xsize 400 ysize 600 padding (18,8,8,18):
-        
-        vbox:
-            text "page label" size gui.label_text_size color gui.idle_color font gui.interface_text_font 
-            null height 30
-            text "label" size gui.label_text_size color gui.idle_color font gui.interface_text_font 
-            hbox:
-                text "I'm a text you " color gui.text_color font gui.interface_text_font size 18
-                text "selected, " color gui.selected_color font gui.interface_text_font size 18
-                text "hover, " color gui.hover_color font gui.interface_text_font size 18
-                text "or " color gui.text_color font gui.interface_text_font size 18
-                text "muted," color gui.muted_color font gui.interface_text_font size 18
-            hbox:
-                text "but sometime " color gui.text_color font gui.interface_text_font size 18
-                text "hover muted." color gui.hover_muted_color font gui.interface_text_font size 18
-                text "because " color gui.text_color font gui.interface_text_font size 18
-                text "idle." color gui.idle_color font gui.interface_text_font size 18
-                
-        for v in va:
-            vbox xpos 0 ypos n:
-            
-                hbox yalign 0.5 ysize 30:
-                    text v[0] size 12 color "#000" min_width 100  yalign 0.5
-                    frame background v[1] xsize 30 ysize 30
-                    text v[1] size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-                    $ d = ramu.color_Darken(v[1])
-                    frame background d xsize 30 ysize 30:
-                        text 'Da'
-                    text d size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-                    $ b = ramu.color_Brighten(v[1]) 
-                    frame background b xsize 30 ysize 30:
-                        text "Br" 
-                    text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-                    $ b = ramu.color_Invert(v[1])
-                    frame background b xsize 30 ysize 30:
-                        text "In"
-                    text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
-            $ n += 32
-            
-            
-    frame padding (24,24,24,24) xpos 240 ypos 480 xsize 300:
-        background gui.confirm_frame_background
-        style_prefix "confirm"
-        vbox xalign .5 yalign .5 spacing 30:
-
-            label _("Confirm?"):
-                style "confirm_prompt"
-                xalign 0.5
-
-            hbox:
-                xalign 0.5
-                spacing 20
-                textbutton _("Yes") action Null
-                textbutton _("No") action Null
-    
-
 ## The images used for the main and game menus.
 
 if renpy.loadable(THEME_PATH+"/gui/main_menu.png"):
     define gui.main_menu_background = THEME_PATH+"/gui/main_menu.png"
 else:
-    define gui.main_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+"99")
+    define gui.main_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+gui.interface_transparent)
 
 if renpy.loadable(THEME_PATH+"/gui/game_menu.png"):
     define gui.game_menu_background = THEME_PATH+"/gui/game_menu.png"
 else:
-    define gui.game_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+"CC")
+    define gui.game_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+gui.interface_transparent)
 
 if renpy.loadable(THEME_PATH+"/gui/ingame-overlay.png"):
     define gui.game_menu_overlay = THEME_PATH+"/gui/ingame-overlay.png"
@@ -208,14 +117,14 @@ image check_ = Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.idle_color,
 
 ## The height of the textbox containing dialogue.
 
-define gui.textbox_height = config.screen_height/5
+define gui.textbox_height = config.screen_height/5 + 24
 define gui.textbox_yalign = 1.0
-define gui.textbox_background = "#000C"
+define gui.textbox_background = "#0009"
 
 ## The placement of the speaking character's name, relative to the textbox.
 ## These can be a whole number of pixels from the left or top, or 0.5 to center.
 
-define gui.name_xpos = config.screen_width /4
+define gui.name_xpos = config.screen_width /5
 define gui.name_ypos = -20
 
 define gui.name_xalign = 0.0
@@ -228,7 +137,11 @@ define gui.dialogue_xpos = gui.name_xpos + 12
 define gui.dialogue_ypos = 14
 
 ## The maximum width of dialogue text, in pixels.
-define gui.dialogue_width = config.screen_width * float(0.75)
+define gui.dialogue_width = config.screen_width - (2*gui.name_xpos)
+
+$ print "w"
+$ print config.screen_width 
+$ print gui.dialogue_width
 
 ## The horizontal alignment of the dialogue text. This can be 0.0 for left-
 ## aligned, 0.5 for centered, and 1.0 for right-aligned.
@@ -279,16 +192,17 @@ define gui.page_button_borders = Borders(22, 4, 10, 4)
 ##
 ## Choice buttons are used in the in-game menus.
 
+define gui.choice_bgr_color = gui.interface_bgr_color
 define gui.choice_button_width = 5 * config.screen_width / 12
 define gui.choice_button_height = None
 define gui.choice_button_tile = False
-define gui.choice_button_borders = Borders(5, 5, 5, 5)
+define gui.choice_button_borders = Borders(5, 10, 5, 10)
 define gui.choice_button_text_font = gui.text_font
-define gui.choice_button_text_size = gui.text_size
+define gui.choice_button_text_size = gui.text_size-2
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = "#444"
-define gui.choice_button_text_hover_color = "#000"
-define gui.choice_button_text_insensitive_color = "#666"
+define gui.choice_button_text_idle_color = gui.interface_idle_color
+define gui.choice_button_text_hover_color = ramu.color_Invert(gui.text_color)
+define gui.choice_button_text_insensitive_color = gui.interface_insensitive_color
 define gui.choice_spacing = 1
 
 
@@ -299,6 +213,7 @@ define gui.choice_spacing = 1
 ## image files in gui/button, like the other kinds of buttons.
 
 ## The save slot button.
+
 define gui.slot_button_width = 276
 define gui.slot_button_height = 206
 define gui.slot_button_borders = Borders(10, 10, 10, 10)
@@ -327,8 +242,8 @@ define gui.file_slot_rows = 2
 define gui.navigation_xpos = 40
 
 ## The vertical position of the skip indicator.
-define gui.skip_ypos = 10
-
+define gui.skip_ypos = config.screen_height-30-(config.screen_height/5)
+define gui.skip_xpos = config.screen_width-180-(config.screen_width/8)
 ## The vertical position of the notify screen.
 define gui.notify_ypos = 45
 
@@ -546,6 +461,3 @@ init python:
 
         gui.nvl_button_width = 1240
         gui.nvl_button_xpos = 20
-
-
-
