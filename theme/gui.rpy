@@ -4,89 +4,168 @@
 
 ## The init offset statement causes the initialization statements in this file
 ## to run before init statements in any other file.
-init offset = -2
+
+init -10 python:
+    try: THEME_PATH
+    except NameError: THEME_PATH = ramu.fn_getdir()
+
+
+init offset = -1
+
 
 ## Calling gui.init resets the styles to sensible default values, and sets the
 ## width and height of the game.
+
 init python:
     gui.init(1280, 720)
 
+## in-game
+
+define gui.text_font = FONT_PATH+'/WorkSans-Regular.ttf'
+define gui.text_size = 20
+
+define gui.text_color = '#fff'
+define gui.accent_color = "#c11"
+
+define gui.idle_color = "#999"
+define gui.selected_color = ramu.color_Brighten(gui.idle_color)
+define gui.insensitive_color = ramu.color_Darken(gui.idle_color)
+define gui.idle_small_color = gui.insensitive_color
+
+## Out-game / Interface
+define gui.interface_text_font = FONT_PATH+'/WorkSans-Light.ttf'
+define gui.interface_text_size = 24
+define gui.interface_bgr_color = "#d9d9d9"
+define gui.interface_idle_color = "#666"
+define gui.interface_hover_color = "#47A"
+define gui.interface_selected_color = ramu.color_Darken(gui.interface_idle_color,40)
+define gui.interface_insensitive_color =  ramu.color_Brighten(gui.interface_idle_color,16)
+define gui.interface_muted_color = ramu.color_Brighten(gui.interface_idle_color,8)
+
+define gui.interface_text_color = gui.interface_idle_color
 
 
-################################################################################
-## GUI Configuration Variables
-################################################################################
+define gui.confirm_frame_background = Frame(
+        Composite(
+            (200,80),
+            (0,0), Solid(gui.interface_bgr_color),
+            (0,0), THEME_PATH + "/gui/outline-b.png"
+        ), Borders(1,1,1,1), tile=False, xalign=0.5)
+
+define gui.confirm_button_text_xalign = 0.5
+define gui.confirm_button_text_size = 24
 
 
-## Colors ######################################################################
-##
-## The colors of text in the interface.
-
-## An accent color used throughout the interface to label and highlight text.
-define gui.accent_color = '#0099cc'
-
-## The color used for a text button when it is neither selected nor hovered.
-define gui.idle_color = '#888888'
-
-## The small color is used for small text, which needs to be brighter/darker to
-## achieve the same effect.
-define gui.idle_small_color = '#aaaaaa'
-
-## The color that is used for buttons and bars that are hovered.
-define gui.hover_color = '#66c1e0'
-
-## The color used for a text button when it is selected but not focused. A
-## button is selected if it is the current screen or preference value.
-define gui.selected_color = '#ffffff'
-
-## The color used for a text button when it cannot be selected.
-define gui.insensitive_color = '#8888887f'
-
-## Colors used for the portions of bars that are not filled in. These are not
-## used directly, but are used when re-generating bar image files.
-define gui.muted_color = '#003d51'
-define gui.hover_muted_color = '#005b7a'
-
-## The colors used for dialogue and menu choice text.
-define gui.text_color = '#ffffff'
-define gui.interface_text_color = '#ffffff'
+define gui.name_text_font = FONT_PATH+'/WorkSans-SemiBold.ttf'
+define gui.name_text_size = 20
+define gui.name_text_color = '#fff'
 
 
-## Fonts and Font Sizes ########################################################
+define gui.hover_color = "#fdca31"
+define gui.hover_muted_color = ramu.color_Darken(gui.hover_color)
 
-## The font used for in-game text.
-define gui.text_font = FONT_PATH+'/Abel-Regular.ttf'
+define gui.muted_color = ramu.color_Darken(gui.insensitive_color)
 
-## The font used for character names.
-define gui.name_text_font = "DejaVuSans.ttf"
+define gui.choice_bgr_color = "#fffd"
 
-## The font used for out-of-game text.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.quick_button_text_font = FONT_ICO_RAMEN
+define gui.quick_button_borders = Borders(16, 0, 16, 4)
+define gui.quick_button_text_size = 16
+define gui.quick_button_text_idle_color = gui.interface_idle_color
+define gui.quick_button_text_selected_color = gui.interface_selected_color
+define gui.quick_button_text_hover_color = gui.interface_hover_color
 
-## The size of normal dialogue text.
-define gui.text_size = 22
+define gui.navigation_button_text_font = FONT_PATH+'/WorkSans-Light.ttf'
+define gui.navigation_button_width = 250
+define gui.navigation_button_text_size = 24
+define gui.navigation_button_text_align = 1.0
+define gui.navigation_button_text_hover_color = gui.interface_hover_color
+define gui.navigation_button_text_color = gui.interface_idle_color
+define gui.navigation_button_text_idle_color = gui.interface_idle_color
+define gui.navigation_button_text_selected_color = gui.interface_selected_color
+define gui.navigation_button_text_selected_font = FONT_PATH+'/WorkSans-Regular.ttf'
 
-## The size of character names.
-define gui.name_text_size = 30
 
-## The size of text in the game's user interface.
-define gui.interface_text_size = 22
-
-## The size of labels in the game's user interface.
 define gui.label_text_size = 24
-
-## The size of text on the notify screen.
 define gui.notify_text_size = 16
-
-## The size of the game's title.
 define gui.title_text_size = 50
 
+screen theme_info():
+    
+    python:
+        va = [
+            ['text', gui.text_color],
+            ['accent', gui.accent_color], 
+            ['selected', gui.selected_color],
+            ['idle', gui.idle_color], 
+            ['insensitive', gui.insensitive_color],
+            ['muted', gui.muted_color ],
+            ['hover', gui.hover_color],  
 
-## Main and Game Menus #########################################################
+            ['idle_small',gui.idle_small_color], 
+            ['hover_muted', gui.hover_muted_color], 
+        ]
+
+        vi = [ 
+            ['idle', gui.interface_idle_color],
+            ['hover', gui.interface_hover_color],
+            ['insensitive', gui.interface_insensitive_color],
+            ['selected', gui.interface_selected_color],
+            ['muted', gui.interface_muted_color],
+        ]
+        
+        n = 10
+    
+    add Solid("#fffc")
+    
+    frame xpos 10 ypos n background gui.interface_bgr_color xsize 200 ysize 600:
+        vbox yalign 0.5:
+            for v in vi:
+                text v[0] color v[1] min_width 180 text_align 1.0 size gui.interface_text_size font gui.interface_text_font
+
+                
+    for v in va:
+        vbox xpos 240 ypos n:
+            hbox yalign 0.5 ysize 30:
+                text v[0] size 12 color "#000" min_width 100  yalign 0.5
+                frame background v[1] xsize 30 ysize 30
+                text v[1] size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+                $ d = ramu.color_Darken(v[1])
+                frame background d xsize 30 ysize 30:
+                    text 'Da'
+                text d size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+                $ b = ramu.color_Brighten(v[1]) 
+                frame background b xsize 30 ysize 30:
+                    text "Br" 
+                text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+                $ b = ramu.color_Invert(v[1])
+                frame background b xsize 30 ysize 30:
+                    text "In"
+                text b size 12 color "#000" min_width 100 yalign 0.5 text_align 0.5
+        $ n += 32
+            
+            
+            
+            
+        
+    
 
 ## The images used for the main and game menus.
-define gui.main_menu_background = "gui/main_menu.png"
-define gui.game_menu_background = "gui/game_menu.png"
+
+if renpy.loadable(THEME_PATH+"/main_menu.png"):
+    define gui.main_menu_background = THEME_PATH+"/main_menu.png"
+else:
+    define gui.main_menu_background = Solid(gui.interface_bgr_color)
+
+if renpy.loadable(THEME_PATH+"/game_menu.png"):
+    define gui.game_menu_background = THEME_PATH+"/game_menu.png"
+else:
+    define gui.game_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+"99")
+
+if renpy.loadable(THEME_PATH+"/game_menu.png"):
+    define gui.game_menu_overlay = THEME_PATH+"/overlay.png"
+else:
+    define gui.game_menu_overlay = gui.game_menu_background
 
 
 ## Dialogue ####################################################################
@@ -95,44 +174,28 @@ define gui.game_menu_background = "gui/game_menu.png"
 ## time.
 
 ## The height of the textbox containing dialogue.
-define gui.textbox_height = 185
 
-## The placement of the textbox vertically on the screen. 0.0 is the top, 0.5 is
-## center, and 1.0 is the bottom.
+define gui.textbox_height = config.screen_height/5
 define gui.textbox_yalign = 1.0
-
+define gui.textbox_background = "#000C"
 
 ## The placement of the speaking character's name, relative to the textbox.
 ## These can be a whole number of pixels from the left or top, or 0.5 to center.
-define gui.name_xpos = 240
-define gui.name_ypos = 0
 
-## The horizontal alignment of the character's name. This can be 0.0 for left-
-## aligned, 0.5 for centered, and 1.0 for right-aligned.
+define gui.name_xpos = config.screen_width /4
+define gui.name_ypos = -20
+
 define gui.name_xalign = 0.0
-
-## The width, height, and borders of the box containing the character's name, or
-## None to automatically size it.
 define gui.namebox_width = None
 define gui.namebox_height = None
-
-## The borders of the box containing the character's name, in left, top, right,
-## bottom order.
-define gui.namebox_borders = Borders(5, 5, 5, 5)
-
-## If True, the background of the namebox will be tiled, if False, the
-## background of the namebox will be scaled.
+define gui.namebox_borders = Borders(0, 5, 5, 5)
 define gui.namebox_tile = False
 
-
-## The placement of dialogue relative to the textbox. These can be a whole
-## number of pixels relative to the left or top side of the textbox, or 0.5 to
-## center.
-define gui.dialogue_xpos = 268
-define gui.dialogue_ypos = 50
+define gui.dialogue_xpos = gui.name_xpos + 12
+define gui.dialogue_ypos = 14
 
 ## The maximum width of dialogue text, in pixels.
-define gui.dialogue_width = 744
+define gui.dialogue_width = config.screen_width * float(0.75)
 
 ## The horizontal alignment of the dialogue text. This can be 0.0 for left-
 ## aligned, 0.5 for centered, and 1.0 for right-aligned.
@@ -155,20 +218,12 @@ define gui.button_borders = Borders(4, 4, 4, 4)
 ## will be linearly scaled.
 define gui.button_tile = False
 
-## The font used by the button.
 define gui.button_text_font = gui.interface_text_font
-
-## The size of the text used by the button.
 define gui.button_text_size = gui.interface_text_size
-
-## The color of button text in various states.
 define gui.button_text_idle_color = gui.idle_color
 define gui.button_text_hover_color = gui.hover_color
 define gui.button_text_selected_color = gui.selected_color
 define gui.button_text_insensitive_color = gui.insensitive_color
-
-## The horizontal alignment of the button text. (0.0 is left, 0.5 is center, 1.0
-## is right).
 define gui.button_text_xalign = 0.0
 
 
@@ -182,36 +237,29 @@ define gui.radio_button_borders = Borders(18, 4, 4, 4)
 
 define gui.check_button_borders = Borders(18, 4, 4, 4)
 
-define gui.confirm_button_text_xalign = 0.5
 
 define gui.page_button_borders = Borders(10, 4, 10, 4)
 
-define gui.quick_button_borders = Borders(10, 4, 10, 0)
-define gui.quick_button_text_size = 14
-define gui.quick_button_text_idle_color = gui.idle_small_color
-define gui.quick_button_text_selected_color = gui.accent_color
 
 ## You can also add your own customizations, by adding properly-named variables.
 ## For example, you can uncomment the following line to set the width of a
 ## navigation button.
 
-# define gui.navigation_button_width = 250
-
-
 ## Choice Buttons ##############################################################
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_button_width = 790
+define gui.choice_button_width = 5 * config.screen_width / 12
 define gui.choice_button_height = None
 define gui.choice_button_tile = False
-define gui.choice_button_borders = Borders(100, 5, 100, 5)
+define gui.choice_button_borders = Borders(5, 5, 5, 5)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = "#cccccc"
-define gui.choice_button_text_hover_color = "#ffffff"
-define gui.choice_button_text_insensitive_color = "#444444"
+define gui.choice_button_text_idle_color = "#444"
+define gui.choice_button_text_hover_color = "#000"
+define gui.choice_button_text_insensitive_color = "#666"
+define gui.choice_spacing = 1
 
 
 ## File Slot Buttons ###########################################################
@@ -295,7 +343,6 @@ define gui.notify_frame_borders = Borders(16, 5, 40, 5)
 
 ## Should frame backgrounds be tiled?
 define gui.frame_tile = False
-
 
 ## Bars, Scrollbars, and Sliders ###############################################
 ##

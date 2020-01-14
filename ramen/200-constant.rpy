@@ -12,8 +12,10 @@ init -200 python:
     mc = player()
     mc._id = "You"
     
-init -200:
+init -100:
 
+    define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'interface' ]
+    
     default diff = diff                     # worldtime save game progress
     default mc = mc                         # maincharacter as container
 

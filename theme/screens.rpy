@@ -1,9 +1,13 @@
-﻿################################################################################
+﻿init -10 python:
+
+    try: THEME_PATH
+    except NameError: THEME_PATH = ramu.fn_getdir()
+        
+################################################################################
 ## Initialization
 ################################################################################
 
 init offset = -1
-
 
 ################################################################################
 ## Styles
@@ -24,14 +28,12 @@ style hyperlink_text:
 style gui_text:
     properties gui.text_properties("interface")
 
-
 style button:
     properties gui.button_properties("button")
 
 style button_text is gui_text:
     properties gui.text_properties("button")
     yalign 0.5
-
 
 style label_text is gui_text:
     properties gui.text_properties("label", accent=True)
@@ -100,13 +102,13 @@ screen say(who, what):
 
     window:
         id "window"
-
+        
         if who is not None:
 
             window:
                 id "namebox"
                 style "namebox"
-                text who id "who"
+                text who id "who"             
 
         text what id "what"
 
@@ -135,8 +137,7 @@ style window:
     xfill True
     yalign gui.textbox_yalign
     ysize gui.textbox_height
-
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    background gui.textbox_background
 
 style namebox:
     xpos gui.name_xpos
@@ -144,7 +145,6 @@ style namebox:
     xsize gui.namebox_width
     ypos gui.name_ypos
     ysize gui.namebox_height
-
     background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
     padding gui.namebox_borders.padding
 
@@ -152,10 +152,10 @@ style say_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
     yalign 0.5
+    outlines [ (absolute(3), gui.textbox_background, absolute(0), absolute(0)) ]    
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
-
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
@@ -219,17 +219,19 @@ define config.narrator_menu = True
 
 style choice_vbox is vbox
 style choice_button is button
+
 style choice_button_text is button_text
 
 style choice_vbox:
     xalign 0.5
-    ypos 270
-    yanchor 0.5
+    yalign 0.75
+    yanchor 1.0
 
     spacing gui.choice_spacing
 
 style choice_button is default:
     properties gui.button_properties("choice_button")
+    background gui.choice_bgr_color
 
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
@@ -244,25 +246,34 @@ screen quick_menu():
 
     ## Ensure this appears on top of other screens.
     zorder 100
+    layer "interface"
+    
+    if not renpy.get_screen("_console") and quick_menu:
 
-    if quick_menu:
+        frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
+        
+            background gui.interface_bgr_color
+        
+            hbox:
+                style_prefix "quick"
+                xalign 1.0
+                yalign 1.0
+                yanchor 1.0
 
-        hbox:
-            style_prefix "quick"
+                textbutton ico('arrow-left') action Rollback() tooltip _("Back")
+                textbutton ico('stack') action ShowMenu('history') tooltip _("History")
+                textbutton ico('chevrons-right') action Skip() alternate Skip(fast=True, confirm=True) tooltip _("Skip")
+                textbutton ico('lightbulb') action Preference("auto-forward", "toggle") tooltip _("Auto")
+                textbutton ico('disk') action ShowMenu('save') tooltip _("Save")
+                textbutton ico('save') action QuickSave() tooltip _("Q.Save")
+                textbutton ico('load') action QuickLoad() tooltip _("Q.Load")
+                textbutton ico('cog') action ShowMenu('preferences') tooltip _("Prefs")
 
-            xalign 0.5
-            yalign 1.0
+        $ tooltip = GetTooltip()
 
-            textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
-
-
+        if tooltip:
+            text "[tooltip]" size 14 color "#0009" xpos 10 ypos 694
+            
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
 ## the player has not explicitly hidden the interface.
 init python:
@@ -271,14 +282,14 @@ init python:
 default quick_menu = True
 
 style quick_button is default
-style quick_button_text is button_text
+style quick_button_text is gui_text
+style quick_label_text is gui_text
 
 style quick_button:
     properties gui.button_properties("quick_button")
 
 style quick_button_text:
     properties gui.button_text_properties("quick_button")
-
 
 ################################################################################
 ## Main and Game Menu Screens
@@ -336,15 +347,13 @@ screen navigation():
 
 
 style navigation_button is gui_button
-style navigation_button_text is gui_button_text
-
+    
 style navigation_button:
     size_group "navigation"
     properties gui.button_properties("navigation_button")
 
-style navigation_button_text:
+style navigation_button_text is gui_button_text:
     properties gui.button_text_properties("navigation_button")
-
 
 ## Main Menu screen ############################################################
 ##
@@ -362,9 +371,10 @@ screen main_menu():
     add gui.main_menu_background
 
     ## This empty frame darkens the main menu.
+    
     frame:
         pass
-
+        
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
     use navigation
@@ -388,8 +398,7 @@ style main_menu_version is main_menu_text
 style main_menu_frame:
     xsize 280
     yfill True
-
-    background "gui/overlay/main_menu.png"
+    background gui.interface_bgr_color
 
 style main_menu_vbox:
     xalign 1.0
@@ -400,6 +409,7 @@ style main_menu_vbox:
 
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
+    color gui.interface_bgr_color
 
 style main_menu_title:
     properties gui.text_properties("title")
@@ -428,6 +438,12 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
     frame:
         style "game_menu_outer_frame"
+
+        frame:
+            xpos 0
+            ypos 0
+            ysize config.screen_height
+            style "main_menu_frame"
 
         hbox:
 
@@ -491,7 +507,7 @@ style game_menu_viewport is gui_viewport
 style game_menu_side is gui_side
 style game_menu_scrollbar is gui_vscrollbar
 
-style game_menu_label is gui_label
+style game_menu_label is main_menu_frame
 style game_menu_label_text is gui_label_text
 
 style return_button is navigation_button
@@ -500,8 +516,6 @@ style return_button_text is navigation_button_text
 style game_menu_outer_frame:
     bottom_padding 30
     top_padding 120
-
-    background "gui/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
     xsize 280
@@ -522,12 +536,15 @@ style game_menu_side:
     spacing 10
 
 style game_menu_label:
-    xpos 50
+    xpos 0
+    padding (40,0,0,0)
     ysize 120
+    xsize 280
 
 style game_menu_label_text:
-    size gui.title_text_size
-    color gui.accent_color
+    size 3*gui.title_text_size/4
+    color ramu.color_Brighten(gui.interface_bgr_color)
+    hover_color gui.hover_color
     yalign 0.5
 
 style return_button:
@@ -569,14 +586,12 @@ screen about():
 ## This is redefined in options.rpy to add text to the about screen.
 define gui.about = ""
 
-
 style about_label is gui_label
 style about_label_text is gui_label_text
 style about_text is gui_text
 
 style about_label_text:
     size gui.label_text_size
-
 
 ## Load and Save screens #######################################################
 ##
@@ -639,10 +654,10 @@ screen file_slots(title):
                     $ slot = i + 1
 
                     button:
+                    
                         action FileAction(slot)
 
                         has vbox
-
                         add FileScreenshot(slot) xalign 0.5
 
                         text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
@@ -1129,8 +1144,6 @@ style help_label_text:
 ################################################################################
 ## Additional screens
 ################################################################################
-
-
 ## Confirm screen ##############################################################
 ##
 ## The confirm screen is called when Ren'Py wants to ask the player a yes or no
@@ -1138,19 +1151,22 @@ style help_label_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#confirm
 
+
 screen confirm(message, yes_action, no_action):
 
     ## Ensure other screens do not get input while this screen is displayed.
     modal True
 
     zorder 200
-
+    layer "interface"
     style_prefix "confirm"
 
-    add "gui/overlay/confirm.png"
+    add gui.game_menu_overlay
 
     frame:
+        padding (64,64,64,32)
 
+    
         vbox:
             xalign .5
             yalign .5
@@ -1178,21 +1194,26 @@ style confirm_button is gui_medium_button
 style confirm_button_text is gui_medium_button_text
 
 style confirm_frame:
-    background Frame([ "gui/confirm_frame.png", "gui/frame.png"], gui.confirm_frame_borders, tile=gui.frame_tile)
+    background gui.confirm_frame_background         
     padding gui.confirm_frame_borders.padding
     xalign .5
     yalign .5
 
 style confirm_prompt_text:
     text_align 0.5
+    size 20
+    color gui.interface_selected_color    
     layout "subtitle"
 
 style confirm_button:
     properties gui.button_properties("confirm_button")
+    background gui.interface_hover_color
+    padding (32,4,32,4)
 
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
-
+    color gui.interface_selected_color
+    hover_color gui.interface_bgr_color 
 
 ## Skip indicator screen #######################################################
 ##
@@ -1516,3 +1537,19 @@ style slider_pref_vbox:
 style slider_pref_slider:
     variant "small"
     xsize 600
+
+style _console is _default:
+    background "#111"
+
+style _console_text is abel_font:
+    size 16
+    color "#ccc"
+    
+style _console_input is _console_text:
+    background "#0009"
+
+style _console_input_text is _console_text:
+    color "#fafafa"
+
+style _console_command_text is _console_text:
+    color "#fff"

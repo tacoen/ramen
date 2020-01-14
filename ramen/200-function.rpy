@@ -6,7 +6,6 @@ init -208 python:
     import hashlib
     import sys
 
-    from colour import pColor
 
     class ramen_util:
 
@@ -58,13 +57,38 @@ init -208 python:
             with open(renpy.loader.transfn(file),'w') as outfile:
                 json.dump(data, outfile)                 
 
-        def color_variant(hex_color, brightness_offset=1):
-            """ takes a color like #87c95f and produces a lighter or darker variant """
+        # Color
+
+        def color_variant(self, hex_color, percent=25,invert=False):
+            brightness_offset = int(float(256) * percent/100)
+            if len(hex_color) == 4:
+                R = str(hex_color[1])+str(hex_color[1]) + str(hex_color[2])+str(hex_color[2]) + str(hex_color[3])+str(hex_color[3])
+                s = '#'
+                hex_color = "#"+ R
             if len(hex_color) != 7:
-                raise Exception("Passed %s into color_variant(), needs to be in #87c95f format." % hex_color)
+                raise Exception("Passed %s into color_variant(), needs to be in #ffcc33 or #fc3 format." % hex_color)
             rgb_hex = [hex_color[x:x+2] for x in [1, 3, 5]]
-            new_rgb_int = [int(hex_value, 16) + brightness_offset for hex_value in rgb_hex]
+            
+            if invert:
+                new_rgb_int = [255-int(hex_value, 16) for hex_value in rgb_hex]
+            else:
+                new_rgb_int = [int(hex_value, 16) + brightness_offset for hex_value in rgb_hex]
+            
             new_rgb_int = [min([255, max([0, i])]) for i in new_rgb_int] # make sure new values are between 0 and 255
-            # hex() produces "0x88", we want just "88"
-            return "#" + "".join([hex(i)[2:] for i in new_rgb_int])
+            fin_rgb_int=[]
+            for i in new_rgb_int:
+                # hex() produces "0x88", we want just "88"
+                a = hex(i)[2:]
+                if len(a)==1: a = str(a) +"0"
+                fin_rgb_int.append(a)
+            return "#" + "".join([str(i) for i in fin_rgb_int])
+
+        def color_Darken(self,hex_color,percent=15):
+            return self.color_variant(hex_color,percent*-1)
+            
+        def color_Brighten(self,hex_color,percent=15):
+            return self.color_variant(hex_color,percent)
+
+        def color_Invert(self,hex_color):
+            return self.color_variant(hex_color,0,True)
             
