@@ -46,6 +46,16 @@ init -208 python:
                 if n==1: break
             return rfile
 
+        def safestr(self,string1,string2=''):
+            s = str(string1) + "_" + str(string2)
+            s = s.replace(' ','_')
+            regex = re.compile('[^a-zA-Z_0-9]')
+            va = [ 'for','of','by']
+            for v in va: s = s.replace(v,'')
+            s = regex.sub('',s)
+            s = s.replace('__','_')
+            return s
+            
         # json
             
         def json_file(self,file):

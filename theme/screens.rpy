@@ -601,29 +601,46 @@ screen about():
         style_prefix "about"
 
         vbox:
+        
+            python:
+                nicename = config.name.title()
 
-            label "[config.name!t]"
+            label "[nicename!t]"
             text _("Version [config.version!t]\n")
 
             ## gui.about is usually set in options.rpy.
             if gui.about:
                 text "[gui.about!t]\n"
 
+            vbox:
+                style_prefix 'credit'
+                label "[build.name!t]"
+                text "Ramen -- It's Renpy According Me {a=https://github.com/tacoen/ramen}Modular Aproach{/a}."
+                null height 15
+                text "Work Sans is licensed under the SIL Open Font License. Copyright (c) 2014-2015 Wei Huang" 
+                text "Feathericons/feather is licensed under the MIT License. Copyright (c) Colebemis"
+                null height 60
+            
             text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
 
-
 ## This is redefined in options.rpy to add text to the about screen.
-define gui.about = ""
 
 style about_label is gui_label
 style about_label_text is gui_label_text:
     color gui.hover_color
+    size gui.label_text_size-2
 
 style about_text is gui_text:
     color gui.text_color
 
-style about_label_text:
-    size gui.label_text_size
+style credit_text is gui_text:
+    color gui.text_color
+
+style about_text is abel_font:
+    size 18
+
+style credit_text is abel_font:
+    size 20
 
 ## Load and Save screens #######################################################
 ##
@@ -1580,17 +1597,18 @@ style slider_pref_slider:
     xsize 600
 
 style _console is _default:
-    background "#9999"
+    background "#111E"
 
 style _console_text is abel_font:
     size 16
     color "#ccc"
-    
-style _console_input is _console_text:
-    background "#0009"
-
-style _console_input_text is _console_text:
-    color "#fafafa"
 
 style _console_command_text is _console_text:
-    color "#fff"
+    color "#fc3"
+    
+style _console_input is _console_text:
+    background "#0001"
+
+style _console_input_text is _console_text:
+    color "#fadaaa"
+

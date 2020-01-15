@@ -111,7 +111,9 @@ init -197 python:
           'load':'~',
           'cog':'|',
           'selected':'v',
-          'idle':'q'
+          'idle':'q',
+          'radio_off':',',
+          'radio_on':'.',
        }
 
         return i[what]

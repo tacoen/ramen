@@ -32,6 +32,8 @@ define gui.insensitive_color = ramu.color_Darken(gui.idle_color)
 define gui.hover_muted_color = ramu.color_Darken(gui.hover_color)
 define gui.muted_color = ramu.color_Darken(gui.insensitive_color)
 
+define gui.hyperlink_text_color = "#ACF"
+
 define gui.bar_thumb_color = gui.selected_color
 define gui.bar_base_color = ramu.color_Darken(gui.bar_thumb_color,50)
 
@@ -57,7 +59,6 @@ define gui.confirm_frame_background = Frame(
 
 define gui.confirm_button_text_xalign = 0.5
 define gui.confirm_button_text_size = 24
-
 
 define gui.name_text_font = FONT_PATH+'/WorkSans-SemiBold.ttf'
 define gui.name_text_size = 20

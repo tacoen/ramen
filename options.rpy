@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("taste_of")
+define config.name = _("Your Working Title")
 
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -20,25 +20,22 @@ define config.name = _("taste_of")
 
 define gui.show_name = True
 
-
 ## The version of the game.
 
-define config.version = "1.0"
-
+define config.version = "0.1"
 
 ## Text that is placed on the game's about screen. Place the text between the
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
-""")
 
+""")
 
 ## A short name for the game used for executables and directories in the built
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "ramen4core"
-
+define build.name = ramu.safestr(config.name,config.version)
 
 ## Sounds and music ############################################################
 
@@ -48,7 +45,6 @@ define build.name = "ramen4core"
 define config.has_sound = True
 define config.has_music = True
 define config.has_voice = True
-
 
 ## To allow the user to play a test sound on the sound or voice channel,
 ## uncomment a line below and use it to set a sample sound to play.
@@ -85,15 +81,12 @@ define config.intra_transition = dissolve
 
 define config.after_load_transition = None
 
-
 ## Used when entering the main menu after the game has ended.
 
 define config.end_game_transition = None
 
-
 ## A variable to set the transition used when the game starts does not exist.
 ## Instead, use a with statement after showing the initial scene.
-
 
 ## Window management ###########################################################
 ##
@@ -121,12 +114,10 @@ define config.window_hide_transition = Dissolve(.2)
 
 default preferences.text_cps = 0
 
-
 ## The default auto-forward delay. Larger numbers lead to longer waits, with 0
 ## to 30 being the valid range.
 
 default preferences.afm_time = 15
-
 
 ## Save directory ##############################################################
 ##
@@ -142,15 +133,13 @@ default preferences.afm_time = 15
 ## This generally should not be changed, and if it is, should always be a
 ## literal string, not an expression.
 
-define config.save_directory = "ramen4core-1575952596"
-
+define config.save_directory = "renpy-ramen"
 
 ## Icon ########################################################################
 ##
 ## The icon displayed on the taskbar or dock.
 
 define config.window_icon = "gui/window_icon.png"
-
 
 ## Build configuration #########################################################
 ##
@@ -193,7 +182,6 @@ init python:
 
     build.documentation('*.html')
     build.documentation('*.txt')
-
 
 ## A Google Play license key is required to download expansion files and perform
 ## in-app purchases. It can be found on the "Services & APIs" page of the Google
