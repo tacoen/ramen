@@ -46,9 +46,12 @@ init -208 python:
                 if n==1: break
             return rfile
 
-        def safestr(self,string1,string2=''):
-            s = str(string1) + "_" + str(string2)
-            s = s.replace(' ','_')
+        def safestr(self,string1,string2=None):
+            s = str(string1)
+            if not string2 is None:
+                s +=  "_" + str(string2)
+            else:
+                s = s.replace(' ','_')
             regex = re.compile('[^a-zA-Z_0-9]')
             va = [ 'for','of','by']
             for v in va: s = s.replace(v,'')
@@ -101,4 +104,18 @@ init -208 python:
 
         def color_Invert(self,hex_color):
             return self.color_variant(hex_color,0,True)
-            
+
+        # Love the random (renpy.random.randint)
+        
+        def color_random(self,lo=0,hi=255):
+            r = lambda: renpy.random.randint(lo,hi)
+            return ('#%02X%02X%02X' % (r(),r(),r()))
+
+        def random_int(self,min=0,max=1,array=False):
+            if array:
+                return array [ int(renpy.random.randint(min,max)-1)]
+            else:
+                return int(renpy.random.randint(min,max))
+
+        def random_of(self,array):
+            return array [ int(renpy.random.randint(0,len(array)-1))]            

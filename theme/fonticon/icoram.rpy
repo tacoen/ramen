@@ -1,6 +1,6 @@
 ## 
 #  @file icoram.rpy
-#  @brief Brief Provide Webfont icons like CSS3. Icoram is generated using Icomoon apps, https://icomoon.io/app/. Designer: Cole Bemis, License: MIT
+#  @brief Provide Webfont icons like CSS3. Icoram is generated using Icomoon apps, https://icomoon.io/app/. Designer: Cole Bemis, License: MIT
 #  
 #  
 init -198:
@@ -10,7 +10,7 @@ init -198:
         try: ICO_PATH
         except NameError: ICO_PATH = ramu.fn_getdir()
 
-        FONT_ICO_RAMEN = ICO_PATH+"/fonts/icoram.ttf"
+        FONT_ICO_RAMEN = ICO_PATH+"/fonts/icoramen.ttf"
         
     style icoram:
         font FONT_ICO_RAMEN

@@ -1596,6 +1596,8 @@ style slider_pref_slider:
     variant "small"
     xsize 600
 
+# console
+
 style _console is _default:
     background "#111E"
 
@@ -1604,11 +1606,13 @@ style _console_text is abel_font:
     color "#ccc"
 
 style _console_command_text is _console_text:
-    color "#fc3"
+    color "#fff"
     
 style _console_input is _console_text:
-    background "#0001"
+    background "#0061"
 
 style _console_input_text is _console_text:
-    color "#fadaaa"
+    color "#ddd"
 
+style _console_error_text is _console_text:
+    color "#E66"

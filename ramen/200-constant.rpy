@@ -8,16 +8,23 @@ init -200 python:
         ['dark','dim','sun','dim','dark']
     )
     
-
-    mc = player()
-    mc._id = "You"
+    mc = player(id='mc',
+        score=0,
+        level=0,
+        cash=100,
+        bank=ramu.random_int(9000,9999),
+        stat = {
+            'hygiene' : 5,
+            'vital' : 5,
+            'luck' : 4
+        }
+    )
+    
+    quick_menu = False
     
 init -100:
 
     define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'interface' ]
-    
-    default diff = diff                     # worldtime save game progress
-    default mc = mc                         # maincharacter as container
 
     define character.mc = Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")    
     define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3", what_color="#ddd")    
@@ -26,3 +33,8 @@ init -100:
     
     define character.narator = Character(None, who_color="#ccc", what_color="#ccc", 
         what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}", ctc='ctcon')
+        
+    # game progress
+    
+    default diff = diff
+    default mc = mc
