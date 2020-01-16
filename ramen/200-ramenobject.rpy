@@ -29,12 +29,6 @@ init -204 python:
         def load(self,id=None,**kwargs):
             pass
             
-        def ui(self,**kwargs):
-            try: self.ui
-            except: self.__dict__['ui'] = {}
-            for k in kwargs:
-                self.__dict__['ui'][k] = kwargs[k]
-            
         def __setattr__(self, key, value):
             if key.startswith("_"):
                 self.__dict__[key]=value
@@ -70,3 +64,39 @@ init -204 python:
             except:
                 return super(object, self).__getattribute__(key)
 
+        def ui(self,**kwargs):
+
+            try: self.ui
+            except: self.__dict__['ui'] = {}
+
+            for k in kwargs:
+                self.__dict__['ui'][k] = kwargs[k]
+
+        def files(self,key=None,scope=None):
+        
+            try: self._files
+            except: self.__dict__['_files'] = []
+            F = renpy.list_files(False)
+            res = []
+            
+            def collect():
+                for f in F: 
+                    if self.dir+"/" in f: self.__dict__['_files'].append(f)
+            
+            if key is None: 
+                
+                collect()
+
+                return self._files
+                
+            else:
+                if self._files ==[]: collect()
+                
+                for f in self._files:
+                    if key in f:
+                        if not scope is None:
+                            if scope in f: res.append(f)
+                        else: 
+                            res.append(f)
+                        
+                return res
