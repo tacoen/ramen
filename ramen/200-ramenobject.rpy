@@ -64,7 +64,7 @@ init -204 python:
             except:
                 return super(object, self).__getattribute__(key)
 
-        def ui(self,**kwargs):
+        def ui_set(self,**kwargs):
 
             try: self.ui
             except: self.__dict__['ui'] = {}
@@ -98,5 +98,4 @@ init -204 python:
                             if scope in f: res.append(f)
                         else: 
                             res.append(f)
-                        
                 return res
