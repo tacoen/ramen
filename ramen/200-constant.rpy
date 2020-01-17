@@ -12,13 +12,18 @@ init -200 python:
         score=0,
         level=0,
         cash=100,
-        bank=ramu.random_int(9000,9999),
-        stat = {
-            'hygiene' : 5,
-            'vital' : 5,
-            'luck' : 4
-        }
+        bank=ramu.random_int(9000,9999)
     )
+
+    mc.limit('rel',[0,10])
+    mc.limit('stat',[0,10])
+    
+    mc.data('stat',
+        hygiene = 5,
+        vital = 5,
+        luck = 4
+    )
+    
     
     quick_menu = False
     

@@ -5,24 +5,24 @@ init -204 python:
         def __init__(self, id=None, **param):
             
             try: self.param
-            except: self.__dict__['param'] = {}
+            except: self.__dict__[str('param')] = {}
             
             inf = renpy.get_filename_line()
             dir, fn = ntpath.split(inf[0])
             f,e = fn.split('.')
             
             if id is None:
-                self.__dict__['id'] = str(f.replace(" ","").lower())
+                self.__dict__[str('id')] = str(f.replace(" ","").lower())
             else:
-                self.__dict__['id'] = str(id.replace(" ","").replace("-","").lower())
+                self.__dict__[str('id')] = str(id.replace(" ","").replace("-","").lower())
             
-            self.__dict__['dir'] = str(dir.replace('game/',""))
+            self.__dict__[str('dir')] = str(dir.replace('game/',""))
             
             for key in param:
                 if key.startswith("_"):
                     self.__dict__[key]= param[key]
                 else:
-                    self.__dict__['param'][key] = param[key]
+                    self.__dict__[str('param')][key] = param[key]
 
             self.load()
 
@@ -31,14 +31,18 @@ init -204 python:
             
         def __setattr__(self, key, value):
             if key.startswith("_"):
-                self.__dict__[key]=value
+                self.__dict__[str(key)]=value
             else:
                 try: self.__dict__['param']
-                except: self.__dict__['param'] = {}
-                self.__dict__['param'][key] = value
+                except: self.__dict__[str('param')] = {}
+                self.__dict__['param'][str(key)] = value
 
         def __repr__(self):
-            return "It's ramen object"
+            str =  self.__class__.__name__ + " is ramen_object"
+            return str
+
+        def add_repr(self,str=''):
+            pass
             
         def __call__(self):
             return self.__dict__
@@ -64,13 +68,13 @@ init -204 python:
             except:
                 return super(object, self).__getattribute__(key)
 
-        def ui_set(self,**kwargs):
+        def data(self,key,**kwargs):
 
-            try: self.ui
-            except: self.__dict__['ui'] = {}
+            try: self.__dict__[str(key.lower())]
+            except: self.__dict__[str(key.lower())] = {}
 
             for k in kwargs:
-                self.__dict__['ui'][k] = kwargs[k]
+                self.__dict__[str(key.lower())][str(k)] = kwargs[k]
 
         def files(self,key=None,scope=None):
         
