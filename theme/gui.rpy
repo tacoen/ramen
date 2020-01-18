@@ -108,7 +108,7 @@ else:
 image radio_selected_ = Text(ico("check-square"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=8)
 image radio_ = Text(ico("square"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=8)
 image check_selected_ = Text(ico("toggle-right"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=10)
-image check_ = Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=10)
+image check_ = Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.muted_color,size=18,line_leading=10)
 
 
 ## Dialogue ####################################################################

@@ -5,12 +5,14 @@ init -203 python:
         def load(self,id=None,**kwargs):
             self.__dict__['id'] = str('player')
             self.__dict__['dir'] = str('')
-            
+
             try: 
                 globals()['mc_name'] = self.name.title()
             except: 
                 globals()['mc_name'] = "You"
-
+                
+            self._inventory = {}
+                
         def newname(self,name):
             self.name = name.title()
             globals()['mc_name'] = self.name 
@@ -111,16 +113,18 @@ init -203 python:
                         res = mod_int(what,k,kwargs[k][0])
                     else:
                         res = mod_int(what,k,kwargs[k])
+
+            r = 0
                     
-                if isinstance(res,list):
-                    n = len(res)
-                    r = 0
-                    for x in range(0,n): 
-                        r += res[x]
+            if isinstance(res,list):
+                n = len(res)
+                r = 0
+                for x in range(0,n): 
+                    r += res[x]
                 else:
                     r = res
                 
-                if r >= 1: return True
-                if r < 0: return False
-                if r == 0: return None
+            if r >= 1: return True
+            if r < 0: return False
+            if r == 0: return None
             

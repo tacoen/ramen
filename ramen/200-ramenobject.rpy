@@ -10,19 +10,20 @@ init -204 python:
             inf = renpy.get_filename_line()
             dir, fn = ntpath.split(inf[0])
             f,e = fn.split('.')
+
+            if dir == 'renpy/common': dir = '';
+            self.__dict__[str('dir')] = str(dir.replace('game/',""))
             
             if id is None:
-                self.__dict__[str('id')] = str(f.replace(" ","").lower())
+                self.__dict__[str('id')] = str(f.replace(" ","").replace("-","").lower())
             else:
                 self.__dict__[str('id')] = str(id.replace(" ","").replace("-","").lower())
-            
-            self.__dict__[str('dir')] = str(dir.replace('game/',""))
             
             for key in param:
                 if key.startswith("_"):
                     self.__dict__[key]= param[key]
                 else:
-                    self.__dict__[str('param')][key] = param[key]
+                    self.__dict__[str('param')][str(key)] = param[key]
 
             self.load()
 
@@ -41,9 +42,6 @@ init -204 python:
             str =  self.__class__.__name__ + " is ramen_object"
             return str
 
-        def add_repr(self,str=''):
-            pass
-            
         def __call__(self):
             return self.__dict__
 
@@ -75,6 +73,12 @@ init -204 python:
 
             for k in kwargs:
                 self.__dict__[str(key.lower())][str(k)] = kwargs[k]
+
+        def default(self,key,default,param=True):
+            if param:
+                self.__dict__['param'][str(key)] = default
+            else:
+                self.__dict__[str(key)] = default
 
         def files(self,key=None,scope=None):
         

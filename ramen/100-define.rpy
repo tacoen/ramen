@@ -24,6 +24,8 @@ init -200 python:
         luck = 4
     )
     
+    mc.flags = []
+    mc.ability = []
     
     quick_menu = False
     
