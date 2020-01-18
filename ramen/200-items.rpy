@@ -22,7 +22,6 @@ init -202 python:
         def __repr__(self):
             return self.id
 
-
     class inventory(object):
     
         def __init__(self,store,max=24):
