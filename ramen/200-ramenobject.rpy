@@ -55,7 +55,7 @@ init -204 python:
                 else:
                     try:
                         # try the character object
-                        value = getattr( getattr( character, self._id ), key )
+                        value = getattr( getattr( character, self.id ), key )
                         if key != 'name': return value
                         # substitute the name (for interpolation/translations)
                         return renpy.substitutions.substitute(value)[0]
@@ -66,6 +66,14 @@ init -204 python:
             except:
                 return super(object, self).__getattribute__(key)
 
+        def set_ui(self,**kwargs):
+        
+            try: self.__dict__['ui']
+            except: self.__dict__[str('ui')] = object()
+            ui = self.__dict__['ui']
+            for k in kwargs:
+                setattr(ui,k,kwargs[k])
+        
         def data(self,key,**kwargs):
 
             try: self.__dict__[str(key.lower())]
@@ -107,3 +115,7 @@ init -204 python:
                         else: 
                             res.append(f)
                 return res
+
+
+    
+    
