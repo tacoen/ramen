@@ -45,3 +45,9 @@ init -100:
     
     default diff = diff
     default mc = mc
+
+init python:
+
+    # We check here
+    
+    renpy.free_memory

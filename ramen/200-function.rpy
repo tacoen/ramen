@@ -3,7 +3,7 @@ init -208 python:
     import ntpath
     import re
     import datetime
-    import hashlib
+    import copy
     import sys
 
 

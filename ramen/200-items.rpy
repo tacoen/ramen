@@ -23,8 +23,14 @@ init -202 python:
             return self.id
 
     class inventory(object):
-    
+
         def __init__(self,store,max=24):
+        
+            try: mc
+            except:
+                print "*** Mising mc=player() ***"
+                return false
+                
             try: mc._inventory[store]
             except: mc._inventory[str(store)] = {}
             self.container = mc._inventory[str(store)]
@@ -41,13 +47,13 @@ init -202 python:
                     if k == 'count': s[k] += i[k]
                     else: s[k] = i[k]
             except:    
-                self.container[i['id']] = i
+                self.container[i['id']] = copy.copy(item)
 
         def drop(self,item,id=True):
             if id==False: item = globals()[item].id
             self.container.pop(item)
             
-        def use(self,item, who=None, id=True):
+        def use(self, item, who=None, id=True):
         
             try: self.container[item]
             except: return False
