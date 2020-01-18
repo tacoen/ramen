@@ -23,8 +23,11 @@ init -202 python:
             return self.id
 
 
-    class inventory(ramen_object):
+    import copy
     
+    class inventory(object):
+
+   
         def __init__(self,store,max=24):
         
             try: mc
@@ -48,7 +51,7 @@ init -202 python:
                     if k == 'count': s[k] += i[k]
                     else: s[k] = i[k]
             except:    
-                self.container[i['id']] = i
+                self.container[i['id']] = copy.copy(item)
 
         def drop(self,item,id=True):
             if id==False: item = globals()[item].id
