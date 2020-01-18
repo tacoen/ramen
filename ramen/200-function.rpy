@@ -39,7 +39,7 @@ init -208 python:
         def fn_ezy(self, file, ext=['.jpg', '.png', '.webp' ]):
             rfile = False
             n=0
-            for e in ext.reverse():
+            for e in ext:
                 if renpy.loadable(file+e): 
                     rfile = file+e
                     n = 1
