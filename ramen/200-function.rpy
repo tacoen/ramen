@@ -118,4 +118,6 @@ init -208 python:
                 return int(renpy.random.randint(min,max))
 
         def random_of(self,array):
-            return array [ int(renpy.random.randint(0,len(array)-1))]            
+            return array [ int(renpy.random.randint(0,len(array)-1))]
+            
+            
