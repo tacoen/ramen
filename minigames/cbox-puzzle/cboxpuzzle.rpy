@@ -1,102 +1,126 @@
 init -9 python:
 
-    cboxpuzzle_path = ramu.fn_getdir()
+    cpuzzle_path = ramu.fn_getdir()
 
     def rp_vars():
         return {
-            'd_var': ramu.random_int(0,5),
-            'a_var': ramu.random_int(0,5),
-            'b':str(ramu.random_int(5,9)),
-            'c':str(ramu.random_int(1,5)),
-            'res':False
+            'a': ramu.random_int(1,9),
+            'b': ramu.random_int(1,9),
+            'c': ramu.random_int(1,9),
+            'd': ramu.random_int(1,9),
+            'e': ramu.random_int(1,9),
+            'f': ramu.random_int(1,9),
+            'res':True
         }
 
-label cboxgame:
+label cable_puzzle(broke=[]):
 
-    python:
+    # need to reset vars
+    hide screen cable_puzzle
     
+    python:
         rp={
             'r1': rp_vars(),
             'r2': rp_vars(),
             'r3': rp_vars(),
-            'r4': rp_vars()
+            'r4': rp_vars(),
+            'co': rp_vars()
         }
         
-    show screen cboxgame
+        if not broke == []:
+            for b in broke:
+                rp[b]['res']=False
+                print "pangil:" + b
+        
+        renpy.show_screen('cable_puzzle',rp=rp)
     
     return
 
-screen cboxgame():
-    
-    $ x = config.screen_width/2 - (600/2)
-    
-    hbox xpos x ypos 125:
-        use rowpuzzle('r1')
-    hbox xpos x ypos 225:
-        use rowpuzzle('r2')
-    hbox xpos x ypos 325:
-        use rowpuzzle('r3')
-    hbox xpos x ypos 425:
-        use rowpuzzle('r4')
+screen cable_puzzle(rp):
     
     python:
-        if rp['r1']['res']==True and rp['r2']['res']==True and rp['r3']['res']==True and rp['r4']['res']==True:
-            fine = True
-        else:
-            fine = False
+        x = config.screen_width/2 - (400/2)
+        ys = 40
+        fine = True
+    
+    for r in sorted(rp.keys()):
+        $ ys += 80
+        hbox xpos x ypos ys:
+            use rowpuzzle( r )
+    
+    python:
+        for r in rp.keys():
+            if rp[r]['res']==False: fine = False
         
     if fine == True:
-        timer 2.0 action Hide('cboxgame') 
+        timer 2.0 action Hide('cable_puzzle') 
     
-screen rowpuzzle(vars='r1'):
+screen rowpuzzle(vars='co'):
 
-    frame xsize 600 ysize 100:
-        background Frame(cboxpuzzle_path+"/img/base.png",Borders(0,0,0,0),tile=True)
+    frame xsize 400 ysize 80:
+        background Frame(cpuzzle_path+"/img/base.png",Borders(0,0,0,0),tile=True)
         padding (0,0,0,0)
         
         python:
-            try: a_var
-            except: a_var = rp[vars]['a_var']
-            try: d_var
-            except: d_var = rp[vars]['d_var']
+            
+            try: a
+            except: a = rp[vars]['a']
             try: b
             except: b = rp[vars]['b']
             try: c
             except: c = rp[vars]['c']
+            try: d
+            except: d = rp[vars]['d']
+            try: e
+            except: d = rp[vars]['e']
+            try: f
+            except: f = rp[vars]['f']
+            try: res
+            except: res = rp[vars]['res']
             
-            va = ['base','a1','a2','a3','a4','a5']
-            vd = ['base','d0','d1','d2','d3','d4']
+            pz = {}
+            
+            if a > 9: a = 1
+            if b > 9: b = 1
+            if c > 9: c = 1
+            if d > 9: d = 1
+            if e > 9: e = 1
+            if f > 9: f = 1
+            
+            b_ev = 10-int(a)
+            c_ev = 10-int(d)
+            e_ev = 10-int(f)
+            
+            if res==True:
+                c = c_ev
+                b = b_ev
+                e = e_ev
+                
+            if res==False:
+                res = "off"
 
-            res = "off"
+
+            pz['a'] = cpuzzle_path+"/img/a"+str(a)+".png"
+            pz['b'] = cpuzzle_path+"/img/b"+str(b)+".png"
+            pz['c'] = cpuzzle_path+"/img/c"+str(c)+".png"
+            pz['e'] = cpuzzle_path+"/img/a"+str(e)+".png"
             
-            if a_var > len(va)-1: a_var = 0
-            if d_var > len(vd)-1: d_var = 0
-            
-            a_ev = 10-int(b)
-            d_ev = 5-int(c)+1
-            
-            if a_var == a_ev and d_ev == d_var:
+            if b == b_ev and c== c_ev:
                 res = "on"
-
-        #vbox xpos 700 ypos 100:
-        #    text str(a_var)  + " - e:" + str(a_ev) + " - img:" + va[a_var] color "#000"
-        #    text str(d_var)  + " - e:" + str(d_ev) + " - img:" + vd[d_var] color "#000"
+                if e==e_ev: res="ok"
+            else:
+                res = "off"
             
         vpgrid cols 6 rows 1:
             spacing 0
             draggable True
             mousewheel True
-            add (cboxpuzzle_path+"/img/start.png")
-            imagebutton: 
-                idle cboxpuzzle_path+"/img/"+va[a_var]+".png"
-                action SetLocalVariable('a_var',a_var+1)
-            add (cboxpuzzle_path+"/img/b"+b+".png")
-            add (cboxpuzzle_path+"/img/c"+c+".png")
-            imagebutton: 
-                idle cboxpuzzle_path+"/img/"+vd[d_var]+".png"
-                action SetLocalVariable('d_var',d_var+1)
-            add (cboxpuzzle_path+"/img/"+res+".png") xalign 1.0
+            imagebutton idle pz['a'] action SetLocalVariable('a',b+1)
+            imagebutton idle pz['b'] action SetLocalVariable('b',b+1)
+            imagebutton idle pz['c'] action SetLocalVariable('c',c+1)
+            add (cpuzzle_path+"/img/"+res+".png")
+            imagebutton idle pz['e'] action SetLocalVariable('e',e+1)
             
         python:
-            if res == "on": rp[vars]['res']=True
+            if res == "ok": rp[vars]['res']=True
             else: rp[vars]['res']=False
