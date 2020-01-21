@@ -17,8 +17,6 @@ init -99 python:
                     fn['name'] = fc[0]
                     fn[str('cond')] = fc[1]                
             
-                print fn
-
             try: self.main
             except:
                 fn = ramu.fn_info(scenes[0])
@@ -63,8 +61,59 @@ init -99 python:
                     renpy.image(self.id,f)
 
             return
+            
+        def mazing(self,**kwargs):
+            
+            try: self.maze
+            except: self.maze = {}
+            
+            for k in kwargs:
+                self.maze[k] = kwargs[k]
                 
+            def next_floor(f,w='up'):
+                if w == 'up':
+                    u = self.maze['floor'].index(f)+1
+                else:
+                    u = self.maze['floor'].index(f)-1
+                
+                
+                if u >= len(self.maze['floor']) or u < 0:
+                    res = None
+                else:
+                    res = self.maze['floor'][u]
 
+                return res
+                    
+            self.map = {}
+    
+            for f in sorted(self.maze['floor']):
+
+                up = next_floor(f,'up')
+                down = next_floor(f,'down')
+                
+                self.map[f] = {}
+
+                for i in sorted(self.maze['hs'].keys()):
+                    self.map[f][i]=[]
+
+                    try:
+                        func = self.maze['hs'][i][2]
+                        if "up" in i: self.map[f][i]=[func, up]
+                        elif "down" in i: self.map[f][i]=[func, down]
+                        else: self.map[f][i]=[func, f]
+                    except:
+                        self.map[f][i] = ['door',f,i]
+                
+        def scene_call(self,what,obj_id,var):
+            try: d = var[0]
+            except: d = None
+            try: r = var[2]
+            except: r = None
+            try: f = var[1]
+            except: f = None
+            
+            renpy.call_in_new_context(what,obj_id=obj_id, d=d, f=f, r=r)
+            
         def imagemaping(self,floor,bgr=None):
 
             if bgr is None:
@@ -78,32 +127,22 @@ init -99 python:
             gimg = ( (0,0), bgr )
             himg = ( (0,0), Solid('#fff0'))
             
-            try: ways = self.maze['way'][floor]
-            except: print "object maze-way not here!"
+            ways = self.map[floor]
 
             def makeaction(w):
+            
+                try: 
+                    if w[1] == None or w[2] == None:
+                        return Null
+                except: pass
                 
-                c = ''
-                w1=None
-                w2=None
-                
-                if isinstance(w,list):
-                    c = w[0]
-                    try: 
-                        c += '_'+w[1]
-                        w1=w[1]
-                    except: pass
-                    try:
-                        c += '_'+w[2]
-                        w2 = w[2]
-                    except: pass
-                else:
-                    c = w
-                    
-                if renpy.has_label(c):
-                    return c
-                else:
-                    return Call("mapfunc_"+w[0],obj=self.id,f=w1,d=w2)
+                if renpy.has_label(w[0]):
+                   return Function(self.scene_call, what =w[0], obj_id=self.id, var=w )
+                if renpy.has_label("_scene_"+w[0]):
+                   return Function(self.scene_call, what ="_scene_"+w[0], obj_id=self.id, var=w )
+
+                #return Call("_scenemap",obj_id=self.id,d=w0,f=w1,r=w2)
+                return Function(self.scene_call,what='_scene_goto', obj_id=self.id, var=w)
 
             for w in sorted(ways.keys()):
             
@@ -131,14 +170,46 @@ init -99 python:
                     else:
                         hover = (Solid('#fff9'))
 
-                if hover: himg = himg + ( xy, hover )
-                if ground: gimg = gimg + ( xy,ground )
-
-                imgdata.append( [ area, action ] )
+                if not action is "Null":
+                    if hover: himg = himg + ( xy, hover )
+                    if ground: gimg = gimg + ( xy,ground )
+                    imgdata.append( [ area, action ] )
 
             img['ground'] = LiveComposite( (1280,720), *gimg )
             img['hover'] = LiveComposite( (1280,720), *himg )
             img['data'] = imgdata
 
             return img
-            
+
+label _scene_goto(obj_id=None,d=None,f=None,r=None):
+        
+        
+    python:
+        if r is None: r = ''
+        if not obj_id is None: obj = globals()[obj_id]
+        
+    "is [d] [f] [r]"
+
+label door(obj_id=None,d=None,f=None,r=None):
+        
+    python:
+        if not obj_id is None: obj = globals()[obj_id]
+        
+    "door [f] [r] [d]"
+
+
+label _scene_lead(obj_id=None,d=None,f=None,r=None):
+
+    hide screen scene_imagemap
+    
+    python:
+        if not obj_id is None: obj = globals()[obj_id]
+        map = obj.imagemaping(f, ramu.get_sceneimg())
+        renpy.scene()
+        renpy.show(obj_id + " "+f)        
+   
+    call screen scene_imagemap(map)
+
+    "lead f"
+    
+    return
