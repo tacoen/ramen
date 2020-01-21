@@ -6,7 +6,6 @@ init -208 python:
     import copy
     import sys
 
-
     class ramen_util:
 
         def __repr__(self): return """
@@ -28,12 +27,13 @@ init -208 python:
             
         def fn_info(self,f):
             r = {}
-            r['path'], r['file'] = ntpath.split(f)
+            
+            r[str('path')], r[str('file')] = ntpath.split(f)
             a = r['file'].split('.')
-            r['name'] = a[0]
-            r['ext'] = a[1]
-            r['dir'] = r['path']
-            r['path'] = r['path'].replace(ntpath.dirname(r['path'])+"/",'')
+            r[str('name')] = str(a[0])
+            r[str('ext')] = str(a[1])
+            r[str('dir')] = str(r['path'])
+            r[str('path')] = r['path'].replace(ntpath.dirname(r['path'])+"/",'')
             return r
 
         def fn_ezy(self, file, ext=['.jpg', '.png', '.webp' ]):
@@ -119,5 +119,17 @@ init -208 python:
 
         def random_of(self,array):
             return array [ int(renpy.random.randint(0,len(array)-1))]
-            
-            
+
+        def get_sceneimg(self):
+            t = tuple(renpy.get_showing_tags('master',True))
+            a = renpy.get_attributes(t[0])
+            try: bgr = t[0] +" "+ a[0]
+            except: bgr = t[0]
+            try: res = renpy.get_registered_image(bgr).filename
+            except:
+                try:
+                    res = renpy.get_registered_image(bgr).child.args[0][0][1].filename
+                except:
+                    res = "blank"
+            return res
+
