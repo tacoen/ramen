@@ -64,60 +64,72 @@ init -99 python:
             
         def mazing(self,**kwargs):
             
-            try: self.maze
-            except: self.maze = {}
+            maze = {}
+            self.map = {}
+            ahs = {}
             
             for k in kwargs:
-                self.maze[k] = kwargs[k]
+                maze[k] = kwargs[k]
                 
-            def next_floor(f,w='up'):
-                if w == 'up':
-                    u = self.maze['floor'].index(f)+1
-                else:
-                    u = self.maze['floor'].index(f)-1
-                
-                
-                if u >= len(self.maze['floor']) or u < 0:
-                    res = None
-                else:
-                    res = self.maze['floor'][u]
+            for f in sorted(maze['floor']):
 
-                return res
-                    
-            self.map = {}
-    
-            for f in sorted(self.maze['floor']):
+                ahs[f] = maze['hs'].copy()
 
-                up = next_floor(f,'up')
-                down = next_floor(f,'down')
+                try: ahs[f].update(maze['add'][f])
+                except: pass
                 
+                #print hs[f].keys()
+
                 self.map[f] = {}
 
-                for i in sorted(self.maze['hs'].keys()):
-                    self.map[f][i]=[]
+                up = maze['floor'].index(f)+1
+                down = maze['floor'].index(f)-1
 
-                    try:
-                        func = self.maze['hs'][i][2]
-                        if "up" in i: self.map[f][i]=[func, up]
-                        elif "down" in i: self.map[f][i]=[func, down]
-                        else: self.map[f][i]=[func, f]
-                    except:
-                        self.map[f][i] = ['door',f,i]
+                if up > len(maze['floor'])-1: up = None
+                if down < 0: down = None
+
+                for i in sorted(ahs[f].keys()):
                 
-        def scene_call(self,what,obj_id,var):
-            try: d = var[0]
-            except: d = None
-            try: r = var[2]
-            except: r = None
-            try: f = var[1]
-            except: f = None
-            
-            renpy.call_in_new_context(what,obj_id=obj_id, d=d, f=f, r=r)
+                    hs = ahs[f]
+                    
+                    try: 
+                        xy = (hs[i][0][0],hs[i][0][1])
+                    except:
+                        xy = False
+                        
+                    try:
+                        func = hs[i][1]
+                    except:
+                        func = 'door'
+
+                    dest = i
+                    
+                    if func == 'lead':
+                        dest = None
+                        if "up" in i: 
+                            if not up is None : dest = maze['floor'][up]
+                        if "down" in i:
+                            if not down is None: dest = maze['floor'][down]
+                    else:
+                        dest = i
+                    
+                    try:
+                        img = hs[i][2]
+                    except:
+                        img = i
+                    
+                    if not dest is None and xy:
+                        self.map[f][i] = [ xy, func, dest, img ]
+                    
+            return self.map
+                        
+                
+        def scene_call(self,what,obj_id,f,r):
+            renpy.call_in_new_context(what,obj_id=obj_id, f=f, r=r)
             
         def imagemaping(self,floor,bgr=None):
 
-            if bgr is None:
-                bgr = self.get_sceneimg()
+            if bgr is None: bgr = self.get_sceneimg()
                 
             img = {}
             img['ground'] = bgr
@@ -126,54 +138,44 @@ init -99 python:
             imgdata=[]
             gimg = ( (0,0), bgr )
             himg = ( (0,0), Solid('#fff0'))
-            
+
             ways = self.map[floor]
 
-            def makeaction(w):
-            
-                try: 
-                    if w[1] == None or w[2] == None:
-                        return Null
-                except: pass
+            for k in sorted(ways.keys()):
                 
-                if renpy.has_label(w[0]):
-                   return Function(self.scene_call, what =w[0], obj_id=self.id, var=w )
-                if renpy.has_label("_scene_"+w[0]):
-                   return Function(self.scene_call, what ="_scene_"+w[0], obj_id=self.id, var=w )
+                w = ways[k]
 
-                #return Call("_scenemap",obj_id=self.id,d=w0,f=w1,r=w2)
-                return Function(self.scene_call,what='_scene_goto', obj_id=self.id, var=w)
-
-            for w in sorted(ways.keys()):
-            
-                action = makeaction(ways[w])
+                action = False
                 
-                file = ramu.fn_ezy(self.dir +"/hotspot/"+w)
-                if file and renpy.loadable(file):
+                if renpy.has_label(w[1]):
+                    action = Jump(w[1])
+                if renpy.has_label(self.id+"_"+w[1]):
+                    action = Jump(self.id+"_"+w[1])
+                if renpy.has_label('_scene_'+w[1]):
+                    action = Function(self.scene_call, obj_id=self.id, what='_scene_'+w[1], r=w[2], f=floor)
+                
+                file = ramu.fn_ezy(self.dir +"/hotspot/"+w[3])
+                if file:
                     ground = file
-                    xy = (self.maze['hs'][w][0],self.maze['hs'][w][1]) 
+                    xy = w[0]
                     area = xy + renpy.image_size(ground)
+                    hover = im.MatrixColor(ground,im.matrix.brightness(0.1))
                 else:
                     ground = False
+                    area = False
 
-                hover = (Solid('#fff9'))
-
-                file = ramu.fn_ezy(self.dir +"/hotspot/"+w+"-hover")
-                
-                if file and renpy.loadable(file):
+                file = ramu.fn_ezy(self.dir +"/hotspot/"+w[3]+"-hover")
+                if file:
                     hover = file
-                    xy = (self.maze['hs'][w][0],self.maze['hs'][w][1]) 
-                    area = xy + renpy.image_size(hover)
-                else:
-                    if ground:
-                        hover = im.MatrixColor(ground,im.matrix.brightness(0.1))
-                    else:
-                        hover = (Solid('#fff9'))
+                    xy = w[0]
+                    if not area: 
+                        area = xy + renpy.image_size(hover)
+                    if not ground: 
+                        ground = im.MatrixColor(hover,im.matrix.brightness(-0.2))
 
-                if not action is "Null":
-                    if hover: himg = himg + ( xy, hover )
-                    if ground: gimg = gimg + ( xy,ground )
-                    imgdata.append( [ area, action ] )
+                if hover: himg = himg + ( xy, hover )
+                if ground: gimg = gimg + ( xy,ground )
+                if area: imgdata.append( [ area, action ] )
 
             img['ground'] = LiveComposite( (1280,720), *gimg )
             img['hover'] = LiveComposite( (1280,720), *himg )
@@ -183,33 +185,37 @@ init -99 python:
 
 label _scene_goto(obj_id=None,d=None,f=None,r=None):
         
-        
     python:
         if r is None: r = ''
         if not obj_id is None: obj = globals()[obj_id]
         
     "is [d] [f] [r]"
 
-label door(obj_id=None,d=None,f=None,r=None):
+label _scene_door(obj_id=None, f=None,r=None):
         
     python:
         if not obj_id is None: obj = globals()[obj_id]
         
-    "door [f] [r] [d]"
+    "door [f] [r]"
+    return
 
-
-label _scene_lead(obj_id=None,d=None,f=None,r=None):
+label _scene_elevator(obj_id=None,f=None,r=None):
+    hide screen scene_imagemap
+    "elevator"
+    return
+    
+label _scene_lead(obj_id=None,f=None,r=None):
 
     hide screen scene_imagemap
     
     python:
         if not obj_id is None: obj = globals()[obj_id]
-        map = obj.imagemaping(f, ramu.get_sceneimg())
         renpy.scene()
-        renpy.show(obj_id + " "+f)        
+        renpy.show(obj_id + " "+r)        
+        map = obj.imagemaping(r, ramu.get_sceneimg())
    
     call screen scene_imagemap(map)
 
-    "lead f"
+    return
     
     return
