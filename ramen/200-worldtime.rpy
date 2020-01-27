@@ -7,7 +7,7 @@ init -205 python:
         def __init__ (self, \
             gamedate=[2019,1,18,9], \
             tword = ['Midnight','Dusk','Morning','Noon','Evening','Night'], \
-            sword = ['dark','dim','sun','dim','dark'], \
+            sword = ['dark','sun1','sun2','sun3','dark'], \
             wword = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'] \
             ):
             self.time = datetime.datetime(gamedate[0],gamedate[1],gamedate[2],gamedate[3])

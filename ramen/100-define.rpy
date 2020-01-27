@@ -5,7 +5,7 @@ init -200 python:
     wo = WorldTime(
         [2020,1,18,9],
         ['Midnight','Dusk','Morning','Noon','Evening','Night'],
-        ['dark','dim','sun','dim','dark']
+        ['dark','sun1','sun2','sun3','dark']
     )
     
     mc = player(id='mc',
