@@ -2,6 +2,8 @@ init -200 python:
 
     ramu = ramen_util()
     
+    RAMEN_PATH = ramu.fn_getdir()
+    
     wo = WorldTime(
         [2020,1,18,9],
         ['Midnight','Dusk','Morning','Noon','Evening','Night'],
