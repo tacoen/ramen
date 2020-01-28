@@ -197,6 +197,16 @@ init -99 python:
 
             return img
 
+
+screen scene_imagemap(img):
+
+    imagemap xpos 0 ypos 0:
+        ground img['ground']
+        hover img['hover']
+        for h in img['data']:
+           hotspot h[0] action h[1]    
+
+
 label _scene_goto(obj_id=None,d=None,f=None,r=None):
         
     python:
