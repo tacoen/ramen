@@ -27,6 +27,8 @@ init -205 python:
             self.sun = int(round(len(self.sunword)*self.time.hour/24))
             self.suntime = str( self.sunword[ self.sun ] )
             self.diff = self.time - self.start
+            
+            self.date = self.time.strftime("%d %B %Y")
 
             # ! need to put "default diff = diff in defined line"
             globals()['diff'] = self.diff

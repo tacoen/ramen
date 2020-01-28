@@ -5,7 +5,7 @@ init -200 python:
     RAMEN_PATH = ramu.fn_getdir()
     
     wo = WorldTime(
-        [2020,1,18,9],
+        [2019,1,18,8],
         ['Midnight','Dusk','Morning','Noon','Evening','Night'],
         ['dark','sun1','sun2','sun3','dark']
     )
@@ -19,6 +19,11 @@ init -200 python:
 
     mc.limit('rel',[0,10])
     mc.limit('stat',[0,10])
+    
+    mc.data('bio',
+        lastname = ramu.random_of(['Small','North','Strong','Smith']),
+        job = 'it'
+    )
     
     mc.data('stat',
         hygiene = 5,
@@ -37,11 +42,16 @@ init -100:
 
     define character.mc = Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")    
     define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3", what_color="#ddd")    
+    define character.anon = Character("anon_name",dynamic=True,who_color="#9cf",what_color="#ccc")   
     
     image ctcon = Text(' ...')
+
+    define character.caption = Character(None, who_color="#ccc", what_color="#fff", 
+        what_prefix="{cps=80}", what_suffix="{/cps}")
     
-    define character.narator = Character(None, who_color="#ccc", what_color="#ccc", 
+    define character.narator = Character(None, who_color="#ccc", what_color="#eee", 
         what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}", ctc='ctcon')
+        
         
     # game progress
     

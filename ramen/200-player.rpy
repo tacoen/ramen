@@ -5,6 +5,7 @@ init -203 python:
         def load(self,id=None,**kwargs):
             self.__dict__['id'] = str('player')
             self.__dict__['dir'] = str('')
+            self.__dict__['bio'] = {}
 
             try: 
                 globals()['mc_name'] = self.name.title()
@@ -13,9 +14,10 @@ init -203 python:
                 
             self._inventory = {}
                 
-        def newname(self,name):
+        def newname(self,name,lastname):
             self.name = name.title()
             globals()['mc_name'] = self.name 
+            self.bio['lastname'] = lastname
             
         def limit(self, key, value=None):
             

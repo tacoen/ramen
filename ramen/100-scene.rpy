@@ -271,10 +271,8 @@ screen scene_shortcut(shorts):
 
     for s in shorts:
         python:
-            print s
             si = shorts.keys()
             d = shorts[s]
-            print d
             try: d['pos']
             except: d['pos'] = si.index(s)
             
@@ -300,7 +298,6 @@ screen _overlays(obj_id, data):
         
     for d in data:
         python:
-            print d
             img = ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
             xy = d[1]
     
