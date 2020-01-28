@@ -291,6 +291,22 @@ screen scene_shortcut(shorts):
             null width 6
             textbutton ico(d['icon']) style 'shortcut_icon' action Action
             null width 32
+            
+
+screen _overlays(obj_id, data):
+
+    python:
+        if not obj_id is None: obj = globals()[obj_id]
+        
+    for d in data:
+        python:
+            print d
+            img = ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
+            xy = d[1]
+    
+        if img:
+            hbox pos xy:
+                add img            
 
 label _scene_goto(obj_id=None,d=None,f=None,r=None):
         
