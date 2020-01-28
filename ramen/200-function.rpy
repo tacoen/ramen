@@ -132,4 +132,3 @@ init -208 python:
                 except:
                     res = "blank"
             return res
-
