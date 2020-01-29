@@ -1,5 +1,31 @@
 init -204 python:
 
+    class rn_obj(object):
+    
+        # ramen native object
+        
+        def __init__(self,default=False,**kwargs):
+            self._ = default
+            self.set(**kwargs)
+
+        def set(self,**kwargs):
+            for k in kwargs:
+                self.__dict__[k]=kwargs[k]
+            
+        def __repr__(self):
+            str =  "<" + self.__class__.__name__ +">"
+            return str
+
+        def __call__(self):
+            return self.__dict__
+            
+        def __setattr__(self, key,value):
+            self.__dict__[str(key).lower()] = value
+            
+        def __getattr__(self, key):
+            try: return self.__dict__[key]            
+            except: return self._
+
     class ramen_object:
 
         def __init__(self, id=None, **param):
@@ -25,7 +51,7 @@ init -204 python:
                 else:
                     self.__dict__[str('param')][str(key)] = param[key]
 
-            self.load()
+            self.load(id, **param)
 
         def load(self,id=None,**kwargs):
             pass

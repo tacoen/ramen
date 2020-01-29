@@ -14,6 +14,7 @@ init -200 python:
         score=0,
         level=0,
         cash=100,
+        pref=0,
         bank=ramu.random_int(9000,9999)
     )
 
@@ -32,10 +33,17 @@ init -200 python:
         luck = 4
     )
     
+    mc.pref= {}
+    mc.pref['set']=0
     mc.flags = []
     mc.ability = []
     
     quick_menu = False
+    doom = False
+
+    hud_show = False
+    hud_disable = False
+    hud_set = mc.pref['set']
     
 init -100:
 
@@ -58,6 +66,10 @@ init -100:
     
     default diff = diff
     default mc = mc
+    default doom = doom
+    
+    default hud_show = hud_show
+    default hud_disable = hud_disable
 
 init python:
 
