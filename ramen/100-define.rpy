@@ -27,6 +27,7 @@ init -200 python:
     
     mc.data('stat',
         hygiene = 5,
+        energy = 5,
         vital = 5,
         luck = 4
     )

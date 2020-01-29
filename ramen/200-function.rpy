@@ -120,6 +120,27 @@ init -208 python:
         def random_of(self,array):
             return array [ int(renpy.random.randint(0,len(array)-1))]
 
+        # toggles
+        
+        def toggle(self,what,sfx=True):
+        
+            if not renpy.loadable(DEFAULT_SFXPATH+"/tone1.mp3"):
+                sfx = False
+        
+            if globals()[what] == True:
+                globals()[what] = False
+                if sfx: renpy.play(DEFAULT_SFXPATH+"/tone0.mp3")
+            else:
+                globals()[what] = True
+                if sfx: renpy.play(DEFAULT_SFXPATH+"/tone1.mp3")
+
+        def cycle(self,current,list):
+            current += 1
+            if current >= len(list): current = 0
+            return current
+            
+        # Image util
+
         def get_sceneimg(self):
             t = tuple(renpy.get_showing_tags('master',True))
             a = renpy.get_attributes(t[0])

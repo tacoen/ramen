@@ -1,24 +1,24 @@
 init -204 python:
 
     class ramen_object:
-    
+
         def __init__(self, id=None, **param):
-            
+
             try: self.param
             except: self.__dict__[str('param')] = {}
-            
+
             inf = renpy.get_filename_line()
             dir, fn = ntpath.split(inf[0])
             f,e = fn.split('.')
 
             if dir == 'renpy/common': dir = '';
             self.__dict__[str('dir')] = str(dir.replace('game/',""))
-            
+
             if id is None:
                 self.__dict__[str('id')] = str(f.replace(" ","").replace("-","").lower())
             else:
                 self.__dict__[str('id')] = str(id.replace(" ","").replace("-","").lower())
-            
+
             for key in param:
                 if key.startswith("_"):
                     self.__dict__[key]= param[key]
@@ -29,7 +29,7 @@ init -204 python:
 
         def load(self,id=None,**kwargs):
             pass
-            
+
         def __setattr__(self, key, value):
             if key.startswith("_"):
                 self.__dict__[str(key)]=value
@@ -47,7 +47,7 @@ init -204 python:
 
         def __getattr__(self, key):
 
-            try: 
+            try:
                 return self.__dict__['param'][key]
             except:
                 if key in self.__dict__:
@@ -67,13 +67,24 @@ init -204 python:
                 return super(object, self).__getattribute__(key)
 
         def set_ui(self,**kwargs):
-        
+
             try: self.__dict__['ui']
             except: self.__dict__[str('ui')] = object()
             ui = self.__dict__['ui']
             for k in kwargs:
                 setattr(ui,k,kwargs[k])
-        
+
+                if k == 'bars':
+                    try: style.hbar
+                    except: style.hbar = Style(style.default)
+                    
+                    for t in kwargs['bars'].keys():
+                        try: bcolor = kwargs['bars'][t]
+                        except: bcolor = ramen.random_colour(128,255) 
+                        style.hbar[t].thumb = bcolor 
+                        style.hbar[t].right_bar=bcolor+"5"
+                        style.hbar[t].left_bar=bcolor+"D"                
+
         def data(self,key,**kwargs):
 
             try: self.__dict__[str(key.lower())]
@@ -89,33 +100,32 @@ init -204 python:
                 self.__dict__[str(key)] = default
 
         def files(self,key=None,scope=None):
-        
+
             try: self._files
             except: self.__dict__['_files'] = []
             F = renpy.list_files(False)
             res = []
-            
+
             def collect():
-                for f in F: 
+                for f in F:
                     if self.dir+"/" in f: self.__dict__['_files'].append(f)
-            
-            if key is None: 
-                
+
+            if key is None:
+
                 collect()
 
                 return self._files
-                
+
             else:
                 if self._files ==[]: collect()
-                
+
                 for f in self._files:
                     if key in f:
                         if not scope is None:
                             if scope in f: res.append(f)
-                        else: 
+                        else:
                             res.append(f)
                 return res
 
 
-    
-    
+
