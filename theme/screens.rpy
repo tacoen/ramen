@@ -276,13 +276,13 @@ screen quick_menu():
 
     ## Ensure this appears on top of other screens.
     zorder 100
-    layer "interface"
     
     if not renpy.get_screen("_console") and quick_menu:
 
         frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
         
-            background gui.interface_bgr_color
+            #background gui.interface_bgr_color
+            background hud.ui.bgcolor[gbuff.set]
         
             hbox:
                 style_prefix "quick"
@@ -393,6 +393,7 @@ style navigation_button_text is gui_button_text:
 
 screen main_menu():
 
+    
     ## This ensures that any other menu screen is replaced.
     tag menu
 
@@ -1264,7 +1265,7 @@ style confirm_prompt_text:
 style confirm_button:
     properties gui.button_properties("confirm_button")
     background gui.interface_hover_color
-    padding (32,4,32,4)
+    padding (32,16,32,16)
 
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")

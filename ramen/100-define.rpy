@@ -41,13 +41,9 @@ init -200 python:
     quick_menu = False
     doom = False
 
-    hud_show = False
-    hud_disable = False
-    hud_set = mc.pref['set']
-    
 init -100:
 
-    define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'interface' ]
+    define config.layers = [ 'master', 'transient', 'screens', 'above-screens', 'overlay', 'interface' ]
 
     define character.mc = Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")    
     define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3", what_color="#ddd")    
@@ -68,11 +64,17 @@ init -100:
     default mc = mc
     default doom = doom
     
-    default hud_show = hud_show
-    default hud_disable = hud_disable
+### ------------------------------
 
-init python:
+label _ramen_start:
 
-    # We check here
+    stop music fadeout 1.0
+
+    $  renpy.free_memory
+
+    show screen hud_init
+
+    $ if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
     
-    renpy.free_memory
+    return
+    
