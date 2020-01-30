@@ -4,7 +4,7 @@ init -99 python:
 
     gbuff = object()
     gbuff.disable=False
-    gbuff.show=True
+    gbuff.show=False
     gbuff.set=0
 
     mc.pref['icons']= ['pocket','mcphone']
@@ -208,16 +208,16 @@ screen hud_init():
     zorder 190
     tag hud
 
-    key "K_F5" action SetVariable('gbuff.set',ramu.cycle(gbuff.set,hud.ui.bgcolor))
-    key "K_F6" action Function(hud_toggle,what='stats')
-    key "K_F8" action Function(hud_toggle,what='hud')
-    key "shift_K_F8" action Function(ramu.toggle,what='quick_menu')
-    key "ctrl_K_F1" action Function(hud_toggle,what='legend')
-
-    key "K_F9" action Function(hud_toggle,what='inventory')
-
-
     if not gbuff.disable:
+
+        key "K_F5" action SetVariable('gbuff.set',ramu.cycle(gbuff.set,hud.ui.bgcolor))
+        key "K_F6" action Function(hud_toggle,what='stats')
+        key "K_F8" action Function(hud_toggle,what='hud')
+        key "shift_K_F8" action Function(ramu.toggle,what='quick_menu')
+        key "ctrl_K_F1" action Function(hud_toggle,what='legend')
+
+        key "K_F9" action Function(hud_toggle,what='inventory')
+
 
         if hud.ui.element['hud']:
             $ hud_tic = ico('chevrons-up')

@@ -30,7 +30,8 @@ init -200 python:
         hygiene = 5,
         energy = 5,
         vital = 5,
-        luck = 4
+        luck = 0,
+        intelec = 5,
     )
     
     mc.pref= {}
@@ -46,13 +47,17 @@ init -100:
     define config.layers = [ 'master', 'transient', 'screens', 'above-screens', 'overlay', 'interface' ]
 
     define character.mc = Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")    
-    define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3", what_color="#ddd")    
-    define character.anon = Character("anon_name",dynamic=True,who_color="#9cf",what_color="#ccc")   
+    define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3", 
+        what_prefix="{i}", what_suffix="{/i}")    
+    define character.anon = Character("anon_name",dynamic=True, who_color=ramu.random_color(128,220), what_color="#ccc")   
     
     image ctcon = Text(' ...')
 
     define character.caption = Character(None, who_color="#ccc", what_color="#fff", 
-        what_prefix="{cps=80}", what_suffix="{/cps}")
+        what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}")
+
+    define character.tips = Character(None, who_color="#ccc", what_color="#ff0",
+        what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}")
     
     define character.narator = Character(None, who_color="#ccc", what_color="#eee", 
         what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}", ctc='ctcon')

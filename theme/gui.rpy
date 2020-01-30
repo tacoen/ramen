@@ -90,18 +90,18 @@ define gui.title_text_size = 50
 
 ## The images used for the main and game menus.
 
-if renpy.loadable(TITLES_PATH+"/gui/main_menu.png"):
-    define gui.main_menu_background = TITLES_PATH+"/gui/main_menu.png"
+if renpy.loadable(TITLES_PATH+"/main_menu.jpg"):
+    define gui.main_menu_background = TITLES_PATH+"/main_menu.jpg"
 else:
     define gui.main_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+gui.interface_transparent)
 
-if renpy.loadable(TITLES_PATH+"/gui/game_menu.png"):
-    define gui.game_menu_background = TITLES_PATH+"/gui/game_menu.png"
+if renpy.loadable(TITLES_PATH+"/game_menu.jpg"):
+    define gui.game_menu_background = TITLES_PATH+"/game_menu.jpg"
 else:
     define gui.game_menu_background = Solid(ramu.color_Darken(gui.interface_bgr_color,90)+gui.interface_transparent)
 
-if renpy.loadable(TITLES_PATH+"/gui/ingame-overlay.png"):
-    define gui.game_menu_overlay = TITLES_PATH+"/gui/ingame-overlay.png"
+if renpy.loadable(TITLES_PATH+"/ingame-overlay.jpg"):
+    define gui.game_menu_overlay = TITLES_PATH+"/ingame-overlay.jpg"
 else:
     define gui.game_menu_overlay = gui.game_menu_background
 
@@ -209,7 +209,7 @@ define gui.choice_button_borders = Borders(5, 10, 5, 10)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size-2
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = gui.interface_idle_color
+define gui.choice_button_text_idle_color = ramu.color_Darken(gui.interface_idle_color,25)
 define gui.choice_button_text_hover_color = ramu.color_Invert(gui.text_color)
 define gui.choice_button_text_insensitive_color = gui.interface_insensitive_color
 define gui.choice_spacing = 1

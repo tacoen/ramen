@@ -111,6 +111,8 @@ init -208 python:
             r = lambda: renpy.random.randint(lo,hi)
             return ('#%02X%02X%02X' % (r(),r(),r()))
 
+        random_color = color_random
+        
         def random_int(self,min=0,max=1,array=False):
             if array:
                 return array [ int(renpy.random.randint(min,max)-1)]

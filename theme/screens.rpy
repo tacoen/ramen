@@ -109,18 +109,37 @@ screen say(who, what):
             background gui.naration_overlay
             xalign 1.0
             text what id "what" yalign 0.75
+            
             ysize None
             padding (0,16,0,52)
 
         else:
-            background gui.textbox_background + "99"
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"             
 
-            text what id "what"
+            if who.endswith("~"):
 
+                python:
+                    swho = who.replace(' ~','')
+
+                frame background "#fff" xsize gui.dialogue_width+80 ysize gui.textbox_height-40 xalign 0.5
+                
+                
+                window:
+                    id "namebox"
+                    style "namebox"
+                    text swho id "who"
+                text what id "what":
+                    color "#000"
+
+            else:
+
+                background gui.textbox_background + "99"
+                window:
+                    id "namebox"
+                    style "namebox"
+                    text who id "who"
+                text what id "what"
+            
+            
 
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
