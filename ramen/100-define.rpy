@@ -42,13 +42,21 @@ init -200 python:
     quick_menu = False
     doom = False
 
-init -100:
+init:
 
     define config.layers = [ 'master', 'transient', 'screens', 'above-screens', 'overlay', 'interface' ]
 
     define character.mc = Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")    
     define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3", 
-        what_prefix="{i}", what_suffix="{/i}")    
+        what_color="#000",
+        what_prefix="{i}", what_suffix="{/i}", what_xpos=100, what_xalign=0.0, what_yalign=0.5,
+        window_background=Solid("#fff"),
+        window_xsize = gui.dialogue_width+40,
+        window_xfill = False,
+        window_yalign = 0.8,
+        window_xalign = 0.0,
+        window_xpos = 200
+        )    
     define character.anon = Character("anon_name",dynamic=True, who_color=ramu.random_color(128,220), what_color="#ccc")   
     
     image ctcon = Text(' ...')

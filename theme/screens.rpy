@@ -120,15 +120,9 @@ screen say(who, what):
                 python:
                     swho = who.replace(' ~','')
 
-                frame background "#fff" xsize gui.dialogue_width+80 ysize gui.textbox_height-40 xalign 0.5
+                #frame background "#fff" xsize gui.dialogue_width+80 ysize gui.textbox_height-40 xalign 0.5
                 
-                
-                window:
-                    id "namebox"
-                    style "namebox"
-                    text swho id "who"
-                text what id "what":
-                    color "#000"
+                text what id "what" 
 
             else:
 

@@ -10,30 +10,36 @@ init -205 python:
             sword = ['dark','sun1','sun2','sun3','dark'], \
             wword = ['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'] \
             ):
-            self.time = datetime.datetime(gamedate[0],gamedate[1],gamedate[2],gamedate[3])
-            self.start = self.time
+
             self.timeword = tword
             self.sunword  = sword
             self.wdayword = wword
             self.diff = 0
-            self.time_populate()
+            
+            self.starttime(gamedate)
 
+        def starttime(self,gamedate):
+            self.time = datetime.datetime(gamedate[0],gamedate[1],gamedate[2],gamedate[3])
+            self.start = self.time
+            self.time_populate()
+        
         def time_populate(self):
             self.python_weekday = self.time.strftime("%A")
             self.python_month = self.time.strftime("%B")
             self.weekday = self.wdayword[ self.time.weekday() ]
-            self.daypart = int( round( len(self.timeword) * self.time.hour /24) )
+            hh = self.time.hour+1
+            self.daypart = int( round( len(self.timeword) * hh /24) )
             self.daytime = self.timeword[ self.daypart ]
             self.sun = int(round(len(self.sunword)*self.time.hour/24))
             self.suntime = str( self.sunword[ self.sun ] )
             self.diff = self.time - self.start
-            
             self.date = self.time.strftime("%d %B %Y")
+            self.clock = self.time.strftime("%H:%M")
+            self.hour = self.time.strftime("%I")
 
             # ! need to put "default diff = diff in defined line"
             globals()['diff'] = self.diff
             self.dayplay = self.diff.days
-            self.clock = self.time.strftime("%H:%M")
 
         def seed(self, diff):
             self.time = self.start + diff
