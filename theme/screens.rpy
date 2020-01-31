@@ -2,7 +2,7 @@
 
     try: THEME_PATH
     except NameError: THEME_PATH = ramu.fn_getdir()
-        
+
 ################################################################################
 ## Initialization
 ################################################################################
@@ -67,7 +67,7 @@ style vscrollbar:
 style slider:
     ysize gui.slider_size
     base_bar gui.bar_base_color+"C0"
-    thumb gui.bar_thumb_color   
+    thumb gui.bar_thumb_color
     #base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
     #thumb "gui/slider/horizontal_[prefix_]thumb.png"
 
@@ -109,7 +109,7 @@ screen say(who, what):
             background gui.naration_overlay
             xalign 1.0
             text what id "what" yalign 0.75
-            
+
             ysize None
             padding (0,16,0,52)
 
@@ -121,8 +121,8 @@ screen say(who, what):
                     swho = who.replace(' ~','')
 
                 #frame background "#fff" xsize gui.dialogue_width+80 ysize gui.textbox_height-40 xalign 0.5
-                
-                text what id "what" 
+
+                text what id "what"
 
             else:
 
@@ -132,8 +132,8 @@ screen say(who, what):
                     style "namebox"
                     text who id "who"
                 text what id "what"
-            
-            
+
+
 
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
@@ -171,7 +171,7 @@ style say_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
     yalign 0.5
-    outlines [ (absolute(3), gui.textbox_background, absolute(0), absolute(0)) ]    
+    outlines [ (absolute(3), gui.textbox_background, absolute(0), absolute(0)) ]
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
@@ -183,7 +183,7 @@ style say_dialogue:
 style say_dialoguzze:
     xpos gui.dialogue_xpos
     ypos gui.dialogue_ypos
-    xsize config.screen_width - (2 * gui.dialogue_xpos)    
+    xsize config.screen_width - (2 * gui.dialogue_xpos)
 
 
 ## Input screen ################################################################
@@ -289,14 +289,14 @@ screen quick_menu():
 
     ## Ensure this appears on top of other screens.
     zorder 100
-    
+
     if not renpy.get_screen("_console") and quick_menu:
 
         frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
-        
+
             #background gui.interface_bgr_color
             background hud.ui.bgcolor[gbuff.set]
-        
+
             hbox:
                 style_prefix "quick"
                 xalign 1.0
@@ -316,7 +316,7 @@ screen quick_menu():
 
         if tooltip:
             text "[tooltip]" size 14 color "#0009" xpos 10 ypos 694
-            
+
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
 ## the player has not explicitly hidden the interface.
 init python:
@@ -390,7 +390,7 @@ screen navigation():
 
 
 style navigation_button is gui_button
-    
+
 style navigation_button:
     size_group "navigation"
     properties gui.button_properties("navigation_button")
@@ -406,7 +406,7 @@ style navigation_button_text is gui_button_text:
 
 screen main_menu():
 
-    
+
     ## This ensures that any other menu screen is replaced.
     tag menu
 
@@ -415,10 +415,10 @@ screen main_menu():
     add gui.main_menu_background
 
     ## This empty frame darkens the main menu.
-    
+
     frame:
         pass
-        
+
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
     use navigation
@@ -615,7 +615,7 @@ screen about():
         style_prefix "about"
 
         vbox:
-        
+
             python:
                 nicename = config.name.title()
 
@@ -631,10 +631,10 @@ screen about():
                 label "[build.name!t]"
                 text "Ramen -- It's Renpy According Me {a=https://github.com/tacoen/ramen}Modular Aproach{/a}."
                 null height 15
-                text "Work Sans is licensed under the SIL Open Font License. Copyright (c) 2014-2015 Wei Huang" 
+                text "Work Sans is licensed under the SIL Open Font License. Copyright (c) 2014-2015 Wei Huang"
                 text "Feathericons/feather is licensed under the MIT License. Copyright (c) Colebemis"
                 null height 60
-            
+
             text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
 
 ## This is redefined in options.rpy to add text to the about screen.
@@ -717,7 +717,7 @@ screen file_slots(title):
                     $ slot = i + 1
 
                     button:
-                    
+
                         action FileAction(slot)
 
                         has vbox
@@ -732,7 +732,7 @@ screen file_slots(title):
                         key "save_delete" action FileDelete(slot)
 
             ## Buttons to access other pages.
-            
+
             hbox:
 
 
@@ -1236,7 +1236,7 @@ screen confirm(message, yes_action, no_action):
     frame:
         padding (64,64,64,32)
 
-    
+
         vbox:
             xalign .5
             yalign .5
@@ -1264,7 +1264,7 @@ style confirm_button is gui_medium_button
 style confirm_button_text is gui_medium_button_text
 
 style confirm_frame:
-    background gui.confirm_frame_background         
+    background gui.confirm_frame_background
     padding gui.confirm_frame_borders.padding
     xalign .5
     yalign .5
@@ -1272,7 +1272,7 @@ style confirm_frame:
 style confirm_prompt_text:
     text_align 0.5
     size 20
-    color gui.interface_selected_color    
+    color gui.interface_selected_color
     layout "subtitle"
 
 style confirm_button:
@@ -1283,7 +1283,7 @@ style confirm_button:
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
     color gui.interface_selected_color
-    hover_color gui.interface_bgr_color 
+    hover_color gui.interface_bgr_color
 
 ## Skip indicator screen #######################################################
 ##
@@ -1621,7 +1621,7 @@ style _console_text is abel_font:
 
 style _console_command_text is _console_text:
     color "#fff"
-    
+
 style _console_input is _console_text:
     background "#0061"
 

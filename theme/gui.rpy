@@ -148,7 +148,7 @@ define gui.dialogue_ypos = 14
 define gui.dialogue_width = config.screen_width - (2*gui.name_xpos)
 
 $ print "w"
-$ print config.screen_width 
+$ print config.screen_width
 $ print gui.dialogue_width
 
 ## The horizontal alignment of the dialogue text. This can be 0.0 for left-

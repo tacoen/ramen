@@ -1,9 +1,9 @@
 init -204 python:
 
     class rn_obj(object):
-    
+
         # ramen native object
-        
+
         def __init__(self,default=False,**kwargs):
             self._ = default
             self.set(**kwargs)
@@ -11,19 +11,19 @@ init -204 python:
         def set(self,**kwargs):
             for k in kwargs:
                 self.__dict__[k]=kwargs[k]
-            
+
         def __repr__(self):
             str =  "<" + self.__class__.__name__ +">"
             return str
 
         def __call__(self):
             return self.__dict__
-            
+
         def __setattr__(self, key,value):
             self.__dict__[str(key).lower()] = value
-            
+
         def __getattr__(self, key):
-            try: return self.__dict__[key]            
+            try: return self.__dict__[key]
             except: return self._
 
     class ramen_object:
@@ -103,13 +103,13 @@ init -204 python:
                 if k == 'bars':
                     try: style.hbar
                     except: style.hbar = Style(style.default)
-                    
+
                     for t in kwargs['bars'].keys():
                         try: bcolor = kwargs['bars'][t]
-                        except: bcolor = ramen.random_colour(128,255) 
-                        style.hbar[t].thumb = bcolor 
+                        except: bcolor = ramen.random_colour(128,255)
+                        style.hbar[t].thumb = bcolor
                         style.hbar[t].right_bar=bcolor+"5"
-                        style.hbar[t].left_bar=bcolor+"D"                
+                        style.hbar[t].left_bar=bcolor+"D"
 
         def data(self,key,**kwargs):
 

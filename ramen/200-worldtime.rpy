@@ -15,14 +15,14 @@ init -205 python:
             self.sunword  = sword
             self.wdayword = wword
             self.diff = 0
-            
+
             self.starttime(gamedate)
 
         def starttime(self,gamedate):
             self.time = datetime.datetime(gamedate[0],gamedate[1],gamedate[2],gamedate[3])
             self.start = self.time
             self.time_populate()
-        
+
         def time_populate(self):
             self.python_weekday = self.time.strftime("%A")
             self.python_month = self.time.strftime("%B")
