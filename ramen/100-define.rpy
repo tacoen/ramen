@@ -1,5 +1,5 @@
 init -200 python:
- 
+
     ramu = ramen_util()
 
     RAMEN_PATH = ramu.fn_getdir()
