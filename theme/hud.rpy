@@ -6,6 +6,7 @@ init -99 python:
     gbuff.disable=False
     gbuff.show=False
     gbuff.set=0
+    gbuff.buff=0
 
     mc.pref['icons']= ['pocket','mcphone']
 

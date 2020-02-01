@@ -53,9 +53,8 @@ init:
         window_background=Solid("#fff"),
         window_xsize = gui.dialogue_width+40,
         window_xfill = False,
-        window_yalign = 0.8,
-        window_xalign = 0.0,
-        window_xpos = 200
+        window_yalign = 0.9,
+        window_ysize = 128,
         )
     define character.anon = Character("anon_name",dynamic=True, who_color=ramu.random_color(128,220), what_color="#ccc")
 

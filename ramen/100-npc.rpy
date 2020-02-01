@@ -18,7 +18,8 @@ init -99 python:
             try: self.gender
             except: self.gender="f"
             
-            self.data('stat',like=3,corrupt=0,desire=0)
+            try: self.stat
+            except: self.data('stat',like=3,corrupt=0,desire=0)
 
             setattr(character, self.id.lower(), Character(self.name, who_color=self.color, what_color=self.wcolor, image=self.id) )
 
@@ -43,11 +44,11 @@ init -99 python:
                 what = 'rel'
             
                 try: mc.rel[self.id]
-                except: mc.rel[self.id]=0
+                except: mc.rel[self.id]=[0,self.stat]
                 
-                ov = mc.rel[self.id]
+                ov = mc.rel[self.id][0]
                 nv = limit(what, ov, value)
-                mc.rel[self.id] = nv                
+                mc.rel[self.id][0] = nv                
                 
             else:
             
@@ -60,6 +61,8 @@ init -99 python:
                     nv = limit(what, ov, value)
                     self.stat[what] = nv
                     
+                mc.rel[self.id][1] = self.stat        
+
             if ov > nv:
                 return False
             elif ov < nv:
