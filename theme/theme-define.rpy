@@ -9,7 +9,7 @@ init -10 python:
 
     try: THEME_PATH
     except NameError: THEME_PATH = ramu.fn_getdir()
-   
+
     try: FONT_PATH
     except NameError: THEME_PATH = ramu.fn_getdir()+"/fonts"
 

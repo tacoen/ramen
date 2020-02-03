@@ -90,7 +90,7 @@ init python:
         game_menu_overlay = TITLES_PATH+"/ingame-overlay.png"
     else:
         game_menu_overlay = gui.interface_bgr_color_invert.opacity(0.5)
-        
+
     if renpy.loadable(TITLES_PATH+"/menu_frame.png"):
         game_menu_frame = TITLES_PATH+"/menu_frame.png"
     else:

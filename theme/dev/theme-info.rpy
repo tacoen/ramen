@@ -5,11 +5,11 @@ init -10 python:
 
         res = {}
         gk = sorted(gui.__dict__.keys())
-        
+
         if t is None:
             topic = ['text','idle','selected','insensitive','muted','accent','hover']
         else:
-            if not isinstance(t,list): 
+            if not isinstance(t,list):
                 topic = [str(t)]
             else:
                 topic = t
@@ -35,10 +35,10 @@ init -10 python:
         known_gui = first + second
 
         return gui_propCollect(known_gui)
-    
-        
+
+
     gview = 'text'
-    
+
 init offset =-10
 
 style devtheme is default
@@ -51,14 +51,14 @@ screen gui_explorer():
 
     modal True
     layer "interface"
-    
+
     python:
         try: gres
         except: gres = start_guicollect()
 
     frame xpos 0 ypos 0 background "#fff" xsize 280:
         padding (0,0,0,30)
-    
+
         viewport:
             draggable True
             mousewheel True
@@ -68,22 +68,22 @@ screen gui_explorer():
                 spacing 10
                 for k in gres:
                     textbutton k text_color "#000" text_hover_color "#c00" action SetVariable('gview',k)
-    
-    
+
+
     if not gview is "":
-    
+
         $ mywidth = config.screen_width-290
-        $ cw = mywidth/12 
-        
+        $ cw = mywidth/12
+
         frame xpos 290 ypos 0 xsize mywidth background "#111":
-        
+
             $ prop = gres[gview]
 
             viewport:
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
-            
+
                 vbox:
                     style_prefix 'devtheme'
                     spacing 10
@@ -100,8 +100,8 @@ screen gui_explorer():
                                             except: cc = str(prop[k])
                                         text cc color "#000"
                                 else:
-                                    if "imagelike" in repr(type(prop[k])): 
-                                        vbox: 
+                                    if "imagelike" in repr(type(prop[k])):
+                                        vbox:
                                             for w in prop[k].__dict__:
                                                 hbox:
                                                     text w +":" color "#fc3" min_width 3*cw
@@ -109,8 +109,8 @@ screen gui_explorer():
                                     else:
                                         text repr(prop[k])  color "#ddd"
 
-                    
-    
+
+
 screen gui_info():
 
     python:
@@ -222,4 +222,3 @@ label ramen_test:
     narator "test1"
     "test2"
     "koq?"
-    

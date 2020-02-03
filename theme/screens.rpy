@@ -49,14 +49,14 @@ style vbar:
     xsize gui.bar_size
     top_bar gui.bar_base_color.opacity(0.6)
     bottom_bar gui.bar_thumb_color
-    
+
     #top_bar Frame("gui/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
     #bottom_bar Frame("gui/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
 
 style scrollbar:
     ysize gui.scrollbar_size
     base_bar gui.bar_base_color.opacity(0.6)
-    thumb gui.bar_thumb_color    
+    thumb gui.bar_thumb_color
     #base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
     #thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
 
@@ -417,7 +417,7 @@ screen main_menu():
         ypos 0
         ysize config.screen_height
         style "main_menu_frame"
-            
+
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
     use navigation
@@ -554,7 +554,7 @@ style game_menu_outer_frame:
     bottom_padding 30
     top_padding 120
     background gui.game_menu_overlay
-    
+
 style game_menu_navigation_frame:
     xsize 280
     yfill True

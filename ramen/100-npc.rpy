@@ -17,21 +17,21 @@ init -99 python:
             except: self.gender="f"
             try: self.gender
             except: self.gender="f"
-            
+
             setattr(character, self.id.lower(), Character(self.name, who_color=self.color, what_color=self.wcolor, image=self.id) )
 
             self.define_byfile()
-            
+
         def get_stat(self):
 
             try: mc.rel[self.id]
             except: mc.rel[self.id] = {}
             return mc.rel[self.id]
-        
+
         def gain(self,what=None,value=1):
 
             stat = self.get_stat()
-            
+
             def limit(what, ov, value=1):
                 ov += int(value)
                 if not what in mc._limit.keys(): what = 'stat'
@@ -40,15 +40,15 @@ init -99 python:
                 elif ov < mc._limit[what][0]:
                     ov = mc._limit[what][0]
                 return ov
-            
+
             try: stat[what]
-            except: stat[what]= 0                
-                    
+            except: stat[what]= 0
+
             ov = stat[what]
             nv = limit(what, ov, value)
             stat[what] = nv
-                    
-            mc.rel[self.id] = stat        
+
+            mc.rel[self.id] = stat
 
             if ov > nv:
                 return False
@@ -56,7 +56,7 @@ init -99 python:
                 return True
             else:
                 return None
-        
+
         def set_phonenum(self,fourdig=None):
             if fourdig is None:
                 self.phonenum = "555-" + str(ramu.random_int(10,99)) + str(ramu.random_int(10,99))
@@ -66,7 +66,7 @@ init -99 python:
 
         def __call__(self):
             return self.__dict__['param']
-            
+
         def define_byfile(self,main=None):
 
             voids = [ 'profile', 'nsd-chat' ]
@@ -78,14 +78,14 @@ init -99 python:
 
             for f in files:
                 p = ramu.fn_info(f)
-                
-                if p['ext'] == 'json': 
+
+                if p['ext'] == 'json':
                     try: self.__dict__['json']
                     except: self.__dict__['json'] = {}
                     self.__dict__['json'][str(p['name'])]=f
-                
+
                 if p['name'] == 'profile': self.profile_pic = f
-                
+
                 if p['path'] in conte:
                     try:
                         if not p['name'] in voids: self.__dict__[p['path']][str(p['name'])]=str(f)
@@ -129,19 +129,19 @@ init -99 python:
                 n += 1
 
             renpy.image((self.id, name), Animation( *anim))
-            
+
         def chat_usingjson(self,key=None,use_pose=True,file=None,pose=None):
 
             if file is None:
                 try:
                     l = sorted(self.json.keys())
-                    jfile = self.json[l[0]]            
+                    jfile = self.json[l[0]]
                 except: jfile = False
             else:
                 try:
-                    jfile = self.json[file]            
+                    jfile = self.json[file]
                 except: jfile = False
-            
+
             if jfile:
 
                 dialogue = ramu.json_file(jfile)
@@ -159,7 +159,7 @@ init -99 python:
 
                 npc = True
                 who = character.__dict__[self.id]
-                
+
                 for line in dialogue[d]:
                     if not npc:
                         if not line == "": character.mc(line)
@@ -172,8 +172,8 @@ init -99 python:
                     renpy.hide(self.id)
 
             else:
-            
+
                 if use_pose:
                     character.narator(self.name + " wasn't interested talking with you.")
                 else:
-                    character.narator(self.name + " not answering your call.")            
+                    character.narator(self.name + " not answering your call.")
