@@ -10,17 +10,22 @@ init -200 python:
         ['dark','sun1','sun2','sun3','dark']
     )
 
+    bucket = object()
+
     mc = player(id='mc',
         score=0,
         level=0,
-        cash=100,
+        cash=100+ramu.random_int(10,50),
         pref=0,
-        bank=ramu.random_int(9000,9999)
+        bank=9000+ramu.random_int(100,200)
     )
 
-    mc.limit('rel',[0,10])
-    mc.limit('stat',[0,10])
+    mc.limit('relation',[0,10])
+    mc.limit('stat',[0,20])
 
+    mc.data('rel',
+        joana={'relation':8,'like':5}
+    )
     mc.data('bio',
         lastname = ramu.random_of(['Small','North','Strong','Smith']),
         job = 'it'
@@ -30,12 +35,11 @@ init -200 python:
         hygiene = 5,
         energy = 5,
         vital = 5,
-        luck = 0,
-        intelec = 5,
+        luck = ramu.random_int(0,7),
+        intelec = ramu.random_int(4,7),
     )
 
     mc.pref= {}
-    mc.pref['set']=0
     mc.flags = []
     mc.ability = []
 
@@ -64,10 +68,10 @@ init:
         what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}")
 
     define character.tips = Character(None, who_color="#ccc", what_color="#ff0",
-        what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}")
+        what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}",  ctc='ctcon')
 
     define character.narator = Character(None, who_color="#ccc", what_color="#eee",
-        what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}", ctc='ctcon')
+        what_prefix="{cps=80}", what_suffix="{/cps}")
 
 
     # game progress

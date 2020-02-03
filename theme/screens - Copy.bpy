@@ -44,7 +44,7 @@ style prompt_text is gui_text:
 
 style bar:
     ysize gui.bar_size
-    left_bar gui.insensitive_color.opacity(0.5)
+    left_bar gui.insensitive_color+"C0"
     right_bar gui.selected_color
     #left_bar Frame("gui/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
     #right_bar Frame("gui/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
@@ -66,7 +66,7 @@ style vscrollbar:
 
 style slider:
     ysize gui.slider_size
-    base_bar gui.bar_base_color.opacity(0.6)
+    base_bar gui.bar_base_color+"C0"
     thumb gui.bar_thumb_color
     #base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
     #thumb "gui/slider/horizontal_[prefix_]thumb.png"
@@ -257,7 +257,7 @@ style choice_vbox:
 image choice_ = Frame(
         Composite(
             (100,60),
-            (0,0), Solid(gui.choice_bgr_color.opacity(0.7)),
+            (0,0), Solid(gui.choice_bgr_color+"CC"),
             (0,0), THEME_PATH + "/gui/outline-embose.png"
         ), Borders(2,1,2,1), tile=False, xalign=0.5)
 
@@ -345,40 +345,48 @@ style quick_button_text:
 
 screen navigation():
 
-    frame ysize config.screen_height xsize gui.navigation_xsize background gui.navigation_background:
+    vbox:
+        style_prefix "navigation"
 
-        vbox:
-            style_prefix "navigation"
-            xpos gui.navigation_xpos
-            spacing gui.navigation_spacing
-            yalign 0.5
+        xpos gui.navigation_xpos
+        yalign 0.5
 
-            if main_menu:
-                textbutton _("Start") action Start()
-            else:
-                textbutton _("History") action ShowMenu("history")
-                textbutton _("Save") action ShowMenu("save")
+        spacing gui.navigation_spacing
 
-            textbutton _("Load") action ShowMenu("load")
-            textbutton _("Preferences") action ShowMenu("preferences")
+        if main_menu:
 
-            if _in_replay:
-                textbutton _("End Replay") action EndReplay(confirm=True)
-            elif not main_menu:
-                textbutton _("Main Menu") action MainMenu()
+            textbutton _("Start") action Start()
 
-            textbutton _("About") action ShowMenu("about")
+        else:
 
-            if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+            textbutton _("History") action ShowMenu("history")
 
-                ## Help isn't necessary or relevant to mobile devices.
-                textbutton _("Help") action ShowMenu("help")
+            textbutton _("Save") action ShowMenu("save")
 
-            if renpy.variant("pc"):
+        textbutton _("Load") action ShowMenu("load")
 
-                ## The quit button is banned on iOS and unnecessary on Android and
-                ## Web.
-                textbutton _("Quit") action Quit(confirm=not main_menu)
+        textbutton _("Preferences") action ShowMenu("preferences")
+
+        if _in_replay:
+
+            textbutton _("End Replay") action EndReplay(confirm=True)
+
+        elif not main_menu:
+
+            textbutton _("Main Menu") action MainMenu()
+
+        textbutton _("About") action ShowMenu("about")
+
+        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+
+            ## Help isn't necessary or relevant to mobile devices.
+            textbutton _("Help") action ShowMenu("help")
+
+        if renpy.variant("pc"):
+
+            ## The quit button is banned on iOS and unnecessary on Android and
+            ## Web.
+            textbutton _("Quit") action Quit(confirm=not main_menu)
 
 
 style navigation_button is gui_button
@@ -434,11 +442,14 @@ style main_menu_version is main_menu_text
 style main_menu_frame:
     xsize gui.game_menu_width
     yfill True
+    background gui.game_menu_frame 
 
 style main_menu_vbox:
-    xalign 0.9
-    yalign 0.9
-    xmaximum ((float(9)/10) * config.screen_width)-100
+    xalign 1.0
+    xmaximum 800
+    yalign 1.0
+#    xoffset -20
+#    yoffset -20
 
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
@@ -579,7 +590,7 @@ style game_menu_label:
     xsize 280
 
 style game_menu_label_text:
-    size 2*gui.label_text_size
+    size 3*gui.title_text_size/4
     color gui.accent_color
     yalign 0.5
 
@@ -1265,7 +1276,7 @@ style confirm_frame:
 style confirm_prompt_text:
     text_align 0.5
     size 20
-    color gui.interface_idle_color
+    color gui.interface_selected_color
     layout "subtitle"
 
 style confirm_button:
@@ -1275,7 +1286,7 @@ style confirm_button:
 
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
-    color gui.interface_idle_color.shade(0.5)
+    color gui.interface_selected_color
     hover_color gui.interface_bgr_color
 
 ## Skip indicator screen #######################################################

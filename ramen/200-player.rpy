@@ -23,9 +23,6 @@ init -203 python:
             try: self._limit
             except: self.__dict__[str('_limit')] = {}
 
-            try: self.__dict__[key]
-            except:self.__dict__[str(key)] = {}
-
             if not value is None:
                 if isinstance(value,list):
                     self.__dict__['_limit'][str(key)] = value
