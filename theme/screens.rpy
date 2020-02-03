@@ -1,9 +1,4 @@
-﻿init -10 python:
-
-    try: THEME_PATH
-    except NameError: THEME_PATH = ramu.fn_getdir()
-
-################################################################################
+﻿################################################################################
 ## Initialization
 ################################################################################
 
@@ -20,6 +15,7 @@ style default:
 
 style input:
     properties gui.text_properties("input", accent=True)
+    background "#456"
     adjust_spacing False
 
 style hyperlink_text:
@@ -51,18 +47,25 @@ style bar:
 
 style vbar:
     xsize gui.bar_size
-    top_bar Frame("gui/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
-    bottom_bar Frame("gui/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
+    top_bar gui.bar_base_color.opacity(0.6)
+    bottom_bar gui.bar_thumb_color
+    
+    #top_bar Frame("gui/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
+    #bottom_bar Frame("gui/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
 
 style scrollbar:
     ysize gui.scrollbar_size
-    base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
+    base_bar gui.bar_base_color.opacity(0.6)
+    thumb gui.bar_thumb_color    
+    #base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
+    #thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
 
 style vscrollbar:
     xsize gui.scrollbar_size
-    base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-    thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    base_bar gui.bar_base_color.opacity(0.6)
+    thumb gui.bar_thumb_color
+    #base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    #thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
 style slider:
     ysize gui.slider_size
@@ -73,13 +76,14 @@ style slider:
 
 style vslider:
     xsize gui.slider_size
-    base_bar Frame("gui/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=gui.slider_tile)
-    thumb "gui/slider/vertical_[prefix_]thumb.png"
-
+    base_bar gui.bar_base_color.opacity(0.6)
+    thumb gui.bar_thumb_color
+#   base_bar Frame("gui/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=gui.slider_tile)
+#   thumb "gui/slider/vertical_[prefix_]thumb.png"
 
 style frame:
     padding gui.frame_borders.padding
-    background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
+    background "#0000"
 
 ################################################################################
 ## In-game screens
@@ -409,8 +413,11 @@ screen main_menu():
     ## This empty frame darkens the main menu.
 
     frame:
-        pass
-
+        xpos 0
+        ypos 0
+        ysize config.screen_height
+        style "main_menu_frame"
+            
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
     use navigation
@@ -442,7 +449,6 @@ style main_menu_vbox:
 
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
-    #color gui.interface_bgr_color
     color "#000"
 
 style main_menu_title:
@@ -468,10 +474,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     if main_menu:
         add gui.main_menu_background
     else:
-        if renpy.loadable(TITLES_PATH+"/"+title.lower()+"_menu_background.jpg"):
-            add (TITLES_PATH+"/"+title.lower()+"_menu_background.jpg")
-        else:
-            add gui.main_menu_background
+        add gui.game_menu_background
 
     frame:
         style "game_menu_outer_frame"
@@ -544,16 +547,14 @@ style game_menu_viewport is gui_viewport
 style game_menu_side is gui_side
 style game_menu_scrollbar is gui_vscrollbar
 
-style game_menu_label is main_menu_frame
-style game_menu_label_text is gui_label_text
-
 style return_button is navigation_button
 style return_button_text is navigation_button_text
 
 style game_menu_outer_frame:
     bottom_padding 30
     top_padding 120
-
+    background gui.game_menu_overlay
+    
 style game_menu_navigation_frame:
     xsize 280
     yfill True
@@ -572,6 +573,9 @@ style game_menu_vscrollbar:
 style game_menu_side:
     spacing 10
 
+style game_menu_label is main_menu_frame
+style game_menu_label_text is gui_title_text
+
 style game_menu_label:
     xpos 0
     padding (320,0,0,0)
@@ -579,9 +583,9 @@ style game_menu_label:
     xsize 280
 
 style game_menu_label_text:
-    size 2*gui.label_text_size
-    color gui.accent_color
+    properties gui.text_properties("title")
     yalign 0.5
+    size 32
 
 style return_button:
     xpos gui.navigation_xpos
@@ -633,9 +637,9 @@ screen about():
 ## This is redefined in options.rpy to add text to the about screen.
 
 style about_label is gui_label
+
 style about_label_text is gui_label_text:
-    color gui.hover_color
-    size gui.label_text_size-2
+    color gui.accent_color
 
 style about_text is gui_text:
     color gui.text_color
@@ -795,6 +799,7 @@ screen preferences():
     tag menu
 
     use game_menu(_("Preferences"), scroll="viewport"):
+
 
         vbox:
 
@@ -1265,18 +1270,18 @@ style confirm_frame:
 style confirm_prompt_text:
     text_align 0.5
     size 20
-    color gui.interface_idle_color
+    color gui.interface_bgr_color_invert
     layout "subtitle"
 
 style confirm_button:
     properties gui.button_properties("confirm_button")
-    background gui.interface_hover_color
+    background gui.interface_hover_color.shade(0.6)
     padding (32,16,32,16)
 
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
-    color gui.interface_idle_color.shade(0.5)
-    hover_color gui.interface_bgr_color
+    color gui.interface_bgr_color_invert
+    hover_color gui.interface_hover_color
 
 ## Skip indicator screen #######################################################
 ##

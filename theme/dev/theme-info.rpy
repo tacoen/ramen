@@ -217,6 +217,9 @@ screen gui_info():
 
 
 label ramen_test:
-
-    "test1"
+    mc "what"
+    caption "whaat"
+    narator "test1"
     "test2"
+    "koq?"
+    
