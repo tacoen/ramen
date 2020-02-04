@@ -10,8 +10,6 @@ init -200 python:
         ['dark','sun1','sun2','sun3','dark']
     )
 
-    bucket = object()
-
     mc = player(id='mc',
         score=0,
         level=0,
@@ -79,6 +77,8 @@ init:
     default diff = diff
     default mc = mc
     default doom = doom
+
+    default bucket = bucket
 
 ### ------------------------------
 

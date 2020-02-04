@@ -8,6 +8,9 @@ init -99 python:
             cond = {}
             condition = list(dict.fromkeys(wo.sunword))
             condition2 =  list(dict.fromkeys(wo.timeword))
+            
+            try: bucket.__dict__[self.id]
+            except: bucket.__dict__[self.id] = {}
 
             for file in sorted(scenes):
                 fn = ramu.fn_info(file)
@@ -81,10 +84,13 @@ init -99 python:
                 except: self.short[id][str('icon')] =  'arrow-left'
 
                 try: self.short[id]['goto']
-                except: self.short[id][str('goto')] =  str(id)
+                except: self.short[id][str('goto')] =  str(id).lower()
 
                 try: self.short[id]['text']
                 except: self.short[id][str('text')] =  str(id).title()
+
+                try: self.short[id]['hide_on']
+                except: self.short[id][str('hide_on')] =  None
 
         def mazing(self,**kwargs):
 
@@ -147,8 +153,10 @@ init -99 python:
 
             return self.map
 
-        def scene_call(self,what,obj_id,f,r):
-            renpy.call_in_new_context(what,obj_id=obj_id, f=f, r=r)
+        def scene_call(self,what,id,f,d):
+            bucketing('sm',id=id, f=f, d=d)
+            renpy.jump(what)
+            #renpy.call_in_new_context(what,obj_id=obj_id)
 
         def imagemaping(self,floor,bgr=None):
 
@@ -175,14 +183,21 @@ init -99 python:
 
                 if not xy is None:
 
-                    if renpy.has_label(w[1]):
-                        action = Jump(w[1])
-                    if renpy.has_label(self.id+"_"+w[1]):
-                        action = Jump(self.id+"_"+w[1])
-                    if renpy.has_label('_'+self.id+'_'+w[1]):
-                        action = Function(self.scene_call, obj_id=self.id, what='_'+self.id+'_'+w[1], r=w[2], f=floor)
-                    if renpy.has_label('_scene_'+w[1]):
-                        action = Function(self.scene_call, obj_id=self.id, what='_scene_'+w[1], r=w[2], f=floor)
+                    print w
+                    # w 
+                    # 0 xy
+                    # 1 key/func
+                    # 2 hs code
+                    # 3 img 
+                    
+                    if renpy.has_label(w[2]): 
+                        action = Jump(w[2])
+                    if renpy.has_label(self.id+'_'+floor+"_"+w[1]): 
+                        action = Jump(self.id+'_'+floor+"_"+w[1])
+                    if renpy.has_label(self.id+'_'+w[1]): 
+                        action = Function(self.scene_call, what=self.id+'_'+w[1], id=obj.id, f=floor, d=w[2])
+                    if renpy.has_label('_scene_'+w[1]): 
+                        action = Function(self.scene_call, what='_scene_'+w[1], id=obj.id, f=floor, d=w[2])
 
                     file = ramu.fn_ezy(self.dir +"/hs/"+w[3])
 
@@ -226,18 +241,12 @@ init -99 python:
                 if fn['file'].startswith(str(prefix)): 
                     res.append(fn['path']+"/"+fn['name'])
                 
-            print res
-            
-            r =  ramu.random_of(res)
-            print r
-            
-            return r
+            return  ramu.random_of(res)
             
 
-            
-        
+# scene map
 
-screen scene_imagemap(img):
+screen scene_imagemap(scene_id, img):
 
     # map
 
@@ -254,9 +263,68 @@ screen scene_imagemap(img):
         except: shortcuts = None
 
     if not shortcuts is None:
-        use scene_shortcut(shortcuts)
+        use scene_shortcut( scene_id, shortcuts)
 
+label _scene_map:
 
+    hide screen scene_imagemap
+    
+    python:
+        obj_id = get_bucket('sm','id')
+        f = get_bucket('sm','f')
+        d = get_bucket('sm','d')
+        obj = globals()[obj_id]
+        
+        renpy.scene()
+        renpy.show(obj_id + " "+d)
+    
+        # bucket
+        map = obj.imagemaping(d, ramu.get_sceneimg())
+
+    call screen scene_imagemap(d,map)
+
+    return
+
+label _scene_goto:
+
+    hide screen scene_imagemap
+
+    python:
+        obj_id = get_bucket('sm','id')
+        f = get_bucket('sm','f')
+        d = get_bucket('sm','d')
+        obj = globals()[obj_id]
+        doors = []
+        target = ['knock', 'peek', 'key' ] 
+        
+        for t in target:
+            if renpy.has_label(obj_id+"_"+f+"_"+d+"_"+ t):
+                if t == "key": 
+                    tn = "Open (key)"
+                else:
+                    tn = t
+                doors.append(( tn, obj_id+"_"+f+"_"+d+"_"+ t ))
+
+        if not doors == []:
+            doors.append(('Exit','Return'))
+            choice = menu(doors)    
+            if choice=='Return':
+                renpy.jump('_back')
+            else:
+                renpy.jump(choice)
+                
+    "Nothing responding..."
+                
+    label _back:
+        python:
+            bucketing('sm',f=d,d=f,id=obj_id)
+            renpy.jump('_scene_map')
+    
+    return
+    
+    
+    
+    
 style shortcut_icon is icoram:
     xalign 0.5
 
@@ -277,70 +345,75 @@ style shortcut_text is default:
     color "#fffc"
     hover_color "#fff"
 
-screen scene_shortcut(shorts,pos='right'):
+screen scene_shortcut(scene_id, shorts, position='left'):
 
     python:
         y = config.screen_height * 7/8
         x = 32
         s = 48
-        spos = [
-            [ x, y ],
-            [ x, y - s ],
-            [ x, y - (2*s) ],
-        ]
+        
+        n = int(round(y / 48))
+        
+        spos = []
+        spos.append([ x,y ])
+        
+        for i in range(1,n):
+            spos.append([ x,y-(i*s) ])
 
+        pos = -1
+        
     for s in shorts:
-        python:
-            si = shorts.keys()
-            d = shorts[s]
-            try: d['pos']
-            except: d['pos'] = si.index(s)
 
-            try:
+        python:
+            show = True
+            d = shorts[s]
+
+            try: d['hide_on']
+            except: d['hide_on'] = None
+
+            try: d['show_on']
+            except: d['show_on'] = None
+
+            if not d['hide_on'] is None:
+                if scene_id in d['hide_on']:
+                    show = False
+                else:
+                    show = True
+            
+            if not d['show_on'] is None:
+            
+                if scene_id in d['show_on']:
+                    show = True
+                else:
+                    show = False
+            
+        if show: 
+        
+            python:
+                pos +=1
+                d['pos'] = pos
                 if renpy.has_label(d['goto']):
-                    Action = Jump(d['goto'])
+                    Action = Jump (d['goto'])
                 else:
                     Action = Null
 
-            except: Action = Null
+            if position == 'right':
+                hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
+                    textbutton d['text'] style 'shortcut' action Action
+                    null width 6
+                    textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                    null width 32
+            else:
+                hbox xalign 0.0 ypos spos[d['pos']][1]:
+                    null width 32
+                    textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                    null width 6
+                    textbutton d['text'] style 'shortcut' action Action
 
-        if pos == 'right':
-            hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
-                textbutton d['text'] style 'shortcut' action Action
-                null width 6
-                textbutton ico(d['icon']) style 'shortcut_icon' action Action
-                null width 32
-        else:
-            hbox xalign 0.0 ypos spos[d['pos']][1]:
-                null width 32
-                textbutton ico(d['icon']) style 'shortcut_icon' action Action
-                null width 6
-                textbutton d['text'] style 'shortcut' action Action
 
-label _scene_goto(obj_id=None,d=None,f=None,r=None):
-
-    python:
-        if r is None: r = ''
-        if not obj_id is None: obj = globals()[obj_id]
-
-    "is [d] [f] [r]"
 
 label _scene_elevator(obj_id=None,f=None,r=None):
     hide screen scene_imagemap
     "elevator"
     return
 
-label _scene_map(obj_id=None,f=None,r=None):
-
-    hide screen scene_imagemap
-
-    python:
-        if not obj_id is None: obj = globals()[obj_id]
-        renpy.scene()
-        renpy.show(obj_id + " "+r)
-        map = obj.imagemaping(r, ramu.get_sceneimg())
-
-    call screen scene_imagemap(map)
-
-
-    return

@@ -156,3 +156,34 @@ init -208 python:
                 except:
                     res = "blank"
             return res
+
+    # buckect
+    
+    bucket = object()
+
+    # renpy behave
+    
+    def label_callback(name, abnormal):
+        store.last_label = name
+
+    config.label_callback = label_callback        
+    
+init python:
+    
+    def bucketing(what,value=None,**kwargs):
+    
+        try: bucket.__dict__[what]
+        except: bucket.__dict__[str(what)] = {}
+        
+        if not value is None:
+            bucket.__dict__[what] = value
+        for k in kwargs:
+            bucket.__dict__[what][k] = kwargs[k]
+
+    def get_bucket(which,what=None):
+        if what is None:
+            try: return bucket.__dict__[which]
+            except: return False
+        else:
+            try: return bucket.__dict__[which][what]
+            except: return False    

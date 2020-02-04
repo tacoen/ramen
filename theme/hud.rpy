@@ -1,10 +1,11 @@
 init -99 python:
 
     # defaults
-    bucket.disable=False
-    bucket.hud_show=False
     bucket.hud = {}
-    bucket.set=0
+    bucket.hud.disable=False
+    bucket.hud.show = False
+    bucket.hud.set=0
+
     bucket.buff=0
 
     mc.pref['icons']= ['pocket','mcphone']
@@ -20,7 +21,7 @@ init -99 python:
         bgcolor = [ "#0000", "#fff", "#000c", "#fffc", "#123", "#123c" ],
         fgcolor = [ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
         element = {
-            'hud': bucket.hud_show,
+            'hud': bucket.hud.show,
             'inventory': False,
             'stats': False,
             'legend': False,
@@ -56,10 +57,12 @@ init -99 python:
             hud.ui.element[what]=True
             if sfx: renpy.play(DEFAULT_SFXPATH+"/tone1.mp3")
 
+        bucket.hud[what] = hud.ui.element[what]
 
+    for e in hud.ui.element.keys():
+        hud.ui.element[e] = bucket.hud[e]
+        
 init:
-
-    default bucket = bucket
 
     style hud is default
 
@@ -125,7 +128,7 @@ init:
         
 screen hud_toolbar():
 
-    frame at pulldown background hud.ui.bgcolor[bucket.set] style style['hud']['area']['toolbar']:
+    frame at pulldown background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['toolbar']:
         hbox:
             xfill True
             yalign 0.5
@@ -133,27 +136,27 @@ screen hud_toolbar():
                 yalign 0.5
                 textbutton ("{:03d}".format(mc.score)) style "hud_score":
                     action Function(hud_toggle,what='stats')
-                    text_color hud.ui.fgcolor[bucket.set]+"9"
-                    text_hover_color hud.ui.fgcolor[bucket.set]
+                    text_color hud.ui.fgcolor[bucket.hud.set]+"9"
+                    text_hover_color hud.ui.fgcolor[bucket.hud.set]
                 hbox xoffset 8 yoffset 8:
-                    textbutton hud.ui.sun[wo.sun] style 'hud_sunico' text_color hud.ui.fgcolor[bucket.set] action Null
+                    textbutton hud.ui.sun[wo.sun] style 'hud_sunico' text_color hud.ui.fgcolor[bucket.hud.set] action Null
                     vbox xoffset 6:
-                        text "Day "+ str(wo.dayplay) color hud.ui.fgcolor[bucket.set]+"9"
-                        text ("{:03d}".format(mc.cash)) +" $" color hud.ui.fgcolor[bucket.set] size 18
+                        text "Day "+ str(wo.dayplay) color hud.ui.fgcolor[bucket.hud.set]+"9"
+                        text ("{:03d}".format(mc.cash)) +" $" color hud.ui.fgcolor[bucket.hud.set] size 18
             hbox xalign 1.0 yalign 0.5:
                 for m in hud.ui.icons.keys():
                     $ i = hud.ui.icons[m]
                     if m in mc.pref['icons']:
                         textbutton i[1] action ToggleScreen(i[3]) style 'hud_icon':
-                            text_color hud.ui.fgcolor[bucket.set]+"9"
-                            text_hover_color hud.ui.fgcolor[bucket.set]
+                            text_color hud.ui.fgcolor[bucket.hud.set]+"9"
+                            text_hover_color hud.ui.fgcolor[bucket.hud.set]
                     else:
                         textbutton i[1] action Null style 'hud_icon' text_color "#fff3"
                 null width 32
 
 screen hud_stats():
 
-    frame at pulldown background hud.ui.bgcolor[bucket.set] style style['hud']['area']['stats'] ysize None:
+    frame at pulldown background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['stats'] ysize None:
         vbox:
             for topic in sorted(hud.ui.hbar.keys()):
                 use hbar(topic)
@@ -162,7 +165,7 @@ screen hbar(topic):
     python:
         xmax = style['hud']['area']['stats'].xminimum - ( style['hud']['area']['stats'].left_padding + style['hud']['area']['stats'].right_padding )
         barsty = style['hud']['hbar'][topic]
-        tcolor = hud.ui.fgcolor[bucket.set]
+        tcolor = hud.ui.fgcolor[bucket.hud.set]
         val = mc.stat[topic]
         try: max = mc._limit[topic][1]
         except: max = mc._limit['stat'][1]
@@ -218,9 +221,11 @@ screen hud_init():
     zorder 190
     tag hud
 
-    if not bucket.disable:
+#    $ renpy.watch(last_label)
 
-        key "K_F5" action SetVariable('bucket.set',ramu.cycle(bucket.set,hud.ui.bgcolor))
+    if not bucket.hud.disable:
+
+        key "K_F5" action SetVariable('bucket.hud.set',ramu.cycle(bucket.hud.set,hud.ui.bgcolor))
         key "K_F6" action Function(hud_toggle,what='stats')
         key "K_F8" action Function(hud_toggle,what='hud')
         key "shift_K_F8" action Function(ramu.toggle,what='quick_menu')
@@ -243,8 +248,8 @@ screen hud_init():
 
         textbutton hud_tic xpos 16 ypos 18 action Function(hud_toggle,what='hud') style "hud_sunico":
             if hud.ui.element['hud']:
-                text_color hud.ui.fgcolor[bucket.set]+"6"
-                text_hover_color hud.ui.fgcolor[bucket.set]
+                text_color hud.ui.fgcolor[bucket.hud.set]+"6"
+                text_hover_color hud.ui.fgcolor[bucket.hud.set]
             else:
                 text_color "#fff9"
                 text_hover_color "#fff"
