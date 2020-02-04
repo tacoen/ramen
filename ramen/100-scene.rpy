@@ -160,7 +160,7 @@ init -99 python:
 
         def imagemaping(self,floor,bgr=None):
 
-            if bgr is None: bgr = self.get_sceneimg()
+            if not bgr: bgr = self.get_sceneimg()
 
             img = {}
             img['ground'] = bgr
@@ -195,9 +195,9 @@ init -99 python:
                     if renpy.has_label(self.id+'_'+floor+"_"+w[1]): 
                         action = Jump(self.id+'_'+floor+"_"+w[1])
                     if renpy.has_label(self.id+'_'+w[1]): 
-                        action = Function(self.scene_call, what=self.id+'_'+w[1], id=obj.id, f=floor, d=w[2])
+                        action = Function(self.scene_call, what=self.id+'_'+w[1], id=self.id, f=floor, d=w[2])
                     if renpy.has_label('_scene_'+w[1]): 
-                        action = Function(self.scene_call, what='_scene_'+w[1], id=obj.id, f=floor, d=w[2])
+                        action = Function(self.scene_call, what='_scene_'+w[1], id=self.id, f=floor, d=w[2])
 
                     file = ramu.fn_ezy(self.dir +"/hs/"+w[3])
 

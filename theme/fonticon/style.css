@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'icoramen';
-  src:  url('fonts/icoramen.eot?tc66ok');
-  src:  url('fonts/icoramen.eot?tc66ok#iefix') format('embedded-opentype'),
-    url('fonts/icoramen.ttf?tc66ok') format('truetype'),
-    url('fonts/icoramen.woff?tc66ok') format('woff'),
-    url('fonts/icoramen.svg?tc66ok#icoramen') format('svg');
+  font-family: 'icoram';
+  src:  url('fonts/icoram.eot?sdo6j3');
+  src:  url('fonts/icoram.eot?sdo6j3#iefix') format('embedded-opentype'),
+    url('fonts/icoram.ttf?sdo6j3') format('truetype'),
+    url('fonts/icoram.woff?sdo6j3') format('woff'),
+    url('fonts/icoram.svg?sdo6j3#icoram') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -12,7 +12,7 @@
 
 [class^="icr"], [class*=" icr"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icoramen' !important;
+  font-family: 'icoram' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -277,9 +277,6 @@
 .icrsettings:before {
   content: "\7c";
 }
-.icrradio_off:before {
-  content: "\2c";
-}
-.icrradio_on:before {
-  content: "\2e";
+.icrroad:before {
+  content: "\5a";
 }

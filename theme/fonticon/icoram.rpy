@@ -10,7 +10,7 @@ init -198:
         try: ICO_PATH
         except NameError: ICO_PATH = ramu.fn_getdir()
 
-        FONT_ICO_RAMEN = ICO_PATH+"/fonts/icoramen.ttf"
+        FONT_ICO_RAMEN = ICO_PATH+"/fonts/icoram.ttf"
 
     style icoram:
         font FONT_ICO_RAMEN
@@ -114,6 +114,7 @@ init -197 python:
           'idle':'q',
           'radio_off':',',
           'radio_on':'.',
+          'road':'Z',
        }
 
         return i[what]
