@@ -19,7 +19,7 @@ define gui.hover_color = Color("#eebb00")
 define gui.selected_color = gui.hover_color.shade(0.9)
 define gui.hover_muted_color = gui.hover_color.shade(0.7)
 
-define gui.accent_color = Color('#99CCEE')
+define gui.accent_color = Color('#69c')
 define gui.hyperlink_text_color = gui.accent_color.shade(0.9)
 
 define gui.label_text_size = 24
@@ -58,54 +58,23 @@ define gui.vbar_borders = Borders(4, 4, 4, 4)
 define gui.vscrollbar_borders = Borders(4, 4, 4, 4)
 define gui.vslider_borders = Borders(4, 4, 4, 4)
 
-## Out-game / Interface
+define gui.game_menu_background = Color('#123')
+define gui.game_menu_overlay = gui.game_menu_background.opacity(0.2)
 
+## Interface
+
+define gui.interface_background = gui.game_menu_background.tint(0.3)
 define gui.interface_text_font = gui_font
 define gui.interface_text_size = 24
-define gui.interface_bgr_color = Color("#ddd")
-define gui.interface_bgr_color_invert = gui.interface_bgr_color.replace_lightness(0.0)
-
-define gui.interface_text_color = Color("#ccc")
+define gui.interface_text_color = Color('#ddd')
 define gui.interface_idle_color = gui.interface_text_color
 define gui.interface_hover_color = gui.accent_color
 define gui.interface_selected_color = gui.accent_color.tint(0.3)
-define gui.interface_insensitive_color =gui.interface_text_color.shade(0.9)
-define gui.interface_muted_color = gui.interface_text_color.shade(0.7)
+define gui.interface_insensitive_color =gui.interface_idle_color.shade(0.9)
+define gui.interface_muted_color = gui.interface_idle_color.shade(0.7)
 
-## The images used for the main and game menus.
-
-init python:
-
-    if renpy.loadable(TITLES_PATH+"/main_menu.png"):
-        main_menu_background = TITLES_PATH+"/main_menu.png"
-    else:
-        main_menu_background = Solid(gui.interface_bgr_color.shade(0.3))
-
-    if renpy.loadable(TITLES_PATH+"/game_menu.png"):
-        game_menu_background = TITLES_PATH+"/game_menu.png"
-    else:
-        game_menu_background = Solid(gui.interface_bgr_color.shade(0.5))
-
-    if renpy.loadable(TITLES_PATH+"/ingame-overlay.png"):
-        game_menu_overlay = TITLES_PATH+"/ingame-overlay.png"
-    else:
-        game_menu_overlay = gui.interface_bgr_color_invert.opacity(0.5)
-
-    if renpy.loadable(TITLES_PATH+"/menu_frame.png"):
-        game_menu_frame = TITLES_PATH+"/menu_frame.png"
-    else:
-        game_menu_frame = gui.interface_bgr_color_invert.opacity(0.2)
-
-#    if renpy.loadable(TITLES_PATH+"/open-titles.mp3"):
-#        config.main_menu_music = TITLES_PATH+"/open-titles.mp3"
-
-define gui.main_menu_background = main_menu_background
-define gui.game_menu_background = game_menu_background
-define gui.game_menu_overlay = game_menu_overlay
-define gui.game_menu_frame = game_menu_frame
-define gui.game_menu_width = 280
-
-define gui.navigation_background = gui.game_menu_frame
+define gui.navigation_background = gui.game_menu_overlay.shade(0.5)
+define gui.navigation_text_font = gui_font
 define gui.navigation_xpos = 40
 define gui.navigation_spacing = 8
 define gui.navigation_button_width = 220
@@ -120,8 +89,41 @@ define gui.navigation_button_text_font = gui.interface_text_font
 define gui.navigation_button_text_hover_underline = True
 define gui.navigation_button_text_selected_bold = True
 
-#define gui.navigation_button_text_hover_font = FONT_PATH+'/WorkSans-Regular.ttf'
-#define gui.navigation_button_text_selected_font = FONT_PATH+'/WorkSans-Regular.ttf'
+define gui.input_text_font = game_font
+define gui.input_text_size = 22
+define gui.input_text_color = Color('#f0f9fC')
+
+## The images used for the main and game menus.
+
+init python:
+
+    if renpy.loadable(TITLES_PATH+"/main_menu.png"):
+        main_menu_background = TITLES_PATH+"/main_menu.png"
+    else:
+        main_menu_background = gui.game_menu_background
+
+    if renpy.loadable(TITLES_PATH+"/game_menu.png"):
+        game_menu_background = TITLES_PATH+"/game_menu.png"
+    else:
+        game_menu_background = gui.game_menu_background
+
+    if renpy.loadable(TITLES_PATH+"/ingame-overlay.png"):
+        gui.game_menu_overlay = TITLES_PATH+"/ingame-overlay.png"
+    else:
+        gui.game_menu_overlay = gui.game_menu_overlay
+
+    if renpy.loadable(TITLES_PATH+"/menu_frame.png"):
+        game_menu_frame = TITLES_PATH+"/menu_frame.png"
+    else:
+        game_menu_frame = gui.game_menu_overlay
+
+    if renpy.loadable(TITLES_PATH+"/open-titles.mp3"):
+        config.main_menu_music = TITLES_PATH+"/open-titles.mp3"
+
+define gui.main_menu_background = main_menu_background
+define gui.game_menu_background = game_menu_background
+define gui.game_menu_frame = game_menu_frame
+define gui.game_menu_width = 280
 
 define gui.quick_button_text_font = FONT_ICO_RAMEN
 define gui.quick_button_borders = Borders(16, 0, 16, 4)
@@ -130,15 +132,25 @@ define gui.quick_button_text_idle_color = gui.interface_idle_color
 define gui.quick_button_text_selected_color = gui.interface_selected_color
 define gui.quick_button_text_hover_color = gui.interface_hover_color
 
+define gui.confirm_background = gui.interface_background.tint(0.3)
 define gui.confirm_frame_background = Frame(
-        Composite(
-            (200,80),
-            (0,0), Solid(gui.interface_bgr_color),
-            (0,0), THEME_PATH + "/gui/outline-b.png"
+       Composite(
+          (200,80),
+           (0,0), Solid(gui.confirm_background),
+           (0,0), THEME_PATH + "/gui/outline-b.png"
         ), Borders(1,1,1,1), tile=False, xalign=0.5)
 
+define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
+
+define gui.confirm_prompt_text_font = gui_font
+define gui.confirm_prompt_text_size = 22
+define gui.confirm_prompt_text_color = gui.confirm_background.replace_lightness(0)
+
 define gui.confirm_button_text_xalign = 0.5
-define gui.confirm_button_text_size = 24
+define gui.confirm_button_text_size = 22
+define gui.confirm_button_text_font = FONT_PATH+'/WorkSans-SemiBold.ttf'
+define gui.confirm_button_text_idle_color =  gui.interface_hover_color
+define gui.confirm_button_text_hover_color = gui.interface_hover_color.tint(0.1)
 
 ## ui
 
@@ -146,7 +158,6 @@ image radio_selected_ = Text(ico("check-square"),font=FONT_ICO_RAMEN,color=gui.i
 image radio_ = Text(ico("square"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=8)
 image check_selected_ = Text(ico("toggle-right"),font=FONT_ICO_RAMEN,color=gui.idle_color,size=18,line_leading=10)
 image check_ = Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.muted_color,size=18,line_leading=10)
-
 
 ## Dialogue ####################################################################
 ##
@@ -157,13 +168,13 @@ image check_ = Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.muted_color
 
 define gui.textbox_height = config.screen_height/5 + 24
 define gui.textbox_yalign = 1.0
-define gui.textbox_background = "#000000"
+define gui.textbox_background = Color("#000000").opacity(.3)
 
 ## The placement of the speaking character's name, relative to the textbox.
 ## These can be a whole number of pixels from the left or top, or 0.5 to center.
 
 define gui.name_xpos = config.screen_width /5
-define gui.name_ypos = -20
+define gui.name_ypos = -24
 
 define gui.name_xalign = 0.0
 define gui.namebox_width = None
@@ -175,13 +186,13 @@ define gui.dialogue_xpos = gui.name_xpos + 16
 define gui.dialogue_ypos = 14
 
 ## The maximum width of dialogue text, in pixels.
-define gui.dialogue_width = config.screen_width - (2*gui.name_xpos)
+define gui.dialogue_width = config.screen_width - (2*gui.dialogue_xpos)
 
 ## The horizontal alignment of the dialogue text. This can be 0.0 for left-
 ## aligned, 0.5 for centered, and 1.0 for right-aligned.
 
 define gui.dialogue_text_xalign = 0.0
-define gui.naration_overlay = "#0003"
+define gui.naration_overlay = Color("#000000").opacity(.5)
 
 ## Buttons #####################################################################
 ##
@@ -197,8 +208,8 @@ define gui.button_borders = Borders(4, 4, 4, 4)
 
 ## If True, the background image will be tiled. If False, the background image
 ## will be linearly scaled.
-define gui.button_tile = False
 
+define gui.button_tile = False
 define gui.button_text_font = gui.interface_text_font
 define gui.button_text_size = gui.interface_text_size
 define gui.button_text_idle_color = gui.interface_idle_color
@@ -227,7 +238,7 @@ define gui.page_button_borders = Borders(22, 4, 10, 4)
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_bgr_color = gui.interface_bgr_color
+define gui.choice_background = gui.interface_background.shade(0.2)
 define gui.choice_button_width = 5 * config.screen_width / 12
 define gui.choice_button_height = None
 define gui.choice_button_tile = False
@@ -235,7 +246,7 @@ define gui.choice_button_borders = Borders(5, 10, 5, 10)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size-2
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = gui.text_color.replace_lightness(0.3)
+define gui.choice_button_text_idle_color = Color('#fff')
 define gui.choice_button_text_hover_color = gui.text_color.replace_lightness(0.0)
 define gui.choice_button_text_insensitive_color = gui.interface_insensitive_color
 define gui.choice_spacing = 1
@@ -276,9 +287,12 @@ define gui.file_slot_rows = 2
 ## side of the screen.
 
 ## The vertical position of the skip indicator.
-define gui.skip_ypos = config.screen_height-30-(config.screen_height/5)
-define gui.skip_xpos = config.screen_width-180-(config.screen_width/8)
+
+define gui.skip_ypos = config.screen_height-36
+define gui.skip_xpos = 20
+
 ## The vertical position of the notify screen.
+
 define gui.notify_ypos = 45
 
 ## The spacing between menu choices.
@@ -310,9 +324,6 @@ define gui.main_menu_text_xalign = 1.0
 ## Generic frames.
 define gui.frame_borders = Borders(4, 4, 4, 4)
 
-## The frame that is used as part of the confirm screen.
-define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
-
 ## The frame that is used as part of the skip screen.
 define gui.skip_frame_borders = Borders(16, 5, 50, 5)
 
@@ -321,7 +332,6 @@ define gui.notify_frame_borders = Borders(16, 5, 40, 5)
 
 ## Should frame backgrounds be tiled?
 define gui.frame_tile = False
-
 
 ## History #####################################################################
 ##
@@ -346,7 +356,6 @@ define gui.history_text_xpos = 170
 define gui.history_text_ypos = 2
 define gui.history_text_width = 740
 define gui.history_text_xalign = 0.0
-
 
 ## NVL-Mode ####################################################################
 ##

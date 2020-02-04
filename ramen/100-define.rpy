@@ -85,11 +85,13 @@ init:
 label _ramen_start:
 
     stop music fadeout 1.0
+    stop sound fadeout 1.0
 
-    $  renpy.free_memory
+    hide screen _overlays
 
     show screen hud_init
 
+    $  renpy.free_memory
     $ if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
 
     return

@@ -15,7 +15,6 @@ style default:
 
 style input:
     properties gui.text_properties("input", accent=True)
-    background "#456"
     adjust_spacing False
 
 style hyperlink_text:
@@ -23,7 +22,7 @@ style hyperlink_text:
     hover_underline True
 
 style gui_text:
-    properties gui.text_properties("interface")
+    properties gui.text_properties('interface')
 
 style button:
     properties gui.button_properties("button")
@@ -42,44 +41,31 @@ style bar:
     ysize gui.bar_size
     left_bar gui.insensitive_color.opacity(0.5)
     right_bar gui.selected_color
-    #left_bar Frame("gui/bar/left.png", gui.bar_borders, tile=gui.bar_tile)
-    #right_bar Frame("gui/bar/right.png", gui.bar_borders, tile=gui.bar_tile)
 
 style vbar:
     xsize gui.bar_size
     top_bar gui.bar_base_color.opacity(0.6)
     bottom_bar gui.bar_thumb_color
 
-    #top_bar Frame("gui/bar/top.png", gui.vbar_borders, tile=gui.bar_tile)
-    #bottom_bar Frame("gui/bar/bottom.png", gui.vbar_borders, tile=gui.bar_tile)
-
 style scrollbar:
     ysize gui.scrollbar_size
     base_bar gui.bar_base_color.opacity(0.6)
     thumb gui.bar_thumb_color
-    #base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
-    #thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=gui.scrollbar_tile)
 
 style vscrollbar:
     xsize gui.scrollbar_size
     base_bar gui.bar_base_color.opacity(0.6)
     thumb gui.bar_thumb_color
-    #base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
-    #thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
 
 style slider:
     ysize gui.slider_size
     base_bar gui.bar_base_color.opacity(0.6)
     thumb gui.bar_thumb_color
-    #base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
-    #thumb "gui/slider/horizontal_[prefix_]thumb.png"
 
 style vslider:
     xsize gui.slider_size
     base_bar gui.bar_base_color.opacity(0.6)
     thumb gui.bar_thumb_color
-#   base_bar Frame("gui/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=gui.slider_tile)
-#   thumb "gui/slider/vertical_[prefix_]thumb.png"
 
 style frame:
     padding gui.frame_borders.padding
@@ -130,7 +116,7 @@ screen say(who, what):
 
             else:
 
-                background gui.textbox_background + "99"
+                background gui.textbox_background
                 window:
                     id "namebox"
                     style "namebox"
@@ -145,6 +131,7 @@ screen say(who, what):
         add SideImage() xalign 0.0 yalign 1.0
 
 ## Make the namebox available for styling through the Character object.
+
 init python:
     config.character_id_prefixes.append('namebox')
 
@@ -168,14 +155,13 @@ style namebox:
     xsize gui.namebox_width
     ypos gui.name_ypos
     ysize gui.namebox_height
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
     padding gui.namebox_borders.padding
 
 style say_label:
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
     yalign 0.5
-    outlines [ (absolute(3), gui.textbox_background, absolute(0), absolute(0)) ]
+    outlines [ (absolute(5), gui.textbox_background, absolute(0), absolute(0)) ]
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
@@ -261,9 +247,9 @@ style choice_vbox:
 image choice_ = Frame(
         Composite(
             (100,60),
-            (0,0), Solid(gui.choice_bgr_color.opacity(0.7)),
+            (0,0), Solid(gui.choice_background),
             (0,0), THEME_PATH + "/gui/outline-embose.png"
-        ), Borders(2,1,2,1), tile=False, xalign=0.5)
+        ), Borders(3,1,1,1), tile=False, xalign=0.5)
 
 image choice_hover_ = Frame(
         Composite(
@@ -271,10 +257,6 @@ image choice_hover_ = Frame(
             (0,0), Solid(gui.hover_color),
             (0,0), THEME_PATH + "/gui/outline-embose.png"
         ), Borders(2,1,2,1), tile=False, xalign=0.5)
-
-
-#image choice_hover_ = Solid(ramu.color_Invert(gui.choice_bgr_color)+"EE")
-
 
 style choice_button is default:
     properties gui.button_properties("choice_button")
@@ -296,9 +278,18 @@ screen quick_menu():
 
     if not renpy.get_screen("_console") and quick_menu:
 
-        frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
+        mousearea:
+            area (0,config.screen_height-32,1.0,32)
+            hovered Show('real_quick_menu',transition=dissolve)
+            unhovered Hide('real_quick_menu',transition=dissolve)
 
-            #background gui.interface_bgr_color
+screen real_quick_menu():
+
+    zorder 100
+
+    frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
+
+            #background gui.interface_background
             background hud.ui.bgcolor[bucket.set]
 
             hbox:
@@ -316,10 +307,10 @@ screen quick_menu():
                 textbutton ico('load') action QuickLoad() tooltip _("Q.Load")
                 textbutton ico('cog') action ShowMenu('preferences') tooltip _("Prefs")
 
-        $ tooltip = GetTooltip()
+    $ tooltip = GetTooltip()
 
-        if tooltip:
-            text "[tooltip]" size 14 color "#0009" xpos 10 ypos 694
+    if tooltip:
+                text "[tooltip]" size 14 color "#0009" xpos 10 ypos 694
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
 ## the player has not explicitly hidden the interface.
@@ -927,7 +918,6 @@ style radio_vbox:
 style radio_button:
     properties gui.button_properties("radio_button")
     foreground "radio_[prefix_]"
-    #foreground "gui/button/radio_[prefix_]foreground.png"
 
 style radio_button_text:
     properties gui.button_text_properties("radio_button")
@@ -938,7 +928,6 @@ style check_vbox:
 style check_button:
     properties gui.button_properties("check_button")
     foreground "check_[prefix_]"
-    #foreground "gui/button/check_[prefix_]foreground.png"
 
 style check_button_text:
     properties gui.button_text_properties("check_button")
@@ -1268,20 +1257,17 @@ style confirm_frame:
     yalign .5
 
 style confirm_prompt_text:
+    properties gui.text_properties("confirm_prompt")
     text_align 0.5
-    size 20
-    color gui.interface_bgr_color_invert
     layout "subtitle"
 
 style confirm_button:
     properties gui.button_properties("confirm_button")
-    background gui.interface_hover_color.shade(0.6)
+    background gui.interface_hover_color.shade(0.5)
     padding (32,16,32,16)
 
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
-    color gui.interface_bgr_color_invert
-    hover_color gui.interface_hover_color
 
 ## Skip indicator screen #######################################################
 ##
@@ -1289,6 +1275,9 @@ style confirm_button_text:
 ## progress.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#skip-indicator
+
+
+# Will use hud Color
 
 screen skip_indicator():
 
@@ -1298,13 +1287,13 @@ screen skip_indicator():
     frame:
 
         hbox:
-            spacing 6
-
+            spacing 1
+            text "+" style "skip_triangle"
             text _("Skipping")
-
-            text "▸" at delayed_blink(0.0, 1.0) style "skip_triangle"
-            text "▸" at delayed_blink(0.2, 1.0) style "skip_triangle"
-            text "▸" at delayed_blink(0.4, 1.0) style "skip_triangle"
+            null width 6
+            text "^" at delayed_blink(0.0, 1.0) style "skip_triangle"
+            text "^" at delayed_blink(0.2, 1.0) style "skip_triangle"
+            text "^" at delayed_blink(0.4, 1.0) style "skip_triangle"
 
 
 ## This transform is used to blink the arrows one after another.
@@ -1321,25 +1310,24 @@ transform delayed_blink(delay, cycle):
         repeat
 
 
-style skip_frame is empty
-style skip_text is gui_text
-style skip_triangle is skip_text
+style skip_triangle is icoram:
+    line_leading 5
+    size 14
+    kerning -10
+#    outlines [ (absolute(1), gui.textbox_background, absolute(0), absolute(0)) ]
+    color hud.ui.fgcolor[bucket.set]
 
-style skip_frame:
+style skip_frame is empty:
     ypos gui.skip_ypos
     xpos gui.skip_xpos
     xsize 180
-    background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
     padding gui.skip_frame_borders.padding
+    background hud.ui.bgcolor[bucket.set]
 
 style skip_text is abel_font:
     size gui.notify_text_size
-
-style skip_triangle:
-    ## We have to use a font that has the BLACK RIGHT-POINTING SMALL TRIANGLE
-    ## glyph in it.
-    font "DejaVuSans.ttf"
-
+    outlines [ (absolute(1), gui.textbox_background, absolute(0), absolute(0)) ]
+    color hud.ui.fgcolor[bucket.set]
 
 ## Notify screen ###############################################################
 ##

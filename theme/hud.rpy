@@ -2,7 +2,8 @@ init -99 python:
 
     # defaults
     bucket.disable=False
-    bucket.show=False
+    bucket.hud_show=False
+    bucket.hud = {}
     bucket.set=0
     bucket.buff=0
 
@@ -19,10 +20,10 @@ init -99 python:
         bgcolor = [ "#0000", "#fff", "#000c", "#fffc", "#123", "#123c" ],
         fgcolor = [ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
         element = {
+            'hud': bucket.hud_show,
             'inventory': False,
             'stats': False,
             'legend': False,
-            'hud': bucket.show,
         },
         icons = {
             'pocket':[ '2','W', "Pocket", 'inventory_ui'],
@@ -39,6 +40,9 @@ init -99 python:
             'stats': [48,config.screen_height/10 + 1, 224, config.screen_height/2,(8,8,8,8)]
         }
     )
+    
+    for e in hud.ui.element.keys():
+        bucket.hud[e] = hud.ui.element[e]
 
     def hud_toggle(what,sfx=True):
 
@@ -93,30 +97,42 @@ init:
 
     transform pulse:
         block:
-            linear 0.3 alpha 1
+            linear 0.2 alpha 1
             pause 1
-            linear 0.3 alpha 0
+            linear 0.2 alpha 0
             pause 3
             repeat
 
     transform pulse_dying:
         block:
-            linear 0.3 alpha 1
-            pause 0.5
-            linear 0.3 alpha 0.3
+            linear 0.2 alpha 1
+            pause 0.3
+            linear 0.2 alpha 0.3
             pause 1
             repeat
 
+    transform pulldown:
+        on show:
+            ypos -config.screen_height
+            linear 0.2 ypos 80
+            linear 0.3 ypos 72
+        on hide:
+            pause 0.5
+            ypos 72
+            linear 0.2 ypos 80
+            linear 0.6 ypos -config.screen_height
+
+        
 screen hud_toolbar():
 
-    frame background hud.ui.bgcolor[bucket.set] style style['hud']['area']['toolbar']:
+    frame at pulldown background hud.ui.bgcolor[bucket.set] style style['hud']['area']['toolbar']:
         hbox:
             xfill True
             yalign 0.5
             hbox xoffset 48:
                 yalign 0.5
                 textbutton ("{:03d}".format(mc.score)) style "hud_score":
-                    action ToggleScreen('hud_stats')
+                    action Function(hud_toggle,what='stats')
                     text_color hud.ui.fgcolor[bucket.set]+"9"
                     text_hover_color hud.ui.fgcolor[bucket.set]
                 hbox xoffset 8 yoffset 8:
@@ -137,7 +153,7 @@ screen hud_toolbar():
 
 screen hud_stats():
 
-    frame background hud.ui.bgcolor[bucket.set] style style['hud']['area']['stats'] ysize None:
+    frame at pulldown background hud.ui.bgcolor[bucket.set] style style['hud']['area']['stats'] ysize None:
         vbox:
             for topic in sorted(hud.ui.hbar.keys()):
                 use hbar(topic)
@@ -212,7 +228,6 @@ screen hud_init():
 
         key "K_F9" action Function(hud_toggle,what='inventory')
 
-
         if hud.ui.element['hud']:
             $ hud_tic = ico('chevrons-up')
             if hud.ui.element['legend']:
@@ -223,7 +238,8 @@ screen hud_init():
                 use hud_inventory
             use hud_toolbar
         else:
-            $ hud_tic = ico('chevrons-down')
+            python:
+                hud_tic = ico('chevrons-down')
 
         textbutton hud_tic xpos 16 ypos 18 action Function(hud_toggle,what='hud') style "hud_sunico":
             if hud.ui.element['hud']:
@@ -233,11 +249,12 @@ screen hud_init():
                 text_color "#fff9"
                 text_hover_color "#fff"
 
-
-        $ bucket.show = hud.ui.element['hud']
-
         use hud_status()
 
+        #python:
+        #    for e in hud.ui.element.keys():
+        #        bucket.hud[e] = hud.ui.element[e]
+        
 
 init python:
     config.overlay_screens.append("hud_init")

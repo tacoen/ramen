@@ -42,7 +42,8 @@ init -10 python:
 init offset =-10
 
 style devtheme is default
-style devtheme_text is abel_font
+style devtheme_text is abel_font:
+    color "#ccc"
 style devtheme_textbutton is button
 style devtheme_textbutton_text_font is abel_font
 
@@ -133,13 +134,13 @@ screen gui_info():
             ['hover', gui.interface_hover_color],
         ]
 
-    frame xpos 10 ypos 30 background gui.interface_bgr_color xsize 200 ysize 600:
+    frame xpos 10 ypos 30 background gui.interface_background.shade(.5) xsize 200 ysize 600:
         vbox yalign 0.25:
             for v in vi:
                 text v[0] color v[1] min_width 180 text_align 1.0 size gui.interface_text_size font gui.interface_text_font
 
 
-    frame xpos 210 ypos 30 background gui.game_menu_background xsize 400 ysize 600 padding (18,8,8,18):
+    frame xpos 210 ypos 0 background gui.game_menu_background xsize 480 ysize 600 padding (18,8,8,38):
 
         vbox:
             text "Accent" size gui.label_text_size color gui.accent_color font gui.interface_text_font
@@ -161,9 +162,9 @@ screen gui_info():
 
             vbox:
                 text "Bars" size 20 color gui.idle_color font gui.interface_text_font
-                bar value Preference("text speed") xmaximum 360
+                bar value Preference("text speed") xmaximum 300
 
-    frame xpos 630 ypos 30 background "#0000":
+    frame xpos 580 ypos 30 background "#0000":
 
         $ n = 40
 
@@ -173,7 +174,7 @@ screen gui_info():
             vbox xpos 0 ypos n:
 
                 hbox yalign 0.5 ysize 30:
-                    text v[0] size 12 color "#000" min_width 80  yalign 0.5
+                    text v[0] size 12 color "#ccc" min_width 120  yalign 0.5
                     frame background v[1] xsize 80 ysize 30:
                         text repr(v[1].hexcode) color v[1].replace_lightness(1) size 16
             $ n += 32
@@ -189,7 +190,7 @@ screen gui_info():
             vbox xpos 0 ypos n:
 
                 hbox yalign 0.5 ysize 30:
-                    text v[0] size 12 color "#000" min_width 80  yalign 0.5
+                    text v[0] size 12 color "#ccc" min_width 80  yalign 0.5
                     frame background v[1] xsize 80 ysize 30:
                         text repr(v[1].hexcode) color v[1].replace_lightness(1) size 16
             $ n += 32
@@ -214,11 +215,3 @@ screen gui_info():
         $ test_items = ['Test','Eval']
         for i in test_items:
             textbutton i action Null
-
-
-label ramen_test:
-    mc "what"
-    caption "whaat"
-    narator "test1"
-    "test2"
-    "koq?"

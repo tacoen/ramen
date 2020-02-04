@@ -216,6 +216,26 @@ init -99 python:
 
             return img
 
+        def random_image(self,prefix,scope=None):
+            if scope is None:
+                scope = ''
+            imgs = self.files('overlays/'+scope)
+            res = []
+            for file in imgs:
+                fn = ramu.fn_info(file)
+                if fn['file'].startswith(str(prefix)): 
+                    res.append(fn['path']+"/"+fn['name'])
+                
+            print res
+            
+            r =  ramu.random_of(res)
+            print r
+            
+            return r
+            
+
+            
+        
 
 screen scene_imagemap(img):
 
@@ -257,7 +277,7 @@ style shortcut_text is default:
     color "#fffc"
     hover_color "#fff"
 
-screen scene_shortcut(shorts):
+screen scene_shortcut(shorts,pos='right'):
 
     python:
         y = config.screen_height * 7/8
@@ -284,26 +304,18 @@ screen scene_shortcut(shorts):
 
             except: Action = Null
 
-        hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
-            textbutton d['text'] style 'shortcut' action Action
-            null width 6
-            textbutton ico(d['icon']) style 'shortcut_icon' action Action
-            null width 32
-
-
-screen _overlays(obj_id, data):
-
-    python:
-        if not obj_id is None: obj = globals()[obj_id]
-
-    for d in data:
-        python:
-            img = ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
-            xy = d[1]
-
-        if img:
-            hbox pos xy:
-                add img
+        if pos == 'right':
+            hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
+                textbutton d['text'] style 'shortcut' action Action
+                null width 6
+                textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                null width 32
+        else:
+            hbox xalign 0.0 ypos spos[d['pos']][1]:
+                null width 32
+                textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                null width 6
+                textbutton d['text'] style 'shortcut' action Action
 
 label _scene_goto(obj_id=None,d=None,f=None,r=None):
 
