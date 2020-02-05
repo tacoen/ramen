@@ -72,39 +72,19 @@ init -208 python:
                 json.dump(data, outfile)
 
         # Color
-
-        def color_variant(self, hex_color, percent=25,invert=False):
-            brightness_offset = int(float(256) * percent/100)
-            if len(hex_color) == 4:
-                R = str(hex_color[1])+str(hex_color[1]) + str(hex_color[2])+str(hex_color[2]) + str(hex_color[3])+str(hex_color[3])
-                s = '#'
-                hex_color = "#"+ R
-            if len(hex_color) != 7:
-                raise Exception("Passed %s into color_variant(), needs to be in #ffcc33 or #fc3 format." % hex_color)
-            rgb_hex = [hex_color[x:x+2] for x in [1, 3, 5]]
-
-            if invert:
-                new_rgb_int = [255-int(hex_value, 16) for hex_value in rgb_hex]
+        
+        def safecolor_for_bgr(self,hex_color,bgr_hc):
+            nno = Color(hex_color).hexcode[:7]
+            if nno == bgr_hc:
+                return Color(nno).replace_lightness(.1).hexcode
             else:
-                new_rgb_int = [int(hex_value, 16) + brightness_offset for hex_value in rgb_hex]
+                return hex_color
 
-            new_rgb_int = [min([255, max([0, i])]) for i in new_rgb_int] # make sure new values are between 0 and 255
-            fin_rgb_int=[]
-            for i in new_rgb_int:
-                # hex() produces "0x88", we want just "88"
-                a = hex(i)[2:]
-                if len(a)==1: a = str(a) +"0"
-                fin_rgb_int.append(a)
-            return "#" + "".join([str(i) for i in fin_rgb_int])
+        def color_Darken(self,hex_color,ammount=0.2):
+            return Color(hex_color).shade(ammount)
 
-        def color_Darken(self,hex_color,percent=15):
-            return self.color_variant(hex_color,percent*-1)
-
-        def color_Brighten(self,hex_color,percent=15):
-            return self.color_variant(hex_color,percent)
-
-        def color_Invert(self,hex_color):
-            return self.color_variant(hex_color,0,True)
+        def color_Brighten(self,hex_color,amount=0.2):
+            return Color(hex_color).tint(1-float(ammount))
 
         # Love the random (renpy.random.randint)
 
@@ -125,6 +105,12 @@ init -208 python:
 
         # toggles
 
+        def ltoggle(self,what):
+            if what:
+                return False
+            else:
+                return True
+                
         def toggle(self,what,sfx=True):
 
             if not renpy.loadable(DEFAULT_SFXPATH+"/tone1.mp3"):

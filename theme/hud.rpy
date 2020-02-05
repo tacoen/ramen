@@ -1,10 +1,11 @@
-init -99 python:
+init -98 python:
 
     # defaults
     bucket.hud = {}
     bucket.hud.disable=False
     bucket.hud.show = False
     bucket.hud.set=0
+    bucket.hud.element = {}
 
     bucket.buff=0
 
@@ -20,112 +21,45 @@ init -99 python:
         sun=['g','a','c','d','e'],
         bgcolor = [ "#0000", "#fff", "#000c", "#fffc", "#123", "#123c" ],
         fgcolor = [ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
+        winbgcolor = [ '#333', '#ddd', '#333', '#ddd', '#333', '#333' ],
         element = {
             'hud': bucket.hud.show,
             'inventory': False,
             'stats': False,
             'legend': False,
+            'map':False,
         },
         icons = {
-            'pocket':[ '2','W', "Pocket", 'inventory_ui'],
-            'map':[ '3','M' , "Map", 'map','map' ],
-            'mcphone':[ '1','P' , "Smartphone", 'phone_ui'],
+            'pocket':[ '2','wallet', "Pocket", Function(hud_toggle,what='inventory') ],
+            'map':[ '3','map-o' , "Map", 'map', Function(hud_toggle,what='map') ],
+            'mcphone':[ '1','mobile' , "Smartphone", ToggleScreen('phone_ui') ],
         },
         hbar = {
-            'energy':'#ff0',
-            'hygiene':'#3c3',
-            'vital':'#acd',
+            'energy':'#f91',
+            'hygiene':'#2B2',
+            'vital':'#959',
         },
         area = {
             'toolbar': [0,0,config.screen_width,config.screen_height/10],
-            'stats': [48,config.screen_height/10 + 1, 224, config.screen_height/2,(8,8,8,8)]
+            'stats': [16,config.screen_height/10 + 4, 224, None,(8,8,8,20)],
+            'inventory': [
+                config.screen_width/2, 
+                config.screen_height/10 + 4,
+                config.screen_width/2-16, 
+                config.screen_height-(config.screen_height/10+4)-48, 
+                (8,8,8,32)
+            ]
         }
     )
+
+    # why?
     
     for e in hud.ui.element.keys():
-        bucket.hud[e] = hud.ui.element[e]
-
-    def hud_toggle(what,sfx=True):
-
-        try: hud.ui.element[what]
-        except: hud.ui.element[what]=True
-
-        if hud.ui.element[what]:
-            hud.ui.element[what]=False
-            if sfx: renpy.play(DEFAULT_SFXPATH+"/tone0.mp3")
-        else:
-            hud.ui.element[what]=True
-            if sfx: renpy.play(DEFAULT_SFXPATH+"/tone1.mp3")
-
-        bucket.hud[what] = hud.ui.element[what]
+        bucket.hud.element[e] = hud.ui.element[e]
 
     for e in hud.ui.element.keys():
-        hud.ui.element[e] = bucket.hud[e]
-        
-init:
+        hud.ui.element[e] = bucket.hud.element[e]
 
-    style hud is default
-
-    style hud_toolbar:
-        xpos hud.ui.x
-        ypos hud.ui.y
-        xsize hud.ui.w
-        ysize hud.ui.h
-
-    style hud_icon is icoram:
-        xsize 48
-        ysize 32
-
-    style hud_icon_text is icoram:
-        size 32
-
-    style hud_sunico is icoram:
-        xsize 24
-        ysize 24
-
-    style hud_sunico_text is icoram:
-        size 24
-
-    style hud_text is gui_text:
-        size 18
-
-    style hud_score is default
-
-    style hud_score_text is abel_font:
-        size 48
-        hover_color "#ffd"
-
-    style hud_label is abel_font:
-        size 18
-
-    transform pulse:
-        block:
-            linear 0.2 alpha 1
-            pause 1
-            linear 0.2 alpha 0
-            pause 3
-            repeat
-
-    transform pulse_dying:
-        block:
-            linear 0.2 alpha 1
-            pause 0.3
-            linear 0.2 alpha 0.3
-            pause 1
-            repeat
-
-    transform pulldown:
-        on show:
-            ypos -config.screen_height
-            linear 0.2 ypos 80
-            linear 0.3 ypos 72
-        on hide:
-            pause 0.5
-            ypos 72
-            linear 0.2 ypos 80
-            linear 0.6 ypos -config.screen_height
-
-        
 screen hud_toolbar():
 
     frame at pulldown background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['toolbar']:
@@ -147,37 +81,12 @@ screen hud_toolbar():
                 for m in hud.ui.icons.keys():
                     $ i = hud.ui.icons[m]
                     if m in mc.pref['icons']:
-                        textbutton i[1] action ToggleScreen(i[3]) style 'hud_icon':
+                        textbutton ico(i[1]) action i[3] style 'hud_icon':
                             text_color hud.ui.fgcolor[bucket.hud.set]+"9"
                             text_hover_color hud.ui.fgcolor[bucket.hud.set]
                     else:
-                        textbutton i[1] action Null style 'hud_icon' text_color "#fff3"
+                        textbutton ico(i[1]) action Null style 'hud_icon' text_color "#fff3"
                 null width 32
-
-screen hud_stats():
-
-    frame at pulldown background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['stats'] ysize None:
-        vbox:
-            for topic in sorted(hud.ui.hbar.keys()):
-                use hbar(topic)
-
-screen hbar(topic):
-    python:
-        xmax = style['hud']['area']['stats'].xminimum - ( style['hud']['area']['stats'].left_padding + style['hud']['area']['stats'].right_padding )
-        barsty = style['hud']['hbar'][topic]
-        tcolor = hud.ui.fgcolor[bucket.hud.set]
-        val = mc.stat[topic]
-        try: max = mc._limit[topic][1]
-        except: max = mc._limit['stat'][1]
-
-    vbox:
-        hbox xminimum xmax:
-            xfill True
-            text topic.title() style 'hud_label' color tcolor size 12 xalign 0
-            text str(val)+"/"+str(max) style 'hud_label' color tcolor size 12 xalign 1.0 text_align 1.0
-        null height 2
-        bar range max value val style barsty xmaximum xmax ysize 12
-        null height 12
 
 screen hud_status():
 
@@ -210,7 +119,7 @@ screen hud_status():
         except: tcolor = hud.ui.fgcolor[w]+"9"
 
     if pp:
-        hbox xpos 16 ypos 88:
+        hbox xpos 32 ypos config.screen_height-gui.textbox_height-32:
             text ico('user') style "hud_sunico" size 24 at pp color tcolor
             if not hud.ui.element['stats']:
                 null width 8
@@ -256,19 +165,62 @@ screen hud_init():
 
         use hud_status()
 
-        #python:
-        #    for e in hud.ui.element.keys():
-        #        bucket.hud[e] = hud.ui.element[e]
-        
+screen hud_stats():
 
-init python:
-    config.overlay_screens.append("hud_init")
+    frame background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['stats']:
+        vbox:
+            use hc_tbar('stats','Stats')
+            vbox:
+                box_wrap_spacing 8
+                spacing 12
+                for topic in sorted(hud.ui.hbar.keys()):
+                    use hc_hbar(topic)
+                
 
 screen hud_inventory():
-    text "this inventory" ypos 300
+
+    modal True
+    
+    python:
+        inv = mc._inventory['pocket']
+        iconsize = (100,100)
+        w = style['hud']['area']['inventory'].xminimum
+        h = style['hud']['area']['inventory'].yminimum
+        tc = int(round(w / iconsize[0]))
+        tr = int(round(h / iconsize[1]))+2
+        
+        safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[bucket.hud.set],'#000000')
+        
+    frame background safebgr style style['hud']['area']['inventory']:
+        vbox:
+            use hc_tbar('inventory','Inventory')
+
+            hbox ysize 32 yalign 0.5:
+                text ico('wallet') style 'hud_icon_text' color hud.ui.fgcolor[bucket.hud.set]
+                null width 8
+                text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[bucket.hud.set] size 24
+            null height 16
+            vpgrid:
+                cols tc
+                rows tr
+                spacing 5
+                for i in inv.keys():
+                    $ item = inv[i]
+                    $ icon = im.Scale(item.icon(),iconsize[0],iconsize[1]) 
+                    imagebutton:
+                        idle icon
+                        hover im.MatrixColor(icon,im.matrix.brightness(0.5))
+                        action Null
+                
+
 
 screen hud_legend():
     modal True
     add (Solid("#000d"))
     add (THEME_PATH+"/gui/hud-legend.png")
+
+
+
+init python:
+    config.overlay_screens.append("hud_init")
 
