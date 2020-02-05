@@ -189,15 +189,23 @@ init -99 python:
                     # 1 key/func
                     # 2 hs code
                     # 3 img 
-                    
-                    if renpy.has_label(w[2]): 
+
+                    if renpy.has_label(w[2]):
                         action = Jump(w[2])
-                    if renpy.has_label(self.id+'_'+floor+"_"+w[1]): 
+                    elif renpy.has_label(self.id+'_'+w[2]):
+                        action = Function(self.scene_call, what=self.id+'_'+w[2], id=self.id, f=floor, d=w[2])
+
+                    elif renpy.has_label(w[1]):
+                        action = Jump(w[1])
+                    elif renpy.has_label(self.id+'_'+floor+"_"+w[1]): 
                         action = Jump(self.id+'_'+floor+"_"+w[1])
-                    if renpy.has_label(self.id+'_'+w[1]): 
+                    elif renpy.has_label(self.id+'_'+w[1]):
                         action = Function(self.scene_call, what=self.id+'_'+w[1], id=self.id, f=floor, d=w[2])
-                    if renpy.has_label('_scene_'+w[1]): 
+                    elif renpy.has_label('_scene_'+w[1]): 
                         action = Function(self.scene_call, what='_scene_'+w[1], id=self.id, f=floor, d=w[2])
+
+                    else:
+                        action = False
 
                     file = ramu.fn_ezy(self.dir +"/hs/"+w[3])
 
@@ -218,9 +226,12 @@ init -99 python:
                             #ground = RAMEN_PATH + "/img/blank.png"
                             ground = Solid('#0000')
 
-                    if hover: himg = himg + ( xy, hover )
-                    if ground: gimg = gimg + ( xy,ground )
-                    if area: imgdata.append( [ area, action ] )
+                    if hover: 
+                        himg = himg + ( xy, hover )
+                    if ground: 
+                        gimg = gimg + ( xy,ground )
+                    if area: 
+                        imgdata.append( [ area, action ] )
 
                     img['ground'] = LiveComposite( (1280,720), *gimg )
                     img['hover'] = LiveComposite( (1280,720), *himg )
@@ -240,14 +251,14 @@ init -99 python:
                 fn = ramu.fn_info(file)
                 if fn['file'].startswith(str(prefix)): 
                     res.append(fn['path']+"/"+fn['name'])
-                
+             
             return  ramu.random_of(res)
-            
 
-# scene map
 
-screen scene_imagemap(scene_id, img):
+# scene map ###################################################################
 
+screen scene_imagemap(scene_id, img ):
+    
     # map
 
     imagemap xpos 0 ypos 0:
@@ -264,7 +275,7 @@ screen scene_imagemap(scene_id, img):
 
     if not shortcuts is None:
         use scene_shortcut( scene_id, shortcuts)
-
+        
 label _scene_map:
 
     hide screen scene_imagemap
@@ -322,9 +333,10 @@ label _scene_goto:
     
     return
     
+  
     
-    
-    
+## scene_shorcut #######################################################
+
 style shortcut_icon is icoram:
     xalign 0.5
 
@@ -345,21 +357,17 @@ style shortcut_text is default:
     color "#fffc"
     hover_color "#fff"
 
-screen scene_shortcut(scene_id, shorts, position='left'):
+screen scene_shortcut(scene_id, shorts, position='right'):
 
     python:
         y = config.screen_height * 7/8
         x = 32
         s = 48
-        
         n = int(round(y / 48))
-        
         spos = []
         spos.append([ x,y ])
-        
         for i in range(1,n):
             spos.append([ x,y-(i*s) ])
-
         pos = -1
         
     for s in shorts:
@@ -396,19 +404,20 @@ screen scene_shortcut(scene_id, shorts, position='left'):
                     Action = Jump (d['goto'])
                 else:
                     Action = Null
-
-            if position == 'right':
-                hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
-                    textbutton d['text'] style 'shortcut' action Action
-                    null width 6
-                    textbutton ico(d['icon']) style 'shortcut_icon' action Action
-                    null width 32
-            else:
-                hbox xalign 0.0 ypos spos[d['pos']][1]:
-                    null width 32
-                    textbutton ico(d['icon']) style 'shortcut_icon' action Action
-                    null width 6
-                    textbutton d['text'] style 'shortcut' action Action
+                    
+            if not Action == Null:
+                if position == 'right':
+                    hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
+                        textbutton d['text'] style 'shortcut' action Action
+                        null width 6
+                        textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                        null width 32
+                else:
+                    hbox xalign 0.0 ypos spos[d['pos']][1]:
+                        null width 32
+                        textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                        null width 6
+                        textbutton d['text'] style 'shortcut' action Action
 
 
 
