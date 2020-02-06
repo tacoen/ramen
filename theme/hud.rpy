@@ -10,6 +10,8 @@ init -98 python:
     bucket.buff=0
 
     mc.pref['icons']= ['pocket','mcphone']
+    mc.pref['max']={}
+    mc.pref['max']['pocket'] = 12
 
     # hub object
 
@@ -47,7 +49,7 @@ init -98 python:
                 config.screen_height/10 + 4,
                 config.screen_width/2-16, 
                 config.screen_height-(config.screen_height/10+4)-48, 
-                (8,8,8,32)
+                (8,8,8,8)
             ]
         }
     )
@@ -177,42 +179,122 @@ screen hud_stats():
                     use hc_hbar(topic)
                 
 
+
+style hudinventory is empty
+
+
+python:
+
+    def item_view(item):
+        renpy.use_screen('hc_item',item=item)
+        
 screen hud_inventory():
 
     modal True
     
     python:
+        try: bucket.selected_item
+        except: bucket.selected_item = None
+ 
         inv = mc._inventory['pocket']
         iconsize = (100,100)
         w = style['hud']['area']['inventory'].xminimum
         h = style['hud']['area']['inventory'].yminimum
-        tc = int(round(w / iconsize[0]))
-        tr = int(round(h / iconsize[1]))+2
-        
+        tc = int(round(w/(iconsize[0])))
+        tr = int(round(h/(iconsize[1])))
+        cmax = tc * tr
+        cs = ((w-(tc * iconsize[0]+2)) / tc)/2
         safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[bucket.hud.set],'#000000')
         
+        mc.pref['max']['pocket'] = tc * tr
+    
     frame background safebgr style style['hud']['area']['inventory']:
+        
+        style_prefix "hudinventory"
+        
         vbox:
-            use hc_tbar('inventory','Inventory')
+            use hc_tbar('inventory','Pocket')
 
-            hbox ysize 32 yalign 0.5:
-                text ico('wallet') style 'hud_icon_text' color hud.ui.fgcolor[bucket.hud.set]
-                null width 8
-                text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[bucket.hud.set] size 24
+            hbox ysize 32 yalign 0.5 xfill True:
+                text "Maximum: " + ("{:02d}".format(mc.pref['max']['pocket'])) color hud.ui.fgcolor[bucket.hud.set]
+                text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[bucket.hud.set] size 24 xalign 1.0
+            
             null height 16
-            vpgrid:
-                cols tc
-                rows tr
-                spacing 5
-                for i in inv.keys():
-                    $ item = inv[i]
-                    $ icon = im.Scale(item.icon(),iconsize[0],iconsize[1]) 
-                    imagebutton:
-                        idle icon
-                        hover im.MatrixColor(icon,im.matrix.brightness(0.5))
-                        action Null
-                
 
+            if bucket.selected_item is None:
+            
+                vpgrid cols tc spacing cs ysize h/2:
+                    draggable True
+                    mousewheel True
+                    scrollbars "vertical"
+            
+                    for i in sorted(inv.keys()):
+                        python:
+                            item = inv[i]
+                            icon = im.Scale(item.icon(),iconsize[0],iconsize[1]) 
+                    
+                        imagebutton:
+                            idle icon
+                            hover im.MatrixColor(icon,im.matrix.brightness(0.3))
+                            action SetVariable('bucket.selected_item',item)
+                            
+                null height 16
+            
+            else:
+                frame background Color(safebgr).replace_lightness(0.3) padding (8,8,8,8):
+                    textbutton "x" action SetVariable('bucket.selected_item',None) xpos 1.0 ypos -8 xanchor 0.9
+                    viewport:
+                        use hc_item(bucket.selected_item)
+
+screen hbox_item(what,value):
+    hbox xfill True yalign 0.5:
+        text str(what) size 20 color hud.ui.fgcolor[bucket.hud.set]
+        text str(value) size 20 xalign 1.0 color hud.ui.fgcolor[bucket.hud.set]
+    
+screen hc_item(item):
+
+    python:
+        try: eatable = item.eatable
+        except: eatable = False
+        try: depend = item.depend
+        except: depend = False
+        w = style['hud']['area']['inventory'].xminimum - 120
+
+    hbox:
+        add item.icon()
+        null width 12
+        vbox spacing 6 yfit True:
+            if not item.name is None:
+                text "{b}"+item.name +"{/b}\n{size=-2}"+item.desc+"{/size}" color hud.ui.fgcolor[bucket.hud.set]
+            else:
+                text item.desc color hud.ui.fgcolor[bucket.hud.set]
+
+            null height 8
+            frame background hud.ui.fgcolor[bucket.hud.set] ysize 1
+            null height 8
+                
+            use hbox_item('Price', item.cost)
+
+            if depend:
+                use hbox_item('Require',depend)
+
+            if not item.effect is None:
+                use hbox_item(item.effect[1].title()+"("+item.effect[0].title()+")", item.effect[2] )
+                
+            null height 8
+            frame background hud.ui.fgcolor[bucket.hud.set] ysize 1
+            null height 8
+            
+            hbox xfill True:
+                if eatable:
+                    textbutton "Eat/Drink" action Null
+                    
+                textbutton "Give" action Null
+                textbutton "Drop" action Null
+
+                
+                
+            
 
 screen hud_legend():
     modal True

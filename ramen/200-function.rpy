@@ -47,6 +47,22 @@ init -208 python:
                 if n==1: break
             return rfile
 
+        def fn_files(self,where,key=False):
+            F = renpy.list_files(False)
+            files = filter(lambda w:where+"/" in w, sorted(F))
+            if key:  files = filter(lambda w:key in w, files)
+            return files
+        
+        # str
+        
+        def nicenaming(self,str_strip,name):
+            nn = name.replace(str_strip,'').replace('_',' ')
+            return nn.title()
+            
+        def safeid(self,id):
+            id = id.replace('-','')
+            return id
+            
         def safestr(self,string1,string2=None):
             s = str(string1)
             if not string2 is None:

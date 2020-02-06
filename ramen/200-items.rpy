@@ -9,8 +9,9 @@ init -202 python:
             self.persist=False
             self.cost=None
             self.effect=None
-            self.desc='Items'
-
+            self.desc='No Descriptions'
+            self.name= None
+            
             for k in kwargs:
                 self.__dict__[k]=kwargs[k]
 

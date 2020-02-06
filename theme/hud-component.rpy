@@ -128,6 +128,7 @@ init -1:
 label ramen_test:
     $ bucket.test = True
     "1"
+    "lu lagi bikin inventory screen"
     "2"
     "3"
     
