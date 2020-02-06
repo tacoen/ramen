@@ -133,3 +133,24 @@ init -202 python:
                     self.drop(item_id)
 
             return res
+
+    def create_items(inventory, where, prefix, **kwargs ):
+        files = ramu.fn_files(where,prefix)
+        for f in files:
+            fn = ramu.fn_info(f)
+            i = item( id= fn['name'], desc=ramu.nicenaming(prefix,fn['name']))
+        
+            for k in kwargs.keys():
+                i.__dict__[k] = kwargs[k]
+                if k == 'cost':
+                
+                    try: kwargs[k][0]
+                    except: kwargs[k][0]=10
+                    try: kwargs[k][1]
+                    except: kwargs[k][1]=20
+                    
+                    i.__dict__['cost'] = ramu.random_int(kwargs[k][0],kwargs[k][1])
+
+            print i.__dict__
+            
+            inventory.add(i)

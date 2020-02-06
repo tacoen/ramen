@@ -13,6 +13,8 @@ init -98 python:
     mc.pref['max']={}
     mc.pref['max']['pocket'] = 12
 
+    pocket = inventory('pocket')
+
     # hub object
 
     hud = uiobj(id='hud',
