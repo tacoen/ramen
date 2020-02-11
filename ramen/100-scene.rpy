@@ -93,7 +93,7 @@ init -99 python:
                 except: self.short[id][str('hide_on')] =  None
 
                 try: self.short[id]['position']
-                except: self.short[id][str('position')] =  right
+                except: self.short[id][str('position')] =  'right'
 
         def mazing(self,**kwargs):
 
@@ -354,14 +354,14 @@ style shortcut_icon_text is icoram:
     size 24
     min_width 30
     text_align 0.5
-    outlines [ (absolute(1), "#000", absolute(0), absolute(0)) ]
+    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
     color "#fffc"
     hover_color "#fff"
 
 style shortcut is gui_text
 
 style shortcut_text is default:
-    outlines [ (absolute(1), "#000", absolute(0), absolute(0)) ]
+    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
     size 22
     line_leading -2
     color "#fffc"
