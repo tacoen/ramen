@@ -6,6 +6,9 @@ init -203 python:
             self.__dict__['param'] = {}
             self.__dict__['ui'] = rn_obj(0)
             self.set(**kwargs)
+            
+            try: bucket.__dict__[self.id]
+            except: bucket.__dict__[self.id] = {}
 
         def set(self,**kwargs):
 

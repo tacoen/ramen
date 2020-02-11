@@ -92,6 +92,9 @@ init -99 python:
                 try: self.short[id]['hide_on']
                 except: self.short[id][str('hide_on')] =  None
 
+                try: self.short[id]['position']
+                except: self.short[id][str('position')] =  right
+
         def mazing(self,**kwargs):
 
             maze = {}
@@ -183,7 +186,7 @@ init -99 python:
 
                 if not xy is None:
 
-                    print w
+                    #print w
                     # w 
                     # 0 xy
                     # 1 key/func
@@ -257,7 +260,7 @@ init -99 python:
 
 # scene map ###################################################################
 
-screen scene_imagemap(scene_id, img ):
+screen scene_imagemap(scene_id, img, position=None ):
     
     # map
 
@@ -274,7 +277,7 @@ screen scene_imagemap(scene_id, img ):
         except: shortcuts = None
 
     if not shortcuts is None:
-        use scene_shortcut( scene_id, shortcuts)
+        use scene_shortcut( scene_id, shortcuts, position)
         
 label _scene_map:
 
@@ -288,6 +291,7 @@ label _scene_map:
         
         renpy.scene()
         renpy.show(obj_id + " "+d)
+        renpy.with_statement(dissolve)
     
         # bucket
         map = obj.imagemaping(d, ramu.get_sceneimg())
@@ -318,7 +322,13 @@ label _scene_goto:
 
         if not doors == []:
             doors.append(('Exit','Return'))
+            
+            renpy.scene()
+            renpy.show(obj_id + " door")
+            renpy.with_statement(dissolve)
+            
             choice = menu(doors)    
+            
             if choice=='Return':
                 renpy.jump('_back')
             else:
@@ -357,7 +367,7 @@ style shortcut_text is default:
     color "#fffc"
     hover_color "#fff"
 
-screen scene_shortcut(scene_id, shorts, position='right'):
+screen scene_shortcut(scene_id, shorts, position=None):
 
     python:
         y = config.screen_height * 7/8
@@ -375,6 +385,9 @@ screen scene_shortcut(scene_id, shorts, position='right'):
         python:
             show = True
             d = shorts[s]
+
+            if position is None:
+                position = d['position']
 
             try: d['hide_on']
             except: d['hide_on'] = None
@@ -418,11 +431,3 @@ screen scene_shortcut(scene_id, shorts, position='right'):
                         textbutton ico(d['icon']) style 'shortcut_icon' action Action
                         null width 6
                         textbutton d['text'] style 'shortcut' action Action
-
-
-
-label _scene_elevator(obj_id=None,f=None,r=None):
-    hide screen scene_imagemap
-    "elevator"
-    return
-

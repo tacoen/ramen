@@ -1,12 +1,12 @@
 init -204 python:
 
     class rn_obj(object):
-
-        # ramen native object
+        """rn_obj = ramen native object"""
 
         def __init__(self,default=False,**kwargs):
             self._ = default
             self.set(**kwargs)
+            self.load(default,**kwargs)
 
         def set(self,**kwargs):
             for k in kwargs:
@@ -18,6 +18,10 @@ init -204 python:
 
         def __call__(self):
             return self.__dict__
+
+        def load(self,id=None,**kwargs):
+            """chain for child-class"""
+            pass
 
         def __setattr__(self, key,value):
             self.__dict__[str(key).lower()] = value
@@ -54,6 +58,7 @@ init -204 python:
             self.load(id, **param)
 
         def load(self,id=None,**kwargs):
+            """chain for child-class"""
             pass
 
         def __setattr__(self, key, value):
@@ -93,6 +98,7 @@ init -204 python:
                 return super(object, self).__getattribute__(key)
 
         def set_ui(self,**kwargs):
+            """set object as ui object"""
 
             try: self.__dict__['ui']
             except: self.__dict__[str('ui')] = object()
@@ -112,6 +118,7 @@ init -204 python:
                         style.hbar[t].left_bar=bcolor+"D"
 
         def data(self,key,**kwargs):
+            """set object as data container"""
 
             try: self.__dict__[str(key.lower())]
             except: self.__dict__[str(key.lower())] = {}
@@ -126,6 +133,7 @@ init -204 python:
                 self.__dict__[str(key)] = default
 
         def files(self,key=None,scope=None):
+            """set object as files container"""
 
             try: self._files
             except: self.__dict__['_files'] = []
@@ -152,6 +160,3 @@ init -204 python:
                         else:
                             res.append(f)
                 return res
-
-
-
