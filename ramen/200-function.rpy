@@ -154,6 +154,19 @@ init -208 python:
             if current >= len(list): current = 0
             return current
 
+        # Screen/ UI Utils
+        
+        def screen_hideby(self,prefix):
+            scrs = filter(lambda fw:prefix in fw, renpy.get_showing_tags('screens'))
+            for scr in scrs:
+                renpy.hide_screen(scr)
+        
+        def screen_check(self,name):
+            if name in renpy.get_showing_tags('screens'):
+                return True
+            else:
+                return False
+        
         # Image util
 
         def get_sceneimg(self):

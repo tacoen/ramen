@@ -302,10 +302,10 @@ screen real_quick_menu():
                 textbutton ico('stack') action ShowMenu('history') tooltip _("History")
                 textbutton ico('chevrons-right') action Skip() alternate Skip(fast=True, confirm=True) tooltip _("Skip")
                 textbutton ico('lightbulb') action Preference("auto-forward", "toggle") tooltip _("Auto")
-                textbutton ico('disk') action ShowMenu('save') tooltip _("Save")
-                textbutton ico('save') action QuickSave() tooltip _("Q.Save")
-                textbutton ico('load') action QuickLoad() tooltip _("Q.Load")
-                textbutton ico('cog') action ShowMenu('preferences') tooltip _("Prefs")
+                textbutton ico('save') action ShowMenu('save') tooltip _("Save")
+                textbutton ico('log-down') action QuickSave() tooltip _("Q.Save")
+                textbutton ico('log-up') action QuickLoad() tooltip _("Q.Load")
+                textbutton ico('settings') action ShowMenu('preferences') tooltip _("Prefs")
 
     $ tooltip = GetTooltip()
 

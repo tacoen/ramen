@@ -1,4 +1,3 @@
-
 # Common ATL and Shared Style
 
 transform p647:
@@ -7,14 +6,26 @@ transform p647:
 transform p0:
     xpos 0
 
+screen _overlays(obj_id, data, ontop=False):
+
+    zorder 99
+
+    python:
+        if not obj_id is None: obj = globals()[obj_id]
+
+    for d in data:
+        python:
+            img = ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
+            xy = d[1]
+        if img:
+            hbox pos xy:
+                add img
 
 screen ingame_notify(msg='',icoram=None):
 
     zorder 102
     style_prefix "ingame_notify"
-
     hbox xfill True xalign 1.0 ypos gui.notify_ypos at notify_appear:
-    
         null
         hbox xalign 1.0:
             frame xalign 1.0:

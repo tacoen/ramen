@@ -34,8 +34,8 @@ init -98 python:
         },
         icons = {
             'pocket':[ '2','wallet', "Pocket", Function(hud_toggle,what='inventory') ],
-            'map':[ '3','map-o' , "Map", 'map', Function(hud_toggle,what='map') ],
-            'mcphone':[ '1','mobile' , "Smartphone", ToggleScreen('phone_ui') ],
+            'map':[ '3','map' , "Map", 'map', Function(hud_toggle,what='map') ],
+            'mcphone':[ '1','phone' , "Smartphone", ToggleScreen('phone_ui') ],
         },
         hbar = {
             'energy':'#f91',
@@ -206,15 +206,9 @@ screen hud_inventory():
         cmax = tc * tr
         cs = ((w-(tc * iconsize[0]+2)) / tc)/2
         safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[bucket.hud.set],'#000000')
-<<<<<<< HEAD
         
         mc.limit['pocket'] = [0, tc*tr]
-    
-=======
 
-        mc.pref['max']['pocket'] = tc * tr
-
->>>>>>> 07f675925e3e0e08985784e1bb78a77b66f5d69c
     frame background safebgr style style['hud']['area']['inventory']:
 
         style_prefix "hudinventory"

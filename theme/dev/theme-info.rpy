@@ -1,6 +1,9 @@
 
 init -10 python:
 
+    def ramen_icotable():
+        renpy.call_screen('ico_table')
+
     def gui_propCollect(t=None):
 
         res = {}
@@ -47,7 +50,25 @@ style devtheme_text is abel_font:
 style devtheme_textbutton is button
 style devtheme_textbutton_text_font is abel_font
 
+screen ico_table():
 
+    $ Ico = ico(None)
+    
+    frame background "#fff" ypos 75 xpos 0 ysize config.screen_height-168:
+        vpgrid  xsize config.screen_width:
+            scrollbars "vertical"
+            cols 4
+            spacing 16
+            draggable True
+            mousewheel True
+            
+            for i in sorted(Ico.keys()):
+                hbox yalign 0.5:
+                    text Ico[i] style "ram_ico" color "#000"
+                    null width 8
+                    text i style "abel_font" color "#000" text_align 0.0 min_width 160
+                    null width 32
+            
 screen gui_explorer():
 
     modal True

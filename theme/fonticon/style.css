@@ -1,18 +1,18 @@
 @font-face {
-  font-family: 'icoram';
-  src:  url('fonts/icoram.eot?sdo6j3');
-  src:  url('fonts/icoram.eot?sdo6j3#iefix') format('embedded-opentype'),
-    url('fonts/icoram.ttf?sdo6j3') format('truetype'),
-    url('fonts/icoram.woff?sdo6j3') format('woff'),
-    url('fonts/icoram.svg?sdo6j3#icoram') format('svg');
+  font-family: 'ramen-ico';
+  src:  url('fonts/ramen-ico.eot?ux07hp');
+  src:  url('fonts/ramen-ico.eot?ux07hp#iefix') format('embedded-opentype'),
+    url('fonts/ramen-ico.ttf?ux07hp') format('truetype'),
+    url('fonts/ramen-ico.woff?ux07hp') format('woff'),
+    url('fonts/ramen-ico.svg?ux07hp#ramen-ico') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icr"], [class*=" icr"] {
+[class^="ramico"], [class*=" ramico"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icoram' !important;
+  font-family: 'ramen-ico' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -25,258 +25,228 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icrlightbulb:before {
-  content: "\77";
-}
-.icrenvelope:before {
-  content: "\75";
-}
-.icrletter:before {
-  content: "\75";
-}
-.icremail:before {
-  content: "\75";
-}
-.icrmail:before {
-  content: "\75";
-}
-.icrmessage:before {
-  content: "\75";
-}
-.icrexit:before {
-  content: "\29";
-}
-.icrsignout:before {
-  content: "\29";
-}
-.icrlogout:before {
-  content: "\29";
-}
-.icrquit:before {
-  content: "\29";
-}
-.icrclose:before {
-  content: "\29";
-}
-.icrhome1:before {
-  content: "\5f";
-}
-.icrhome:before {
-  content: "\2d";
-}
-.icrbuilding:before {
-  content: "\3d";
-}
-.icrlog-in:before {
-  content: "\5d";
-}
-.icrlog-out:before {
-  content: "\5b";
-}
-.icralert-triangle:before {
-  content: "\2b";
-}
-.icrinfo:before {
-  content: "\28";
-}
-.icrhelp-circle:before {
-  content: "\2a";
-}
-.icrchevrons-up:before {
-  content: "\26";
-}
-.icrchevrons-right:before {
-  content: "\5e";
-}
-.icrchevrons-left:before {
-  content: "\25";
-}
-.icrchevrons-down:before {
-  content: "\24";
-}
-.icrchevron-up:before {
-  content: "\40";
-}
-.icrchevron-right:before {
-  content: "\30";
-}
-.icrchevron-left:before {
-  content: "\39";
-}
-.icrchevron-down:before {
-  content: "\21";
-}
-.icrarrow-up:before {
-  content: "\38";
-}
-.icrarrow-up-right:before {
-  content: "\37";
-}
-.icrarrow-up-left:before {
-  content: "\36";
-}
-.icrarrow-right:before {
-  content: "\35";
-}
-.icrarrow-left:before {
-  content: "\34";
-}
-.icrarrow-down-right:before {
-  content: "\33";
-}
-.icrarrow-down:before {
-  content: "\32";
-}
-.icrarrow-down-left:before {
-  content: "\31";
-}
-.icrtoggle-right:before {
-  content: "\74";
-}
-.icrtoggle-left:before {
-  content: "\54";
-}
-.icrmore-horizontal:before {
-  content: "\69";
-}
-.icrmore-vertical:before {
-  content: "\49";
-}
-.icrlocation:before {
-  content: "\4c";
-}
-.icrmap-marker:before {
-  content: "\4c";
-}
-.icrpin:before {
-  content: "\4c";
-}
-.icrbriefcase:before {
-  content: "\42";
-}
-.icrshopping-bag:before {
-  content: "\53";
-}
-.icrmap-o:before {
-  content: "\4d";
-}
-.icrstack:before {
-  content: "\44";
-}
-.icrdrawer:before {
-  content: "\44";
-}
-.icrinbox:before {
-  content: "\44";
-}
-.icrbox:before {
-  content: "\44";
-}
-.icrphone:before {
-  content: "\50";
-}
-.icrtablet:before {
-  content: "\50";
-}
-.icrmobile:before {
-  content: "\50";
-}
-.icrwallet:before {
-  content: "\57";
-}
-.icrplus-square:before {
-  content: "\7a";
-}
-.icrminus-square:before {
-  content: "\79";
-}
-.icrx-square:before {
-  content: "\78";
-}
-.icrcheck-square:before {
-  content: "\76";
-}
-.icrsquare:before {
-  content: "\71";
-}
-.icrcheck:before {
-  content: "\43";
-}
-.icrx:before {
-  content: "\58";
-}
-.icrthumbs-up:before {
-  content: "\6c";
-}
-.icrthumbs-down:before {
-  content: "\6b";
-}
-.icrgithub:before {
-  content: "\47";
-}
-.icrpython:before {
-  content: "\70";
-}
-.icrglobe:before {
-  content: "\4f";
-}
-.icruser:before {
-  content: "\55";
-}
-.icrphone-call:before {
-  content: "\56";
-}
-.icrshopping-cart:before {
-  content: "\72";
-}
-.icrshield:before {
-  content: "\6a";
-}
-.icrwindy:before {
-  content: "\68";
-}
-.icrcloud:before {
-  content: "\66";
-}
-.icrcloudy:before {
-  content: "\62";
-}
-.icrweather1:before {
-  content: "\67";
-}
-.icrmoon:before {
-  content: "\65";
-}
-.icrsunset:before {
-  content: "\61";
-}
-.icrweather:before {
-  content: "\6d";
-}
-.icrsun:before {
-  content: "\63";
-}
-.icrsunrise:before {
+.ramicosun1:before {
   content: "\64";
 }
-.icrheart:before {
-  content: "\3a";
+.ramicosun2:before {
+  content: "\61";
 }
-.icrheart-outline:before {
-  content: "\3b";
+.ramicosun3:before {
+  content: "\63";
 }
-.icrsave:before {
-  content: "\2f";
+.ramicoweather1:before {
+  content: "\62";
 }
-.icrdownload:before {
+.ramicosun4:before {
+  content: "\6d";
+}
+.ramicosun5:before {
+  content: "\67";
+}
+.ramicosun6:before {
+  content: "\65";
+}
+.ramicoweather2:before {
+  content: "\66";
+}
+.ramicoweather3:before {
+  content: "\68";
+}
+.ramicoradio_on:before {
+  content: "\2e";
+}
+.ramicoradio_off:before {
+  content: "\2c";
+}
+.ramicolist:before {
+  content: "\3e";
+}
+.ramicomenu:before {
+  content: "\3c";
+}
+.ramicolightbulb:before {
+  content: "\77";
+}
+.ramicomessages:before {
+  content: "\75";
+}
+.ramicoexit:before {
+  content: "\29";
+}
+.ramicolog-in:before {
+  content: "\5d";
+}
+.ramicolog-down:before {
   content: "\60";
 }
-.icrupload:before {
+.ramicolog-up:before {
   content: "\7e";
 }
-.icrsettings:before {
+.ramicolog-out:before {
+  content: "\5b";
+}
+.ramicohome:before {
+  content: "\2d";
+}
+.ramicohome-o:before {
+  content: "\5f";
+}
+.ramicobuilding:before {
+  content: "\3d";
+}
+.ramicoroad:before {
+  content: "\5a";
+}
+.ramicoalert:before {
+  content: "\2b";
+}
+.ramicoinfo:before {
+  content: "\28";
+}
+.ramicohelp:before {
+  content: "\2a";
+}
+.ramicochevrons-up:before {
+  content: "\26";
+}
+.ramicochevrons-right:before {
+  content: "\5e";
+}
+.ramicochevrons-left:before {
+  content: "\25";
+}
+.ramicochevrons-down:before {
+  content: "\24";
+}
+.ramicochevron-up:before {
+  content: "\40";
+}
+.ramicochevron-right:before {
+  content: "\30";
+}
+.ramicochevron-left:before {
+  content: "\39";
+}
+.ramicochevron-down:before {
+  content: "\21";
+}
+.ramicoarrow-up:before {
+  content: "\38";
+}
+.ramicoarrow-up-right:before {
+  content: "\37";
+}
+.ramicoarrow-up-left:before {
+  content: "\36";
+}
+.ramicoarrow-right:before {
+  content: "\35";
+}
+.ramicoarrow-left:before {
+  content: "\34";
+}
+.ramicoarrow-down-right:before {
+  content: "\33";
+}
+.ramicoarrow-down:before {
+  content: "\32";
+}
+.ramicoarrow-down-left:before {
+  content: "\31";
+}
+.ramicotoggle-right:before {
+  content: "\74";
+}
+.ramicotoggle-left:before {
+  content: "\54";
+}
+.ramicomore-horizontal:before {
+  content: "\69";
+}
+.ramicomore-vertical:before {
+  content: "\49";
+}
+.ramicox:before {
+  content: "\58";
+}
+.ramicoclose:before {
+  content: "\58";
+}
+.ramicocheck:before {
+  content: "\43";
+}
+.ramicoplus-square:before {
+  content: "\7a";
+}
+.ramicominus-square:before {
+  content: "\79";
+}
+.ramicox-square:before {
+  content: "\78";
+}
+.ramicocheck-square:before {
+  content: "\76";
+}
+.ramicosquare:before {
+  content: "\71";
+}
+.ramicothumbs-up:before {
+  content: "\6c";
+}
+.ramicothumbs-down:before {
+  content: "\6b";
+}
+.ramicoheart-outline:before {
+  content: "\3b";
+}
+.ramicoheart:before {
+  content: "\3a";
+}
+.ramicoshield:before {
+  content: "\6a";
+}
+.ramicoglobe:before {
+  content: "\4f";
+}
+.ramicouser:before {
+  content: "\55";
+}
+.ramicophone-call:before {
+  content: "\56";
+}
+.ramicosave:before {
+  content: "\2f";
+}
+.ramicosettings:before {
   content: "\7c";
 }
-.icrroad:before {
-  content: "\5a";
+.ramicoshopping-bag:before {
+  content: "\53";
+}
+.ramicoshopping-cart:before {
+  content: "\72";
+}
+.ramicobriefcase:before {
+  content: "\42";
+}
+.ramicopin:before {
+  content: "\4c";
+}
+.ramicomap-o:before {
+  content: "\4d";
+}
+.ramicowallet:before {
+  content: "\57";
+}
+.ramicostack:before {
+  content: "\44";
+}
+.ramicophone:before {
+  content: "\50";
+}
+.ramicogithub:before {
+  content: "\47";
+}
+.ramicopython:before {
+  content: "\70";
 }
