@@ -119,6 +119,16 @@ init -208 python:
         def random_of(self,array):
             return array [ int(renpy.random.randint(0,len(array)-1))]
 
+
+        def limit(self, what, ov, value=1):
+            ov += int(value)
+            if not what in mc.limit.keys(): what = 'stat'
+            if ov > mc.limit[what][1]:
+                ov = mc.limit[what][1]
+            elif ov < mc.limit[what][0]:
+                ov = mc.limit[what][0]
+            return ov
+                
         # toggles
 
         def ltoggle(self,what):
@@ -170,7 +180,7 @@ init -208 python:
 
     config.label_callback = label_callback        
     
-init python:
+init -102 python:
     
     def bucketing(what,value=None,**kwargs):
     

@@ -30,22 +30,14 @@ init -99 python:
 
         def gain(self,what=None,value=1):
 
+            # function that load from mc.rel
             stat = self.get_stat()
-
-            def limit(what, ov, value=1):
-                ov += int(value)
-                if not what in mc._limit.keys(): what = 'stat'
-                if ov > mc._limit[what][1]:
-                    ov = mc._limit[what][1]
-                elif ov < mc._limit[what][0]:
-                    ov = mc._limit[what][0]
-                return ov
 
             try: stat[what]
             except: stat[what]= 0
 
             ov = stat[what]
-            nv = limit(what, ov, value)
+            nv = ramu.limit(what, ov, value)
             stat[what] = nv
 
             mc.rel[self.id] = stat

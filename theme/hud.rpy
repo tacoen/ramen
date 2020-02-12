@@ -10,8 +10,7 @@ init -98 python:
     bucket.buff=0
 
     mc.pref['icons']= ['pocket','mcphone']
-    mc.pref['max']={}
-    mc.pref['max']['pocket'] = 12
+    mc.limit['pocket'] = [0,12]
 
     pocket = inventory('pocket')
 
@@ -208,7 +207,7 @@ screen hud_inventory():
         cs = ((w-(tc * iconsize[0]+2)) / tc)/2
         safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[bucket.hud.set],'#000000')
         
-        mc.pref['max']['pocket'] = tc * tr
+        mc.limit['pocket'] = [0, tc*tr]
     
     frame background safebgr style style['hud']['area']['inventory']:
         
@@ -218,7 +217,7 @@ screen hud_inventory():
             use hc_tbar('inventory','Pocket')
 
             hbox ysize 32 yalign 0.5 xfill True:
-                text "Maximum: " + ("{:02d}".format(mc.pref['max']['pocket'])) color hud.ui.fgcolor[bucket.hud.set]
+                text "Maximum: " + ("{:02d}".format(mc.limit['pocket'][1])) color hud.ui.fgcolor[bucket.hud.set]
                 text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[bucket.hud.set] size 24 xalign 1.0
             
             null height 16

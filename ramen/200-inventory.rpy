@@ -70,8 +70,8 @@ init -201 python:
                         ov = mc.stat[eff[1]]
                         mc.stat[eff[1]] += eff[2]
 
-                        if mc.stat[eff[1]] > mc._limits['stat'][1]: mc.stat[eff[1]] = mc._limits['stat'][1]
-                        if mc.stat[eff[1]] < mc._limits['stat'][0]: mc.stat[eff[1]] = mc._limits['stat'][0]
+                        if mc.stat[eff[1]] > mc.limits['stat'][1]: mc.stat[eff[1]] = mc.limits['stat'][1]
+                        if mc.stat[eff[1]] < mc.limits['stat'][0]: mc.stat[eff[1]] = mc.limits['stat'][0]
 
                         if ov < mc.stat[eff[1]]: res = False
                         else: res = True

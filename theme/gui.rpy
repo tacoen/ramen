@@ -30,8 +30,6 @@ define gui.name_text_font = FONT_PATH+'/WorkSans-SemiBold.ttf'
 define gui.name_text_size = 22
 define gui.name_text_color = '#fff'
 
-define gui.notify_text_size = 16
-
 define gui.title_text_size = 48
 define gui.title_text_color = gui.hover_color
 define gui.title_text_font = FONT_PATH+'/WorkSans-Light.ttf'
@@ -151,6 +149,21 @@ define gui.confirm_button_text_size = 22
 define gui.confirm_button_text_font = FONT_PATH+'/WorkSans-SemiBold.ttf'
 define gui.confirm_button_text_idle_color =  gui.interface_hover_color
 define gui.confirm_button_text_hover_color = gui.interface_hover_color.tint(0.1)
+
+
+define gui.notify_background = gui.interface_background.shade(0.3).opacity(0.6)
+define gui.notify_xpos = 16
+define gui.notify_ypos = 74
+define gui.notify_frame_borders = Borders(16, 5, 40, 5)
+define gui.notify_text_size = 18
+define gui.notify_frame_background = Frame(
+       Composite(
+          (200,80),
+           (0,0), Solid(gui.notify_background),
+           (0,0), THEME_PATH + "/gui/outline-b.png"
+        ), Borders(1,1,1,1), tile=False, xalign=0.5)
+
+
 
 ## ui
 
@@ -291,9 +304,6 @@ define gui.file_slot_rows = 2
 define gui.skip_ypos = config.screen_height-36
 define gui.skip_xpos = 20
 
-## The vertical position of the notify screen.
-
-define gui.notify_ypos = 45
 
 ## The spacing between menu choices.
 define gui.choice_spacing = 22
@@ -327,8 +337,6 @@ define gui.frame_borders = Borders(4, 4, 4, 4)
 ## The frame that is used as part of the skip screen.
 define gui.skip_frame_borders = Borders(16, 5, 50, 5)
 
-## The frame that is used as part of the notify screen.
-define gui.notify_frame_borders = Borders(16, 5, 40, 5)
 
 ## Should frame backgrounds be tiled?
 define gui.frame_tile = False

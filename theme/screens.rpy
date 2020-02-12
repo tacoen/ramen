@@ -1338,7 +1338,7 @@ style skip_text is abel_font:
 
 screen notify(message):
 
-    zorder 100
+    zorder 102
     style_prefix "notify"
 
     frame at notify_appear:
@@ -1360,8 +1360,8 @@ style notify_text is gui_text
 
 style notify_frame:
     ypos gui.notify_ypos
-
-    background Frame("gui/notify.png", gui.notify_frame_borders, tile=gui.frame_tile)
+    xpos gui.notify_xpos
+    background gui.notify_frame_background
     padding gui.notify_frame_borders.padding
 
 style notify_text:

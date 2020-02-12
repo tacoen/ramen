@@ -91,8 +91,8 @@ init -1:
             barsty = style['hud']['hbar'][topic]
             tcolor = hud.ui.fgcolor[bucket.hud.set]
             val = mc.stat[topic]
-            try: max = mc._limit[topic][1]
-            except: max = mc._limit['stat'][1]
+            try: max = mc.limit[topic][1]
+            except: max = mc.limit['stat'][1]
 
         vbox:
             hbox xminimum xmax:

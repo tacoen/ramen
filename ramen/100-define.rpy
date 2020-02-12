@@ -18,8 +18,8 @@ init -200 python:
         bank=9000+ramu.random_int(100,200)
     )
 
-    mc.limit('relation',[0,10])
-    mc.limit('stat',[0,20])
+    mc.set_limit('relation',[0,20])
+    mc.set_limit('stat',[0,20])
 
     mc.data('rel',
         joana={'relation':8,'like':5}
