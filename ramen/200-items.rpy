@@ -11,7 +11,7 @@ init -202 python:
             self.effect=None
             self.desc='No Descriptions'
             self.name= None
-            
+
             for k in kwargs:
                 self.__dict__[k]=kwargs[k]
 
@@ -42,16 +42,16 @@ init -202 python:
         for f in files:
             fn = ramu.fn_info(f)
             i = item( id= fn['name'], desc=ramu.nicenaming(prefix,fn['name']))
-        
+
             for k in kwargs.keys():
                 i.__dict__[k] = kwargs[k]
                 if k == 'cost':
-                
+
                     try: kwargs[k][0]
                     except: kwargs[k][0]=10
                     try: kwargs[k][1]
                     except: kwargs[k][1]=20
-                    
+
                     i.__dict__['cost'] = ramu.random_int(kwargs[k][0],kwargs[k][1])
                     i.__dict__['dir'] = str(where)
 

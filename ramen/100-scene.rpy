@@ -8,7 +8,7 @@ init -99 python:
             cond = {}
             condition = list(dict.fromkeys(wo.sunword))
             condition2 =  list(dict.fromkeys(wo.timeword))
-            
+
             try: bucket.__dict__[self.id]
             except: bucket.__dict__[self.id] = {}
 
@@ -187,11 +187,11 @@ init -99 python:
                 if not xy is None:
 
                     #print w
-                    # w 
+                    # w
                     # 0 xy
                     # 1 key/func
                     # 2 hs code
-                    # 3 img 
+                    # 3 img
 
                     if renpy.has_label(w[2]):
                         action = Jump(w[2])
@@ -200,11 +200,11 @@ init -99 python:
 
                     elif renpy.has_label(w[1]):
                         action = Jump(w[1])
-                    elif renpy.has_label(self.id+'_'+floor+"_"+w[1]): 
+                    elif renpy.has_label(self.id+'_'+floor+"_"+w[1]):
                         action = Jump(self.id+'_'+floor+"_"+w[1])
                     elif renpy.has_label(self.id+'_'+w[1]):
                         action = Function(self.scene_call, what=self.id+'_'+w[1], id=self.id, f=floor, d=w[2])
-                    elif renpy.has_label('_scene_'+w[1]): 
+                    elif renpy.has_label('_scene_'+w[1]):
                         action = Function(self.scene_call, what='_scene_'+w[1], id=self.id, f=floor, d=w[2])
 
                     else:
@@ -229,11 +229,11 @@ init -99 python:
                             #ground = RAMEN_PATH + "/img/blank.png"
                             ground = Solid('#0000')
 
-                    if hover: 
+                    if hover:
                         himg = himg + ( xy, hover )
-                    if ground: 
+                    if ground:
                         gimg = gimg + ( xy,ground )
-                    if area: 
+                    if area:
                         imgdata.append( [ area, action ] )
 
                     img['ground'] = LiveComposite( (1280,720), *gimg )
@@ -252,16 +252,16 @@ init -99 python:
             res = []
             for file in imgs:
                 fn = ramu.fn_info(file)
-                if fn['file'].startswith(str(prefix)): 
+                if fn['file'].startswith(str(prefix)):
                     res.append(fn['path']+"/"+fn['name'])
-             
+
             return  ramu.random_of(res)
 
 
 # scene map ###################################################################
 
 screen scene_imagemap(scene_id, img, position=None ):
-    
+
     # map
 
     imagemap xpos 0 ypos 0:
@@ -278,21 +278,21 @@ screen scene_imagemap(scene_id, img, position=None ):
 
     if not shortcuts is None:
         use scene_shortcut( scene_id, shortcuts, position)
-        
+
 label _scene_map:
 
     hide screen scene_imagemap
-    
+
     python:
         obj_id = get_bucket('sm','id')
         f = get_bucket('sm','f')
         d = get_bucket('sm','d')
         obj = globals()[obj_id]
-        
+
         renpy.scene()
         renpy.show(obj_id + " "+d)
         renpy.with_statement(dissolve)
-    
+
         # bucket
         map = obj.imagemaping(d, ramu.get_sceneimg())
 
@@ -310,11 +310,11 @@ label _scene_goto:
         d = get_bucket('sm','d')
         obj = globals()[obj_id]
         doors = []
-        target = ['knock', 'peek', 'key' ] 
-        
+        target = ['knock', 'peek', 'key' ]
+
         for t in target:
             if renpy.has_label(obj_id+"_"+f+"_"+d+"_"+ t):
-                if t == "key": 
+                if t == "key":
                     tn = "Open (key)"
                 else:
                     tn = t
@@ -322,29 +322,29 @@ label _scene_goto:
 
         if not doors == []:
             doors.append(('Exit','Return'))
-            
+
             renpy.scene()
             renpy.show(obj_id + " door")
             renpy.with_statement(dissolve)
-            
-            choice = menu(doors)    
-            
+
+            choice = menu(doors)
+
             if choice=='Return':
                 renpy.jump('_back')
             else:
                 renpy.jump(choice)
-                
+
     "Nothing responding..."
-                
+
     label _back:
         python:
             bucketing('sm',f=d,d=f,id=obj_id)
             renpy.jump('_scene_map')
-    
+
     return
-    
-  
-    
+
+
+
 ## scene_shorcut #######################################################
 
 style shortcut_icon is icoram:
@@ -379,7 +379,7 @@ screen scene_shortcut(scene_id, shorts, position=None):
         for i in range(1,n):
             spos.append([ x,y-(i*s) ])
         pos = -1
-        
+
     for s in shorts:
 
         python:
@@ -400,16 +400,16 @@ screen scene_shortcut(scene_id, shorts, position=None):
                     show = False
                 else:
                     show = True
-            
+
             if not d['show_on'] is None:
-            
+
                 if scene_id in d['show_on']:
                     show = True
                 else:
                     show = False
-            
-        if show: 
-        
+
+        if show:
+
             python:
                 pos +=1
                 d['pos'] = pos
@@ -417,7 +417,7 @@ screen scene_shortcut(scene_id, shorts, position=None):
                     Action = Jump (d['goto'])
                 else:
                     Action = Null
-                    
+
             if not Action == Null:
                 if position == 'right':
                     hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:

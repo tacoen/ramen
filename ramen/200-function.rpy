@@ -52,17 +52,17 @@ init -208 python:
             files = filter(lambda w:where+"/" in w, sorted(F))
             if key:  files = filter(lambda w:key in w, files)
             return files
-        
+
         # str
-        
+
         def nicenaming(self,str_strip,name):
             nn = name.replace(str_strip,'').replace('_',' ')
             return nn.title()
-            
+
         def safeid(self,id):
             id = id.replace('-','')
             return id
-            
+
         def safestr(self,string1,string2=None):
             s = str(string1)
             if not string2 is None:
@@ -88,7 +88,7 @@ init -208 python:
                 json.dump(data, outfile)
 
         # Color
-        
+
         def safecolor_for_bgr(self,hex_color,bgr_hc):
             nno = Color(hex_color).hexcode[:7]
             if nno == bgr_hc:
@@ -136,7 +136,7 @@ init -208 python:
                 return False
             else:
                 return True
-                
+
         def toggle(self,what,sfx=True):
 
             if not renpy.loadable(DEFAULT_SFXPATH+"/tone1.mp3"):
@@ -170,23 +170,23 @@ init -208 python:
             return res
 
     # buckect
-    
+
     bucket = object()
 
     # renpy behave
-    
+
     def label_callback(name, abnormal):
         store.last_label = name
 
-    config.label_callback = label_callback        
-    
+    config.label_callback = label_callback
+   
 init -102 python:
-    
+
     def bucketing(what,value=None,**kwargs):
-    
+
         try: bucket.__dict__[what]
         except: bucket.__dict__[str(what)] = {}
-        
+
         if not value is None:
             bucket.__dict__[what] = value
         for k in kwargs:
@@ -198,4 +198,4 @@ init -102 python:
             except: return False
         else:
             try: return bucket.__dict__[which][what]
-            except: return False    
+            except: return False
