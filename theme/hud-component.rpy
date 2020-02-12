@@ -51,9 +51,9 @@ init -1:
         size 18
 
     style hud_title is abel_font:
-        size 14 
-        yalign 0.5 
-        xoffset 2        
+        size 14
+        yalign 0.5
+        xoffset 2
         bold True
 
     transform pulse:
@@ -85,7 +85,7 @@ init -1:
 
 
     screen hc_hbar(topic):
-    
+
         python:
             xmax = style['hud']['area']['stats'].xminimum - ( style['hud']['area']['stats'].left_padding + style['hud']['area']['stats'].right_padding )
             barsty = style['hud']['hbar'][topic]
@@ -103,26 +103,25 @@ init -1:
             bar range max value val style barsty xmaximum xmax ysize 12
 
     screen hc_tbar(element,title=''):
-    
+
         python:
             xmax = style['hud']['area'][element].xminimum-2
-            
+
         frame background Color(hud.ui.bgcolor[bucket.hud.set]).shade(0.5):
             xsize xmax
             xoffset -7
             yoffset -7
             hbox:
                 xfill True
-                text title style "hud_title" color hud.ui.fgcolor[bucket.hud.set] 
+                text title style "hud_title" color hud.ui.fgcolor[bucket.hud.set]
                 hbox yalign 0.4 xalign 1.0 ysize 18:
                     textbutton ico('close') style 'hud_sunico_text':
                         text_size 16
                         text_color hud.ui.fgcolor[bucket.hud.set]
                         text_hover_color Color(hud.ui.fgcolor[bucket.hud.set]).tint(0.2)
-                        action Function(hud_toggle,what=element) 
+                        action Function(hud_toggle,what=element)
                     null width 4
-                    
+
 
         $ hc_test = True
 
-    

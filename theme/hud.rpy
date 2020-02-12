@@ -47,17 +47,17 @@ init -98 python:
             'toolbar': [0,0,config.screen_width,config.screen_height/10],
             'stats': [16,config.screen_height/10 + 4, 224, None,(8,8,8,20)],
             'inventory': [
-                config.screen_width/2, 
+                config.screen_width/2,
                 config.screen_height/10 + 4,
-                config.screen_width/2-16, 
-                config.screen_height-(config.screen_height/10+4)-48, 
+                config.screen_width/2-16,
+                config.screen_height-(config.screen_height/10+4)-48,
                 (8,8,8,8)
             ]
         }
     )
 
     # why?
-    
+
     for e in hud.ui.element.keys():
         bucket.hud.element[e] = hud.ui.element[e]
 
@@ -179,7 +179,7 @@ screen hud_stats():
                 spacing 12
                 for topic in sorted(hud.ui.hbar.keys()):
                     use hc_hbar(topic)
-                
+
 
 
 style hudinventory is empty
@@ -189,15 +189,15 @@ python:
 
     def item_view(item):
         renpy.use_screen('hc_item',item=item)
-        
+
 screen hud_inventory():
 
     modal True
-    
+
     python:
         try: bucket.selected_item
         except: bucket.selected_item = None
- 
+
         inv = mc._inventory['pocket']
         iconsize = (100,100)
         w = style['hud']['area']['inventory'].xminimum
@@ -207,41 +207,41 @@ screen hud_inventory():
         cmax = tc * tr
         cs = ((w-(tc * iconsize[0]+2)) / tc)/2
         safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[bucket.hud.set],'#000000')
-        
+
         mc.pref['max']['pocket'] = tc * tr
-    
+
     frame background safebgr style style['hud']['area']['inventory']:
-        
+
         style_prefix "hudinventory"
-        
+
         vbox:
             use hc_tbar('inventory','Pocket')
 
             hbox ysize 32 yalign 0.5 xfill True:
                 text "Maximum: " + ("{:02d}".format(mc.pref['max']['pocket'])) color hud.ui.fgcolor[bucket.hud.set]
                 text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[bucket.hud.set] size 24 xalign 1.0
-            
+
             null height 16
 
             if bucket.selected_item is None:
-            
+
                 vpgrid cols tc spacing cs ysize h/2:
                     draggable True
                     mousewheel True
                     scrollbars "vertical"
-            
+
                     for i in sorted(inv.keys()):
                         python:
                             item = inv[i]
-                            icon = im.Scale(item.icon(),iconsize[0],iconsize[1]) 
-                    
+                            icon = im.Scale(item.icon(),iconsize[0],iconsize[1])
+
                         imagebutton:
                             idle icon
                             hover im.MatrixColor(icon,im.matrix.brightness(0.3))
                             action SetVariable('bucket.selected_item',item)
-                            
+
                 null height 16
-            
+
             else:
                 frame background Color(safebgr).replace_lightness(0.3) padding (8,8,8,8):
                     textbutton "x" action SetVariable('bucket.selected_item',None) xpos 1.0 ypos -8 xanchor 0.9
@@ -252,7 +252,7 @@ screen hbox_item(what,value):
     hbox xfill True yalign 0.5:
         text str(what) size 20 color hud.ui.fgcolor[bucket.hud.set]
         text str(value) size 20 xalign 1.0 color hud.ui.fgcolor[bucket.hud.set]
-    
+
 screen hc_item(item):
 
     python:
@@ -274,7 +274,7 @@ screen hc_item(item):
             null height 8
             frame background hud.ui.fgcolor[bucket.hud.set] ysize 1
             null height 8
-                
+
             use hbox_item('Price', item.cost)
 
             if depend:
@@ -282,21 +282,21 @@ screen hc_item(item):
 
             if not item.effect is None:
                 use hbox_item(item.effect[1].title()+"("+item.effect[0].title()+")", item.effect[2] )
-                
+
             null height 8
             frame background hud.ui.fgcolor[bucket.hud.set] ysize 1
             null height 8
-            
+
             hbox xfill True:
                 if eatable:
                     textbutton "Eat/Drink" action Null
-                    
+
                 textbutton "Give" action Null
                 textbutton "Drop" action Null
 
-                
-                
-            
+
+
+
 
 screen hud_legend():
     modal True

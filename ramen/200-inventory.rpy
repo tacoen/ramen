@@ -97,32 +97,32 @@ init -201 python:
                     self.drop(item_id)
 
             return res
-            
-            
+
+
     class shop(rn_obj):
-    
+
         def load(self,default=False,**kwargs):
             self.__dict__['container']={}
-            
+
             try: bucket.__dict__[self.id]
             except: bucket.__dict__[self.id]= []
 
         def bucket_clear(self):
             bucket.__dict__[self.id]=[]
-            
+
         def bucket(self,what,add=True):
             if add:
                 bucket.__dict__[self.id].append(what)
             else:
                 n = bucket.__dict__[self.id].index(what)
                 bucket.__dict__[self.id].pop(n)
-            
+
         def in_bucket(self,what):
             if what in bucket.__dict__[self.id]:
                 return True
             else:
                 return False
-                
+
         def cart(self,item_id,check=False):
             if check:
                 if self.in_bucket(item_id):
@@ -131,8 +131,8 @@ init -201 python:
                     self.bucket(item_id)
             else:
                 self.bucket(item_id)
-            
-            
+
+
         def add(self,item):
             i = copy.copy(item)
             try:
@@ -148,23 +148,22 @@ init -201 python:
         def checkout(self):
             print 'checkout'
             for i in bucket.__dict__[self.id]:
-                print i
                 res = self.buy( self.container[i] )
-            
+
             self.bucket_clear()
-                
+
             return res
 
         def buy(self,item):
             i = copy.copy(item)
-            
+
             if mc.cash >= i.cost:
                 mc.cash -= i.cost
                 pocket.add(i)
                 return True
             else:
                 return False
-                
+
         def sell(self,item,price,cash=True):
             i = copy.copy(item)
             i.cost = price
@@ -173,14 +172,14 @@ init -201 python:
                 mc.cash += i.cost
             else:
                 mc.bank += i.cost
-            
+
             i.cost = i.cost * float(1.3)
             self.add(i)
             return True
-            
-        
-            
-        
+
+
+
+
 ### Shop #####################################################################################
 
 style vui_button:
@@ -209,7 +208,7 @@ screen shop_ui(obj):
 
         frame style style['vui']['area']['tag']:
             background thebgr
-            
+
             vbox yalign 0.5 xoffset 40-4 spacing 16:
                 textbutton "Selection" action SetVariable('bucket.vui','catalog'):
                     text_color vui.ui.fg style 'vui_button'
@@ -218,12 +217,12 @@ screen shop_ui(obj):
                     text_color vui.ui.fg style 'vui_button'
                     xsize vui.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(vui.ui.bg)
                 if mc.cash >= total:
-                    if total > 0: 
+                    if total > 0:
                         $ maction = Function(obj.checkout)
                     else:
                         $ maction = Null
                     textbutton "Pay ("+str(total)+" $)" action maction :
-                        xsize vui.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(vui.ui.bg) 
+                        xsize vui.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(vui.ui.bg)
                 else:
                     textbutton "Not Enough" action Null :
                         text_color Color(vui.ui.fg).shade(.5)
@@ -236,7 +235,7 @@ screen shop_ui(obj):
                 textbutton "Exit" action Return(False):
                     text_color vui.ui.fg style 'vui_button'
                     xsize vui.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(vui.ui.bg)
-                    
+
         if bucket.vui == 'catalog':
             frame style style['vui']['area']['catalog']:
                 background vui.ui.bg
@@ -248,7 +247,7 @@ screen shop_ui(obj):
                     mousewheel True
                     for i in sorted(prod.keys()):
                         use shop_item(obj, prod[i], cw)
-                        
+
         else:
             frame style style['vui']['area']['cart']:
                 background vui.ui.bg
@@ -264,7 +263,7 @@ screen shop_ui(obj):
                                         c[i] = 1
                                     else:
                                         c[i] += 1
-                    
+
                             for i in c.keys():
                                 hbox xfit True:
                                     vbox xsize 20:
@@ -283,7 +282,7 @@ screen shop_ui(obj):
                                     text "Total" color vui.ui.fg
                                 vbox xsize 80:
                                     text str(total) xalign 1.0  color vui.ui.fg bold True
-            
+
 screen shop_item(obj,item,width=180):
         python:
             iconsize=(100,100)
@@ -292,7 +291,7 @@ screen shop_item(obj,item,width=180):
             hbox:
                 vbox xsize 100 yalign 0.0 xalign 0.5:
                     imagebutton action Function(obj.cart,item_id=item.id):
-                        idle icon 
+                        idle icon
                         hover im.MatrixColor(icon,im.matrix.brightness(0.3))
 
                 vbox xsize width-100 yalign 0.5:
@@ -305,4 +304,4 @@ screen shop_item(obj,item,width=180):
                     if not item.effect is None:
                         text item.effect[1].title() + " (" + str(item.effect[2]) + ")" size 18 color Color(vui.ui.fg).shade(.7)
                     text str(item.cost)+" $" color vui.ui.fg
-                
+

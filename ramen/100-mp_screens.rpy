@@ -1,7 +1,7 @@
 screen _overlays(obj_id, data, ontop=False):
 
     zorder 99
-    
+
     python:
         if not obj_id is None: obj = globals()[obj_id]
 
@@ -9,8 +9,6 @@ screen _overlays(obj_id, data, ontop=False):
         python:
             img = ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
             xy = d[1]
-
-        text d[0]
         if img:
             hbox pos xy:
                 add img
