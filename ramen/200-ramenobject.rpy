@@ -46,6 +46,7 @@ init -204 python:
 
             if id is None:
                 self.__dict__[str('id')] = str(f.replace(" ","").replace("-","").lower())
+                self.__dict__[str('id')] = str(uuid.uuid4())[:8].lower()
             else:
                 self.__dict__[str('id')] = str(id.replace(" ","").replace("-","").lower())
 
@@ -114,8 +115,8 @@ init -204 python:
                         try: bcolor = kwargs['bars'][t]
                         except: bcolor = ramen.random_colour(128,255)
                         style.hbar[t].thumb = bcolor
-                        style.hbar[t].right_bar=bcolor+"5"
-                        style.hbar[t].left_bar=bcolor+"D"
+                        style.hbar[t].right_bar= Color(bcolor).shade(.9)
+                        style.hbar[t].left_bar= Color(bcolor).opacity(.5)
 
         def data(self,key,**kwargs):
             """set object as data container"""

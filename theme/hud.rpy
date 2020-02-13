@@ -291,8 +291,6 @@ screen hc_item(item):
                 textbutton "Give" action Null
                 textbutton "Drop" action Null
 
-
-
 screen hud_legend():
     modal True
     add (Solid("#000d"))

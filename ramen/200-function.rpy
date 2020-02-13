@@ -6,6 +6,7 @@ init -208 python:
     import copy
     import sys
     import json
+    import uuid
 
     class ramen_util:
 
@@ -146,7 +147,6 @@ init -208 python:
                 return True
 
         def toggle(self,what,sfx=True):
-
             if not renpy.loadable(DEFAULT_SFXPATH+"/tone1.mp3"):
                 sfx = False
 
@@ -178,6 +178,33 @@ init -208 python:
         def notify(self,msg,icoram=None):
             renpy.show_screen('ingame_notify',msg=msg,icoram=icoram)                
         
+        # Mass function : Items
+        
+        def create_items(self, inventory, where, prefix, **kwargs ):
+        
+            files = ramu.fn_files(where,prefix)
+
+            for f in files:
+                fn = ramu.fn_info(f)
+                i = item(fn['name'])
+
+                for k in kwargs.keys():
+                    i.__dict__[k] = kwargs[k]
+
+                    if k == 'cost':
+                        try: kwargs[k][0]
+                        except: kwargs[k][0]=10
+                        try: kwargs[k][1]
+                        except: kwargs[k][1]=20
+
+                        i.__dict__['cost'] = ramu.random_int(kwargs[k][0],kwargs[k][1])
+
+                i.__dict__['dir'] = str(where)
+                i.__dict__['desc'] = ramu.nicenaming(prefix,fn['name'])
+                        
+                inventory.add(i)
+            
+            
         # Image util
 
         def get_sceneimg(self):

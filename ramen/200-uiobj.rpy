@@ -4,7 +4,9 @@ init -203 python:
 
         def load(self,id=None,**kwargs):
             self.__dict__['param'] = {}
+            
             self.__dict__['ui'] = rn_obj(0)
+            
             self.set(**kwargs)
 
             try: bucket.__dict__[self.id]
@@ -14,6 +16,7 @@ init -203 python:
 
             for k in kwargs:
                 instyle = self.makestyle(k,kwargs[k])
+            
                 setattr(self.__dict__['ui'],k,kwargs[k])
 
         def makestyle(self, key, val):

@@ -24,6 +24,7 @@ init -200 python:
     mc.data('rel',
         joana={'relation':8,'like':5}
     )
+    
     mc.data('bio',
         lastname = ramu.random_of(['Small','North','Strong','Smith']),
         job = 'it'

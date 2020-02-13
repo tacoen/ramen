@@ -6,7 +6,7 @@ init -99 python:
             try: self.color
             except: self.color=ramu.color_random(128,255)
             try: self.wcolor
-            except: self.wcolor= "#ddd"
+            except: self.wcolor= "#d0d0d0"
             try: self.name
             except: self.name = self.id.title()
             try: self.callname
@@ -64,6 +64,9 @@ init -99 python:
             voids = [ 'profile', 'nsd-chat' ]
 
             files = self.files('self.id' + '/pose/') + self.files(self.id+"/")
+            
+            if files == []: return False
+            
             conte = [ 'sprite' ]
 
             self.__dict__[str('pose')] = {}
