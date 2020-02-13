@@ -118,8 +118,6 @@ init -204 python:
 
             ins = False
 
-            print "style:"+self.id
-
             def makestyle_hbar(key,val):
 
                 for t in val.keys():

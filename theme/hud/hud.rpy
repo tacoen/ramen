@@ -295,9 +295,7 @@ screen hc_item(item):
 screen hud_legend():
     modal True
     add (Solid("#000d"))
-    add (THEME_PATH+"/gui/hud-legend.png")
-
-
+    add (ramu.theme_image(THEME_PATH, "/gui/hud-legend"))
 
 init python:
     config.overlay_screens.append("hud_init")

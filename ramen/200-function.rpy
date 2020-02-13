@@ -10,15 +10,9 @@ init -208 python:
 
     class ramen_util:
 
-        def __repr__(self): return """
-
-        ramen_util syntax:
-        ------------------
-        fn_getdir()
-        fn_info(fullfilepath)
-        fn_ezy(filepath,extension_list)
-
-        """
+        def __repr__(self): 
+        
+            return "https://https://github.com/tacoen/ramen"
 
         # fn -- files functions
 
@@ -147,15 +141,16 @@ init -208 python:
                 return True
 
         def toggle(self,what,sfx=True):
-            if not renpy.loadable(DEFAULT_SFXPATH+"/tone1.mp3"):
+            
+            if not ramu.sfx( THEME_PATH, "tone1.mp3", False, False):
                 sfx = False
 
             if globals()[what] == True:
                 globals()[what] = False
-                if sfx: renpy.play(DEFAULT_SFXPATH+"/tone0.mp3")
+                if sfx: ramu.sfx( THEME_PATH, "tone0.mp3", True, False)
             else:
                 globals()[what] = True
-                if sfx: renpy.play(DEFAULT_SFXPATH+"/tone1.mp3")
+                if sfx: ramu.sfx( THEME_PATH, "tone1.mp3", True, False)
 
         def cycle(self,current,list):
             current += 1
@@ -219,16 +214,30 @@ init -208 python:
                 except:
                     res = "blank"
             return res
+            
+        def theme_image(self,where,what):
+            file =  self.fn_ezy(where+"/"+what)
+            if file: 
+                return file
+            else:
+                file = self.fn_ezy(RAMEN_THEME_PATH+"/"+what)
+                if file: return file
+            
+            return RAMEN_PATH + "/img/noimage.png"
+            
 
         # Sound util
         
-        def playsfx(self,where,what):
+        def sfx(self,where,what,play=True,loop=False,**kwargs):
             file =  self.fn_ezy(where+"/"+what , ['.ogg', '.mp3', '.wav' ])
-            if file: 
-                renpy.play(file)
-            else:
-                file = self.fn_ezy(DEFAULT_SFXPATH+"/"+what , ['.ogg', '.mp3', '.wav' ])
-                if file: renpy.play(file)
+            if not file: file = self.fn_ezy(RAMEN_THEME_PATH+"/audio/"+what , ['.ogg', '.mp3', '.wav' ])
+            if not file: file = self.fn_ezy(DEFAULT_SFXPATH+"/"+what , ['.ogg', '.mp3', '.wav' ])
+            for k in kwargs:
+                if k == 'loop': del kwargs[k]
+            if file and play: renpy.music.play(file,loop=loop)
+            return file
+                
+            
 
     # buckect
 

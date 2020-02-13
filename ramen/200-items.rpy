@@ -5,7 +5,6 @@ init -202 python:
         def load (self,id=None,**kwargs):
 
             for k in kwargs:
-                print k
                 self.__dict__[k]=kwargs[k]
 
             if id is None:

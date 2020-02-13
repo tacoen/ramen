@@ -12,10 +12,10 @@ init -99 python:
 
         if hud.ui.element[what]:
             hud.ui.element[what]=False
-            if sfx: ramu.playsfx(HUD_PATH,"tone0")
+            if sfx: ramu.sfx(HUD_PATH,"tone0")
         else:
             hud.ui.element[what]=True
-            if sfx: ramu.playsfx(HUD_PATH,"tone1")
+            if sfx: ramu.sfx(HUD_PATH,"tone1")
 
         bucket.hud.element[what] = hud.ui.element[what]
 

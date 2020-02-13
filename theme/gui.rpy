@@ -95,28 +95,28 @@ define gui.input_text_color = Color('#f0f9fC')
 
 init python:
 
-    if renpy.loadable(TITLES_PATH+"/main_menu.png"):
-        main_menu_background = TITLES_PATH+"/main_menu.png"
+    if renpy.loadable(THEME_PATH+"/main_menu.png"):
+        main_menu_background = THEME_PATH+"/main_menu.png"
     else:
         main_menu_background = gui.game_menu_background
 
-    if renpy.loadable(TITLES_PATH+"/game_menu.png"):
-        game_menu_background = TITLES_PATH+"/game_menu.png"
+    if renpy.loadable(THEME_PATH+"/game_menu.png"):
+        game_menu_background = THEME_PATH+"/game_menu.png"
     else:
         game_menu_background = gui.game_menu_background
 
-    if renpy.loadable(TITLES_PATH+"/ingame-overlay.png"):
-        gui.game_menu_overlay = TITLES_PATH+"/ingame-overlay.png"
+    if renpy.loadable(THEME_PATH+"/ingame-overlay.png"):
+        gui.game_menu_overlay = THEME_PATH+"/ingame-overlay.png"
     else:
         gui.game_menu_overlay = gui.game_menu_overlay
 
-    if renpy.loadable(TITLES_PATH+"/menu_frame.png"):
-        game_menu_frame = TITLES_PATH+"/menu_frame.png"
+    if renpy.loadable(THEME_PATH+"/menu_frame.png"):
+        game_menu_frame = THEME_PATH+"/menu_frame.png"
     else:
         game_menu_frame = gui.game_menu_overlay
 
-    if renpy.loadable(TITLES_PATH+"/open-titles.mp3"):
-        config.main_menu_music = TITLES_PATH+"/open-titles.mp3"
+    if ramu.sfx(THEME_PATH,"/open-theme",False):
+        config.main_menu_music = ramu.sfx(THEME_PATH,"/open-theme",False)
 
 define gui.main_menu_background = main_menu_background
 define gui.game_menu_background = game_menu_background
@@ -135,7 +135,7 @@ define gui.confirm_frame_background = Frame(
        Composite(
           (200,80),
            (0,0), Solid(gui.confirm_background),
-           (0,0), THEME_PATH + "/gui/outline-b.png"
+           (0,0), ramu.theme_image(THEME_PATH,"/gui/outline-b")
         ), Borders(1,1,1,1), tile=False, xalign=0.5)
 
 define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
@@ -160,7 +160,7 @@ define gui.notify_frame_background = Frame(
        Composite(
           (200,80),
            (0,0), Solid(gui.notify_background),
-           (0,0), THEME_PATH + "/gui/outline-b.png"
+           (0,0), ramu.theme_image(THEME_PATH,"/gui/outline-b.png")
         ), Borders(1,1,1,1), tile=False, xalign=0.5)
 
 

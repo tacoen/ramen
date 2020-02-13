@@ -248,14 +248,14 @@ image choice_ = Frame(
         Composite(
             (100,60),
             (0,0), Solid(gui.choice_background),
-            (0,0), THEME_PATH + "/gui/outline-embose.png"
+            (0,0), ramu.theme_image(THEME_PATH, "/gui/outline-embose")
         ), Borders(3,1,1,1), tile=False, xalign=0.5)
 
 image choice_hover_ = Frame(
         Composite(
             (100,60),
             (0,0), Solid(gui.hover_color),
-            (0,0), THEME_PATH + "/gui/outline-embose.png"
+            (0,0), ramu.theme_image(THEME_PATH,"/gui/outline-embose")
         ), Borders(2,1,2,1), tile=False, xalign=0.5)
 
 style choice_button is default:
