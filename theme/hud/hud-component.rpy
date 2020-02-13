@@ -1,3 +1,8 @@
+init -190 python:
+
+    HUD_PATH = ramu.fn_getdir()
+
+
 init -99 python:
 
     def hud_toggle(what,sfx=True):
@@ -7,10 +12,10 @@ init -99 python:
 
         if hud.ui.element[what]:
             hud.ui.element[what]=False
-            if sfx: renpy.play(DEFAULT_SFXPATH+"/tone0.mp3")
+            if sfx: ramu.playsfx(HUD_PATH,"tone0")
         else:
             hud.ui.element[what]=True
-            if sfx: renpy.play(DEFAULT_SFXPATH+"/tone1.mp3")
+            if sfx: ramu.playsfx(HUD_PATH,"tone1")
 
         bucket.hud.element[what] = hud.ui.element[what]
 

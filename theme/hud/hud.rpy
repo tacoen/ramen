@@ -16,7 +16,8 @@ init -98 python:
 
     # hub object
 
-    hud = uiobj(id='hud',
+    hud = ramen_object(id='hud')
+    hud.ui_set(
         x=0,
         y=0,
         w=config.screen_width,

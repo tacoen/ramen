@@ -98,7 +98,64 @@ init -204 python:
             except:
                 return super(object, self).__getattribute__(key)
 
-        def set_ui(self,**kwargs):
+        def ui_set(self, noparam=False, **kwargs):
+
+            self.__dict__['ui'] = rn_obj(0)
+            
+            try: bucket.__dict__[self.id]
+            except: bucket.__dict__[self.id] = {}
+            
+            for k in kwargs:
+                instyle = self.makestyle(k,kwargs[k])
+                setattr(self.__dict__['ui'],k,kwargs[k])
+                
+            if noparam: self.__dict__['param'] = {}
+
+        def makestyle(self, key, val):
+
+            try: style[self.id]
+            except: style[self.id] = Style(style.default)
+
+            ins = False
+
+            print "style:"+self.id
+
+            def makestyle_hbar(key,val):
+
+                for t in val.keys():
+                    try: bcolor = val[t]
+                    except: bcolor = ramen.random_colour(128,255)
+
+                    style[self.id][key][t].thumb = bcolor
+                    style[self.id][key][t].right_bar=bcolor+"5"
+                    style[self.id][key][t].left_bar=bcolor+"D"
+                    style[self.id][key][t].ysize = 16
+
+                return True
+                
+            def makestyle_area(key,val):
+                for t in val.keys():
+
+                    try: style[self.id][key][t].xpos = val[t][0]
+                    except: style[self.id][key][t].xpos = 0
+                    try: style[self.id][key][t].ypos = val[t][1]
+                    except: style[self.id][key][t].ypos = 0
+                    try: style[self.id][key][t].xsize = val[t][2]
+                    except: style[self.id][key][t].xsize = config.screen_width
+                    try: style[self.id][key][t].ysize = val[t][3]
+                    except: style[self.id][key][t].ysize = config.screen_height
+                    try: style[self.id][key][t].padding = val[t][4]
+                    except: style[self.id][key][t].padding = (0,0,0,0)
+                    
+                return True
+
+            if key=='hbar':
+                ins = makestyle_hbar(key,val)
+            if key=='area': 
+                ins = makestyle_area(key,val)
+
+            
+        def set_ui_old(self,**kwargs):
             """set object as ui object"""
 
             try: self.__dict__['ui']

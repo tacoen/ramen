@@ -220,6 +220,16 @@ init -208 python:
                     res = "blank"
             return res
 
+        # Sound util
+        
+        def playsfx(self,where,what):
+            file =  self.fn_ezy(where+"/"+what , ['.ogg', '.mp3', '.wav' ])
+            if file: 
+                renpy.play(file)
+            else:
+                file = self.fn_ezy(DEFAULT_SFXPATH+"/"+what , ['.ogg', '.mp3', '.wav' ])
+                if file: renpy.play(file)
+
     # buckect
 
     bucket = object()
