@@ -1,4 +1,3 @@
-
 init -10 python:
 
     def ramen_icotable():

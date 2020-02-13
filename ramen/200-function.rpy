@@ -119,6 +119,14 @@ init -208 python:
         def random_of(self,array):
             return array [ int(renpy.random.randint(0,len(array)-1))]
 
+        # mc interaction
+        
+        def buy(self,price):
+            if mc.cash >= price:
+                mc.cash -= price
+                return True
+            else:
+                return False
 
         def limit(self, what, ov, value=1):
             ov += int(value)
@@ -166,6 +174,9 @@ init -208 python:
                 return True
             else:
                 return False
+                
+        def notify(self,msg,icoram=None):
+            renpy.show_screen('ingame_notify',msg=msg,icoram=icoram)                
         
         # Image util
 

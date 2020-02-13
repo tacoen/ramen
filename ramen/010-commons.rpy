@@ -21,18 +21,24 @@ screen _overlays(obj_id, data, ontop=False):
             hbox pos xy:
                 add img
 
-screen ingame_notify(msg='',icoram=None):
+screen ingame_notify(msg='', icoram=None):
 
+    python:
+        if icoram is None:
+            icoram = 'arrow-up'
+            
     zorder 102
     style_prefix "ingame_notify"
-    hbox xfill True xalign 1.0 ypos gui.notify_ypos at notify_appear:
+    hbox xfill True xalign 1.0 ypos 32 at notify_appear:
         null
         hbox xalign 1.0:
             frame xalign 1.0:
                 hbox yalign 0.5:
-                    text ico(icoram) style "ingame_notify_icon"
+                    text ico(icoram) style "ingame_notify_icon" min_width 24 text_align 0.5
+                    null width 8
                     text "[msg]"
-            null width 16
+                    null width 8
+            null width 32
 
     timer 3.25 action Hide('ingame_notify')        
     
@@ -41,8 +47,8 @@ style ingame_notify_frame:
     padding (8,8)
     background Frame(Composite(
           (200,80),
-           (0,0), Solid("#fffd"),
-           (0,0), THEME_PATH + "/gui/outline-w.png"
+           (0,0), Solid("#f91d"),
+           (0,0), THEME_PATH + "/gui/outline-b.png"
         ), Borders(1,1,1,1), tile=False, xalign=0.5)
 
 style ingame_notify_text:

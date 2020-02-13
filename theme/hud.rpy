@@ -65,7 +65,7 @@ init -98 python:
 
 screen hud_toolbar():
 
-    frame at pulldown background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['toolbar']:
+    frame background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['toolbar']:
         hbox:
             xfill True
             yalign 0.5
@@ -180,9 +180,7 @@ screen hud_stats():
                     use hc_hbar(topic)
 
 
-
 style hudinventory is empty
-
 
 python:
 
@@ -292,8 +290,6 @@ screen hc_item(item):
 
                 textbutton "Give" action Null
                 textbutton "Drop" action Null
-
-
 
 
 
