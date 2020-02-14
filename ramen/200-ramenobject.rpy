@@ -1,5 +1,28 @@
 init -204 python:
 
+    class container():
+
+        def __setattr__(self, key,value):
+            _ramen_container.__dict__[key] = value
+
+        def __getattr__(self, key):
+            try : return _ramen_container.__dict__[key]
+            except: return None
+        
+        def __call__(self):
+            return _ramen_container.__dict__            
+
+        def __repr__(self):
+            return repr(type(_ramen_container))
+            
+        def data(self, what, **kwargs):
+            try: _ramen_container.__dict__[what]
+            except: _ramen_container.__dict__[str(what)] = {}
+            for k in kwargs:
+                _ramen_container.__dict__[what][k] = kwargs[k]
+            
+            
+
     class rn_obj(object):
         """rn_obj = ramen native object"""
 
@@ -102,9 +125,6 @@ init -204 python:
 
             self.__dict__['ui'] = rn_obj(0)
             
-            try: bucket.__dict__[self.id]
-            except: bucket.__dict__[self.id] = {}
-            
             for k in kwargs:
                 instyle = self.makestyle(k,kwargs[k])
                 setattr(self.__dict__['ui'],k,kwargs[k])
@@ -151,27 +171,6 @@ init -204 python:
                 ins = makestyle_hbar(key,val)
             if key=='area': 
                 ins = makestyle_area(key,val)
-
-            
-        def set_ui_old(self,**kwargs):
-            """set object as ui object"""
-
-            try: self.__dict__['ui']
-            except: self.__dict__[str('ui')] = object()
-            ui = self.__dict__['ui']
-            for k in kwargs:
-                setattr(ui,k,kwargs[k])
-
-                if k == 'bars':
-                    try: style.hbar
-                    except: style.hbar = Style(style.default)
-
-                    for t in kwargs['bars'].keys():
-                        try: bcolor = kwargs['bars'][t]
-                        except: bcolor = ramen.random_colour(128,255)
-                        style.hbar[t].thumb = bcolor
-                        style.hbar[t].right_bar= Color(bcolor).shade(.9)
-                        style.hbar[t].left_bar= Color(bcolor).opacity(.5)
 
         def data(self,key,**kwargs):
             """set object as data container"""

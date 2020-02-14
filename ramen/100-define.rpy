@@ -1,14 +1,23 @@
 init -200 python:
 
     ramu = ramen_util()
-
     RAMEN_PATH = ramu.fn_getdir()
 
+    _ramen_container= object()
+    rbc = container()
+    
+    rbc.diff = 0
+    
     wo = WorldTime(
         [2019,1,18,8],
         ['Midnight','Dusk','Morning','Noon','Evening','Night'],
         ['dark','sun1','sun2','sun3','dark']
     )
+
+    #
+    # this a proxydict to _ramen_container
+    #
+    
 
     mc = player(id='mc',
         score=0,
@@ -43,7 +52,8 @@ init -200 python:
     mc.ability = []
 
     quick_menu = False
-    doom = False
+    
+    rbc.doom = 0
 
 init:
 
@@ -73,26 +83,29 @@ init:
         what_prefix="{cps=80}", what_suffix="{/cps}")
 
 
-    # game progress
+    # proxydict
 
-    default diff = diff
+    default _ramen_container= _ramen_container
+
     default mc = mc
-    default doom = doom
-
-    default bucket = bucket
 
 ### ------------------------------
 
+label after_load:
+    stop music fadeout 1.0
+    stop sound fadeout 1.0
+    $ renpy.free_memory
+    $ renpy.block_rollback()
+    return
+    
 label _ramen_start:
 
     stop music fadeout 1.0
     stop sound fadeout 1.0
+    $ renpy.free_memory
 
     hide screen _overlays
-
     show screen hud_init
-
-    $  renpy.free_memory
     $ if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
 
     return

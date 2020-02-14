@@ -1,9 +1,20 @@
-init -190 python:
+init -99 python:
 
     HUD_PATH = ramu.fn_getdir()
 
+    # defaults
 
-init -99 python:
+    rbc.hud_disable=False
+    rbc.hud_show = False
+    rbc.hud_set=0
+    rbc.hud_element = {}
+
+    rbc.val=0
+
+    mc.pref['icons']= ['pocket','mcphone']
+    mc.limit['pocket'] = [0,12]
+
+    pocket = inventory('pocket')
 
     def hud_toggle(what,sfx=True):
 
@@ -17,7 +28,7 @@ init -99 python:
             hud.ui.element[what]=True
             if sfx: ramu.sfx(HUD_PATH,"tone1")
 
-        bucket.hud.element[what] = hud.ui.element[what]
+        rbc.hud_element[what] = hud.ui.element[what]
 
 init -1:
 
@@ -94,7 +105,7 @@ init -1:
         python:
             xmax = style['hud']['area']['stats'].xminimum - ( style['hud']['area']['stats'].left_padding + style['hud']['area']['stats'].right_padding )
             barsty = style['hud']['hbar'][topic]
-            tcolor = hud.ui.fgcolor[bucket.hud.set]
+            tcolor = hud.ui.fgcolor[rbc.hud_set]
             val = mc.stat[topic]
             try: max = mc.limit[topic][1]
             except: max = mc.limit['stat'][1]
@@ -112,21 +123,20 @@ init -1:
         python:
             xmax = style['hud']['area'][element].xminimum-2
 
-        frame background Color(hud.ui.bgcolor[bucket.hud.set]).shade(0.5):
+        frame background Color(hud.ui.bgcolor[rbc.hud_set]).shade(0.5):
             xsize xmax
             xoffset -7
             yoffset -7
             hbox:
                 xfill True
-                text title style "hud_title" color hud.ui.fgcolor[bucket.hud.set]
+                text title style "hud_title" color hud.ui.fgcolor[rbc.hud_set]
                 hbox yalign 0.4 xalign 1.0 ysize 18:
                     textbutton ico('close') style 'hud_sunico_text':
                         text_size 16
-                        text_color hud.ui.fgcolor[bucket.hud.set]
-                        text_hover_color Color(hud.ui.fgcolor[bucket.hud.set]).tint(0.2)
+                        text_color hud.ui.fgcolor[rbc.hud_set]
+                        text_hover_color Color(hud.ui.fgcolor[rbc.hud_set]).tint(0.2)
                         action Function(hud_toggle,what=element)
                     null width 4
 
 
         $ hc_test = True
-

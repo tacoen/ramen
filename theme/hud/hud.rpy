@@ -1,19 +1,5 @@
 init -98 python:
 
-    # defaults
-    bucket.hud = {}
-    bucket.hud.disable=False
-    bucket.hud.show = False
-    bucket.hud.set=0
-    bucket.hud.element = {}
-
-    bucket.buff=0
-
-    mc.pref['icons']= ['pocket','mcphone']
-    mc.limit['pocket'] = [0,12]
-
-    pocket = inventory('pocket')
-
     # hub object
 
     hud = ramen_object(id='hud')
@@ -27,7 +13,7 @@ init -98 python:
         fgcolor = [ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
         winbgcolor = [ '#333', '#ddd', '#333', '#ddd', '#333', '#333' ],
         element = {
-            'hud': bucket.hud.show,
+            'hud': rbc.hud_show,
             'inventory': False,
             'stats': False,
             'legend': False,
@@ -59,14 +45,14 @@ init -98 python:
     # why?
 
     for e in hud.ui.element.keys():
-        bucket.hud.element[e] = hud.ui.element[e]
+        rbc.hud_element[e] = hud.ui.element[e]
 
     for e in hud.ui.element.keys():
-        hud.ui.element[e] = bucket.hud.element[e]
+        hud.ui.element[e] = rbc.hud_element[e]
 
 screen hud_toolbar():
 
-    frame background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['toolbar']:
+    frame background hud.ui.bgcolor[rbc.hud_set] style style['hud']['area']['toolbar']:
         hbox:
             xfill True
             yalign 0.5
@@ -74,20 +60,20 @@ screen hud_toolbar():
                 yalign 0.5
                 textbutton ("{:03d}".format(mc.score)) style "hud_score":
                     action Function(hud_toggle,what='stats')
-                    text_color hud.ui.fgcolor[bucket.hud.set]+"9"
-                    text_hover_color hud.ui.fgcolor[bucket.hud.set]
+                    text_color hud.ui.fgcolor[rbc.hud_set]+"9"
+                    text_hover_color hud.ui.fgcolor[rbc.hud_set]
                 hbox xoffset 8 yoffset 8:
-                    textbutton hud.ui.sun[wo.sun] style 'hud_sunico' text_color hud.ui.fgcolor[bucket.hud.set] action Null
+                    textbutton hud.ui.sun[wo.sun] style 'hud_sunico' text_color hud.ui.fgcolor[rbc.hud_set] action Null
                     vbox xoffset 6:
-                        text "Day "+ str(wo.dayplay) color hud.ui.fgcolor[bucket.hud.set]+"9"
-                        text ("{:03d}".format(mc.cash)) +" $" color hud.ui.fgcolor[bucket.hud.set] size 18
+                        text "Day "+ str(wo.dayplay) color hud.ui.fgcolor[rbc.hud_set]+"9"
+                        text ("{:03d}".format(mc.cash)) +" $" color hud.ui.fgcolor[rbc.hud_set] size 18
             hbox xalign 1.0 yalign 0.5:
                 for m in hud.ui.icons.keys():
                     $ i = hud.ui.icons[m]
                     if m in mc.pref['icons']:
                         textbutton ico(i[1]) action i[3] style 'hud_icon':
-                            text_color hud.ui.fgcolor[bucket.hud.set]+"9"
-                            text_hover_color hud.ui.fgcolor[bucket.hud.set]
+                            text_color hud.ui.fgcolor[rbc.hud_set]+"9"
+                            text_hover_color hud.ui.fgcolor[rbc.hud_set]
                     else:
                         textbutton ico(i[1]) action Null style 'hud_icon' text_color "#fff3"
                 null width 32
@@ -117,7 +103,7 @@ screen hud_status():
                     ctext = ct[s][0]
                     pp = pulse_dying
                     w=s
-                    globals()['doom'] = wo.time + datetime.timedelta(hours=ct[s][2])
+                    rbc.doom = wo.time + datetime.timedelta(hours=ct[s][2])
 
         try: tcolor = hud.ui.hbar[w]+"9"
         except: tcolor = hud.ui.fgcolor[w]+"9"
@@ -136,9 +122,9 @@ screen hud_init():
 
 #    $ renpy.watch(last_label)
 
-    if not bucket.hud.disable:
+    if not rbc.hud_disable:
 
-        key "K_F5" action SetVariable('bucket.hud.set',ramu.cycle(bucket.hud.set,hud.ui.bgcolor))
+        key "K_F5" action SetVariable('rbc.hud_set',ramu.cycle(rbc.hud_set,hud.ui.bgcolor))
         key "K_F6" action Function(hud_toggle,what='stats')
         key "K_F8" action Function(hud_toggle,what='hud')
         key "shift_K_F8" action Function(ramu.toggle,what='quick_menu')
@@ -161,8 +147,8 @@ screen hud_init():
 
         textbutton hud_tic xpos 16 ypos 18 action Function(hud_toggle,what='hud') style "hud_sunico":
             if hud.ui.element['hud']:
-                text_color hud.ui.fgcolor[bucket.hud.set]+"6"
-                text_hover_color hud.ui.fgcolor[bucket.hud.set]
+                text_color hud.ui.fgcolor[rbc.hud_set]+"6"
+                text_hover_color hud.ui.fgcolor[rbc.hud_set]
             else:
                 text_color "#fff9"
                 text_hover_color "#fff"
@@ -171,7 +157,7 @@ screen hud_init():
 
 screen hud_stats():
 
-    frame background hud.ui.bgcolor[bucket.hud.set] style style['hud']['area']['stats']:
+    frame background hud.ui.bgcolor[rbc.hud_set] style style['hud']['area']['stats']:
         vbox:
             use hc_tbar('stats','Stats')
             vbox:
@@ -193,8 +179,8 @@ screen hud_inventory():
     modal True
 
     python:
-        try: bucket.selected_item
-        except: bucket.selected_item = None
+        try: rbc.hud_selected_item
+        except: rbc.hud_selected_item = None
 
         inv = mc._inventory['pocket']
         iconsize = (100,100)
@@ -204,7 +190,7 @@ screen hud_inventory():
         tr = int(round(h/(iconsize[1])))
         cmax = tc * tr
         cs = ((w-(tc * iconsize[0]+2)) / tc)/2
-        safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[bucket.hud.set],'#000000')
+        safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[rbc.hud_set],'#000000')
         
         mc.limit['pocket'] = [0, tc*tr]
 
@@ -216,12 +202,12 @@ screen hud_inventory():
             use hc_tbar('inventory','Pocket')
 
             hbox ysize 32 yalign 0.5 xfill True:
-                text "Maximum: " + ("{:02d}".format(mc.limit['pocket'][1])) color hud.ui.fgcolor[bucket.hud.set]
-                text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[bucket.hud.set] size 24 xalign 1.0
+                text "Maximum: " + ("{:02d}".format(mc.limit['pocket'][1])) color hud.ui.fgcolor[rbc.hud_set]
+                text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[rbc.hud_set] size 24 xalign 1.0
 
             null height 16
 
-            if bucket.selected_item is None:
+            if rbc.hud_selected_item is None:
 
                 vpgrid cols tc spacing cs ysize h/2:
                     draggable True
@@ -236,20 +222,20 @@ screen hud_inventory():
                         imagebutton:
                             idle icon
                             hover im.MatrixColor(icon,im.matrix.brightness(0.3))
-                            action SetVariable('bucket.selected_item',item)
+                            action SetVariable('rbc.hud_selected_item',item)
 
                 null height 16
 
             else:
                 frame background Color(safebgr).replace_lightness(0.3) padding (8,8,8,8):
-                    textbutton "x" action SetVariable('bucket.selected_item',None) xpos 1.0 ypos -8 xanchor 0.9
+                    textbutton "x" action SetVariable('rbc.hud_selected_item',None) xpos 1.0 ypos -8 xanchor 0.9
                     viewport:
-                        use hc_item(bucket.selected_item)
+                        use hc_item(rbc.hud_selected_item)
 
 screen hbox_item(what,value):
     hbox xfill True yalign 0.5:
-        text str(what) size 20 color hud.ui.fgcolor[bucket.hud.set]
-        text str(value) size 20 xalign 1.0 color hud.ui.fgcolor[bucket.hud.set]
+        text str(what) size 20 color hud.ui.fgcolor[rbc.hud_set]
+        text str(value) size 20 xalign 1.0 color hud.ui.fgcolor[rbc.hud_set]
 
 screen hc_item(item):
 
@@ -265,12 +251,12 @@ screen hc_item(item):
         null width 12
         vbox spacing 6 yfit True:
             if not item.name is None:
-                text "{b}"+item.name +"{/b}\n{size=-2}"+item.desc+"{/size}" color hud.ui.fgcolor[bucket.hud.set]
+                text "{b}"+item.name +"{/b}\n{size=-2}"+item.desc+"{/size}" color hud.ui.fgcolor[rbc.hud_set]
             else:
-                text item.desc color hud.ui.fgcolor[bucket.hud.set]
+                text item.desc color hud.ui.fgcolor[rbc.hud_set]
 
             null height 8
-            frame background hud.ui.fgcolor[bucket.hud.set] ysize 1
+            frame background hud.ui.fgcolor[rbc.hud_set] ysize 1
             null height 8
 
             use hbox_item('Price', item.cost)
@@ -282,7 +268,7 @@ screen hc_item(item):
                 use hbox_item(item.effect[1].title()+"("+item.effect[0].title()+")", item.effect[2] )
 
             null height 8
-            frame background hud.ui.fgcolor[bucket.hud.set] ysize 1
+            frame background hud.ui.fgcolor[rbc.hud_set] ysize 1
             null height 8
 
             hbox xfill True:

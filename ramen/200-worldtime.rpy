@@ -37,8 +37,10 @@ init -205 python:
             self.clock = self.time.strftime("%H:%M")
             self.hour = self.time.strftime("%I")
 
-            # ! need to put "default diff = diff in defined line"
-            globals()['diff'] = self.diff
+            #globals()['diff'] = self.diff
+            
+            rbc.diff = self.diff
+            
             self.dayplay = self.diff.days
 
         def seed(self, diff):

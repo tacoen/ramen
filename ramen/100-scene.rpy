@@ -9,9 +9,6 @@ init -99 python:
             condition = list(dict.fromkeys(wo.sunword))
             condition2 =  list(dict.fromkeys(wo.timeword))
 
-            try: bucket.__dict__[self.id]
-            except: bucket.__dict__[self.id] = {}
-
             for file in sorted(scenes):
                 fn = ramu.fn_info(file)
 
@@ -157,7 +154,7 @@ init -99 python:
             return self.map
 
         def scene_call(self,what,id,f,d):
-            bucketing('sm',id=id, f=f, d=d)
+            rbc.data('scene_map',id=id, f=f, d=d)
             renpy.jump(what)
             #renpy.call_in_new_context(what,obj_id=obj_id)
 
@@ -284,16 +281,16 @@ label _scene_map:
     hide screen scene_imagemap
 
     python:
-        obj_id = get_bucket('sm','id')
-        f = get_bucket('sm','f')
-        d = get_bucket('sm','d')
+        obj_id = rbc.scene_map['id']
+        f = rbc.scene_map['f']
+        d = rbc.scene_map['d']
         obj = globals()[obj_id]
 
         renpy.scene()
         renpy.show(obj_id + " "+d)
         renpy.with_statement(dissolve)
 
-        # bucket
+        # rbc
         map = obj.imagemaping(d, ramu.get_sceneimg())
 
     call screen scene_imagemap(d,map)
@@ -305,9 +302,9 @@ label _scene_goto:
     hide screen scene_imagemap
 
     python:
-        obj_id = get_bucket('sm','id')
-        f = get_bucket('sm','f')
-        d = get_bucket('sm','d')
+        obj_id = rbc.scene_map['id']
+        f = rbc.scene_map['f']
+        d = rbc.scene_map['d']
         obj = globals()[obj_id]
         doors = []
         target = ['knock', 'peek', 'key' ]
@@ -338,7 +335,7 @@ label _scene_goto:
 
     label _back:
         python:
-            bucketing('sm',f=d,d=f,id=obj_id)
+            rbc.data('scene_map',f=d,d=f,id=obj_id)
             renpy.jump('_scene_map')
 
     return

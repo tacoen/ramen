@@ -104,33 +104,33 @@ init -201 python:
         def load(self,default=False,**kwargs):
             self.__dict__['container']={}
 
-            try: bucket.__dict__[self.id]
-            except: bucket.__dict__[self.id]= []
+            try: rbc.__dict__[self.id+"_cart"]
+            except: rbc.__dict__[self.id+"_cart"]= []
 
-        def bucket_clear(self):
-            bucket.__dict__[self.id]=[]
+        def rbc_clear(self):
+            rbc.__dict__[self.id+"_cart"]=[]
 
-        def bucket(self,what,add=True):
+        def rbc(self,what,add=True):
             if add:
-                bucket.__dict__[self.id].append(what)
+                rbc.__dict__[self.id+"_cart"].append(what)
             else:
-                n = bucket.__dict__[self.id].index(what)
-                bucket.__dict__[self.id].pop(n)
+                n = rbc.__dict__[self.id+"_cart"].index(what)
+                rbc.__dict__[self.id+"_cart"].pop(n)
 
-        def in_bucket(self,what):
-            if what in bucket.__dict__[self.id]:
+        def in_rbc(self,what):
+            if what in rbc.__dict__[self.id+"_cart"]:
                 return True
             else:
                 return False
 
         def cart(self,item_id,check=False):
             if check:
-                if self.in_bucket(item_id):
-                    self.bucket(item_id,False)
+                if self.in_rbc(item_id):
+                    self.rbc(item_id,False)
                 else:
-                    self.bucket(item_id)
+                    self.rbc(item_id)
             else:
-                self.bucket(item_id)
+                self.rbc(item_id)
 
 
         def add(self,item):
@@ -147,10 +147,10 @@ init -201 python:
 
         def checkout(self):
             print 'checkout'
-            for i in bucket.__dict__[self.id]:
+            for i in rbc.__dict__[self.id+"_cart"]:
                 res = self.buy( self.container[i] )
 
-            self.bucket_clear()
+            self.rbc_clear()
 
             return res
 
@@ -177,12 +177,11 @@ init -201 python:
             self.add(i)
             return True
 
-
 ### Shop #####################################################################################
 
 init -5 python:
 
-    bucket.shop = 'catalog'
+    rbc.shop_tab = 'catalog'
 
 style shopui_button:
     padding (5,5,15,5)
@@ -194,8 +193,10 @@ screen shop_ui(obj):
         cs = 10
         cw = (obj.ui.area['catalog'][2] / c )-cs
         total = 0
-        stt = str(len(bucket.__dict__[obj.id]))
-        for i in bucket.__dict__[obj.id]:
+        
+        stt = str(len(rbc.__dict__[obj.id+"_cart"]))
+        
+        for i in rbc.__dict__[obj.id+"_cart"]:
             total += prod[i].cost
 
     hbox:
@@ -212,10 +213,10 @@ screen shop_ui(obj):
             background thebgr
 
             vbox yalign 0.5 xoffset 40-4 spacing 16:
-                textbutton "Selection" action SetVariable('bucket.shop','catalog'):
+                textbutton "Selection" action SetVariable('rbc.shop_tab','catalog'):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
-                textbutton "Cart ("+stt+")" action SetVariable('bucket.shop','cart'):
+                textbutton "Cart ("+stt+")" action SetVariable('rbc.shop_tab','cart'):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
                 if mc.cash >= total:
@@ -230,7 +231,7 @@ screen shop_ui(obj):
                         text_color Color(obj.ui.fg).shade(.5)
                         xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
 
-                textbutton "Reset" action Function(obj.bucket_clear):
+                textbutton "Reset" action Function(obj.rbc_clear):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
 
@@ -238,7 +239,7 @@ screen shop_ui(obj):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
 
-        if bucket.shop == 'catalog':
+        if rbc.shop_tab == 'catalog':
             frame style style[obj.id]['area']['catalog']:
                 background obj.ui.bg
                 vpgrid:
@@ -260,7 +261,7 @@ screen shop_ui(obj):
                             spacing 8
                             python:
                                 c = {}
-                                for i in bucket.__dict__[obj.id]:
+                                for i in rbc.__dict__[obj.id]:
                                     if not i in c:
                                         c[i] = 1
                                     else:
