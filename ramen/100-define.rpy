@@ -3,21 +3,18 @@ init -200 python:
     ramu = ramen_util()
     RAMEN_PATH = ramu.fn_getdir()
 
+    # Ramen bucket container, a proxydict for renpy storable
+    
     _ramen_container= object()
     rbc = container()
-    
     rbc.diff = 0
+    rbc.doom = 0
     
     wo = WorldTime(
         [2019,1,18,8],
         ['Midnight','Dusk','Morning','Noon','Evening','Night'],
         ['dark','sun1','sun2','sun3','dark']
     )
-
-    #
-    # this a proxydict to _ramen_container
-    #
-    
 
     mc = player(id='mc',
         score=0,
@@ -51,9 +48,9 @@ init -200 python:
     mc.flags = []
     mc.ability = []
 
+init -100 python:
+
     quick_menu = False
-    
-    rbc.doom = 0
 
 init:
 
@@ -86,26 +83,5 @@ init:
     # proxydict
 
     default _ramen_container= _ramen_container
-
     default mc = mc
 
-### ------------------------------
-
-label after_load:
-    stop music fadeout 1.0
-    stop sound fadeout 1.0
-    $ renpy.free_memory
-    $ renpy.block_rollback()
-    return
-    
-label _ramen_start:
-
-    stop music fadeout 1.0
-    stop sound fadeout 1.0
-    $ renpy.free_memory
-
-    hide screen _overlays
-    show screen hud_init
-    $ if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
-
-    return

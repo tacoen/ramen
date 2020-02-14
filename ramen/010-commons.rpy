@@ -1,3 +1,4 @@
+
 # Common ATL and Shared Style
 
 transform p647:
@@ -59,4 +60,27 @@ style ingame_notify_text:
 style ingame_notify_icon is ram_ico:
     color "#000"
     size 24
+
+
+
+##########
+
+label after_load:
+    stop music fadeout 1.0
+    stop sound fadeout 1.0
+    $ renpy.free_memory
+    $ renpy.block_rollback()
+    return
+    
+label _ramen_start:
+
+    stop music fadeout 1.0
+    stop sound fadeout 1.0
+    $ renpy.free_memory
+
+    hide screen _overlays
+    show screen hud_init
+    $ if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
+
+    return
     
