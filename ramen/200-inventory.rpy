@@ -1,6 +1,6 @@
 init -201 python:
 
-    class inventory(object):
+    class inventory(ramen_object):
 
         def __init__(self,store,max=24):
 

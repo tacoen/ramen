@@ -8,7 +8,8 @@ transform p0:
 
 screen _overlays(obj_id, data, ontop=False):
 
-    zorder 99
+    if ontop:
+        zorder 99
 
     python:
         if not obj_id is None: obj = globals()[obj_id]
