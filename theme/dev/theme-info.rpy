@@ -5,43 +5,43 @@ init -10 python:
 
     def gui_propCollect(t=None):
 
-        res = {}
-        gk = sorted(gui.__dict__.keys())
+        res={}
+        gk=sorted(gui.__dict__.keys())
 
         if t is None:
-            topic = ['text','idle','selected','insensitive','muted','accent','hover']
+            topic=['text','idle','selected','insensitive','muted','accent','hover']
         else:
             if not isinstance(t,list):
-                topic = [str(t)]
+                topic=[str(t)]
             else:
-                topic = t
+                topic=t
 
         for t in topic:
             print t
-            try: res[t] = gui.__dict__[t+"_properties"]()
+            try: res[t]=gui.__dict__[t+"_properties"]()
             except:
                 for k in gk:
                     if k.startswith(t+"_"):
                         try: res[t]
-                        except: res[t] = {}
-                        res[t][k] = gui.__dict__[k]
+                        except: res[t]={}
+                        res[t][k]=gui.__dict__[k]
         return res
 
     def start_guicollect():
-        known_gui = ['accent', 'bar', 'button', 'check', 'choice', 'confirm', 'dialogue', 'file', 'frame', 'game', 'history', 'hover', 'hyperlink', 'idle', 'insensitive', 'interface', 'label', 'language', 'main', 'muted', 'name', 'namebox', 'naration', 'navigation', 'notify', 'nvl', 'page', 'pref', 'quick', 'radio', 'scrollbar', 'selected', 'skip', 'slider', 'slot', 'text', 'textbox', 'title', 'unscrollable', 'vbar', 'vscrollbar', 'vslider']
-        first = ['text','idle','selected','insensitive','muted','accent','hover']
-        second = []
+        known_gui=['accent', 'bar', 'button', 'check', 'choice', 'confirm', 'dialogue', 'file', 'frame', 'game', 'history', 'hover', 'hyperlink', 'idle', 'insensitive', 'interface', 'label', 'language', 'main', 'muted', 'name', 'namebox', 'naration', 'navigation', 'notify', 'nvl', 'page', 'pref', 'quick', 'radio', 'scrollbar', 'selected', 'skip', 'slider', 'slot', 'text', 'textbox', 'title', 'unscrollable', 'vbar', 'vscrollbar', 'vslider']
+        first=['text','idle','selected','insensitive','muted','accent','hover']
+        second=[]
         for k in known_gui:
             if not k in first: second.append(k)
 
-        known_gui = first + second
+        known_gui=first + second
 
         return gui_propCollect(known_gui)
 
 
-    gview = 'text'
+    gview='text'
 
-init offset =-10
+init offset=-10
 
 style devtheme is default
 style devtheme_text is abel_font:
@@ -51,7 +51,7 @@ style devtheme_textbutton_text_font is abel_font
 
 screen ico_table():
 
-    $ Ico = ico(None)
+    $ Ico=ico(None)
     
     frame background "#fff" ypos 75 xpos 0 ysize config.screen_height-168:
         vpgrid  xsize config.screen_width:
@@ -75,7 +75,7 @@ screen gui_explorer():
 
     python:
         try: gres
-        except: gres = start_guicollect()
+        except: gres=start_guicollect()
 
     frame xpos 0 ypos 0 background "#fff" xsize 280:
         padding (0,0,0,30)
@@ -93,12 +93,12 @@ screen gui_explorer():
 
     if not gview is "":
 
-        $ mywidth = config.screen_width-290
-        $ cw = mywidth/12
+        $ mywidth=config.screen_width-290
+        $ cw=mywidth/12
 
         frame xpos 290 ypos 0 xsize mywidth background "#111":
 
-            $ prop = gres[gview]
+            $ prop=gres[gview]
 
             viewport:
                 draggable True
@@ -117,8 +117,8 @@ screen gui_explorer():
                                 if k.endswith('color'):
                                     frame xsize 4*cw ysize 32 background prop[k]:
                                         python:
-                                            try: cc = prop[k].hexcode
-                                            except: cc = str(prop[k])
+                                            try: cc=prop[k].hexcode
+                                            except: cc=str(prop[k])
                                         text cc color "#000"
                                 else:
                                     if "imagelike" in repr(type(prop[k])):
@@ -135,7 +135,7 @@ screen gui_explorer():
 screen gui_info():
 
     python:
-        va = [
+        va=[
             ['text', gui.text_color],
             ['idle', gui.idle_color],
             ['selected', gui.selected_color],
@@ -146,7 +146,7 @@ screen gui_info():
             ['hover_muted', gui.hover_muted_color],
         ]
 
-        vi = [
+        vi=[
             ['idle', gui.interface_idle_color],
             ['selected', gui.interface_selected_color],
             ['insensitive', gui.interface_insensitive_color],
@@ -186,7 +186,7 @@ screen gui_info():
 
     frame xpos 580 ypos 30 background "#0000":
 
-        $ n = 40
+        $ n=40
 
         label "text"
 
@@ -202,7 +202,7 @@ screen gui_info():
 
     frame xpos 630+200 ypos 30 background "#0000":
 
-        $ n = 40
+        $ n=40
 
         label "interface"
 
@@ -232,6 +232,6 @@ screen gui_info():
 
     vbox xoffset 200:
         style_prefix "choice"
-        $ test_items = ['Test','Eval']
+        $ test_items=['Test','Eval']
         for i in test_items:
             textbutton i action Null

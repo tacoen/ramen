@@ -13,12 +13,12 @@ screen _overlays(obj_id, data, ontop=False):
         zorder 99
 
     python:
-        if not obj_id is None: obj = globals()[obj_id]
+        if not obj_id is None: obj=globals()[obj_id]
 
     for d in data:
         python:
-            img = ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
-            xy = d[1]
+            img=ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
+            xy=d[1]
         if img:
             hbox pos xy:
                 add img
@@ -27,7 +27,7 @@ screen ingame_notify(msg='', icoram=None):
 
     python:
         if icoram is None:
-            icoram = 'arrow-up'
+            icoram='arrow-up'
             
     zorder 102
     style_prefix "ingame_notify"

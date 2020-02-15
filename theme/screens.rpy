@@ -2,7 +2,7 @@
 ## Initialization
 ################################################################################
 
-init offset = -1
+init offset=-1
 
 ################################################################################
 ## Styles
@@ -108,7 +108,7 @@ screen say(who, what):
             if who.endswith("~"):
 
                 python:
-                    swho = who.replace(' ~','')
+                    swho=who.replace(' ~','')
 
                 #frame background "#fff" xsize gui.dialogue_width+80 ysize gui.textbox_height-40 xalign 0.5
 
@@ -229,7 +229,7 @@ screen choice(items):
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
 ## menu captions will be displayed as empty buttons.
-define config.narrator_menu = True
+define config.narrator_menu=True
 
 
 style choice_vbox is vbox
@@ -244,14 +244,14 @@ style choice_vbox:
 
     spacing gui.choice_spacing
 
-image choice_ = Frame(
+image choice_=Frame(
         Composite(
             (100,60),
             (0,0), Solid(gui.choice_background),
             (0,0), ramu.theme_image(THEME_PATH, "/gui/outline-embose")
         ), Borders(3,1,1,1), tile=False, xalign=0.5)
 
-image choice_hover_ = Frame(
+image choice_hover_=Frame(
         Composite(
             (100,60),
             (0,0), Solid(gui.hover_color),
@@ -307,7 +307,7 @@ screen real_quick_menu():
                 textbutton ico('log-up') action QuickLoad() tooltip _("Q.Load")
                 textbutton ico('settings') action ShowMenu('preferences') tooltip _("Prefs")
 
-    $ tooltip = GetTooltip()
+    $ tooltip=GetTooltip()
 
     if tooltip:
                 text "[tooltip]" size 14 color "#0009" xpos 10 ypos 694
@@ -317,7 +317,7 @@ screen real_quick_menu():
 init python:
     config.overlay_screens.append("quick_menu")
 
-default quick_menu = True
+default quick_menu=True
 
 style quick_button is default
 style quick_button_text is gui_text
@@ -605,7 +605,7 @@ screen about():
         vbox:
 
             python:
-                nicename = config.name.title()
+                nicename=config.name.title()
 
             label "[nicename!t]"
             text _("Version [config.version!t]\n")
@@ -669,7 +669,7 @@ screen load():
 
 screen file_slots(title):
 
-    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
+    default page_name_value=FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
 
     use game_menu(title):
 
@@ -702,7 +702,7 @@ screen file_slots(title):
 
                 for i in range(gui.file_slot_cols * gui.file_slot_rows):
 
-                    $ slot = i + 1
+                    $ slot=i + 1
 
                     button:
 
@@ -985,7 +985,7 @@ screen history():
                         if "color" in h.who_args:
                             text_color h.who_args["color"]
 
-                $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+                $ what=renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
                 text what:
                     substitute False
 
@@ -995,7 +995,7 @@ screen history():
 
 ## This determines what tags are allowed to be displayed on the history screen.
 
-define gui.history_allow_tags = set()
+define gui.history_allow_tags=set()
 
 
 style history_window is empty
@@ -1049,7 +1049,7 @@ screen help():
 
     tag menu
 
-    default device = "keyboard"
+    default device="keyboard"
 
     use game_menu(_("Help"), scroll="viewport"):
 
@@ -1315,8 +1315,8 @@ style skip_triangle is icoram:
     size 14
     kerning -10
 #    outlines [ (absolute(1), gui.textbox_background, absolute(0), absolute(0)) ]
-#    color hud.ui.fgcolor[rbc.hud_set]
-    color "#000"
+    color hud.ui.fgcolor[rbc.hud_set]
+#    color "#000"
 
 style skip_frame is empty:
     ypos gui.skip_ypos
@@ -1427,7 +1427,7 @@ screen nvl_dialogue(dialogue):
 
 ## This controls the maximum number of NVL-mode entries that can be displayed at
 ## once.
-define config.nvl_list_length = gui.nvl_list_length
+define config.nvl_list_length=gui.nvl_list_length
 
 style nvl_window is default
 style nvl_entry is default

@@ -8,9 +8,9 @@ init -198:
     python:
 
         try: ICO_PATH
-        except NameError: ICO_PATH = ramu.fn_getdir()
+        except NameError: ICO_PATH=ramu.fn_getdir()
 
-        FONT_ICO_RAMEN = ICO_PATH+"/fonts/ramen-ico.ttf"
+        FONT_ICO_RAMEN=ICO_PATH+"/fonts/ramen-ico.ttf"
 
     style icoram:
         font FONT_ICO_RAMEN
@@ -23,7 +23,7 @@ init -198:
 init -197 python:
 
     def ico(what=None):
-        i = {
+        i={
             'sun1':'d',
             'sun2':'a',
             'sun3':'c',

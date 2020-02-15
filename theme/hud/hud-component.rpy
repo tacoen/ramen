@@ -1,20 +1,11 @@
 init -99 python:
 
-    HUD_PATH = ramu.fn_getdir()
-
-    # defaults
-
-    rbc.hud_disable=False
-    rbc.hud_show = False
-    rbc.hud_set=0
-    rbc.hud_element = {}
-
-    rbc.val=0
+    HUD_PATH=ramu.fn_getdir()
 
     mc.pref['icons']= ['pocket','mcphone']
-    mc.limit['pocket'] = [0,12]
+    mc.limit['pocket']=[0,12]
 
-    pocket = inventory('pocket')
+    pocket=inventory('pocket')
 
     def hud_toggle(what,sfx=True):
 
@@ -28,7 +19,7 @@ init -99 python:
             hud.ui.element[what]=True
             if sfx: ramu.sfx(HUD_PATH,"tone1")
 
-        rbc.hud_element[what] = hud.ui.element[what]
+        rbc.hud_element[what]=hud.ui.element[what]
 
 init -1:
 
@@ -100,28 +91,32 @@ init -1:
             linear 0.6 ypos -config.screen_height
 
 
-    screen hc_hbar(topic):
+    screen hc_hbar(obj, topic, val, sty, tcolor="#000",legend=True ):
 
         python:
-            xmax = style['hud']['area']['stats'].xminimum - ( style['hud']['area']['stats'].left_padding + style['hud']['area']['stats'].right_padding )
-            barsty = style['hud']['hbar'][topic]
-            tcolor = hud.ui.fgcolor[rbc.hud_set]
-            val = mc.stat[topic]
-            try: max = mc.limit[topic][1]
-            except: max = mc.limit['stat'][1]
+            xmax=sty.xminimum - ( sty.left_padding + sty.right_padding )
+            
+            barsty=style[obj.id]['hbar'][topic]
+            
+            if type(barsty.thumb) is Null:
+                barsty=style['hbar']
+            
+            try: max=mc.limit[topic][1]
+            except: max=mc.limit['stat'][1]
 
         vbox:
-            hbox xminimum xmax:
-                xfill True
-                text topic.title() style 'hud_label' color tcolor size 12 xalign 0
-                text str(val)+"/"+str(max) style 'hud_label' color tcolor size 12 xalign 1.0 text_align 1.0
-            null height 2
-            bar range max value val style barsty xmaximum xmax ysize 12
+            if legend:
+                hbox xminimum xmax:
+                    xfill True
+                    text topic.title() style 'hud_label' color tcolor size 12 xalign 0
+                    text str(val)+"/"+str(max) style 'hud_label' color tcolor size 12 xalign 1.0 text_align 1.0
+                null height 3
+            bar range max value val style barsty xmaximum xmax
 
     screen hc_tbar(element,title=''):
 
         python:
-            xmax = style['hud']['area'][element].xminimum-2
+            xmax=style['hud']['area'][element].xminimum-2
 
         frame background Color(hud.ui.bgcolor[rbc.hud_set]).shade(0.5):
             xsize xmax
@@ -139,4 +134,4 @@ init -1:
                     null width 4
 
 
-        $ hc_test = True
+        $ hc_test=True

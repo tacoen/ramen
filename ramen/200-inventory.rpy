@@ -10,10 +10,10 @@ init -201 python:
                 return false
 
             try: mc._inventory[store]
-            except: mc._inventory[str(store)] = {}
-            self.id = str(store)
-            self.container = mc._inventory[self.id]
-            self.max = int(max)
+            except: mc._inventory[str(store)]={}
+            self.id=str(store)
+            self.container=mc._inventory[self.id]
+            self.max=int(max)
 
         def __repr__(self):
             return self.__class__.__name__
@@ -23,10 +23,10 @@ init -201 python:
 
         def transfer(self,item_id,store='storage'):
 
-            try: target = globals()[store]
+            try: target=globals()[store]
             except: return False
 
-            try: item = self.container[item_id]
+            try: item=self.container[item_id]
             except: return False
 
             if "inventory" in str(type(target)):
@@ -38,16 +38,16 @@ init -201 python:
             return True
 
         def add(self,item):
-            i = copy.copy(item)
+            i=copy.copy(item)
             try:
-                s = self.container[i.__dict__['id']]
+                s=self.container[i.__dict__['id']]
                 for k in s.__dict__.keys():
                     if k == 'count': s.__dict__[k] += i.__dict__[k]
-                    else: s.__dict__[k] = i.__dict__[k]
+                    else: s.__dict__[k]=i.__dict__[k]
             except:
-                self.container[i.__dict__['id']] = i
+                self.container[i.__dict__['id']]=i
 
-            mc._inventory[self.id] = self.container
+            mc._inventory[self.id]=self.container
             return True
 
         def drop(self,item_id):
@@ -55,41 +55,41 @@ init -201 python:
 
         def use(self, item_id, who=None):
 
-            res = True
+            res=True
 
-            try: item = self.container[item_id]
+            try: item=self.container[item_id]
             except: return False
 
             if not item.effect is None:
 
-                eff = item.effect
+                eff=item.effect
 
                 if isinstance(eff,list):
                     if eff[0] == 'stat':
 
-                        ov = mc.stat[eff[1]]
+                        ov=mc.stat[eff[1]]
                         mc.stat[eff[1]] += eff[2]
 
-                        if mc.stat[eff[1]] > mc.limits['stat'][1]: mc.stat[eff[1]] = mc.limits['stat'][1]
-                        if mc.stat[eff[1]] < mc.limits['stat'][0]: mc.stat[eff[1]] = mc.limits['stat'][0]
+                        if mc.stat[eff[1]] > mc.limits['stat'][1]: mc.stat[eff[1]]=mc.limits['stat'][1]
+                        if mc.stat[eff[1]] < mc.limits['stat'][0]: mc.stat[eff[1]]=mc.limits['stat'][0]
 
-                        if ov < mc.stat[eff[1]]: res = False
-                        else: res = True
+                        if ov < mc.stat[eff[1]]: res=False
+                        else: res=True
 
                     if eff[0] == 'rel':
-                        res = False
+                        res=False
                         if who in mc.rel.keys():
                             if isinstance(eff[1],list):
                                 for x in range(0,len(mc.rel[who])):
                                     try:
                                         mc.rel[who][x] += eff[1][x]
-                                        res = True
+                                        res=True
                                     except: mc.rel[who][x] += 0
                             else:
                                 mc.rel[who][0] += eff[1]
-                                res = True
+                                res=True
                         else:
-                            res = False
+                            res=False
 
             if item.persist == False:
                 item.count -= 1
@@ -114,7 +114,7 @@ init -201 python:
             if add:
                 rbc.__dict__[self.id+"_cart"].append(what)
             else:
-                n = rbc.__dict__[self.id+"_cart"].index(what)
+                n=rbc.__dict__[self.id+"_cart"].index(what)
                 rbc.__dict__[self.id+"_cart"].pop(n)
 
         def in_rbc(self,what):
@@ -134,28 +134,28 @@ init -201 python:
 
 
         def add(self,item):
-            i = copy.copy(item)
+            i=copy.copy(item)
             try:
-                s = self.container[i.__dict__['id']]
+                s=self.container[i.__dict__['id']]
                 for k in s.__dict__.keys():
                     if k == 'count': s.__dict__[k] += i.__dict__[k]
-                    else: s.__dict__[k] = i.__dict__[k]
+                    else: s.__dict__[k]=i.__dict__[k]
             except:
-                self.container[i.__dict__['id']] = i
+                self.container[i.__dict__['id']]=i
 
             return True
 
         def checkout(self):
             print 'checkout'
             for i in rbc.__dict__[self.id+"_cart"]:
-                res = self.buy( self.container[i] )
+                res=self.buy( self.container[i] )
 
             self.rbc_clear()
 
             return res
 
         def buy(self,item):
-            i = copy.copy(item)
+            i=copy.copy(item)
 
             if mc.cash >= i.cost:
                 mc.cash -= i.cost
@@ -165,65 +165,64 @@ init -201 python:
                 return False
 
         def sell(self,item,price,cash=True):
-            i = copy.copy(item)
-            i.cost = price
+            i=copy.copy(item)
+            i.cost=price
             pocket.drop(i.id)
             if cash:
                 mc.cash += i.cost
             else:
                 mc.bank += i.cost
 
-            i.cost = i.cost * float(1.3)
+            i.cost=i.cost * float(1.3)
             self.add(i)
             return True
 
 ### Shop #####################################################################################
-
-init -5 python:
-
-    rbc.shop_tab = 'catalog'
 
 style shopui_button:
     padding (5,5,15,5)
 
 screen shop_ui(obj):
     python:
-        prod = obj.container
-        c = 2
-        cs = 10
-        cw = (obj.ui.area['catalog'][2] / c )-cs
-        total = 0
+        prod=obj.container
+        c=2
+        cs=10
+        cw=(obj.ui.area['catalog'][2] / c )-cs
+        total=0
         
-        stt = str(len(rbc.__dict__[obj.id+"_cart"]))
+        stt=str(len(rbc.__dict__[obj.id+"_cart"]))
         
         for i in rbc.__dict__[obj.id+"_cart"]:
             total += prod[i].cost
+            
+        try: shop_tab 
+        except: shop_tab = 'catalog'
 
     hbox:
         python:
             try:
                 if renpy.loadable(obj.ui.bg_img):
-                    thebgr = obj.ui.bg_img
+                    thebgr=obj.ui.bg_img
                 else:
-                    thebgr = Color(obj.ui.bg).shade(.8)
+                    thebgr=Color(obj.ui.bg).shade(.8)
             except:
-                thebgr = Color(obj.ui.bg).shade(.8)
+                thebgr=Color(obj.ui.bg).shade(.8)
 
         frame style style[obj.id]['area']['tag']:
             background thebgr
 
             vbox yalign 0.5 xoffset 40-4 spacing 16:
-                textbutton "Selection" action SetVariable('rbc.shop_tab','catalog'):
+                textbutton "Selection" action SetScreenVariable('shop_tab','catalog'):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
-                textbutton "Cart ("+stt+")" action SetVariable('rbc.shop_tab','cart'):
+                textbutton "Cart ("+stt+")" action SetScreenVariable('shop_tab','cart'):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
                 if mc.cash >= total:
                     if total > 0:
-                        $ maction = Function(obj.checkout)
+                        $ maction=Function(obj.checkout)
                     else:
-                        $ maction = Null
+                        $ maction=Null
                     textbutton "Pay ("+str(total)+" $)" action maction :
                         xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
                 else:
@@ -239,7 +238,7 @@ screen shop_ui(obj):
                     text_color obj.ui.fg style 'obj.ui_button'
                     xsize obj.ui.area['tag'][2]-40 text_xalign 1.0 selected_background Color(obj.ui.bg)
 
-        if rbc.shop_tab == 'catalog':
+        if shop_tab == 'catalog':
             frame style style[obj.id]['area']['catalog']:
                 background obj.ui.bg
                 vpgrid:
@@ -260,10 +259,10 @@ screen shop_ui(obj):
                         vbox:
                             spacing 8
                             python:
-                                c = {}
-                                for i in rbc.__dict__[obj.id]:
+                                c={}
+                                for i in rbc.__dict__[obj.id+"_cart"]:
                                     if not i in c:
-                                        c[i] = 1
+                                        c[i]=1
                                     else:
                                         c[i] += 1
 
@@ -289,7 +288,7 @@ screen shop_ui(obj):
 screen shop_item(obj,item,width=180):
         python:
             iconsize=(100,100)
-            icon = im.Scale(item.icon(),iconsize[0],iconsize[1])
+            icon=im.Scale(item.icon(),iconsize[0],iconsize[1])
         window xsize width ysize 100:
             hbox:
                 vbox xsize 100 yalign 0.0 xalign 0.5:
@@ -299,8 +298,8 @@ screen shop_item(obj,item,width=180):
 
                 vbox xsize width-100 yalign 0.5:
                     python:
-                        try: name = item.name
-                        except: name = None
+                        try: name=item.name
+                        except: name=None
                     if not name is None:
                         text item.name bold True size 14 color obj.ui.fg
                     text item.desc color obj.ui.fg

@@ -2,34 +2,34 @@ init -98 python:
 
     # hub object
 
-    hud = ramen_object(id='hud')
+    hud=ramen_object(id='hud')
     hud.ui_set(
         x=0,
         y=0,
         w=config.screen_width,
         h=config.screen_height/10,
         sun=['g','a','c','d','e'],
-        bgcolor = [ "#0000", "#fff", "#000c", "#fffc", "#123", "#123c" ],
-        fgcolor = [ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
-        winbgcolor = [ '#333', '#ddd', '#333', '#ddd', '#333', '#333' ],
-        element = {
+        bgcolor=[ "#0000", "#fff", "#000c", "#fffc", "#123", "#123c" ],
+        fgcolor=[ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
+        winbgcolor=[ '#333', '#ddd', '#333', '#ddd', '#333', '#333' ],
+        element={
             'hud': rbc.hud_show,
             'inventory': False,
             'stats': False,
             'legend': False,
             'map':False,
         },
-        icons = {
+        icons={
             'pocket':[ '2','wallet', "Pocket", Function(hud_toggle,what='inventory') ],
             'map':[ '3','map' , "Map", 'map', Function(hud_toggle,what='map') ],
-            'mcphone':[ '1','phone' , "Smartphone", ToggleScreen('phone_ui') ],
+            'mcphone':[ '1','phone' , "Smartphone", ToggleScreen('smp_main') ],
         },
-        hbar = {
-            'energy':'#f91',
-            'hygiene':'#2B2',
-            'vital':'#959',
+        hbar={
+            'energy':['#f91',12],
+            'hygiene':['#2B2',12],
+            'vital':['#959',12],
         },
-        area = {
+        area={
             'toolbar': [0,0,config.screen_width,config.screen_height/10],
             'stats': [16,config.screen_height/10 + 4, 224, None,(8,8,8,20)],
             'inventory': [
@@ -45,10 +45,10 @@ init -98 python:
     # why?
 
     for e in hud.ui.element.keys():
-        rbc.hud_element[e] = hud.ui.element[e]
+        rbc.hud_element[e]=hud.ui.element[e]
 
     for e in hud.ui.element.keys():
-        hud.ui.element[e] = rbc.hud_element[e]
+        hud.ui.element[e]=rbc.hud_element[e]
 
 screen hud_toolbar():
 
@@ -69,7 +69,7 @@ screen hud_toolbar():
                         text ("{:03d}".format(mc.cash)) +" $" color hud.ui.fgcolor[rbc.hud_set] size 18
             hbox xalign 1.0 yalign 0.5:
                 for m in hud.ui.icons.keys():
-                    $ i = hud.ui.icons[m]
+                    $ i=hud.ui.icons[m]
                     if m in mc.pref['icons']:
                         textbutton ico(i[1]) action i[3] style 'hud_icon':
                             text_color hud.ui.fgcolor[rbc.hud_set]+"9"
@@ -79,50 +79,57 @@ screen hud_toolbar():
                 null width 32
 
 screen hud_status():
-
+    
+    zorder 90
+    
     python:
         ct={}
-        ct['energy'] = ['You are very hungry.', 'Eat something.',2 ]
-        ct['vital'] = ['You tired.', 'Rest a while.',4 ]
-        ct['hygiene'] = ['You need a bath.', 'Keep Clean.',24 ]
+        ct['energy']=['You are very hungry.', 'Eat something.',2 ]
+        ct['vital']=['You tired.', 'Rest a while.',4 ]
+        ct['hygiene']=['You need a bath.', 'Keep Clean.',24 ]
 
-        pp = False
-        ctext = ''
+        pp=False
+        ctext=''
 
-        w = False
+        w=False
 
         for s in hud.ui.hbar.keys():
 
             if not w:
 
                 if mc.stat[s] > 2 and mc.stat[s] < 5:
-                    ctext = ct[s][1]
-                    pp = pulse
+                    ctext=ct[s][1]
+                    pp=pulse
                     w=s
                 elif mc.stat[s] <= 2:
-                    ctext = ct[s][0]
-                    pp = pulse_dying
+                    ctext=ct[s][0]
+                    pp=pulse_dying
                     w=s
-                    rbc.doom = wo.time + datetime.timedelta(hours=ct[s][2])
+                    rbc.doom=wo.time + datetime.timedelta(hours=ct[s][2])
 
-        try: tcolor = hud.ui.hbar[w]+"9"
-        except: tcolor = hud.ui.fgcolor[w]+"9"
+        try: tcolor=Color(hud.ui.hbar[w][0]).opacity(.9)
+        except: tcolor=Color(hud.ui.fgcolor[w]).opacity(.9)
 
     if pp:
-        hbox xpos 32 ypos config.screen_height-gui.textbox_height-32:
-            text ico('user') style "hud_sunico" size 24 at pp color tcolor
+        
+        hbox xalign 1.0 ypos 80:
+            text ico('user') style "hud_sunico" size 24 color tcolor at pp:
+                outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
             if not hud.ui.element['stats']:
                 null width 8
-                text ctext color tcolor at pp
+                text ctext color tcolor at pp:
+                    outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
+
+                null width 32
 
 screen hud_init():
 
     zorder 190
     tag hud
 
-#    $ renpy.watch(last_label)
-
     if not rbc.hud_disable:
+
+        #add ramu.theme_image(THEME_PATH,"/gui/hud-shade")
 
         key "K_F5" action SetVariable('rbc.hud_set',ramu.cycle(rbc.hud_set,hud.ui.bgcolor))
         key "K_F6" action Function(hud_toggle,what='stats')
@@ -131,9 +138,10 @@ screen hud_init():
         key "ctrl_K_F1" action Function(hud_toggle,what='legend')
 
         key "K_F9" action Function(hud_toggle,what='inventory')
+        key "K_F10" action ToggleScreen('smp_main')
 
         if hud.ui.element['hud']:
-            $ hud_tic = ico('chevrons-up')
+            $ hud_tic=ico('chevrons-up')
             if hud.ui.element['legend']:
                 use hud_legend
             if hud.ui.element['stats']:
@@ -143,7 +151,7 @@ screen hud_init():
             use hud_toolbar
         else:
             python:
-                hud_tic = ico('chevrons-down')
+                hud_tic=ico('chevrons-down')
 
         textbutton hud_tic xpos 16 ypos 18 action Function(hud_toggle,what='hud') style "hud_sunico":
             if hud.ui.element['hud']:
@@ -164,7 +172,7 @@ screen hud_stats():
                 box_wrap_spacing 8
                 spacing 12
                 for topic in sorted(hud.ui.hbar.keys()):
-                    use hc_hbar(topic)
+                    use hc_hbar(hud, topic, mc.stat[topic], style['hud']['area']['stats'], hud.ui.fgcolor[rbc.hud_set] )
 
 
 style hudinventory is empty
@@ -180,19 +188,19 @@ screen hud_inventory():
 
     python:
         try: rbc.hud_selected_item
-        except: rbc.hud_selected_item = None
+        except: rbc.hud_selected_item=None
 
-        inv = mc._inventory['pocket']
-        iconsize = (100,100)
-        w = style['hud']['area']['inventory'].xminimum
-        h = style['hud']['area']['inventory'].yminimum
-        tc = int(round(w/(iconsize[0])))
-        tr = int(round(h/(iconsize[1])))
-        cmax = tc * tr
-        cs = ((w-(tc * iconsize[0]+2)) / tc)/2
-        safebgr = ramu.safecolor_for_bgr(hud.ui.bgcolor[rbc.hud_set],'#000000')
+        inv=mc._inventory['pocket']
+        iconsize=(100,100)
+        w=style['hud']['area']['inventory'].xminimum
+        h=style['hud']['area']['inventory'].yminimum
+        tc=int(round(w/(iconsize[0])))
+        tr=int(round(h/(iconsize[1])))
+        cmax=tc * tr
+        cs=((w-(tc * iconsize[0]+2)) / tc)/2
+        safebgr=ramu.safecolor_for_bgr(hud.ui.bgcolor[rbc.hud_set],'#000000')
         
-        mc.limit['pocket'] = [0, tc*tr]
+        mc.limit['pocket']=[0, tc*tr]
 
     frame background safebgr style style['hud']['area']['inventory']:
 
@@ -216,8 +224,8 @@ screen hud_inventory():
 
                     for i in sorted(inv.keys()):
                         python:
-                            item = inv[i]
-                            icon = im.Scale(item.icon(),iconsize[0],iconsize[1])
+                            item=inv[i]
+                            icon=im.Scale(item.icon(),iconsize[0],iconsize[1])
 
                         imagebutton:
                             idle icon
@@ -240,11 +248,11 @@ screen hbox_item(what,value):
 screen hc_item(item):
 
     python:
-        try: eatable = item.eatable
-        except: eatable = False
-        try: depend = item.depend
-        except: depend = False
-        w = style['hud']['area']['inventory'].xminimum - 120
+        try: eatable=item.eatable
+        except: eatable=False
+        try: depend=item.depend
+        except: depend=False
+        w=style['hud']['area']['inventory'].xminimum - 120
 
     hbox:
         add item.icon()

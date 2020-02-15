@@ -2,12 +2,12 @@ init -99:
 
     python:
         try: FONT_PATH
-        except NameError: FONT_PATH = ramu.fn_getdir()
+        except NameError: FONT_PATH=ramu.fn_getdir()
 
-        gui_font = ramu.fn_getdir()+'/Abel-Regular.ttf'
-        game_font = ramu.fn_getdir()+'/WorkSans-Regular.ttf'
-        game_label_font = ramu.fn_getdir()+'/WorkSans-SemiBold.ttf'
-        game_title_font = ramu.fn_getdir()+'/WorkSans-Light.ttf'
+        gui_font=ramu.fn_getdir()+'/Abel-Regular.ttf'
+        game_font=ramu.fn_getdir()+'/WorkSans-Regular.ttf'
+        game_label_font=ramu.fn_getdir()+'/WorkSans-SemiBold.ttf'
+        game_title_font=ramu.fn_getdir()+'/WorkSans-Light.ttf'
 
     style abel_font:
         font ramu.fn_getdir()+'/Abel-Regular.ttf'

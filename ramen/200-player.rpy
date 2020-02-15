@@ -3,33 +3,33 @@ init -203 python:
     class player(ramen_object):
 
         def load(self,id=None,**kwargs):
-            self.__dict__['id'] = str('player')
-            self.__dict__['dir'] = str('')
+            self.__dict__['id']=str('player')
+            self.__dict__['dir']=str('')
 
             try:
-                globals()['mc_name'] = self.name.title()
+                globals()['mc_name']=self.name.title()
             except:
-                globals()['mc_name'] = "You"
+                globals()['mc_name']="You"
 
-            self._inventory = {}
+            self._inventory={}
 
         def newname(self,name,lastname):
-            self.name = name.title()
-            globals()['mc_name'] = self.name
-            self.bio['lastname'] = lastname
+            self.name=name.title()
+            globals()['mc_name']=self.name
+            self.bio['lastname']=lastname
 
         def set_limit(self, key, value=None):
             """ see: ramu.limit() """
             
             try: self.__dict__[str('limit')]
-            except: self.__dict__[str('limit')] = {}
+            except: self.__dict__[str('limit')]={}
 
             if not value is None:
                 if isinstance(value,list):
-                    self.__dict__['limit'][str(key)] = value
+                    self.__dict__['limit'][str(key)]=value
                     return value
                 else:
-                    self.__dict__['limit'][str(key)] = [0,value]
+                    self.__dict__['limit'][str(key)]=[0,value]
                     return [0,value]
             else:
                 try: return self.__dict__['limit'][key]
@@ -38,13 +38,13 @@ init -203 python:
         def gain(self,what,value=1):
 
             try: self.__dict__['stat']
-            except: self.__dict__[str('stat')] = {}
-            stat = self.__dict__['stat']
+            except: self.__dict__[str('stat')]={}
+            stat=self.__dict__['stat']
 
-            ov = stat[what]
-            nv = ramu.limit(what, ov, value)
+            ov=stat[what]
+            nv=ramu.limit(what, ov, value)
 
-            self.__dict__['stat'][what] = nv
+            self.__dict__['stat'][what]=nv
 
             if ov > nv:
                 return False
