@@ -94,8 +94,7 @@ init -204 python:
                 self.__dict__['param'][str(key)]=value
 
         def __repr__(self):
-            str= self.__class__.__name__ + " is ramen_object"
-            return str
+            return str(self.id)
 
         def __call__(self):
             return self.__dict__

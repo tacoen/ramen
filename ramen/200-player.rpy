@@ -12,6 +12,7 @@ init -203 python:
                 globals()['mc_name']="You"
 
             self._inventory={}
+            self.__dict__['rel']={}
 
         def newname(self,name,lastname):
             self.name=name.title()

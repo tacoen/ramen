@@ -95,22 +95,33 @@ init -99 python:
         def mazing(self,**kwargs):
 
             maze={}
-            self.map={}
             ahs={}
+            
+            try: self.map
+            except: self.map={}
 
             for k in kwargs:
                 maze[k]=kwargs[k]
 
+            try: maze['floor']
+            except: maze['floor'] = []
+
+            try:
+                for f in maze['add'].keys():
+                    if not f in maze['floor']:
+                        maze['floor'].append(f)
+            except: 
+                pass
+            
             for f in sorted(maze['floor']):
 
-                ahs[f]=maze['hs'].copy()
+                try: ahs[f]=maze['hs'].copy()
+                except: ahs[f] = {}
 
                 try: ahs[f].update(maze['add'][f])
                 except: pass
 
-                #print hs[f].keys()
-
-                self.map[f]={}
+                self.map[str(f)]={}
 
                 up=maze['floor'].index(f)+1
                 down=maze['floor'].index(f)-1
@@ -128,7 +139,7 @@ init -99 python:
                         xy=False
 
                     try:
-                        func=hs[i][1]
+                        func=str(hs[i][1])
                     except:
                         func='goto'
 
@@ -149,7 +160,7 @@ init -99 python:
                         img=i
 
                     if not dest is None and xy:
-                        self.map[f][i]=[ xy, func, dest, img ]
+                        self.map[f][str(i)]=[ xy, str(func), str(dest), str(img) ]
 
             return self.map
 
@@ -158,9 +169,10 @@ init -99 python:
             renpy.jump(what)
             #renpy.call_in_new_context(what,obj_id=obj_id)
 
-        def imagemaping(self,floor,bgr=None):
+        def imagemaping(self, floor, bgr=None):
 
-            if not bgr: bgr=self.get_sceneimg()
+            if not bgr or bgr is None: 
+                bgr=self.get_sceneimg()
 
             img={}
             img['ground']=bgr
@@ -257,8 +269,11 @@ init -99 python:
 
 # scene map ###################################################################
 
-screen scene_imagemap(scene_id, img, position=None ):
+screen scene_imagemap(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
 
+    python:
+        img = obj.imagemaping(scene_id, img)
+    
     # map
 
     imagemap xpos 0 ypos 0:
@@ -267,6 +282,11 @@ screen scene_imagemap(scene_id, img, position=None ):
         for h in img['data']:
            hotspot h[0] action h[1]
 
+    # overlays
+    
+    if not overlays is None:
+        use _overlays(obj.id, overlays, True)
+
     # shortcut
 
     python:
@@ -274,7 +294,7 @@ screen scene_imagemap(scene_id, img, position=None ):
         except: shortcuts=None
 
     if not shortcuts is None:
-        use scene_shortcut( scene_id, shortcuts, position)
+        use scene_shortcut( scene_id, shortcuts, shortcut_position)
 
 label _scene_map:
 
@@ -291,9 +311,9 @@ label _scene_map:
         renpy.with_statement(dissolve)
 
         # rbc
-        map=obj.imagemaping(d, ramu.get_sceneimg())
+        #map=obj.imagemaping(d, ramu.get_sceneimg())
 
-    call screen scene_imagemap(d,map)
+    call screen scene_imagemap(obj, d, ramu.get_sceneimg())
 
     return
 

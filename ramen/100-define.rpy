@@ -27,15 +27,11 @@ init -200 python:
     mc.set_limit('relation',[0,20])
     mc.set_limit('stat',[0,20])
 
-    mc.data('rel',
-        joana={'relation':8,'like':5}
-    )
-    
     mc.data('bio',
         lastname=ramu.random_of(['Small','North','Strong','Smith']),
         job='it'
     )
-
+    
     mc.data('stat',
         hygiene=5,
         energy=5,
