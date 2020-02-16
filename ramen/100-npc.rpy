@@ -3,6 +3,7 @@ init -99 python:
     class npc(ramen_object):
 
         def load(self,id=None,**kwargs):
+
             try: self.color
             except: self.color=ramu.color_random(128,255)
             try: self.wcolor
@@ -22,7 +23,19 @@ init -99 python:
 
             self.define_byfile()
             
-
+        def extend(self):
+        
+            if isinstance(self.dir,list):
+                new_dir = self.dir
+            else:
+                new_dir = [self.dir]
+                
+            new_dir.append(str(ramu.fn_getdir()))
+            
+            self.dir = new_dir
+            
+            self.define_byfile()
+            
         def get_stat(self):
 
             try: mc.rel[self.id]
@@ -86,7 +99,9 @@ init -99 python:
 
             voids=[ 'profile', 'nsd-chat' ]
 
-            files=self.files('self.id' + '/pose/') + self.files(self.id+"/")
+            files = self.files( self.id + '/pose/') + self.files( self.id + "/")
+            
+            print files
             
             if files == []: return False
             
@@ -95,6 +110,7 @@ init -99 python:
             self.__dict__[str('pose')]={}
 
             for f in files:
+            
                 p=ramu.fn_info(f)
 
                 if p['ext'] == 'json':

@@ -65,7 +65,10 @@ init -204 python:
             f,e=fn.split('.')
 
             if dir == 'renpy/common': dir='';
-            self.__dict__[str('dir')]=str(dir.replace('game/',""))
+
+            #self.__dict__[str('dirs')]= [ str(dir.replace('game/',"")) ]
+            
+            self.dir = str(dir.replace('game/',""))
 
             if id is None:
                 self.__dict__[str('id')]=str(f.replace(" ","").replace("-","").lower())
@@ -81,6 +84,7 @@ init -204 python:
 
             self.load(id, **param)
 
+            
         def load(self,id=None,**kwargs):
             """chain for child-class"""
             pass
@@ -94,7 +98,7 @@ init -204 python:
                 self.__dict__['param'][str(key)]=value
 
         def __repr__(self):
-            return str(self.id)
+            return str('id='+self.id)
 
         def __call__(self):
             return self.__dict__
@@ -195,31 +199,26 @@ init -204 python:
         def files(self,key=None,scope=None):
             """set object as files container"""
 
-            try: self._files
-            except: self.__dict__['_files']=[]
-            F=renpy.list_files(False)
+            files = []
             res=[]
 
-            def collect():
-                for f in F:
-                    if self.dir+"/" in f: self.__dict__['_files'].append(f)
-
-            if key is None:
-
-                collect()
-
-                return self._files
-
+            if isinstance(self.dir,list):
+                dirs = self.dir
             else:
-                if self._files ==[]: collect()
+                dirs = [ self.dir ]
+            
+            F = sorted(renpy.list_files(False))
+            
+            if key is None: key = ''
+            
+            for d in dirs:
+                files += filter(lambda w:d+"/"+key in w, F)
 
-                for f in self._files:
-                    if key in f:
-                        if not scope is None:
-                            if scope in f: res.append(f)
-                        else:
-                            res.append(f)
+            if not scope is None:
+                res = filter(lambda w:scope in w, files)
                 return res
+            else:
+                return files
                 
         def index(self,what,ext):
             
