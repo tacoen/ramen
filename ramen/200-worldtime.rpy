@@ -47,7 +47,7 @@ init -205 python:
             self.time=self.start + diff
             self.time_populate()
 
-        def adv(self,a=1,block=True):
+        def adv(self,a=1,block=False):
             self.time=self.time + datetime.timedelta(hours=a)
             self.time_populate()
             if block: renpy.block_rollback()

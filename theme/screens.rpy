@@ -290,7 +290,6 @@ screen real_quick_menu():
     frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
 
             background gui.interface_background
-            #background hud.ui.bgcolor[rbc.hud_set]
 
             hbox:
                 style_prefix "quick"
@@ -1309,13 +1308,12 @@ transform delayed_blink(delay, cycle):
         pause (cycle - .4)
         repeat
 
-
 style skip_triangle is icoram:
     line_leading 5
     size 14
     kerning -10
 #    outlines [ (absolute(1), gui.textbox_background, absolute(0), absolute(0)) ]
-    color hud.ui.fgcolor[rbc.hud_set]
+    color hud_fgcolor
 #    color "#000"
 
 style skip_frame is empty:
@@ -1323,12 +1321,11 @@ style skip_frame is empty:
     xpos gui.skip_xpos
     xsize 180
     padding gui.skip_frame_borders.padding
-#    background hud.ui.bgcolor[rbc.hud_set]
 
 style skip_text is abel_font:
     size gui.notify_text_size
     outlines [ (absolute(1), gui.textbox_background, absolute(0), absolute(0)) ]
- #   color hud.ui.fgcolor[rbc.hud_set]
+ #   color hud_fgcolor
 
 ## Notify screen ###############################################################
 ##

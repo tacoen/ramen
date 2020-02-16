@@ -1,9 +1,6 @@
 ﻿## The init offset statement causes the initialization statements in this file
 ## to run before init statements in any other file.
 
-init -1 python:
-    gui.init(1280, 720)
-
 init offset=-1
 
 define gui.language="unicode"

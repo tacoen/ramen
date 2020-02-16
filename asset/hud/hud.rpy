@@ -60,19 +60,19 @@ screen hud_toolbar():
                 yalign 0.5
                 textbutton ("{:03d}".format(mc.score)) style "hud_score":
                     action Function(hud_toggle,what='stats')
-                    text_color hud.ui.fgcolor[rbc.hud_set]+"9"
+                    text_color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
                     text_hover_color hud.ui.fgcolor[rbc.hud_set]
                 hbox xoffset 8 yoffset 8:
                     textbutton hud.ui.sun[wo.sun] style 'hud_sunico' text_color hud.ui.fgcolor[rbc.hud_set] action Null
                     vbox xoffset 6:
-                        text "Day "+ str(wo.dayplay) color hud.ui.fgcolor[rbc.hud_set]+"9"
+                        text "Day "+ str(wo.dayplay) color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
                         text ("{:03d}".format(mc.cash)) +" $" color hud.ui.fgcolor[rbc.hud_set] size 18
             hbox xalign 1.0 yalign 0.5:
                 for m in hud.ui.icons.keys():
                     $ i=hud.ui.icons[m]
                     if m in mc.pref['icons']:
                         textbutton ico(i[1]) action i[3] style 'hud_icon':
-                            text_color hud.ui.fgcolor[rbc.hud_set]+"9"
+                            text_color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
                             text_hover_color hud.ui.fgcolor[rbc.hud_set]
                     else:
                         textbutton ico(i[1]) action Null style 'hud_icon' text_color "#fff3"
@@ -155,7 +155,7 @@ screen hud_init():
 
         textbutton hud_tic xpos 16 ypos 18 action Function(hud_toggle,what='hud') style "hud_sunico":
             if hud.ui.element['hud']:
-                text_color hud.ui.fgcolor[rbc.hud_set]+"6"
+                text_color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.6)
                 text_hover_color hud.ui.fgcolor[rbc.hud_set]
             else:
                 text_color "#fff9"

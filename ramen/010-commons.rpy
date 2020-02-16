@@ -83,8 +83,10 @@ label _ramen_start:
     $ renpy.free_memory
 
     hide screen _overlays
-    show screen hud_init
-    $ if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
+    
+    python:
+        if renpy.has_screen('hud_init'): renpy.show_screen('hud_init')
+        if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
 
     return
     

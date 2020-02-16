@@ -5,8 +5,6 @@ init -99 python:
     mc.pref['icons']= ['pocket','mcphone']
     mc.limit['pocket']=[0,12]
 
-    pocket=inventory('pocket')
-
     def hud_toggle(what,sfx=True):
 
         try: hud.ui.element[what]

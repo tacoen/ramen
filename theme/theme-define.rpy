@@ -2,7 +2,6 @@
 ## Initialization
 ################################################################################
 
-
 init -199 python:
     
     # For Shared Resources
@@ -10,7 +9,7 @@ init -199 python:
     RAMEN_THEME_PATH=ramu.fn_getdir()
     DEFAULT_SFXPATH=RAMEN_THEME_PATH
 
-init -100 python:
+init -99 python:
 
     # defaults
 
@@ -21,7 +20,12 @@ init -100 python:
 
     rbc.val=0
 
-init -10 python:
+    try: hud_fgcolor = hud.ui.fgcolor[rbc.hud_set]
+    except: hud_fgcolor = "#fff"
+
+    gui.init(1280, 720)
+
+init -9 python:
 
     # must before gui.rpy
 
