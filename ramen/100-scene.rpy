@@ -249,14 +249,10 @@ init -99 python:
                     img['hover']=LiveComposite( (1280,720), *himg )
                     img['data']=imgdata
 
-            try:  img['shortcut']=self.short
-            except: pass
-
             return img
 
         def random_image(self,prefix,scope=None):
-            if scope is None:
-                scope=''
+            if scope is None: scope=''
             imgs=self.files('overlays/'+scope)
             res=[]
             for file in imgs:
@@ -271,14 +267,17 @@ init -99 python:
 
 screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
 
+    
+    # imagemap
+    
     if not img is None:
 
-        $ img = obj.imagemaping(scene_id, img)
+        $ imgmap = obj.imagemaping(scene_id, img)
     
         imagemap xpos 0 ypos 0:
-            ground img['ground']
-            hover img['hover']
-            for h in img['data']:
+            ground imgmap['ground']
+            hover imgmap['hover']
+            for h in imgmap['data']:
                 hotspot h[0] action h[1]
 
     # overlays
@@ -287,9 +286,9 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
         use _iblays(obj.id, overlays, True)
 
     # shortcut
-
+    
     python:
-        try: shortcuts=img['shortcut']
+        try: shortcuts=obj.short
         except: shortcuts=None
 
     if not shortcuts is None:
@@ -308,9 +307,6 @@ label _scene_map:
         renpy.scene()
         renpy.show(obj_id + " "+d)
         renpy.with_statement(dissolve)
-
-        # rbc
-        #map=obj.imagemaping(d, ramu.get_sceneimg())
 
     call screen scene_mapping(obj, d, ramu.get_sceneimg())
 

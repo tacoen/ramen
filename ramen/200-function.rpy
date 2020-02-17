@@ -196,7 +196,7 @@ init -208 python:
 
                 i.__dict__['dir']=str(where)
                 i.__dict__['desc']=ramu.nicenaming(prefix,fn['name'])
-                        
+                
                 inventory.add(i)
             
             

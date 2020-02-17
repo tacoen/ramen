@@ -58,6 +58,7 @@ screen atm(dscr=None):
                     text "Thank you for banking with us." xalign 0.5
 
 screen atm_pin(text):
+    add (ATMPATH+"/atm-face.png")
     style_prefix "atm"
     frame:
         vbox xalign 0.5 yalign 0.5:
@@ -126,8 +127,9 @@ label atm:
     if _return == 'balance':
         call screen atm('balance')
     else:
+        $ ramu.sfx(ATMPATH,'atm-cancel')
         show screen atm('thanks')
-        pause 1
+        pause 2
         hide screen atm
     return
     
