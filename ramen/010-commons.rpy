@@ -7,6 +7,33 @@ transform p647:
 transform p0:
     xpos 0
 
+
+screen _iblays(obj_id, data, ontop):
+
+    if ontop:
+        zorder 99
+
+    for d in data:
+        python:
+            if not obj_id is None: obj=globals()[obj_id]
+            
+            img=ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
+            
+            try: xy=d[1]
+            except: xy=(0,0)
+            
+            try: act=d[2]
+            except: act=Null
+            
+        if img:
+            hbox pos xy:
+                if act is Null:
+                    add img
+                else:
+                    imagebutton action act:
+                        idle img
+                        hover im.MatrixColor(img,im.matrix.brightness(0.1))
+
 screen _overlays(obj_id, data, ontop=False):
 
     if ontop:

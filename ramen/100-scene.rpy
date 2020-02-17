@@ -269,23 +269,22 @@ init -99 python:
 
 # scene map ###################################################################
 
-screen scene_imagemap(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
+screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
 
-    python:
-        img = obj.imagemaping(scene_id, img)
+    if not img is None:
+
+        $ img = obj.imagemaping(scene_id, img)
     
-    # map
-
-    imagemap xpos 0 ypos 0:
-        ground img['ground']
-        hover img['hover']
-        for h in img['data']:
-           hotspot h[0] action h[1]
+        imagemap xpos 0 ypos 0:
+            ground img['ground']
+            hover img['hover']
+            for h in img['data']:
+                hotspot h[0] action h[1]
 
     # overlays
     
     if not overlays is None:
-        use _overlays(obj.id, overlays, True)
+        use _iblays(obj.id, overlays, True)
 
     # shortcut
 
@@ -298,7 +297,7 @@ screen scene_imagemap(obj, scene_id, img=None, overlays=None, shortcut_position=
 
 label _scene_map:
 
-    hide screen scene_imagemap
+    hide screen scene_mapping
 
     python:
         obj_id=rbc.scene_map['id']
@@ -313,13 +312,13 @@ label _scene_map:
         # rbc
         #map=obj.imagemaping(d, ramu.get_sceneimg())
 
-    call screen scene_imagemap(obj, d, ramu.get_sceneimg())
+    call screen scene_mapping(obj, d, ramu.get_sceneimg())
 
     return
 
 label _scene_goto:
 
-    hide screen scene_imagemap
+    hide screen scene_mapping
 
     python:
         obj_id=rbc.scene_map['id']
