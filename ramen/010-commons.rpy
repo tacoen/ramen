@@ -9,8 +9,6 @@ transform p0:
 
 screen _overlays(obj_id, data, ontop=False):
 
-    $ print ontop
-    
     if ontop:
         zorder 99
 
@@ -19,11 +17,9 @@ screen _overlays(obj_id, data, ontop=False):
 
     for d in data:
         python:
-            print d
             img=ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
             xy=d[1]
         if img:
-            $ print 'ada'
             hbox pos xy:
                 add img
 

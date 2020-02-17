@@ -142,15 +142,15 @@ init -208 python:
 
         def toggle(self,what,sfx=True):
             
-            if not ramu.sfx( THEME_PATH, "tone1.mp3", False, False):
+            if not ramu.sfx( THEME_PATH, "tone1", False, False):
                 sfx=False
 
             if globals()[what] == True:
                 globals()[what]=False
-                if sfx: ramu.sfx( THEME_PATH, "tone0.mp3", True, False)
+                if sfx: ramu.sfx( THEME_PATH, "tone0", True, False)
             else:
                 globals()[what]=True
-                if sfx: ramu.sfx( THEME_PATH, "tone1.mp3", True, False)
+                if sfx: ramu.sfx( THEME_PATH, "tone1", True, False)
 
         def cycle(self,current,list):
             current += 1
@@ -233,12 +233,10 @@ init -208 python:
 
         # Sound util
         
-        def sfx(self,where,what,play=True,loop=False,**kwargs):
+        def sfx(self,where,what,play=True,loop=False):
             file= self.fn_ezy(where+"/"+what , ['.ogg', '.mp3', '.wav' ])
             if not file: file=self.fn_ezy(RAMEN_THEME_PATH+"/audio/"+what , ['.ogg', '.mp3', '.wav' ])
             if not file: file=self.fn_ezy(DEFAULT_SFXPATH+"/"+what , ['.ogg', '.mp3', '.wav' ])
-            for k in kwargs:
-                if k == 'loop': del kwargs[k]
             if file and play: renpy.music.play(file,loop=loop)
             return file
                 

@@ -53,3 +53,19 @@ init -203 python:
                 return True
             else:
                 return None
+                
+        def pay(self,where,ammount):
+            if mc.param[where] > ammount:
+                mc.param[where] -= ammount
+                return True
+            else:
+                return False
+
+        def banking(self,ammount=0,where='bank',to='cash'):
+            if mc.param[where] > ammount:
+                mc.param[where] -= ammount
+                mc.param[to] += ammount
+                return True
+            else:
+                return False
+                

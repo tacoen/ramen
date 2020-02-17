@@ -40,8 +40,14 @@ init -205 python:
             #globals()['diff']=self.diff
             
             rbc.diff=self.diff
-            
             self.dayplay=self.diff.days
+            
+            try: self.cycle
+            except: self.cycle = self.dayplay
+            
+            if self.dayplay-self.cycle == 25:
+                rbc.cycle = True
+                self.cycle = self.dayplay
 
         def seed(self, diff):
             self.time=self.start + diff

@@ -9,6 +9,7 @@ init -200 python:
     rbc=container()
     rbc.diff=0
     rbc.doom=0
+    rbc.cycle=True
     
     wo=WorldTime(
         [2019,1,18,8],
@@ -19,9 +20,9 @@ init -200 python:
     mc=player(id='mc',
         score=0,
         level=0,
-        cash=100+ramu.random_int(10,50),
+        cash=200+ramu.random_int(50,99),
         pref=0,
-        bank=9000+ramu.random_int(100,200)
+        bank=19000+ramu.random_int(500,999)
     )
 
     mc.set_limit('relation',[0,20])
@@ -37,7 +38,7 @@ init -200 python:
         energy=5,
         vital=5,
         luck=ramu.random_int(0,7),
-        intelec=ramu.random_int(4,7),
+        intelect=ramu.random_int(4,7),
     )
 
     mc.pref= {}

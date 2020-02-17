@@ -101,8 +101,6 @@ init -99 python:
 
             files = self.files( self.id + '/pose/') + self.files( self.id + "/")
             
-            print files
-            
             if files == []: return False
             
             conte=[ 'sprite' ]
