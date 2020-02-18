@@ -2,9 +2,6 @@ init -99 python:
 
     HUD_PATH=ramu.fn_getdir()
 
-    mc.pref['icons']= ['pocket','mcphone']
-    mc.limit['pocket']=[0,12]
-
     def hud_toggle(what,sfx=True):
 
         try: hud.ui.element[what]
@@ -89,7 +86,12 @@ init -1:
             linear 0.6 ypos -config.screen_height
 
 
-    screen hc_hbar(obj, topic, val, sty, tcolor="#000",legend=True ):
+    screen hc_hbar_pos(obj, topic, val, sty, tcolor="#000", legend=True,xy=(24,config.screen_height-200)):
+    
+        vbox pos xy:
+            use hc_hbar(obj, topic, val, sty, tcolor, legend)
+            
+    screen hc_hbar(obj, topic, val, sty, tcolor="#000", legend=True):
 
         python:
             xmax=sty.xminimum - ( sty.left_padding + sty.right_padding )
@@ -103,6 +105,7 @@ init -1:
             except: max=mc.limit['stat'][1]
 
         vbox:
+            
             if legend:
                 hbox xminimum xmax:
                     xfill True
