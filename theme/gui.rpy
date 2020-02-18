@@ -178,13 +178,13 @@ image check_=Text(ico("toggle-left"),font=FONT_ICO_RAMEN,color=gui.muted_color,s
 
 define gui.textbox_height=config.screen_height/5 + 24
 define gui.textbox_yalign=1.0
-define gui.textbox_background=Color("#000000").opacity(.3)
+define gui.textbox_background=Color("#000000").opacity(.8)
 
 ## The placement of the speaking character's name, relative to the textbox.
 ## These can be a whole number of pixels from the left or top, or 0.5 to center.
 
 define gui.name_xpos=config.screen_width /5
-define gui.name_ypos=-24
+define gui.name_ypos=-16
 
 define gui.name_xalign=0.0
 define gui.namebox_width=None
@@ -192,8 +192,8 @@ define gui.namebox_height=None
 define gui.namebox_borders=Borders(0, 5, 5, 5)
 define gui.namebox_tile=False
 
-define gui.dialogue_xpos=gui.name_xpos + 16
-define gui.dialogue_ypos=14
+define gui.dialogue_xpos=gui.name_xpos + 32
+define gui.dialogue_ypos=24
 
 ## The maximum width of dialogue text, in pixels.
 define gui.dialogue_width=config.screen_width - (2*gui.dialogue_xpos)
