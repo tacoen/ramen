@@ -2,9 +2,6 @@ init -99 python:
 
     HUD_PATH=ramu.fn_getdir()
 
-    mc.pref['icons']= ['pocket','mcphone']
-    mc.limit['pocket']=[0,12]
-
     def hud_toggle(what,sfx=True):
 
         try: hud.ui.element[what]
