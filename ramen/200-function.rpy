@@ -207,17 +207,34 @@ init -208 python:
             except: ppic = ramu.theme_image(THEME_PATH, "/gui/profile")
             return im.Scale(ppic,size[0],size[1])
 
-        def get_sceneimg(self):
+        def get_sceneimg(self,condition=None):
             t=tuple(renpy.get_showing_tags('master',True))
             a=renpy.get_attributes(t[0])
+            
+            if condition is None:
+                condition = wo.suntime
+            
             try: bgr=t[0] +" "+ a[0]
             except: bgr=t[0]
-            try: res=renpy.get_registered_image(bgr).filename
+            
+            res = None
+            
+            try: 
+                res=renpy.get_registered_image(bgr).filename
             except:
-                try:
-                    res=renpy.get_registered_image(bgr).child.args[0][0][1].filename
-                except:
-                    res="blank"
+
+                rl=renpy.get_registered_image(bgr).child.args[0]
+                
+                for r in rl:
+                    if r[0] is True: res_default = r[1].filename  
+                    try : 
+                        if r[0].endswith(condition+"'"): res = r[1].filename
+                    except: pass
+                    
+                if res is None:
+                    res = res_default
+                
+
             return res
             
         def theme_image(self,where,what):
@@ -248,6 +265,9 @@ init -208 python:
         store.last_label=name
 
     config.label_callback=label_callback
+
+
+# function to eval
    
 init -102 python:
 
@@ -269,4 +289,16 @@ init -102 python:
             try: return  _ramen_container.__dict__[which][what]
             except: return False
             
-            
+
+    def sceneimg():
+        t=tuple(renpy.get_showing_tags('master',True))
+        print t
+        a=renpy.get_attributes(t[0])
+        print a
+
+        try: bgr=t[0] +" "+ a[0]
+        except: bgr=t[0]
+        
+        print bgr        
+        
+        return renpy.get_registered_image(bgr)

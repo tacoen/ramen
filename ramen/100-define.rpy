@@ -37,6 +37,11 @@ init -2:
     default mc=mc
 
     define character.mc=Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")
+    
+    # mc from third party views:
+    
+    $ mc3rd = npc('mc',name='[mc_name]',lastname='[mc.lastname]')
+    
 
     define character.thou=Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3",
         what_color="#000",

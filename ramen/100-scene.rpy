@@ -172,8 +172,10 @@ init -99 python:
         def imagemaping(self, floor, bgr=None):
 
             if not bgr or bgr is None: 
-                bgr=self.get_sceneimg()
-
+                bgr=ramu.get_sceneimg()
+                
+                #print bgr
+            
             img={}
             img['ground']=bgr
             gimg=tuple()
@@ -206,15 +208,16 @@ init -99 python:
                         action=Jump(w[2])
                     elif renpy.has_label(self.id+'_'+w[2]):
                         action=Function(self.scene_call, what=self.id+'_'+w[2], id=self.id, f=floor, d=w[2])
-
+                    elif renpy.has_label(self.id+'_'+floor+"_"+w[2]):
+                        action=Jump(self.id+'_'+floor+"_"+w[2])
                     elif renpy.has_label(w[1]):
                         action=Jump(w[1])
                     elif renpy.has_label(self.id+'_'+floor+"_"+w[1]):
                         action=Jump(self.id+'_'+floor+"_"+w[1])
                     elif renpy.has_label(self.id+'_'+w[1]):
                         action=Function(self.scene_call, what=self.id+'_'+w[1], id=self.id, f=floor, d=w[2])
-                    elif renpy.has_label('_scene_'+w[1]):
-                        action=Function(self.scene_call, what='_scene_'+w[1], id=self.id, f=floor, d=w[2])
+                    elif renpy.has_label('ramen_scene_'+w[1]):
+                        action=Function(self.scene_call, what='ramen_scene_'+w[1], id=self.id, f=floor, d=w[2])
 
                     else:
                         action=False
@@ -249,9 +252,6 @@ init -99 python:
                     img['hover']=LiveComposite( (1280,720), *himg )
                     img['data']=imgdata
 
-            try:  img['shortcut']=self.short
-            except: pass
-
             return img
 
         def random_image(self,prefix,scope=None):
@@ -267,35 +267,7 @@ init -99 python:
             return  ramu.random_of(res)
 
 
-# scene map ###################################################################
-
-screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
-
-    if not img is None:
-
-        $ img = obj.imagemaping(scene_id, img)
-    
-        imagemap xpos 0 ypos 0:
-            ground img['ground']
-            hover img['hover']
-            for h in img['data']:
-                hotspot h[0] action h[1]
-
-    # overlays
-    
-    if not overlays is None:
-        use _iblays(obj.id, overlays, True)
-
-    # shortcut
-
-    python:
-        try: shortcuts=img['shortcut']
-        except: shortcuts=None
-
-    if not shortcuts is None:
-        use scene_shortcut( scene_id, shortcuts, shortcut_position)
-
-label _scene_map:
+label ramen_scene_map:
 
     hide screen scene_mapping
 
@@ -309,14 +281,11 @@ label _scene_map:
         renpy.show(obj_id + " "+d)
         renpy.with_statement(dissolve)
 
-        # rbc
-        #map=obj.imagemaping(d, ramu.get_sceneimg())
-
     call screen scene_mapping(obj, d, ramu.get_sceneimg())
 
     return
 
-label _scene_goto:
+label ramen_scene_goto:
 
     hide screen scene_mapping
 
@@ -355,95 +324,7 @@ label _scene_goto:
     label _back:
         python:
             rbc.data('scene_map',f=d,d=f,id=obj_id)
-            renpy.jump('_scene_map')
+            renpy.jump('ramen_scene_map')
 
     return
 
-
-
-## scene_shorcut #######################################################
-
-style shortcut_icon is icoram:
-    xalign 0.5
-
-style shortcut_icon_text is icoram:
-    size 24
-    min_width 30
-    text_align 0.5
-    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
-    color "#fffc"
-    hover_color "#fff"
-
-style shortcut is gui_text
-
-style shortcut_text is default:
-    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
-    size 22
-    line_leading -2
-    color "#fffc"
-    hover_color "#fff"
-
-screen scene_shortcut(scene_id, shorts, position=None):
-
-    python:
-        y=config.screen_height * 7/8
-        x=32
-        s=48
-        n=int(round(y / 48))
-        spos=[]
-        spos.append([ x,y ])
-        for i in range(1,n):
-            spos.append([ x,y-(i*s) ])
-        pos=-1
-
-    for s in shorts:
-
-        python:
-            show=True
-            d=shorts[s]
-
-            if position is None:
-                position=d['position']
-
-            try: d['hide_on']
-            except: d['hide_on']=None
-
-            try: d['show_on']
-            except: d['show_on']=None
-
-            if not d['hide_on'] is None:
-                if scene_id in d['hide_on']:
-                    show=False
-                else:
-                    show=True
-
-            if not d['show_on'] is None:
-
-                if scene_id in d['show_on']:
-                    show=True
-                else:
-                    show=False
-
-        if show:
-
-            python:
-                pos +=1
-                d['pos']=pos
-                if renpy.has_label(d['goto']):
-                    Action=Jump (d['goto'])
-                else:
-                    Action=Null
-
-            if not Action == Null:
-                if position == 'right':
-                    hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
-                        textbutton d['text'] style 'shortcut' action Action
-                        null width 6
-                        textbutton ico(d['icon']) style 'shortcut_icon' action Action
-                        null width 32
-                else:
-                    hbox xalign 0.0 ypos spos[d['pos']][1]:
-                        null width 32
-                        textbutton ico(d['icon']) style 'shortcut_icon' action Action
-                        null width 6
-                        textbutton d['text'] style 'shortcut' action Action

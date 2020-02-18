@@ -7,6 +7,126 @@ transform p647:
 transform p0:
     xpos 0
 
+## scene_mapping ###################################################################
+
+screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
+
+    if not img is None:
+        if img == 'auto':
+            $ imgmap = obj.imagemaping(scene_id,None)
+        else:
+            $ imgmap = obj.imagemaping(scene_id, img)
+    
+        imagemap xpos 0 ypos 0:
+            ground imgmap['ground']
+            hover imgmap['hover']
+            for h in imgmap['data']:
+                hotspot h[0] action h[1]
+
+    # overlays
+    
+    if not overlays is None:
+        use _iblays(obj.id, overlays, True)
+
+    # shortcut
+
+    python:
+        try: shortcuts=obj.short
+        except: shortcuts=None
+
+    if not shortcuts is None:
+        use scene_shortcut( scene_id, shortcuts, shortcut_position)
+        
+        
+## scene_shorcut #######################################################
+
+style shortcut_icon is icoram:
+    xalign 0.5
+
+style shortcut_icon_text is icoram:
+    size 24
+    min_width 30
+    text_align 0.5
+    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
+    color "#fffc"
+    hover_color "#fff"
+
+style shortcut is gui_text
+
+style shortcut_text is default:
+    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
+    size 22
+    line_leading -2
+    color "#fffc"
+    hover_color "#fff"
+
+screen scene_shortcut(scene_id, shorts, position=None):
+
+    python:
+        y=config.screen_height * 7/8
+        x=32
+        s=48
+        n=int(round(y / 48))
+        spos=[]
+        spos.append([ x,y ])
+        for i in range(1,n):
+            spos.append([ x,y-(i*s) ])
+        pos=-1
+
+    for s in shorts:
+
+        python:
+            show=True
+            d=shorts[s]
+
+            if position is None:
+                position=d['position']
+
+            try: d['hide_on']
+            except: d['hide_on']=None
+
+            try: d['show_on']
+            except: d['show_on']=None
+
+            if not d['hide_on'] is None:
+                if scene_id in d['hide_on']:
+                    show=False
+                else:
+                    show=True
+
+            if not d['show_on'] is None:
+
+                if scene_id in d['show_on']:
+                    show=True
+                else:
+                    show=False
+
+        if show:
+
+            python:
+                pos +=1
+                d['pos']=pos
+                if renpy.has_label(d['goto']):
+                    Action=Jump (d['goto'])
+                else:
+                    Action=Null
+
+            if not Action == Null:
+                if position == 'right':
+                    hbox xalign 1.0 xanchor 1.0 ypos spos[d['pos']][1]:
+                        textbutton d['text'] style 'shortcut' action Action
+                        null width 6
+                        textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                        null width 32
+                else:
+                    hbox xalign 0.0 ypos spos[d['pos']][1]:
+                        null width 32
+                        textbutton ico(d['icon']) style 'shortcut_icon' action Action
+                        null width 6
+                        textbutton d['text'] style 'shortcut' action Action
+
+
+## _overlays #######################################################
 
 screen _iblays(obj_id, data, ontop):
 
@@ -88,9 +208,7 @@ style ingame_notify_icon is ram_ico:
     color "#000"
     size 24
 
-
-
-##########
+## special labels ##############################
 
 label after_load:
     stop music fadeout 1.0
