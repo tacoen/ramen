@@ -12,11 +12,11 @@ transform p0:
 screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
 
     if not img is None:
-        if img == 'auto':
-            $ imgmap = obj.imagemaping(scene_id,None)
+        if img.lower() == 'auto':
+            $ imgmap = obj.imagemaping(scene_id, None)
         else:
             $ imgmap = obj.imagemaping(scene_id, img)
-    
+
         imagemap xpos 0 ypos 0:
             ground imgmap['ground']
             hover imgmap['hover']

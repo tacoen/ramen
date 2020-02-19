@@ -75,6 +75,8 @@ screen smp_main(apps=None):
             idle (smp.dir + "/btn.png")
             hover (smp.dir + "/btn-hover.png")
 
+        text wo.clock color "#fff" style 'abel_font' xpos style['smp']['area']['display'].xpos+8 ypos style['smp']['area']['display'].ypos+8 size 48
+        
         if rbc.smp_apps is None:
         
             vpgrid style style['smp']['area']['display'] yoffset style['smp']['area']['display'].yminimum/2:

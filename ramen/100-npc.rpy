@@ -145,16 +145,15 @@ init -99 python:
         def spriteanim(self, name=None, list=None, tick=(0.25)):
 
             anim=()
+            n=0
 
             if name is None:
                 print self.__class__.__name__+ ": make_sprite  - misssing name"
                 return False
 
             if not type(list) == tuple: list=self.sprite.keys()
-
-            n=0
-
             for i in list:
+                print i
                 try: t=tick[n]
                 except: t=0.25
                 anim=anim + (self.sprite[i],t)

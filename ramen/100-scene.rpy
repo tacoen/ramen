@@ -265,36 +265,6 @@ init -99 python:
 
             return  ramu.random_of(res)
 
-# scene map ###################################################################
-
-screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
-
-    
-    # imagemap
-    
-    if not img is None:
-
-        $ imgmap = obj.imagemaping(scene_id, img)
-    
-        imagemap xpos 0 ypos 0:
-            ground imgmap['ground']
-            hover imgmap['hover']
-            for h in imgmap['data']:
-                hotspot h[0] action h[1]
-
-    # overlays
-    
-    if not overlays is None:
-        use _iblays(obj.id, overlays, True)
-
-    # shortcut
-    
-    python:
-        try: shortcuts=obj.short
-        except: shortcuts=None
-
-    if not shortcuts is None:
-        use scene_shortcut( scene_id, shortcuts, shortcut_position)
 
 label ramen_scene_map:
 

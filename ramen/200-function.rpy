@@ -7,7 +7,8 @@ init -208 python:
     import sys
     import json
     import uuid
-
+    import random
+    
     class ramen_util:
 
         def __repr__(self): 
@@ -105,6 +106,10 @@ init -208 python:
 
         random_color=color_random
 
+        def random_shuffle(self,array):
+            random.shuffle(array)
+            return array
+            
         def random_int(self,min=0,max=1,array=False):
             if array:
                 return array [ int(renpy.random.randint(min,max)-1)]

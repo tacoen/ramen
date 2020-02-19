@@ -86,7 +86,11 @@ init -1:
             linear 0.6 ypos -config.screen_height
 
 
-    screen hc_hbar_pos(obj, topic, val, sty, tcolor="#000", legend=True,xy=(24,config.screen_height-200)):
+    screen hc_debug(msg):
+    
+        text repr(msg) ypos 0.9 xpos 0.1
+
+    screen hc_hbar_pos(obj, topic, val, sty, tcolor="#fff", legend=True, xy=(24,config.screen_height-200)):
     
         vbox pos xy:
             use hc_hbar(obj, topic, val, sty, tcolor, legend)
