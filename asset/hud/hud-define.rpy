@@ -88,7 +88,7 @@ init -1:
 
     screen hc_debug(msg):
     
-        text repr(msg) ypos 0.9 xpos 0.1
+        text repr(msg) ypos 0.9 xpos 0.9
 
     screen hc_hbar_pos(obj, topic, val, sty, tcolor="#fff", legend=True, xy=(24,config.screen_height-200)):
     

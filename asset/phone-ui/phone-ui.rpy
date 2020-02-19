@@ -31,6 +31,7 @@ init -80 python:
     smp.index('apps','rpy')
     
     rbc.smp_apps = None
+    rbc.smp_disable = False
 
 style phone_ui is default
 
@@ -56,7 +57,16 @@ transform pullup:
         ypos 0 
         alpha 1
         easeout 0.5 ypos config.screen_height, alpha 0
+
+screen smp_ui(apps=None):
+
+    python:
         
+        if rbc.smp_disable:
+            ramu.screen_hideby('smp_')
+        else:
+            renpy.use_screen('smp_main',apps=apps)
+    
 screen smp_main(apps=None):
 
     python:

@@ -22,7 +22,7 @@ init -98 python:
         icons={
             'pocket':[ '2','wallet', "Pocket", Function(hud_toggle,what='inventory') ],
             'map':[ '3','map' , "Map", 'map', Function(hud_toggle,what='map') ],
-            'mcphone':[ '1','phone' , "Smartphone", ToggleScreen('smp_main') ],
+            'smp':[ '1','phone' , "Smartphone", ToggleScreen('smp_ui') ],
         },
         hbar={
             'energy':['#f91',12],
@@ -138,7 +138,7 @@ screen hud_init():
         key "ctrl_K_F1" action Function(hud_toggle,what='legend')
 
         key "K_F9" action Function(hud_toggle,what='inventory')
-        key "K_F10" action ToggleScreen('smp_main')
+        key "K_F10" action ToggleScreen('smp_ui')
 
         if hud.ui.element['hud']:
             $ hud_tic=ico('chevrons-up')

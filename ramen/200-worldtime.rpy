@@ -4,11 +4,11 @@ init -205 python:
         """
         ref: https://docs.python.org/2/library/datetime.html
         """
-        def __init__ (self, \
-            gamedate=[2019,1,18,9], \
-            tword=['Midnight','Dusk','Morning','Noon','Evening','Night'], \
-            sword=['dark','sun1','sun2','sun3','dark'], \
-            wword=['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday'] \
+        def __init__ (self,
+            gamedate=[2016,1,18,9],
+            tword=['Midnight','Dusk','Morning','Morning','Noon','Evening','Evening','Night'],
+            sword=['dark','dark','sun1','sun2','sun2','sun3','dark','dark'],
+            wword=['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday']
             ):
 
             self.timeword=tword
@@ -27,10 +27,10 @@ init -205 python:
             self.python_weekday=self.time.strftime("%A")
             self.python_month=self.time.strftime("%B")
             self.weekday=self.wdayword[ self.time.weekday() ]
-            hh=self.time.hour+1
-            self.daypart=int( round( len(self.timeword) * hh /24) )
+            #hh=self.time.hour+1
+            self.daypart=int( round( len(self.timeword) * self.time.hour /24) )
             self.daytime=self.timeword[ self.daypart ]
-            self.sun=int(round(len(self.sunword)*self.time.hour/24))
+            self.sun=int(round(len(self.sunword) * self.time.hour/24) )
             self.suntime=str( self.sunword[ self.sun ] )
             self.diff=self.time - self.start
             self.date=self.time.strftime("%d %B %Y")
@@ -40,7 +40,7 @@ init -205 python:
             #globals()['diff']=self.diff
             
             rbc.diff=self.diff
-            self.dayplay=self.diff.days
+            self.dayplay=self.diff.days+1
             
             try: self.cycle
             except: self.cycle = self.dayplay

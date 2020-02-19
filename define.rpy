@@ -34,7 +34,7 @@ init -99 python:
     mc.flags=[]
     mc.ability=[]
 
-    mc.pref['icons']= ['pocket','mcphone']
+    mc.pref['icons']= ['pocket','smp']
     mc.limit['pocket']=[0,12]
 
     pocket=inventory('pocket')
