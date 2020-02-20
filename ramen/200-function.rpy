@@ -18,13 +18,18 @@ init -208 python:
         # fn -- files functions
 
         def fn_getdir(self):
+        
+            """Get the directory of the scripts from renpy.get_filename_line"""
+
             inf=renpy.get_filename_line()
             dir, fn=ntpath.split(inf[0])
-            return re.sub(r'^game/','',dir)
+            return str(re.sub(r'^game/','',dir))
 
         def fn_info(self,f):
+        
+            """ Get and extract the file information of the [file] as dict"""
+            
             r={}
-
             r[str('path')], r[str('file')]=ntpath.split(f)
             a=r['file'].split('.')
             r[str('name')]=str(a[0])
@@ -34,6 +39,9 @@ init -208 python:
             return r
 
         def fn_ezy(self, file, ext=['.jpg', '.png', '.webp' ]):
+        
+            """Get renpy.loadable [file] base on last-seen [extension-list]"""
+            
             rfile=False
             n=0
             for e in ext:
@@ -44,6 +52,9 @@ init -208 python:
             return rfile
 
         def fn_files(self,where,key=False):
+        
+            """ Collect files from [where], and [keyword]."""
+            
             F=renpy.list_files(False)
             files=filter(lambda w:where+"/" in w, sorted(F))
             if key:  files=filter(lambda w:key in w, files)
@@ -52,25 +63,18 @@ init -208 python:
         # str
 
         def nicenaming(self,str_strip,name):
+
+            """ Turn 'nice_name some' to 'nicenamesome'."""
+
             nn=name.replace(str_strip,'').replace('_',' ')
             return nn.title()
 
         def safeid(self,id):
-            id=id.replace('-','')
-            return id
-
-        def safestr(self,string1,string2=None):
-            s=str(string1)
-            if not string2 is None:
-                s +=  "_" + str(string2)
-            else:
-                s=s.replace(' ','_')
-            regex=re.compile('[^a-zA-Z_0-9]')
-            va=[ 'for','of','by']
-            for v in va: s=s.replace(v,'')
-            s=regex.sub('',s)
-            s=s.replace('__','_')
-            return s
+        
+            """Strip non-safecharacter for [id]."""
+            
+            id=id.replace('-','').replace(' ','')
+            return id.lower()
 
         # json
 
