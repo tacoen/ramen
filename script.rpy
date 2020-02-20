@@ -1,6 +1,8 @@
 ﻿# The game starts here.
 init python:
-    event_test = event('test',label='start',day=1,call='eventest',jump='eventest_jump')
+#    event_test = event('test',label='start',day=1,require={'hygiene':2},call='eventest',jump='eventest_jump')
+
+    event_test = event('test',label='start',require={'hygiene':2},call='eventest',jump='eventest_jump')
 
 label start:
 
