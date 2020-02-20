@@ -41,7 +41,10 @@ init -203 python:
             try: self.__dict__['stat']
             except: self.__dict__[str('stat')]={}
             stat=self.__dict__['stat']
-
+            
+            print what
+            print type(value)
+            
             ov=stat[what]
             nv=ramu.limit(what, ov, value)
 

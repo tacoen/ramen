@@ -133,7 +133,9 @@ init -208 python:
                 return False
 
         def limit(self, what, ov, value=1):
-            ov += int(value)
+
+            ov += value
+            
             if not what in mc.limit.keys(): what='stat'
             if ov > mc.limit[what][1]:
                 ov=mc.limit[what][1]
@@ -267,15 +269,6 @@ init -208 python:
             return file
                 
             
-
-    # renpy behave
-
-    def label_callback(name, abnormal):
-        store.last_label=name
-
-    config.label_callback=label_callback
-
-
 # function to eval
    
 init -102 python:
