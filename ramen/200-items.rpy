@@ -1,4 +1,4 @@
-init - 202 python:
+init -202 python:
 
     class item(ramen_object):
 

@@ -1,4 +1,4 @@
-init - 208 python:
+init -208 python:
 
     import ntpath
     import re
@@ -289,7 +289,7 @@ init - 208 python:
 
 # function to eval
 
-init - 102 python:
+init -102 python:
 
     def rbcing(what, value=None, **kwargs):
         # rbc.data

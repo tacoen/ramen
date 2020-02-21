@@ -1,4 +1,4 @@
-init - 201 python:
+init -201 python:
 
     class inventory(ramen_object):
 

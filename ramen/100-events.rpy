@@ -1,4 +1,4 @@
-init - 199 python:
+init -199 python:
 
     import math
 
@@ -42,7 +42,6 @@ init - 199 python:
     def cost_of_time():
 
         if rbc.tick is None:
-            print '>>'
             rbc.tick = rbc.diff.total_seconds()
 
         hh = float(rbc.diff.total_seconds()) - float(rbc.tick)
@@ -50,9 +49,6 @@ init - 199 python:
             mc.gain('energy', -0.5)
             mc.gain('hygiene', -1)
             rbc.tick = rbc.diff.total_seconds()
-            print "---"
-
-        print rbc.tick
 
     class event():
 
@@ -80,7 +76,7 @@ init - 199 python:
 
         def set_occur(self, **kwargs):
             for k in kwargs:
-                rbc.event.__dict__[str(self.id)][str(k)] = str(kwargs[k])
+                rbc.event.__dict__[str(self.id)][str(k)] = kwargs[k]
 
         def set_pass(self):
             rbc.event.__dict__[str(self.id)][str('pass')] = True
@@ -141,6 +137,21 @@ init - 199 python:
                     res = True
                 else:
                     res = False
+            except BaseException:
+                pass
+
+        if res:
+
+            try:
+
+                for r in rbc.event.__dict__[id]['require'].keys():
+
+                    if int(mc.stat[r]) >= int(
+                            rbc.event.__dict__[id]['require'][r]):
+                        res = True
+                    else:
+                        res = False
+
             except BaseException:
                 pass
 

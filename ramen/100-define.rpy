@@ -1,4 +1,4 @@
-init - 200 python:
+init -200 python:
 
     ramu = ramen_util()
     RAMEN_PATH = ramu.fn_getdir()
@@ -21,11 +21,11 @@ init - 200 python:
     style['hbar'].left_bar = Color(bcolor).opacity(.75)
     style['hbar'].ysize = 16
 
-init - 100 python:
+init -100 python:
 
     quick_menu = False
 
-init - 2:
+init -2:
 
     # layers
 

@@ -1,4 +1,4 @@
-init - 203 python:
+init -203 python:
 
     class player(ramen_object):
 

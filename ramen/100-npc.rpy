@@ -1,4 +1,4 @@
-init - 99 python:
+init -99 python:
 
     class npc(ramen_object):
 
