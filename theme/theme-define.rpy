@@ -2,14 +2,14 @@
 # Initialization
 ##########################################################################
 
-init - 199 python:
+init -199 python:
 
     # For Shared Resources
 
     RAMEN_THEME_PATH = ramu.fn_getdir()
     DEFAULT_SFXPATH = RAMEN_THEME_PATH
 
-init - 99 python:
+init -99 python:
 
     # defaults
 
@@ -27,7 +27,7 @@ init - 99 python:
 
     gui.init(1280, 720)
 
-init - 12 python:
+init -12 python:
 
     # must before gui.rpy
 
