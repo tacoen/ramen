@@ -105,6 +105,8 @@ init -199 python:
         except BaseException:
             pass
 
+        print res
+
         try:
             if rbc.event.__dict__[id]['label'] == last_label:
                 res = True
@@ -113,6 +115,9 @@ init -199 python:
         except BaseException:
             pass
 
+        print last_label
+        print res
+
         if res:
             try:
                 if rbc.event.__dict__[id]['day'] > wo.dayplay:
@@ -120,6 +125,8 @@ init -199 python:
             except BaseException:
                 pass
 
+        print res
+        
         if res:
 
             try:

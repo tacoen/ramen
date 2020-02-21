@@ -200,7 +200,7 @@ init -99 python:
             if not type(list) == tuple:
                 list = self.sprite.keys()
             for i in list:
-                print i
+#                print i
                 try:
                     t = tick[n]
                 except BaseException:
