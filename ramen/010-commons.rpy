@@ -7,9 +7,9 @@ transform p647:
 transform p0:
     xpos 0
 
-## scene_mapping ###################################################################
+## scene_mapping #########################################################
 
-screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None ):
+screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None):
 
     if not img is None:
         if img.lower() == 'auto':
@@ -24,20 +24,22 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
                 hotspot h[0] action h[1]
 
     # overlays
-    
+
     if not overlays is None:
         use _iblays(obj.id, overlays, True)
 
     # shortcut
 
     python:
-        try: shortcuts=obj.short
-        except: shortcuts=None
+        try:
+            shortcuts = obj.short
+        except BaseException:
+            shortcuts = None
 
     if not shortcuts is None:
-        use scene_shortcut( scene_id, shortcuts, shortcut_position)
-        
-        
+        use scene_shortcut(scene_id, shortcuts, shortcut_position)
+
+
 ## scene_shorcut #######################################################
 
 style shortcut_icon is icoram:
@@ -47,69 +49,73 @@ style shortcut_icon_text is icoram:
     size 24
     min_width 30
     text_align 0.5
-    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
+    outlines[(absolute(2), "#0006", absolute(0), absolute(0))]
     color "#fffc"
     hover_color "#fff"
 
 style shortcut is gui_text
 
 style shortcut_text is default:
-    outlines [ (absolute(2), "#0006", absolute(0), absolute(0)) ]
+    outlines[(absolute(2), "#0006", absolute(0), absolute(0))]
     size 22
-    line_leading -2
+    line_leading - 2
     color "#fffc"
     hover_color "#fff"
 
 screen scene_shortcut(scene_id, shorts, position=None):
 
     python:
-        y=config.screen_height * 7/8
-        x=32
-        s=48
-        n=int(round(y / 48))
-        spos=[]
-        spos.append([ x,y ])
-        for i in range(1,n):
-            spos.append([ x,y-(i*s) ])
-        pos=-1
+        y = config.screen_height * 7 / 8
+        x = 32
+        s = 48
+        n = int(round(y / 48))
+        spos = []
+        spos.append([x, y])
+        for i in range(1, n):
+            spos.append([x, y - (i * s)])
+        pos = -1
 
     for s in shorts:
 
         python:
-            show=True
-            d=shorts[s]
+            show = True
+            d = shorts[s]
 
             if position is None:
-                position=d['position']
+                position = d['position']
 
-            try: d['hide_on']
-            except: d['hide_on']=None
+            try:
+                d['hide_on']
+            except BaseException:
+                d['hide_on'] = None
 
-            try: d['show_on']
-            except: d['show_on']=None
+            try:
+                d['show_on']
+            except BaseException:
+                d['show_on'] = None
 
             if not d['hide_on'] is None:
                 if scene_id in d['hide_on']:
-                    show=False
+                    show = False
                 else:
-                    show=True
+                    show = True
 
             if not d['show_on'] is None:
 
                 if scene_id in d['show_on']:
-                    show=True
+                    show = True
                 else:
-                    show=False
+                    show = False
 
         if show:
 
             python:
-                pos +=1
-                d['pos']=pos
+                pos += 1
+                d['pos'] = pos
                 if renpy.has_label(d['goto']):
-                    Action=Jump (d['goto'])
+                    Action = Jump(d['goto'])
                 else:
-                    Action=Null
+                    Action = Null
 
             if not Action == Null:
                 if position == 'right':
@@ -135,16 +141,21 @@ screen _iblays(obj_id, data, ontop):
 
     for d in data:
         python:
-            if not obj_id is None: obj=globals()[obj_id]
-            
-            img=ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
-            
-            try: xy=d[1]
-            except: xy=(0,0)
-            
-            try: act=d[2]
-            except: act=Null
-            
+            if not obj_id is None:
+                obj = globals()[obj_id]
+
+            img = ramu.fn_ezy(obj.dir + "/overlays/" + d[0])
+
+            try:
+                xy = d[1]
+            except BaseException:
+                xy = (0, 0)
+
+            try:
+                act = d[2]
+            except BaseException:
+                act = Null
+
         if img:
             hbox pos xy:
                 if act is Null:
@@ -152,7 +163,7 @@ screen _iblays(obj_id, data, ontop):
                 else:
                     imagebutton action act:
                         idle img
-                        hover im.MatrixColor(img,im.matrix.brightness(0.1))
+                        hover im.MatrixColor(img, im.matrix.brightness(0.1))
 
 screen _overlays(obj_id, data, ontop=False):
 
@@ -160,12 +171,13 @@ screen _overlays(obj_id, data, ontop=False):
         zorder 99
 
     python:
-        if not obj_id is None: obj=globals()[obj_id]
+        if not obj_id is None:
+            obj = globals()[obj_id]
 
     for d in data:
         python:
-            img=ramu.fn_ezy(obj.dir +"/overlays/"+d[0])
-            xy=d[1]
+            img = ramu.fn_ezy(obj.dir + "/overlays/" + d[0])
+            xy = d[1]
         if img:
             hbox pos xy:
                 add img
@@ -174,8 +186,8 @@ screen ingame_notify(msg='', icoram=None):
 
     python:
         if icoram is None:
-            icoram='arrow-up'
-            
+            icoram = 'arrow-up'
+
     zorder 102
     style_prefix "ingame_notify"
     hbox xfill True xalign 1.0 ypos 32 at notify_appear:
@@ -189,21 +201,21 @@ screen ingame_notify(msg='', icoram=None):
                     null width 8
             null width 32
 
-    timer 3.25 action Hide('ingame_notify')        
-    
+    timer 3.25 action Hide('ingame_notify')
+
 
 style ingame_notify_frame:
-    padding (8,8)
+    padding(8, 8)
     background Frame(Composite(
-          (200,80),
-           (0,0), Solid("#f91d"),
-           (0,0), ramu.theme_image(THEME_PATH,"/gui/outline-b")
-        ), Borders(1,1,1,1), tile=False, xalign=0.5)
+        (200, 80),
+        (0, 0), Solid("#f91d"),
+        (0, 0), ramu.theme_image(THEME_PATH, "/gui/outline-b")
+    ), Borders(1, 1, 1, 1), tile=False, xalign=0.5)
 
 style ingame_notify_text:
     properties gui.text_properties("notify")
     color "#000"
-    
+
 style ingame_notify_icon is ram_ico:
     color "#000"
     size 24
@@ -216,7 +228,7 @@ label after_load:
     $ renpy.free_memory
     $ renpy.block_rollback()
     return
-    
+
 label _ramen_start:
 
     stop music fadeout 1.0
@@ -224,10 +236,11 @@ label _ramen_start:
     $ renpy.free_memory
 
     hide screen _overlays
-    
+
     python:
-        if renpy.has_screen('hud_init'): renpy.show_screen('hud_init')
-        if renpy.has_label('ramen_test'): renpy.jump('ramen_test')
+        if renpy.has_screen('hud_init'):
+            renpy.show_screen('hud_init')
+        if renpy.has_label('ramen_test'):
+            renpy.jump('ramen_test')
 
     return
-    

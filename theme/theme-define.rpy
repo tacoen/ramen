@@ -1,36 +1,42 @@
-################################################################################
-## Initialization
-################################################################################
+##########################################################################
+# Initialization
+##########################################################################
 
-init -199 python:
-    
+init - 199 python:
+
     # For Shared Resources
 
-    RAMEN_THEME_PATH=ramu.fn_getdir()
-    DEFAULT_SFXPATH=RAMEN_THEME_PATH
+    RAMEN_THEME_PATH = ramu.fn_getdir()
+    DEFAULT_SFXPATH = RAMEN_THEME_PATH
 
-init -99 python:
+init - 99 python:
 
     # defaults
 
-    rbc.hud_disable=False
-    rbc.hud_show=False
-    rbc.hud_set=5
-    rbc.hud_element={}
+    rbc.hud_disable = False
+    rbc.hud_show = False
+    rbc.hud_set = 5
+    rbc.hud_element = {}
 
-    rbc.val=0
+    rbc.val = 0
 
-    try: hud_fgcolor = hud.ui.fgcolor[rbc.hud_set]
-    except: hud_fgcolor = "#fff"
+    try:
+        hud_fgcolor = hud.ui.fgcolor[rbc.hud_set]
+    except BaseException:
+        hud_fgcolor = "#fff"
 
     gui.init(1280, 720)
 
-init -12 python:
+init - 12 python:
 
     # must before gui.rpy
 
-    try: FONT_PATH
-    except NameError: FONT_PATH=RAMEN_THEME_PATH+"/fonts"
+    try:
+        FONT_PATH
+    except NameError:
+        FONT_PATH = RAMEN_THEME_PATH + "/fonts"
 
-    try: THEME_PATH
-    except NameError: THEME_PATH=RAMEN_THEME_PATH+"/titles"
+    try:
+        THEME_PATH
+    except NameError:
+        THEME_PATH = RAMEN_THEME_PATH + "/titles"
