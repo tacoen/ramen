@@ -94,6 +94,11 @@ screen say(who, what):
     window:
         id "window"
         style_prefix "say"
+        
+        if renpy.get_screen("smp_ui") or rbc.onphone:
+            xpos 490
+            xsize config.screen_width-490-32
+            xalign 0        
 
         if who is None:
             background gui.naration_overlay
@@ -127,7 +132,7 @@ screen say(who, what):
     # If there's a side image, display it above the text. Do not display on the
     # phone variant - there's no room.
     if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+        add SideImage() xalign 1.0 yalign 1.0
 
 # Make the namebox available for styling through the Character object.
 
@@ -463,7 +468,24 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     if main_menu:
         add gui.main_menu_background
     else:
-        add gui.game_menu_background
+    
+        python:
+            page = title.lower()
+            
+            print page
+            
+            if page == 'load':
+                page_bgr = ramu.theme_image(THEME_PATH, "load_menu")
+            else:
+                page_bgr = gui.game_menu_background
+            
+        $ print page_bgr
+        
+        if page_bgr:
+            add page_bgr
+        else:
+            add gui.game_menu_background
+        
 
     frame:
         style "game_menu_outer_frame"
@@ -661,7 +683,7 @@ screen save():
 screen load():
 
     tag menu
-
+ 
     use file_slots(_("Load"))
 
 

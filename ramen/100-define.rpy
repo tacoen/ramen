@@ -29,7 +29,7 @@ init -2:
 
     # layers
 
-    define config.layers = ['master', 'transient', 'screens', 'above-screens', 'overlay', 'interface']
+    define config.layers = ['master', 'transient', 'ambient', 'screens', 'above-screens', 'overlay', 'interface']
 
     # proxydict
 
@@ -42,22 +42,42 @@ init -2:
 
     $ mc3rd = npc('mc', name='[mc_name]', lastname='[mc.lastname]')
 
-    define character.thou = Character("mc_name", dynamic=True, who_suffix=" ~", who_color="#fe3",
-                                      what_color="#000",
-                                      what_prefix="{i}", what_suffix="{/i}", what_xpos=100, what_xalign=0.0, what_yalign=0.5,
-                                      window_background=Solid("#fff"),
-                                      window_xsize=gui.dialogue_width + 40,
-                                      window_xfill=False,
-                                      window_yalign=0.9,
-                                      window_ysize=128,
-                                      )
+    define character.thou = Character("mc_name", 
+                            image='thou',
+                            dynamic=True, 
+                            who_suffix=" ~", 
+                            who_color="#fe3",
+                            what_color="#000",
+                            what_prefix="{i}", 
+                            what_suffix="{/i}", 
+                            what_xpos=100, 
+                            what_xalign=0.0, 
+                            what_yalign=0.5,
+                            window_background=Solid("#ffffffcc"),
+                            window_xsize=gui.dialogue_width + 40,
+                            window_xfill=False,
+                            window_xalign=0.85,
+                            window_yalign=0.9,
+                            window_ysize=150,
+                        )
+
+    image side thou = ramu.theme_image(THEME_PATH, "side-thou")
 
     define character.anon = Character("anon_name", dynamic=True, who_color=ramu.random_color(128, 220), what_color="#ccc")
 
     image ctcon = Text(' ...')
 
-    define character.caption = Character(None, who_color="#ccc", what_color="#fff",
-                                         what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}")
+    define character.caption = Character(
+        None, 
+        window_yalign = 0.7,        
+        what_xalign=0.5,
+        what_yalign=0.5,
+        who_color="#ccc", 
+        what_color="#000",
+        window_background=Solid("#FFCC33DD"),
+        what_prefix="{size=-1}{cps=80}", 
+        what_suffix="{/cps}{/size}"
+        )
 
     define character.tips = Character(None, who_color="#ccc", what_color="#ff0",
                                       what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}", ctc='ctcon')

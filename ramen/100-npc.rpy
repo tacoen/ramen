@@ -132,7 +132,7 @@ init -99 python:
 
         def define_byfile(self, main=None):
 
-            voids = ['profile', 'nsd-chat']
+            voids = ['profile', 'nsd-chat', 'side']
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")
 
@@ -154,8 +154,14 @@ init -99 python:
                         self.__dict__['json'] = {}
                     self.__dict__['json'][str(p['name'])] = f
 
+                # sideimage and profile
+                
                 if p['name'] == 'profile':
                     self.profile_pic = f
+
+                if p['name'] == 'side':
+                    renpy.image('side '+self.id, f)
+                    
 
                 if p['path'] in conte:
                     try:
