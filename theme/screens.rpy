@@ -471,16 +471,12 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     
         python:
             page = title.lower()
-            
-            print page
-            
+                       
             if page == 'load':
                 page_bgr = ramu.theme_image(THEME_PATH, "load_menu")
             else:
                 page_bgr = gui.game_menu_background
             
-        $ print page_bgr
-        
         if page_bgr:
             add page_bgr
         else:

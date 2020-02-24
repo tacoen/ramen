@@ -317,15 +317,11 @@ init -102 python:
 
     def sceneimg():
         t = tuple(renpy.get_showing_tags('master', True))
-        print t
         a = renpy.get_attributes(t[0])
-        print a
 
         try:
             bgr = t[0] + " " + a[0]
         except BaseException:
             bgr = t[0]
-
-        print bgr
 
         return renpy.get_registered_image(bgr)

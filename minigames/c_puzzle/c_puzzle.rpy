@@ -30,7 +30,6 @@ label cable_puzzle(broke=[]):
         if not broke == []:
             for b in broke:
                 rp[b]['res']=False
-                print "pangil:" + b
 
         renpy.show_screen('cable_puzzle',rp=rp)
 

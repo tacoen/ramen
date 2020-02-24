@@ -17,7 +17,7 @@ init -10 python:
                 topic=t
 
         for t in topic:
-            print t
+            #print t
             try: res[t]=gui.__dict__[t+"_properties"]()
             except:
                 for k in gk:

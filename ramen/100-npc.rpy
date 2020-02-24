@@ -139,7 +139,7 @@ init -99 python:
             if files == []:
                 return False
 
-            conte = ['sprite']
+            conte = ['sprite','video']
 
             self.__dict__[str('pose')] = {}
 
@@ -190,10 +190,25 @@ init -99 python:
                 pass
 
             try:
+                self.videoin()
+            except BaseException:
+                pass
+
+            try:
                 del self._files
             except BaseException:
                 pass
 
+        def videoin(self):
+        
+            try : self.movie
+            except : self.movie={}
+            
+            for f in self.video.keys():
+                print self.video[f]
+                renpy.image('f', Movie(play=self.video(f),loop=True))
+                self.movie[f] = Movie(play=self.video(f),loop=True)
+        
         def spriteanim(self, name=None, list=None, tick=(0.25)):
 
             anim = ()

@@ -1,4 +1,11 @@
+init -4 python:
 
+    def ramen_ingamenotify(msg='', icoram=None, who=None):
+    
+        renpy.show_screen('ingame_notify',msg=msg,icoram=icoram,who=who)
+
+
+        
 # Common ATL and Shared Style
 
 transform p647:
@@ -10,7 +17,7 @@ transform p0:
 ## woclock ####################################
 
 screen ramen_woclock():
-    hbox xalign 0.9 yalign 0.125:
+    hbox xalign 0.9 yalign 0.68:
         text str(wo.clock) style "label" size 32 color "#fff":
             outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
             
@@ -207,12 +214,12 @@ screen _overlays(obj_id, data, ontop=False):
             hbox pos xy:
                 add img
 
-screen ingame_notify(msg='', icoram=None):
+screen ingame_notify(msg='', icoram=None, who=None):
 
     python:
         if icoram is None:
             icoram = 'arrow-up'
-
+            
     zorder 102
     style_prefix "ingame_notify"
     hbox xfill True xalign 1.0 ypos 32 at notify_appear:
@@ -220,6 +227,9 @@ screen ingame_notify(msg='', icoram=None):
         hbox xalign 1.0:
             frame xalign 1.0:
                 hbox yalign 0.5:
+                    if not who is None:
+                        add ramu.get_profilepic(who,(32, 32))
+                        null width 8
                     text ico(icoram) style "ingame_notify_icon" min_width 24 text_align 0.5
                     null width 8
                     text "[msg]"

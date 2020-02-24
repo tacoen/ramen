@@ -105,7 +105,7 @@ init -199 python:
         except BaseException:
             pass
 
-        print res
+#        print res
 
         try:
             if rbc.event.__dict__[id]['label'] == last_label:
@@ -115,8 +115,8 @@ init -199 python:
         except BaseException:
             pass
 
-        print last_label
-        print res
+#        print last_label
+#        print res
 
         if res:
             try:
@@ -125,7 +125,7 @@ init -199 python:
             except BaseException:
                 pass
 
-        print res
+#        print res
         
         if res:
 

@@ -72,6 +72,7 @@ init -2:
         window_yalign = 0.7,        
         what_xalign=0.5,
         what_yalign=0.5,
+        what_ypos = 24,
         who_color="#ccc", 
         what_color="#000",
         window_background=Solid("#FFCC33DD"),
@@ -84,3 +85,7 @@ init -2:
 
     define character.narator = Character(None, who_color="#ccc", what_color="#eee",
                                          what_prefix="{cps=80}", what_suffix="{/cps}")
+
+    define character.emoti = Character(None, who_color="#ccc", what_color="#fff",
+                                         what_bold=True,
+                                         what_prefix="(", what_suffix=")")
