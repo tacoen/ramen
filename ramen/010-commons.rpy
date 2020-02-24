@@ -7,6 +7,31 @@ transform p647:
 transform p0:
     xpos 0
 
+## woclock ####################################
+
+screen ramen_woclock():
+    hbox xalign 0.9 yalign 0.125:
+        text str(wo.clock) style "label" size 32 color "#fff":
+            outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
+            
+    timer 3.0 action Function(renpy.restart_interaction)
+
+## zoom ####################################
+
+transform vertscrolling(sec):
+    on show:
+        yoffset -720
+        linear sec yoffset 0
+        pause 2
+    on hide:
+        linear sec yoffset -360
+        alpha 1
+        linear 0.3 alpha 0
+
+screen ramen_vsdispay(img, sec=1):
+    add (img) at vertscrolling(sec)
+    
+
 ## scene_mapping #########################################################
 
 screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None):
