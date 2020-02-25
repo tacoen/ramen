@@ -139,7 +139,7 @@ init -99 python:
             if files == []:
                 return False
 
-            conte = ['sprite','video']
+            conte = ['sprite','video','audio']
 
             self.__dict__[str('pose')] = {}
 
@@ -188,9 +188,10 @@ init -99 python:
                 self.sprite = sorted(self.sprite)
             except BaseException:
                 pass
-
+                
             try:
-                self.videoin()
+                for v in self.video.keys():
+                    renpy.image((self.id,v), Movie(play=alina.video[v]))
             except BaseException:
                 pass
 
@@ -199,15 +200,16 @@ init -99 python:
             except BaseException:
                 pass
 
-        def videoin(self):
         
-            try : self.movie
-            except : self.movie={}
-            
-            for f in self.video.keys():
-                print self.video[f]
-                renpy.image('f', Movie(play=self.video(f),loop=True))
-                self.movie[f] = Movie(play=self.video(f),loop=True)
+
+        def play_video(self,name=None,loops=-1):
+            if not name is None:
+                renpy.movie_cutscene(self.video[name],loops=-1)
+                Movie(play=self.video[name], channel='movie')
+
+        def play_audio(self,name=None):
+            if not name is None:
+                renpy.music.play(self.audio[name])
         
         def spriteanim(self, name=None, list=None, tick=(0.25)):
 

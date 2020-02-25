@@ -112,12 +112,20 @@ screen say(who, what):
 
             if who.endswith("~"):
 
-                python:
-                    swho = who.replace(' ~', '')
+                #python:
+                #    who = who.replace(' ~', '')
 
                 # frame background "#fff" xsize gui.dialogue_width+80 ysize
                 # gui.textbox_height-40 xalign 0.5
 
+                text what id "what"
+
+            elif who.endswith("*"):
+
+                window:
+                    id "namebox"
+                    style "namebox"
+                    text who id "who"
                 text what id "what"
 
             else:
@@ -132,7 +140,9 @@ screen say(who, what):
     # If there's a side image, display it above the text. Do not display on the
     # phone variant - there's no room.
     if not renpy.variant("small"):
-        add SideImage() xalign 1.0 yalign 1.0
+    
+        if not "{noside}" in what:
+            add SideImage() xalign 1.0 yalign 1.0
 
 # Make the namebox available for styling through the Character object.
 

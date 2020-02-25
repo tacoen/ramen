@@ -8,12 +8,27 @@ init -4 python:
         
 # Common ATL and Shared Style
 
-transform p647:
-    xpos 647
+transform npc_align(x=0.5,scale=1.0):
+    yoffset 0
+    yalign 1.0
+    zoom scale
+    xalign x
 
-transform p0:
-    xpos 0
+transform npc_pos(x=0,scale=1.0):
+    yoffset 0
+    yalign 1.0
+    zoom scale
+    xpos x
 
+transform vertscrolling(sec):
+    yalign 1.0
+    yoffset 720
+    zoom 1
+    pause 1
+    linear sec yoffset 0
+    pause .25
+    easeout sec/2 yoffset 720
+    
 ## woclock ####################################
 
 screen ramen_woclock():
@@ -25,19 +40,14 @@ screen ramen_woclock():
 
 ## zoom ####################################
 
-transform vertscrolling(sec):
-    on show:
-        yoffset -720
-        linear sec yoffset 0
-        pause 2
-    on hide:
-        linear sec yoffset -360
-        alpha 1
-        linear 0.3 alpha 0
-
-screen ramen_vsdispay(img, sec=1):
-    add (img) at vertscrolling(sec)
+screen ramen_vsdisplay(img, sec=1, bounce=False):
+    if bounce:
+        add (img) at vertscrolling_bounce(sec/2)
+        timer float(sec)+0.5 action Hide('ramen_vsdisplay')
     
+    else:
+        add (img) at vertscrolling(sec)
+        timer float(sec)+0.5 action Hide('ramen_vsdisplay')
 
 ## scene_mapping #########################################################
 
@@ -261,7 +271,7 @@ label after_load:
     stop music fadeout 1.0
     stop sound fadeout 1.0
     $ renpy.free_memory
-    $ renpy.block_rollback()
+    # $ renpy.block_rollback()
     return
 
 label _ramen_start:

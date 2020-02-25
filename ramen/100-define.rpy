@@ -3,6 +3,8 @@ init -200 python:
     ramu = ramen_util()
     RAMEN_PATH = ramu.fn_getdir()
 
+    renpy.music.register_channel('music','sfx','movie')
+
     # Ramen bucket container, a proxydict for renpy storable
 
     _ramen_container = object()
@@ -24,19 +26,22 @@ init -200 python:
 init -100 python:
 
     quick_menu = False
+    
+    def ramen_nosideimage(tag, argument):
+        return ""
 
+    config.self_closing_custom_text_tags["noside"] = ramen_nosideimage
+    
 init -2:
 
     # layers
-
     define config.layers = ['master', 'transient', 'ambient', 'screens', 'above-screens', 'overlay', 'interface']
 
     # proxydict
-
     default _ramen_container = _ramen_container
     default mc = mc
 
-    define character.mc = Character("mc_name", dynamic=True, who_color="#fe3", what_color="#ddd")
+    define character.mc = Character("mc_name", dynamic=True, who_color="#fff", what_color="#ddd")
 
     # mc from third party views:
 
@@ -86,6 +91,17 @@ init -2:
     define character.narator = Character(None, who_color="#ccc", what_color="#eee",
                                          what_prefix="{cps=80}", what_suffix="{/cps}")
 
-    define character.emoti = Character(None, who_color="#ccc", what_color="#fff",
-                                         what_bold=True,
-                                         what_prefix="(", what_suffix=")")
+    define character.emoti = Character(
+        None, 
+        who_color="#ccc", 
+        who_suffix=" *",
+        what_color="#fff",
+        window_background=Solid("#0000"),
+        what_bold=True,
+        what_prefix="(", 
+        what_suffix=")",
+        what_xalign=0.5,
+        what_outlines=[(absolute(2), "#0006", absolute(0), absolute(0))]
+    )
+
+    
