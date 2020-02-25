@@ -8,6 +8,9 @@ init -208 python:
     import json
     import uuid
     import random
+    
+    try: RAMEN_DEV
+    except: RAMEN_DEV=False
 
     class ramen_util:
 
@@ -290,30 +293,6 @@ init -208 python:
 # function to eval
 
 init -102 python:
-
-    def rbcing(what, value=None, **kwargs):
-        # rbc.data
-        try:
-            _ramen_container.__dict__[what]
-        except BaseException:
-            _ramen_container.__dict__[str(what)] = {}
-
-        if not value is None:
-            _ramen_container.__dict__[what] = value
-        for k in kwargs:
-            _ramen_container.__dict__[what][k] = kwargs[k]
-
-    def get_rbc(which, what=None):
-        if what is None:
-            try:
-                return _ramen_container.__dict__[which]
-            except BaseException:
-                return False
-        else:
-            try:
-                return _ramen_container.__dict__[which][what]
-            except BaseException:
-                return False
 
     def sceneimg():
         t = tuple(renpy.get_showing_tags('master', True))

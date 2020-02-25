@@ -1,3 +1,20 @@
+init -220 python:
+
+    RAMEN_DEV = True
+    RD={}
+
+    def ramen_dev(what,item):
+
+        if RAMEN_DEV:
+            print 'rd collected'
+            try: 
+                RD[what].append(item)
+            except: 
+                RD[what] = []
+                RD[what].append(item)
+
+
+
 init -10 python:
 
     def ramen_icotable():
@@ -235,3 +252,216 @@ screen gui_info():
         $ test_items=['Test','Eval']
         for i in test_items:
             textbutton i action Null
+
+# ramen asset inpector
+
+style rai is default
+
+style rai_nav is button:
+    background "#333"
+    hover_background "#666"
+
+style rai_nav_text is abel_font:
+    size 14
+    
+style rai_text is abel_font:
+    size 14
+
+
+screen ramen_ai_menu():
+
+    python:
+        try: tab
+        except: tab=None
+        try: obj_id
+        except: obj_id=None
+        try: view
+        except: view = 'var'
+        try: w_select
+        except: w_select = None        
+        
+    add Solid('#000d')
+    
+    vbox:
+        use rai_header(obj_id)
+        hbox:
+            use rai_navindex(tab)
+            use rai_viewer(obj_id,view,tab)
+
+
+    
+    
+    
+screen rai_header(title=None):
+
+    python:
+        if title is None:
+            title = "Ramen Asset Inspector"
+        else:
+            title = "Ramen Asset Inspector: " + title
+    
+    frame xpos 0 ypos 0 background "#000" xsize config.screen_width:
+        style_prefix "rai"
+        padding (4,4)
+        vbox:
+            hbox xfill True:
+                text title bold True color "#fff"
+                hbox xalign 1.0:
+                    textbutton "close" action Hide('ramen_ai_menu') text_color "#ccc" text_hover_color "#fff" text_size 12
+            use rai_navtab
+
+screen rai_navtab:
+
+    python:
+        topic = ['scenery','npc','player']
+
+    hbox:
+        for t in topic:
+            textbutton t action SetScreenVariable('tab',t) style "rai_nav"
+            null width 4
+
+screen rai_navindex(tab):
+
+    if not tab is None:
+        viewport xsize 200 :
+            draggable True
+            mousewheel True
+            scrollbars "vertical"        
+            vbox:
+                for o in RD[tab]:
+                    textbutton o style "rai_nav" action SetScreenVariable('obj_id',o) xsize 184
+                    null height 4
+
+
+init -220 python:
+
+    def parsing_dict(d):
+        val = ''
+        t = type(d)
+        for i in d:
+            val += i +'='+ repr(d[i]).replace('{','\n<').replace('}','>').replace('>,','>\n') .replace('],',']\n') + "\n"
+        return val
+
+screen rai_viewer(obj_id,view,tab):
+    
+    vbox:
+        hbox:
+            textbutton "predict" action SetScreenVariable('view','predict')
+            textbutton "vars" action SetScreenVariable('view','vars')
+            
+        if view == 'vars':
+            use rai_varviewer(obj_id)
+        else:
+            if tab == 'scenery':
+                use rai_scenery_predict(obj_id)
+            else:
+                use rai_npc_predict(obj_id)
+
+
+screen rai_npc_predict(obj_id):
+
+    if not obj_id is None:
+    
+        python:
+            obj = globals()[obj_id]
+            colek = {}
+            for s in sorted(obj.pose.keys()):
+                xy = renpy.image_size(obj.pose[s])
+                w = 'w'+str(xy[0])
+                try: colek[w]
+                except: colek[w]=[]
+                colek[w].append([s,xy])
+                
+            try: w_select
+            except: w_select = None
+            
+        vbox:    
+            hbox:
+                for u in sorted(colek.keys()):
+                    $ ws = u.replace('w','')
+                    textbutton ws action SetLocalVariable('w_select',str(u))
+                
+            python:
+                try: colek[str(w_select)]
+                except: w_select = None
+                
+                    
+            if not w_select is None:
+                
+                python:
+                    mw = (config.screen_width-200-32) / 6
+
+                
+                vpgrid:
+                    cols 5
+                    spacing 16
+                    draggable True
+                    mousewheel True
+                    scrollbars "vertical"
+        
+                    for s in colek[str(w_select)]:
+                        vbox xsize mw:
+                            $ ih = math.ceil (mw * s[1][1]/s[1][0])
+                            add (im.Scale(obj.pose[s[0]], mw, ih))
+                            text s[0] size 14 text_align 0.5
+                            text repr(s[1]) size 12 text_align 0.5
+
+screen rai_scenery_predict(obj_id):        
+
+    if not obj_id is None:
+        python:
+            obj = globals()[obj_id]
+            
+            iw = math.floor((config.screen_width-200-32) /4)
+            print iw
+            ih = math.ceil(iw * 9/16)
+            print ih
+
+        vpgrid:
+            
+            draggable True
+            mousewheel True
+            scrollbars "vertical"        
+                    
+            cols 4
+            spacing 16
+            for s in obj.rai:
+                $ fn = ramu.fn_info(s)
+                vbox xsize iw:
+                    add (im.Scale(s, iw, ih))
+                    text fn['name'] size 14
+
+            
+screen rai_varviewer(obj_id):
+
+    if not obj_id is None:
+        python:
+            obj = globals()[obj_id]
+            
+        viewport xsize config.screen_width-200:
+            
+            draggable True
+            mousewheel True
+            scrollbars "vertical"        
+            
+            vbox:
+                for k in obj.__dict__.keys():
+                    python:
+                        val = ''
+                        o = obj.__dict__[k]
+                        t = repr( type(obj.__dict__[k]) )
+                        if isinstance(o,(int,str,float)):
+                            val = str(o)
+                        elif isinstance(o,(list)):
+                            val = ", ".join(o)
+                        else:
+                        
+                            val = parsing_dict(o)
+
+                    hbox:
+                        vbox xsize 150:
+                            text k
+                            #text t 
+                        vbox: 
+                            text val
+            

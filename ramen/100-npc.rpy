@@ -43,6 +43,9 @@ init -99 python:
                     image=self.id))
 
             self.define_byfile()
+            
+            try: ramen_dev('npc',self.id)
+            except: pass
 
         def extend(self):
 
@@ -152,6 +155,7 @@ init -99 python:
                         self.__dict__['json']
                     except BaseException:
                         self.__dict__['json'] = {}
+                        
                     self.__dict__['json'][str(p['name'])] = f
 
                 # sideimage and profile
@@ -172,7 +176,7 @@ init -99 python:
                         if not p['name'] in voids:
                             self.__dict__[p['path']][str(p['name'])] = str(f)
                 else:
-                    if not p['name'] in voids:
+                    if not p['name'] in voids and p['ext'] in ['webp','jpg','png']:
                         self.__dict__['pose'][str(p['name'])] = str(f)
 
             for k in self.pose.keys():

@@ -377,6 +377,9 @@ screen navigation():
 
             textbutton _("About") action ShowMenu("about")
 
+            if renpy.has_screen('ramen_ai_menu'):
+                textbutton _("Asset") action Show('ramen_ai_menu')
+
             if renpy.variant("pc") or (renpy.variant(
                     "web") and not renpy.variant("mobile")):
 

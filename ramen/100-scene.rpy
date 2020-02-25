@@ -9,6 +9,11 @@ init -99 python:
             condition = list(dict.fromkeys(wo.sunword))
             condition2 = list(dict.fromkeys(wo.timeword))
 
+            try: ramen_dev('scenery',self.id)
+            except: pass
+            
+            if RAMEN_DEV: self.rai = []
+            
             for file in sorted(scenes):
                 fn = ramu.fn_info(file)
 
@@ -33,11 +38,17 @@ init -99 python:
                 for s in condition:
                     if fn['name'] + " " + s in fn['file']:
                         cond[fn['name']] += ("wo.suntime=='" + s + "'", f)
+
+                        if RAMEN_DEV and not f in self.rai: self.rai.append(f)                
+
                         scenes.remove(f)
 
                 for s in condition2:
                     if fn['name'] + " " + s in fn['file']:
                         cond[fn['name']] += ("wo.daytime=='" + s + "'", f)
+
+                        if  RAMEN_DEV and not f in self.rai: self.rai.append(f)                
+
                         scenes.remove(f)
 
                 # the default condition
@@ -48,22 +59,26 @@ init -99 python:
                     cond[fn['name']] += (True, f)
                     scenes.remove(f)
 
+                    if  RAMEN_DEV and not f in self.rai: self.rai.append(f)                
+
                 # create base on condition
 
                 for cs in cond.keys():
                     renpy.image(self.id + " " + cs, ConditionSwitch(*cond[cs]))
-
+                    
                     if self.main and self.main == cs:
                         renpy.image(self.id, ConditionSwitch(*cond[cs]))
-
+                        
             # create leftover
 
             for f in scenes:
                 fn = ramu.fn_info(f)
                 renpy.image(self.id + " " + fn['name'], f)
-
+                
                 if self.main and self.main == fn['name']:
                     renpy.image(self.id, f)
+
+                if RAMEN_DEV and not f in self.rai: self.rai.append(f)                
 
             return
 
