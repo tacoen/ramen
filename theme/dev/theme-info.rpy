@@ -23,10 +23,7 @@ style rai_text is abel_font:
     size 14
 
 
-init -220 python:
-
-    RAMEN_DEV = True
-    RD = {}
+init -196 python:
 
     def parsing_dict(d):
         val = ''
