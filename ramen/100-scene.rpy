@@ -8,11 +8,12 @@ init -99 python:
             cond = {}
             condition = list(dict.fromkeys(wo.sunword))
             condition2 = list(dict.fromkeys(wo.timeword))
+            
+            try: self.__dict__['scene']
+            except: self.__dict__['scene'] = {}
 
             try: ramen_dev('scenery',self.id)
             except: pass
-            
-            if RAMEN_DEV: self.rai = []
             
             for file in sorted(scenes):
                 fn = ramu.fn_info(file)
@@ -38,18 +39,14 @@ init -99 python:
                 for s in condition:
                     if fn['name'] + " " + s in fn['file']:
                         cond[fn['name']] += ("wo.suntime=='" + s + "'", f)
-
-                        if RAMEN_DEV and not f in self.rai: self.rai.append(f)                
-
                         scenes.remove(f)
+                        self.__dict__['scene'][fn['name']+ " "+s]= f
 
                 for s in condition2:
                     if fn['name'] + " " + s in fn['file']:
                         cond[fn['name']] += ("wo.daytime=='" + s + "'", f)
-
-                        if  RAMEN_DEV and not f in self.rai: self.rai.append(f)                
-
                         scenes.remove(f)
+                        self.__dict__['scene'][fn['name']+ " "+s]= f
 
                 # the default condition
 
@@ -58,8 +55,8 @@ init -99 python:
                 if (m1 == fn['file']) and (len(cond[fn['name']]) > 1):
                     cond[fn['name']] += (True, f)
                     scenes.remove(f)
+                    self.__dict__['scene'][fn['name']]= f
 
-                    if  RAMEN_DEV and not f in self.rai: self.rai.append(f)                
 
                 # create base on condition
 
@@ -74,11 +71,13 @@ init -99 python:
             for f in scenes:
                 fn = ramu.fn_info(f)
                 renpy.image(self.id + " " + fn['name'], f)
+
+                self.__dict__['scene'][fn['name']]= f
                 
                 if self.main and self.main == fn['name']:
                     renpy.image(self.id, f)
 
-                if RAMEN_DEV and not f in self.rai: self.rai.append(f)                
+                    self.__dict__['scene']['main']= f
 
             return
 
