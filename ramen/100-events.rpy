@@ -65,6 +65,9 @@ init -199 python:
 
             self.set_occur(**kwargs)
 
+            try: ramen_dev('events',self.id)
+            except: pass
+            
         def __call__(self, what=None):
             if what is None:
                 return rbc.event.__dict__[str(self.id)]

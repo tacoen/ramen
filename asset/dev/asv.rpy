@@ -151,61 +151,6 @@ init -197 python:
                     else: val += rai_dict_unpack(param[k])
         return val
 
-style devtheme is default
-style devtheme_text is abel_font:
-    color "#ccc"
-
-style devtheme_textbutton is button
-style devtheme_textbutton_text_font is abel_font
-
-
-style rai is default
-style rai_text is abel_font:
-    size 16
-
-style rai_nav is rai
-
-style rai_nav_button:
-    background "#2349"
-    hover_background "#4569"
-    selected_background "#7899"
-    xsize 168
-
-style rai_nav_button_text is rai_text:
-    color "#ccc"
-    hover_color "#fff"
-    selected_color "#fff"
-    text_align 1.0
-    size 18
-
-style rai_tab is rai_nav_button:
-    xsize None
-
-style rai_tab_text is rai_nav_button_text
-
-style rai_ctl is rai
-style rai_ctl_text is rai_text:
-    line_leading 8
-    
-style rai_ctl_button is button
-
-style rai_ctl_button_text is rai_text:
-    size 24
-    color "#ddd"
-    hover_color "#fff"
-
-style rai_opt is rai
-style rai_opt_text is rai_text:
-    color "#ddd"
-    
-style rai_opt_button is button:
-    selected_background "#fc3"
-
-style rai_opt_button_text is rai_opt_text:
-    hover_color "#fff"
-    selected_color "#000"
-    
-#####################
 
 screen ramen_ai_menu():
 
@@ -279,10 +224,13 @@ screen rai_routecontent(tab, obj_id, view, var):
         route['npc']['asset'] = 'rai_asset_npc'
         route['npc']['param'] = 'rai_param'
         route['npc']['profile'] = 'rai_profile'
+
+        route['events']= 'rai_event_param'
+        #route['events']['param'] = 'rai_event_param'
         
         err = False
 
-    if isinstance(route[tab],str):
+    if isinstance(route[tab],(str,unicode)):
         if renpy.has_screen(route[tab]):
             viewport:
                 draggable True
@@ -291,7 +239,7 @@ screen rai_routecontent(tab, obj_id, view, var):
 
                 $ renpy.use_screen(route[tab],obj_id=obj_id)
         else:
-            $ err = route[tab][m] + " not here!"
+            $ err = route[tab] + " not here!"
 
     else:
 
@@ -299,6 +247,7 @@ screen rai_routecontent(tab, obj_id, view, var):
         
             vbox:
                 use rai_viewertab(route[tab])
+                
                 frame ysize 1 background "#ccc"
 
                 if not view is None:
@@ -359,7 +308,7 @@ screen rai_menu(tab):
         if tab == 'ramen':
             menus = ['ico', 'gui', 'vars', ]
         if tab == 'bucket':
-            menus = ['param','event', 'worldtime' ]
+            menus = ['param', 'worldtime' ]
 
     frame background "#0003" padding(8, 8):
 
@@ -512,6 +461,7 @@ screen rai_ctlheader(title=None):
             title = "Ramen Asset Inspector: " + title
 
         rdtabs = RD.keys()
+        
         rdtabs.append('ramen')
         rdtabs.append('bucket')
 

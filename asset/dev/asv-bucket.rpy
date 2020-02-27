@@ -51,3 +51,55 @@ screen rai_bucket_worldtime():
                 text '@ time' min_width 200
                 text str(24/len(wo.timeword))
             
+            
+screen rai_event_param(obj_id,var=None):
+
+    python:
+        event  = rbc.event.__dict__[obj_id]
+        
+        req = [ 'day','sun','hour','require' ]
+        jum = [ 'call','jump' ]
+        
+        for r in req+jum:
+            try: event[r]
+            except: event[r]=None
+            
+        try: 
+            event['label']
+            ok=True
+        except:
+            ok= False
+
+    if ok:
+        
+        vbox yoffset 20:
+            spacing 8
+        
+            hbox xfill True:
+                vbox:
+                    spacing 4
+                    text "on label" bold True
+                    text event['label']
+                    
+                vbox:
+                    spacing 4
+                    text 'at/after' bold True
+                    
+                    for r in req:
+                        if event[r] is not None:
+                            hbox:
+                                text r min_width 100
+                                text repr(event[r])
+
+                vbox:
+                    spacing 4
+                    text 'goto' bold True
+                    
+                    for r in jum:
+                        if event[r] is not None:
+                            hbox:
+                                text r  min_width 100
+                                text repr(event[r])
+                    
+
+    
