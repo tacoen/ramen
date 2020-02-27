@@ -8,13 +8,13 @@ init -99 python:
             cond = {}
             condition = list(dict.fromkeys(wo.sunword))
             condition2 = list(dict.fromkeys(wo.timeword))
-            
+
             try: self.__dict__['scene']
             except: self.__dict__['scene'] = {}
 
             try: ramen_dev('scenery',self.id)
             except: pass
-            
+
             for file in sorted(scenes):
                 fn = ramu.fn_info(file)
 
@@ -62,10 +62,10 @@ init -99 python:
 
                 for cs in cond.keys():
                     renpy.image(self.id + " " + cs, ConditionSwitch(*cond[cs]))
-                    
+
                     if self.main and self.main == cs:
                         renpy.image(self.id, ConditionSwitch(*cond[cs]))
-                        
+
             # create leftover
 
             for f in scenes:
@@ -73,7 +73,7 @@ init -99 python:
                 renpy.image(self.id + " " + fn['name'], f)
 
                 self.__dict__['scene'][fn['name']]= f
-                
+
                 if self.main and self.main == fn['name']:
                     renpy.image(self.id, f)
 

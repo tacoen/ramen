@@ -8,7 +8,7 @@ init -208 python:
     import json
     import uuid
     import random
-    
+
     try: RAMEN_DEV
     except: RAMEN_DEV=False
 
@@ -242,7 +242,7 @@ init -208 python:
                     bgr = t[0] + " " + a[0]
                 except BaseException:
                     bgr = t[0]
-            
+
             res = None
 
             try:

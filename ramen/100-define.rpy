@@ -26,12 +26,12 @@ init -200 python:
 init -100 python:
 
     quick_menu = False
-    
+
     def ramen_nosideimage(tag, argument):
         return ""
 
     config.self_closing_custom_text_tags["noside"] = ramen_nosideimage
-    
+
 init -2:
 
     # layers
@@ -47,16 +47,16 @@ init -2:
 
     $ mc3rd = npc('mc', name='[mc_name]', lastname='[mc.lastname]')
 
-    define character.thou = Character("mc_name", 
+    define character.thou = Character("mc_name",
                             image='thou',
-                            dynamic=True, 
-                            who_suffix=" ~", 
+                            dynamic=True,
+                            who_suffix=" ~",
                             who_color="#fe3",
                             what_color="#000",
-                            what_prefix="{i}", 
-                            what_suffix="{/i}", 
-                            what_xpos=100, 
-                            what_xalign=0.0, 
+                            what_prefix="{i}",
+                            what_suffix="{/i}",
+                            what_xpos=100,
+                            what_xalign=0.0,
                             what_yalign=0.5,
                             window_background=Solid("#ffffffcc"),
                             window_xsize=gui.dialogue_width + 40,
@@ -73,15 +73,15 @@ init -2:
     image ctcon = Text(' ...')
 
     define character.caption = Character(
-        None, 
-        window_yalign = 0.7,        
+        None,
+        window_yalign = 0.7,
         what_xalign=0.5,
         what_yalign=0.5,
         what_ypos = 24,
-        who_color="#ccc", 
+        who_color="#ccc",
         what_color="#000",
         window_background=Solid("#FFCC33DD"),
-        what_prefix="{size=-1}{cps=80}", 
+        what_prefix="{size=-1}{cps=80}",
         what_suffix="{/cps}{/size}"
         )
 
@@ -92,16 +92,15 @@ init -2:
                                          what_prefix="{cps=80}", what_suffix="{/cps}")
 
     define character.emoti = Character(
-        None, 
-        who_color="#ccc", 
+        None,
+        who_color="#ccc",
         who_suffix=" *",
         what_color="#fff",
         window_background=Solid("#0000"),
         what_bold=True,
-        what_prefix="(", 
+        what_prefix="(",
         what_suffix=")",
         what_xalign=0.5,
         what_outlines=[(absolute(2), "#0006", absolute(0), absolute(0))]
     )
 
-    

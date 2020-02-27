@@ -67,7 +67,7 @@ init -199 python:
 
             try: ramen_dev('events',self.id)
             except: pass
-            
+
         def __call__(self, what=None):
             if what is None:
                 return rbc.event.__dict__[str(self.id)]
@@ -129,7 +129,7 @@ init -199 python:
                 pass
 
 #        print res
-        
+
         if res:
 
             try:

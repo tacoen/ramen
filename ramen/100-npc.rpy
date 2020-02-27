@@ -4,7 +4,7 @@ init -99 python:
 
         def load(self, id=None, **kwargs):
 
-            try: 
+            try:
                 self.__dict__['pose']
             except BaseException:
                 self.__dict__['pose'] ={}
@@ -47,7 +47,7 @@ init -99 python:
                     image=self.id))
 
             self.define_byfile()
-            
+
             try: ramen_dev('npc',self.id)
             except: pass
 
@@ -159,17 +159,17 @@ init -99 python:
                         self.__dict__['json']
                     except BaseException:
                         self.__dict__['json'] = {}
-                        
+
                     self.__dict__['json'][str(p['name'])] = f
 
                 # sideimage and profile
-                
+
                 if p['name'] == 'profile':
                     self.profile_pic = f
 
                 if p['name'] == 'side':
                     renpy.image('side '+self.id, f)
-                    
+
 
                 if p['path'] in conte:
                     try:
@@ -184,7 +184,7 @@ init -99 python:
                         self.__dict__['pose'][str(p['name'])] = str(f)
 
             n = 0
-            
+
             for k in self.pose.keys():
                 renpy.image(self.id + " " + k, self.pose[k])
                 if n==0: ff=self.pose[k]
@@ -206,9 +206,9 @@ init -99 python:
                 del self._files
             except BaseException:
                 pass
-                
 
-        
+
+
 
         def play_video(self,name=None,loops=-1):
             if not name is None:
@@ -218,7 +218,7 @@ init -99 python:
         def play_audio(self,name=None):
             if not name is None:
                 renpy.music.play(self.audio[name])
-        
+
         def spriteanim(self, name=None, list=None, tick=(0.25)):
 
             anim = ()
@@ -242,7 +242,7 @@ init -99 python:
                     n += 1
 
                 renpy.image((self.id, name), Animation(*anim))
-                
+
             except:
                 print 'no sprite'
 

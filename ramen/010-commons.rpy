@@ -1,11 +1,11 @@
 init -4 python:
 
     def ramen_ingamenotify(msg='', icoram=None, who=None):
-    
+
         renpy.show_screen('ingame_notify',msg=msg,icoram=icoram,who=who)
 
 
-        
+
 # Common ATL and Shared Style
 
 transform npc_align(x=0.5,scale=1.0):
@@ -28,14 +28,14 @@ transform vertscrolling(sec):
     linear sec yoffset 0
     pause .25
     easeout sec/2 yoffset 720
-    
+
 ## woclock ####################################
 
 screen ramen_woclock():
     hbox xalign 0.9 yalign 0.68:
         text str(wo.clock) style "label" size 32 color "#fff":
             outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
-            
+
     timer 3.0 action Function(renpy.restart_interaction)
 
 ## zoom ####################################
@@ -44,7 +44,7 @@ screen ramen_vsdisplay(img, sec=1, bounce=False):
     if bounce:
         add (img) at vertscrolling_bounce(sec/2)
         timer float(sec)+0.5 action Hide('ramen_vsdisplay')
-    
+
     else:
         add (img) at vertscrolling(sec)
         timer float(sec)+0.5 action Hide('ramen_vsdisplay')
@@ -229,7 +229,7 @@ screen ingame_notify(msg='', icoram=None, who=None):
     python:
         if icoram is None:
             icoram = 'arrow-up'
-            
+
     zorder 102
     style_prefix "ingame_notify"
     hbox xfill True xalign 1.0 ypos 32 at notify_appear:
