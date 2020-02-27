@@ -230,18 +230,19 @@ init -208 python:
                 ppic = ramu.theme_image(THEME_PATH, "/gui/profile")
             return im.Scale(ppic, size[0], size[1])
 
-        def get_sceneimg(self, condition=None):
+        def get_sceneimg(self, condition=None, bgr=None):
             t = tuple(renpy.get_showing_tags('master', True))
             a = renpy.get_attributes(t[0])
 
             if condition is None:
                 condition = wo.suntime
 
-            try:
-                bgr = t[0] + " " + a[0]
-            except BaseException:
-                bgr = t[0]
-
+            if bgr is None:
+                try:
+                    bgr = t[0] + " " + a[0]
+                except BaseException:
+                    bgr = t[0]
+            
             res = None
 
             try:

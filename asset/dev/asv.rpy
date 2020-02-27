@@ -4,11 +4,21 @@ init -197 python:
     RD = {}
     
     RD.path = ramu.fn_getdir()
+    
+    def mval(o,v,r=[0,10]):
+        print o
+        o += float(v)
+        o = round(o,2)
+        if o <= float(r[0]): o = float(r[0])
+        if o >= float(r[1]): o = float(r[1])
+        
+        return o
+        
 
     def rai_dict_unpack(obj):
         param = obj
         val = ''
-        for k in param.keys():
+        for k in sorted(param.keys()):
             if isinstance(param[k], (int, str, float, unicode)): val += k + "=" + str(param[k]) + "\n"
             elif isinstance(param[k], (list)): val += k + "=" +repr(param[k])+ "\n"
             else:
@@ -34,35 +44,53 @@ init -197 python:
                     else: val += rai_dict_unpack(param[k])
         return val
 
-
 style rai is default
-
-style rai_nav is button:
-    background "#666"
-    hover_background "#999"
-    selected_background "#ccc"
-    xalign 1.0
-    xsize 168
-    size 16
-
-style rai_nav_text is abel_font:
-    color "#aaa"
-    hover_color "#fff"
-    selected_color "#333"
-    text_align 1.0
-    size 16
-
-style rai_tab is button:
-    background "#666"
-    hover_background "#999"
-    selected_background "#ccc"
-    size 16
-
-style rai_tab_text is rai_nav_text
-
-
 style rai_text is abel_font:
     size 16
+
+style rai_nav is rai
+
+style rai_nav_button:
+    background "#2349"
+    hover_background "#4569"
+    selected_background "#7899"
+    xsize 168
+
+style rai_nav_button_text is rai_text:
+    color "#ccc"
+    hover_color "#fff"
+    selected_color "#fff"
+    text_align 1.0
+    size 18
+
+style rai_tab is rai_nav_button:
+    xsize None
+
+style rai_tab_text is rai_nav_button_text
+
+style rai_ctl is rai
+style rai_ctl_text is rai_text:
+    line_leading 8
+    
+style rai_ctl_button is button
+
+style rai_ctl_button_text is rai_text:
+    size 24
+    color "#ddd"
+    hover_color "#fff"
+
+style rai_opt is rai
+style rai_opt_text is rai_text:
+    color "#ddd"
+    
+style rai_opt_button is button:
+    selected_background "#fc3"
+
+style rai_opt_button_text is rai_opt_text:
+    hover_color "#fff"
+    selected_color "#000"
+    
+#####################
 
 screen ramen_ai_menu():
 
@@ -80,8 +108,8 @@ screen ramen_ai_menu():
         try: view
         except: view = None
 
-        try: width
-        except: width = None
+        try: var
+        except: var = None
 
     modal True
     style_prefix "rai"
@@ -102,7 +130,7 @@ screen ramen_ai_menu():
                 if obj_id is not None:
 
                     frame background "#0003" padding(8, 8):
-                        use rai_routecontent(tab, obj_id, view, width)
+                        use rai_routecontent(tab, obj_id, view, var)
 
 
 screen rai_viewertab(tab):
@@ -115,7 +143,7 @@ screen rai_viewertab(tab):
 
     null height 8
 
-screen rai_routecontent(tab, obj_id, view, width):
+screen rai_routecontent(tab, obj_id, view, var):
 
     python:
         try: route
@@ -127,11 +155,11 @@ screen rai_routecontent(tab, obj_id, view, width):
         route['scenery']={}
         route['scenery']['asset'] = 'rai_asset_scene'
         route['scenery']['param'] = 'rai_param'
-
+        
         route['npc']={}
         route['npc']['asset'] = 'rai_asset_npc'
         route['npc']['param'] = 'rai_param'
-
+        
         err = False
 
     if isinstance(route[tab],str):
@@ -143,30 +171,35 @@ screen rai_routecontent(tab, obj_id, view, width):
 
                 $ renpy.use_screen(route[tab],obj_id=obj_id)
         else:
-            $ err = route[tab][m] + "Not here!"
+            $ err = route[tab][m] + " Not here!"
 
     else:
 
-        vbox:
-            use rai_viewertab(route[tab])
-            frame ysize 1 background "#ccc"
+        if not route[tab] == {}:
+        
+            vbox:
+                use rai_viewertab(route[tab])
+                frame ysize 1 background "#ccc"
 
-            if not view is None:
-                viewport:
-                    draggable True
-                    mousewheel True
-                    scrollbars "vertical"
+                if not view is None:
+                    viewport:
+                        draggable True
+                        mousewheel True
+                        scrollbars "vertical"
 
-                    if renpy.has_screen(route[tab][view]):
-                        $ renpy.use_screen(route[tab][view],obj_id=obj_id,width=width)
-                    else:
-                        $ err = route[tab][view] + "Not here!"
+                        if renpy.has_screen(route[tab][view]):
+                            $ renpy.use_screen(route[tab][view],obj_id=obj_id,var=var)
+                        else:
+                            $ err = route[tab][view] + " Not here!"
+        else:
+            $ err =  "Not here!"
 
     if err:
-        text err
+        hbox yalign 0.5 xalign 0.5:
+            text err size 32
 
 
-screen rai_param(obj_id):
+screen rai_param(obj_id,var=None):
 
     if not obj_id is None:
 
@@ -205,27 +238,14 @@ screen rai_menu(tab):
             draggable True
             mousewheel True
             scrollbars "vertical"
-            
+            style_prefix 'rai_nav'
             vbox xsize 168:
                 
                 for m in menus:
-                    textbutton m style 'rai_nav' xsize 168 action SetScreenVariable('obj_id', m)
+                    textbutton m xsize 168 action [ SetScreenVariable('obj_id', m),SetLocalVariable('obj_id', m) ]
                     null height 4
 
-screen rai_testpose(img):
-
-    zorder 199
-    
-    $ bgr = ramu.fn_ezy(RD.path+"/testbgr") 
-    frame background bgr xpos 0 ypos 0 xsize config.screen_width ysize config.screen_height:
-    
-        textbutton "close" action Hide('rai_testpose') xalign 0.9 yalign 0.1
-        
-        vbox at npc_align(0.5,1):
-            add ( img )
-
-
-screen rai_asset_npc(obj_id,width=None):
+screen rai_asset_npc(obj_id,var=None):
 
     if obj_id is not None:
 
@@ -233,8 +253,8 @@ screen rai_asset_npc(obj_id,width=None):
             obj = globals()[obj_id]
             colect = {}
 
-            try: width
-            except: width = None
+            try: var
+            except: var = None
 
             for s in sorted(obj.pose.keys()):
                 xy = renpy.image_size(obj.pose[s])
@@ -254,19 +274,23 @@ screen rai_asset_npc(obj_id,width=None):
                     draggable True
                     mousewheel True
                     scrollbars "vertical"
+                    style_prefix 'rai_nav'
             
                     vbox xsize 84:
                         
                         text "Width" bold True size 12
                         null height 24
                     
-                        for w in colect.keys():
+                        for w in sorted(colect.keys()):
                             $ ws = w.replace('w','')
-                            textbutton ws action SetScreenVariable('width',w) style 'rai_nav' xsize 84
+                            textbutton ws action SetScreenVariable('var',w) xsize 84
                             null height 8
                     
+            python:
+                try: colect[var]
+                except: var = None
         
-            if not width is None:
+            if not var is None:
                     
                 vpgrid:
                     cols int(nc)
@@ -274,7 +298,7 @@ screen rai_asset_npc(obj_id,width=None):
                     draggable True
                     mousewheel True
 
-                    for s in colect[width]:
+                    for s in colect[var]:
                         vbox xsize mw ysize 300 yalign 0.0 yfill False:
                             $ ih = math.ceil(mw * s[1][1] / s[1][0])
                             imagebutton action Show('rai_testpose',img=obj.pose[s[0]]):
@@ -283,6 +307,72 @@ screen rai_asset_npc(obj_id,width=None):
                                 text s[0] size 14 text_align 0.5
                                 text repr(s[1]) size 12 text_align 0.5
 
+
+screen rai_testpose(img):
+
+    zorder 199
+    layer 'interface'
+    
+    python:
+        try: xa
+        except: xa = 0.5
+        try: zo
+        except: zo=1.0
+        try: dec
+        except: dec = 0.1
+        try: ghost
+        except: ghost = False
+        
+    $ bgr = ramu.fn_ezy(RD.path+"/testbgr") 
+    
+    
+    frame background bgr xpos 0 ypos 0 xsize config.screen_width ysize config.screen_height:
+        padding (0,0)
+        
+        if locals()['ghost']:
+            add (ramu.fn_ezy(RD.path+"/ghost"))
+    
+        vbox at npc_align(xa,zo):
+            add ( img )
+    
+        frame background "#0004" xsize 200 xpos config.screen_width-200 ysize config.screen_height:
+            
+            padding (8,8)
+            
+            vbox xsize 184:
+                
+                textbutton "close" action Hide('rai_testpose') xalign 1.0 text_size 16
+                
+                null height 64
+                
+                hbox yalign 0.5 xfill True:
+                    style_prefix 'rai_opt'
+                    textbutton "0.1" action SetLocalVariable('dec',0.1)
+                    null width 2
+                    textbutton "0.05" action SetLocalVariable('dec',0.05)
+                    null width 2
+                    textbutton "0.01" action SetLocalVariable('dec',0.01)
+                null height 16
+                
+                hbox yalign 0.5:
+                    textbutton "ghost" action SetLocalVariable('ghost',ramu.ltoggle(ghost)) style 'rai_opt_button'
+                null height 16
+                
+                hbox yalign 0.5 xfill True:
+                    style_prefix 'rai_ctl'
+                    textbutton "-" action SetLocalVariable('xa',mval(xa,-dec,[0.0,1.0]))
+                    textbutton str(locals()['xa']) action SetLocalVariable('xa',0.5)
+                    textbutton "+" action SetLocalVariable('xa',mval(xa,dec,[0.0,1.0]))
+                null height 16
+
+                hbox yalign 0.5 xfill True:
+                    style_prefix 'rai_ctl'
+                    textbutton "-" action SetLocalVariable('zo',mval(zo,-dec,[0.1,1.0]))
+                    textbutton str(locals()['zo']) action SetLocalVariable('zo',1.0)
+                    textbutton "+" action SetLocalVariable('zo',mval(zo,dec,[0.1,1.0]))
+                null height 16
+
+                text "at npc_align("+str(locals()['xa'])+","+str(locals()['zo'])+")" style 'rai_text' size 18
 
 screen rai_ctlheader(title=None):
 

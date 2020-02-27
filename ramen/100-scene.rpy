@@ -84,9 +84,9 @@ init -99 python:
         def shortcut(self, id=None, **kwargs):
 
             try:
-                self.short
+                self.__dict__['short']
             except BaseException:
-                self.short = {}
+                self.__dict__['short'] = {}
 
             if not id is None:
 
@@ -129,9 +129,9 @@ init -99 python:
             ahs = {}
 
             try:
-                self.map
+                self.__dict__['map']
             except BaseException:
-                self.map = {}
+                self.__dict__['map'] = {}
 
             for k in kwargs:
                 maze[k] = kwargs[k]

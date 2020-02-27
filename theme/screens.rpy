@@ -290,7 +290,7 @@ screen quick_menu():
     # Ensure this appears on top of other screens.
     zorder 100
 
-    if not renpy.get_screen("_console") and quick_menu:
+    if not renpy.get_screen("_console") and not rbc.hud_disable and quick_menu:
 
         mousearea:
             area(0, config.screen_height - 32, 1.0, 32)
