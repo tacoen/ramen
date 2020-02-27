@@ -179,8 +179,12 @@ init -99 python:
                     if not p['name'] in voids and p['ext'] in ['webp','jpg','png']:
                         self.__dict__['pose'][str(p['name'])] = str(f)
 
+            n = 0
+            
             for k in self.pose.keys():
                 renpy.image(self.id + " " + k, self.pose[k])
+                if n==0: ff=self.pose[k]
+                n+=1
 
             if main is None:
                 l = sorted(self.pose.keys())
@@ -203,6 +207,7 @@ init -99 python:
                 del self._files
             except BaseException:
                 pass
+                
 
         
 
@@ -224,18 +229,23 @@ init -99 python:
                 print self.__class__.__name__ + ": make_sprite  - misssing name"
                 return False
 
-            if not type(list) == tuple:
-                list = self.sprite.keys()
-            for i in list:
-#                print i
-                try:
-                    t = tick[n]
-                except BaseException:
-                    t = 0.25
-                anim = anim + (self.sprite[i], t)
-                n += 1
+            try:
 
-            renpy.image((self.id, name), Animation(*anim))
+                if not type(list) == tuple:
+                    list = self.sprite.keys()
+                for i in list:
+    #                print i
+                    try:
+                        t = tick[n]
+                    except BaseException:
+                        t = 0.25
+                    anim = anim + (self.sprite[i], t)
+                    n += 1
+
+                renpy.image((self.id, name), Animation(*anim))
+                
+            except:
+                print 'no sprite'
 
         def chat_usingjson(self, key=None, use_pose=True,
                            file=None, pose=None):
