@@ -2,8 +2,115 @@ init -197 python:
 
     RAMEN_DEV = True
     RD = {}
-    
     RD.path = ramu.fn_getdir()
+
+
+    def ramen_dev(what, item):
+
+        if RAMEN_DEV:
+            print 'RAMEN_DEV: ' + what
+            try:
+                RD[what].append(item)
+            except BaseException:
+                RD[what] = []
+                RD[what].append(item)
+
+    def gui_propCollect(t=None):
+
+        res = {}
+        gk = sorted(gui.__dict__.keys())
+
+        if t is None:
+            topic = [
+                'text',
+                'idle',
+                'selected',
+                'insensitive',
+                'muted',
+                'accent',
+                'hover']
+        else:
+            if not isinstance(t, list):
+                topic = [str(t)]
+            else:
+                topic = t
+
+        for t in topic:
+            # print t
+            try:
+                res[t] = gui.__dict__[t + "_properties"]()
+            except BaseException:
+                for k in gk:
+                    if k.startswith(t + "_"):
+                        try:
+                            res[t]
+                        except BaseException:
+                            res[t] = {}
+                        res[t][k] = gui.__dict__[k]
+        return res
+
+    def start_guicollect():
+        known_gui = [
+            'accent',
+            'bar',
+            'button',
+            'check',
+            'choice',
+            'confirm',
+            'dialogue',
+            'file',
+            'frame',
+            'game',
+            'history',
+            'hover',
+            'hyperlink',
+            'idle',
+            'insensitive',
+            'interface',
+            'label',
+            'language',
+            'main',
+            'muted',
+            'name',
+            'namebox',
+            'naration',
+            'navigation',
+            'notify',
+            'nvl',
+            'page',
+            'pref',
+            'quick',
+            'radio',
+            'scrollbar',
+            'selected',
+            'skip',
+            'slider',
+            'slot',
+            'text',
+            'textbox',
+            'title',
+            'unscrollable',
+            'vbar',
+            'vscrollbar',
+            'vslider']
+        first = [
+            'text',
+            'idle',
+            'selected',
+            'insensitive',
+            'muted',
+            'accent',
+            'hover']
+        second = []
+        for k in known_gui:
+            if k not in first:
+                second.append(k)
+
+        known_gui = first + second
+
+        return gui_propCollect(known_gui)
+
+    gview = 'text'
     
     def mval(o,v,r=[0,10]):
         print o
@@ -43,6 +150,14 @@ init -197 python:
                     elif isinstance(param[k][v], (list)): val += v +"="+ ", ".join(param[k])
                     else: val += rai_dict_unpack(param[k])
         return val
+
+style devtheme is default
+style devtheme_text is abel_font:
+    color "#ccc"
+
+style devtheme_textbutton is button
+style devtheme_textbutton_text_font is abel_font
+
 
 style rai is default
 style rai_text is abel_font:
@@ -129,7 +244,11 @@ screen ramen_ai_menu():
 
                 if obj_id is not None:
 
-                    frame background "#0003" padding(8, 8):
+                    frame background "#0003":
+                        xmaximum config.screen_width-200 
+                        xsize config.screen_width-200 
+                        ysize config.screen_height-70
+                        padding(8, 8, 8, 8) 
                         use rai_routecontent(tab, obj_id, view, var)
 
 
@@ -159,6 +278,7 @@ screen rai_routecontent(tab, obj_id, view, var):
         route['npc']={}
         route['npc']['asset'] = 'rai_asset_npc'
         route['npc']['param'] = 'rai_param'
+        route['npc']['profile'] = 'rai_profile'
         
         err = False
 
@@ -171,7 +291,7 @@ screen rai_routecontent(tab, obj_id, view, var):
 
                 $ renpy.use_screen(route[tab],obj_id=obj_id)
         else:
-            $ err = route[tab][m] + " Not here!"
+            $ err = route[tab][m] + " not here!"
 
     else:
 
@@ -190,9 +310,16 @@ screen rai_routecontent(tab, obj_id, view, var):
                         if renpy.has_screen(route[tab][view]):
                             $ renpy.use_screen(route[tab][view],obj_id=obj_id,var=var)
                         else:
-                            $ err = route[tab][view] + " Not here!"
+                            $ err = route[tab][view] + " not here!"
         else:
-            $ err =  "Not here!"
+        
+            python:
+                ps = "rai_"+str(tab)+"_"+str(obj_id)
+            
+            if renpy.has_screen(ps):
+                $ renpy.use_screen(ps)
+            else:
+                $ err =  ps+" not here!"
 
     if err:
         hbox yalign 0.5 xalign 0.5:
@@ -230,7 +357,9 @@ screen rai_menu(tab):
         if tab in RD.keys():
             menus = RD[tab]
         if tab == 'ramen':
-            menus = ['ico', 'gui', 'vars']
+            menus = ['ico', 'gui', 'vars', ]
+        if tab == 'bucket':
+            menus = ['param','event', 'worldtime' ]
 
     frame background "#0003" padding(8, 8):
 
@@ -384,6 +513,7 @@ screen rai_ctlheader(title=None):
 
         rdtabs = RD.keys()
         rdtabs.append('ramen')
+        rdtabs.append('bucket')
 
     frame xpos 0 ypos 0 background "#0001" xsize config.screen_width:
         style_prefix "rai"
@@ -398,7 +528,7 @@ screen rai_ctlheader(title=None):
             hbox:
                 null width 200
                 for t in rdtabs:
-                    textbutton t style 'rai_tab' action SetScreenVariable('tab', t)
+                    textbutton t style 'rai_tab' action [ SetScreenVariable('tab', t), SetScreenVariable('view', None), SetScreenVariable('obj_id', None) ]
                     null width 8
 
             frame ysize 1 background "#999"

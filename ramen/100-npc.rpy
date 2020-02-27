@@ -4,6 +4,10 @@ init -99 python:
 
         def load(self, id=None, **kwargs):
 
+            try: 
+                self.__dict__['pose']
+            except BaseException:
+                self.__dict__['pose'] ={}
             try:
                 self.color
             except BaseException:
@@ -146,7 +150,7 @@ init -99 python:
 
             self.__dict__[str('pose')] = {}
 
-            for f in files:
+            for f in sorted(files):
 
                 p = ramu.fn_info(f)
 
@@ -192,11 +196,6 @@ init -99 python:
             else:
                 renpy.image(self.id, main)
 
-            try:
-                self.sprite = sorted(self.sprite)
-            except BaseException:
-                pass
-                
             try:
                 for v in self.video.keys():
                     renpy.image((self.id,v), Movie(play=alina.video[v]))

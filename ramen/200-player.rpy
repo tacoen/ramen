@@ -14,9 +14,6 @@ init -203 python:
             self._inventory = {}
             self.__dict__['rel'] = {}
 
-            try: ramen_dev('player',self.id)
-            except: pass
-
         def newname(self, name, lastname):
             self.name = name.title()
             globals()['mc_name'] = self.name

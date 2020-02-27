@@ -1,21 +1,72 @@
+screen rai_profile(obj_id,var=None):
+
+    if not obj_id is None:
+
+        python:
+            collect={}
+            collect['bio']={}
+            collect['sta']={}
+            obj = globals()[obj_id]
+
+            ppic = ramu.get_profilepic(obj_id, size=(96, 96))
+
+            co = [ 'name','lastname','callname','phonenum','gender','color','wcolor','dir' ]
+
+            for c in co:
+                try: collect['bio'][c] = obj.param[c]
+                except: collect['bio'][c] = None
+                
+            try:
+                for s in mc.rel[obj_id].keys():
+                    collect['sta'][s] = mc.rel[obj_id][s]
+            except: pass
+                
+        text 'profile' size 48
+        
+        hbox yoffset 64:
+            add ppic
+            null width 24
+        
+            vbox:
+            
+                for c in collect['sta'].keys():
+                    hbox:
+                        text c min_width 200
+                        text str(collect['sta'][c])
+                    null height 8
+    
+                null height 8
+                frame background "#999" ysize 1
+                null height 8
+                
+                for c in collect['bio'].keys():
+                    hbox:
+                        text c min_width 200
+                        text str(collect['bio'][c])
+                    null height 8
+
+
 screen rai_asset_npc(obj_id,var=None):
 
-    if obj_id is not None:
+    if not obj_id is None:
 
         python:
             obj = globals()[obj_id]
-            colect = {}
+            collect = {}
 
             try: var
             except: var = None
 
-            for s in sorted(obj.pose.keys()):
-                xy = renpy.image_size(obj.pose[s])
-                w = 'w'+str(xy[0])
-                try: colect[w]
-                except: colect[w] = []
-                colect[w].append([s, xy])
-            
+            try:
+                for s in sorted(obj.pose.keys()):
+                    xy = renpy.image_size(obj.pose[s])
+                    w = 'w'+str(xy[0])
+                    try: collect[w]
+                    except: collect[w] = []
+                    collect[w].append([s, xy])
+            except:
+                pass
+                
             nc = 5
             mw = math.floor( (config.screen_width-300)/ nc)
             sp = math.ceil( (config.screen_width-300)-(nc*mw) )
@@ -34,13 +85,17 @@ screen rai_asset_npc(obj_id,var=None):
                         text "Width" bold True size 12
                         null height 24
                     
-                        for w in sorted(colect.keys()):
-                            $ ws = w.replace('w','')
-                            textbutton ws action SetScreenVariable('var',w) xsize 84
+                        python:
+                            nl = [w.replace('w', '') for w in collect.keys()]
+                            nl = list(map(int, nl))
+                        
+                        for w in sorted(nl):
+                            $ ws = "w"+str(w)
+                            textbutton str(w) action SetScreenVariable('var',ws) xsize 84
                             null height 8
                     
             python:
-                try: colect[var]
+                try: collect[var]
                 except: var = None
         
             if not var is None:
@@ -51,7 +106,7 @@ screen rai_asset_npc(obj_id,var=None):
                     draggable True
                     mousewheel True
 
-                    for s in colect[var]:
+                    for s in collect[var]:
                         vbox xsize mw ysize 300 yalign 0.0 yfill False:
                             $ ih = math.ceil(mw * s[1][1] / s[1][0])
                             imagebutton action Show('rai_testpose',img=obj.pose[s[0]]):
@@ -120,9 +175,9 @@ screen rai_testpose(img):
 
                 hbox yalign 0.5 xfill True:
                     style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('zo',mval(zo,-dec,[0.1,1.0]))
+                    textbutton "-" action SetLocalVariable('zo',mval(zo,-dec,[0.1,2.0]))
                     textbutton str(locals()['zo']) action SetLocalVariable('zo',1.0)
-                    textbutton "+" action SetLocalVariable('zo',mval(zo,dec,[0.1,1.0]))
+                    textbutton "+" action SetLocalVariable('zo',mval(zo,dec,[0.1,2.0]))
                 null height 16
 
                 text "at npc_align("+str(locals()['xa'])+","+str(locals()['zo'])+")" style 'rai_text' size 16

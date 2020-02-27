@@ -51,16 +51,17 @@ init -205 python:
         def time_populate(self):
             self.python_weekday = self.time.strftime("%A")
             self.python_month = self.time.strftime("%B")
-            self.weekday = self.wdayword[self.time.weekday()]
+            self.weekday = str(self.wdayword[self.time.weekday()])
             # hh=self.time.hour+1
             self.daypart = int(round(len(self.timeword) * self.time.hour / 24))
-            self.daytime = self.timeword[self.daypart]
+            self.daytime = str(self.timeword[self.daypart])
             self.sun = int(round(len(self.sunword) * self.time.hour / 24))
             self.suntime = str(self.sunword[self.sun])
             self.diff = self.time - self.start
+            self.diff_sec = self.diff.total_seconds()
             self.date = self.time.strftime("%d %B %Y")
             self.clock = self.time.strftime("%H:%M")
-            self.hour = self.time.strftime("%I")
+            self.hour = int(self.time.strftime("%I"))
 
             # globals()['diff']=self.diff
 
