@@ -60,6 +60,8 @@ transform pullup:
 
 screen smp_ui(apps=None):
 
+    zorder 198
+    
     python:
         
         if rbc.smp_disable:

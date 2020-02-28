@@ -4,8 +4,6 @@ init -4 python:
 
         renpy.show_screen('ingame_notify',msg=msg,icoram=icoram,who=who)
 
-
-
 # Common ATL and Shared Style
 
 transform npc_align(x=0.5,scale=1.0):
@@ -54,7 +52,8 @@ screen ramen_vsdisplay(img, sec=1, bounce=False):
 screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None):
 
     if not img is None:
-        if img.lower() == 'auto':
+    
+        if str(img).lower() == 'auto':
             $ imgmap = obj.imagemaping(scene_id, None)
         else:
             $ imgmap = obj.imagemaping(scene_id, img)
