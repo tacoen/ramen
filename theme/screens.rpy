@@ -95,11 +95,6 @@ screen say(who, what):
         id "window"
         style_prefix "say"
         
-        if renpy.get_screen("smp_ui") or rbc.onphone:
-            xpos 490
-            xsize config.screen_width-490-32
-            xalign 0        
-
         if who is None:
             background gui.naration_overlay
             xalign 1.0
@@ -131,11 +126,26 @@ screen say(who, what):
             else:
 
                 background gui.textbox_background
-                window:
-                    id "namebox"
-                    style "namebox"
-                    text who id "who"
-                text what id "what"
+
+                if renpy.get_screen("smp_ui") or rbc.onphone:
+
+                    window:
+                        xalign 0
+                        xsize config.screen_width-490-32
+                        id "namebox"
+                        style "namebox"
+                        text who id "who" xpos 490
+                    text what id "what" xpos 500
+                    
+                    
+
+                else:
+                
+                    window:
+                        id "namebox"
+                        style "namebox"
+                        text who id "who"
+                    text what id "what"
 
     # If there's a side image, display it above the text. Do not display on the
     # phone variant - there's no room.
@@ -236,9 +246,17 @@ style input:
 screen choice(items):
     style_prefix "choice"
 
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
+    if renpy.get_screen("smp_ui") or rbc.onphone:
+
+        vbox xalign 0.65:
+            for i in items:
+                textbutton i.caption action i.action
+
+    else:
+    
+        vbox:
+            for i in items:
+                textbutton i.caption action i.action
 
 
 # When this is true, menu captions will be spoken by the narrator. When false,
@@ -262,14 +280,14 @@ image choice_ = Frame(
     Composite(
         (100, 60),
         (0, 0), Solid(gui.choice_background),
-        (0, 0), ramu.theme_image(THEME_PATH, "/gui/outline-embose")
+        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-embose")
     ), Borders(3, 1, 1, 1), tile=False, xalign=0.5)
 
 image choice_hover_ = Frame(
     Composite(
         (100, 60),
         (0, 0), Solid(gui.hover_color),
-        (0, 0), ramu.theme_image(THEME_PATH, "/gui/outline-embose")
+        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-embose")
     ), Borders(2, 1, 2, 1), tile=False, xalign=0.5)
 
 style choice_button is default:

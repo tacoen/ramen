@@ -132,7 +132,7 @@ define gui.confirm_frame_background = Frame(
     Composite(
         (200, 80),
         (0, 0), Solid(gui.confirm_background),
-        (0, 0), ramu.theme_image(THEME_PATH, "/gui/outline-b")
+        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-b")
     ), Borders(1, 1, 1, 1), tile=False, xalign=0.5)
 
 define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
@@ -157,7 +157,7 @@ define gui.notify_frame_background = Frame(
     Composite(
         (200, 80),
         (0, 0), Solid(gui.notify_background),
-        (0, 0), ramu.theme_image(THEME_PATH, "/gui/outline-b.png")
+        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-b.png")
     ), Borders(1, 1, 1, 1), tile=False, xalign=0.5)
 
 

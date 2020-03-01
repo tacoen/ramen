@@ -262,7 +262,7 @@ init -204 python:
             else:
                 return files
 
-        def index(self, what, ext):
+        def index(self, what, where=None, ext='rpy'):
 
             try:
                 self.__dict__[what]
@@ -273,7 +273,7 @@ init -204 python:
             inf = renpy.get_filename_line()
             cf = inf[0].replace('game/', '')
 
-            for f in sorted(self.files()):
+            for f in sorted(self.files(where)):
                 if not f == cf and f.endswith(ext):
                     fn = ramu.fn_info(f)
                     res[fn['name']] = {}
@@ -311,3 +311,10 @@ init -204 python:
                 self.__dict__[str(what)][apps]['bgr']
             except BaseException:
                 self.__dict__[str(what)][apps]['bgr'] = "#ffffff"
+
+        def get_dir(self,p=0):
+        
+            if isinstance(self.dir,(unicode,str)):
+                return self.dir
+            else:
+                return self.dir[p]

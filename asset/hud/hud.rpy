@@ -129,7 +129,7 @@ screen hud_init():
 
     if not rbc.hud_disable:
 
-        #add ramu.theme_image(THEME_PATH,"/gui/hud-shade")
+        #add ramu.theme_image(THEME_PATH,"gui/hud-shade")
 
         key "K_F5" action SetVariable('rbc.hud_set',ramu.cycle(rbc.hud_set,hud.ui.bgcolor))
         key "K_F6" action Function(hud_toggle,what='stats')
@@ -289,7 +289,7 @@ screen hc_item(item):
 screen hud_legend():
     modal True
     add (Solid("#000d"))
-    add (ramu.theme_image(THEME_PATH, "/gui/hud-legend"))
+    add (ramu.theme_image(THEME_PATH, "gui/hud-legend"))
 
 init python:
     config.overlay_screens.append("hud_init")

@@ -41,34 +41,45 @@ init -2:
     default _ramen_container = _ramen_container
     default mc = mc
 
-    define character.mc = Character("mc_name", dynamic=True, who_color="#fff", what_color="#ddd")
+    # define character.mc = Character(
+        # "mc_name", 
+        # dynamic=True, 
+        # who_color="#ffffff",
+        # what_color="#eeee00"
+    # )
+
+    $ mc__ = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor= "#eeee66", color="#ffffff")
 
     # mc from third party views:
 
-    $ mc3rd = npc('mc', name='[mc_name]', lastname='[mc.lastname]')
-
-    define character.thou = Character("mc_name",
-                            image='thou',
-                            dynamic=True,
-                            who_suffix=" ~",
-                            who_color="#fe3",
-                            what_color="#000",
-                            what_prefix="{i}",
-                            what_suffix="{/i}",
-                            what_xpos=100,
-                            what_xalign=0.0,
-                            what_yalign=0.5,
-                            window_background=Solid("#ffffffcc"),
-                            window_xsize=gui.dialogue_width + 40,
-                            window_xfill=False,
-                            window_xalign=0.85,
-                            window_yalign=0.9,
-                            window_ysize=150,
-                        )
+    define character.thou = Character(
+        "mc_name",
+        image='thou',
+        dynamic=True,
+        who_suffix=" ~",
+        who_color="#fe3",
+        what_color="#000",
+        what_prefix="{i}",
+        what_suffix="{/i}",
+        what_xpos=100,
+        what_xalign=0.0,
+        what_yalign=0.5,
+        window_background=Solid("#ffffffcc"),
+        window_xsize=gui.dialogue_width + 40,
+        window_xfill=False,
+        window_xalign=0.85,
+        window_yalign=0.9,
+        window_ysize=150,
+    )
 
     image side thou = ramu.theme_image(THEME_PATH, "side-thou")
 
-    define character.anon = Character("anon_name", dynamic=True, who_color=ramu.random_color(128, 220), what_color="#ccc")
+    define character.anon = Character(
+        "anon_name", 
+        dynamic=True, 
+        who_color=ramu.random_color(128, 220), 
+        what_color="#ccc"
+    )
 
     image ctcon = Text(' ...')
 
@@ -85,11 +96,22 @@ init -2:
         what_suffix="{/cps}{/size}"
         )
 
-    define character.tips = Character(None, who_color="#ccc", what_color="#ff0",
-                                      what_prefix="{size=-3}{cps=80}", what_suffix="{/cps}{/size}", ctc='ctcon')
+    define character.tips = Character(
+        None, 
+        who_color="#ccc", 
+        what_color="#ff0",
+        what_prefix="{size=-3}{cps=80}", 
+        what_suffix="{/cps}{/size}", 
+        ctc='ctcon'
+    )
 
-    define character.narator = Character(None, who_color="#ccc", what_color="#eee",
-                                         what_prefix="{cps=80}", what_suffix="{/cps}")
+    define character.narator = Character(
+        None, 
+        who_color="#ccc", 
+        what_color="#eee",
+        what_prefix="{cps=80}", 
+        what_suffix="{/cps}"
+    )
 
     define character.emoti = Character(
         None,

@@ -227,7 +227,7 @@ init -208 python:
             try:
                 ppic = globals()[whoid].profile_pic
             except BaseException:
-                ppic = ramu.theme_image(THEME_PATH, "/gui/profile")
+                ppic = ramu.theme_image(THEME_PATH, "gui/profile")
             return im.Scale(ppic, size[0], size[1])
 
         def get_sceneimg(self, condition=None, bgr=None):

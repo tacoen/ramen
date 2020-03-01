@@ -1,11 +1,14 @@
-init -80 python:
+init -100 python:
 
+    PHONE_SFXPATH = ramu.fn_getdir()+"/audio"
+    
     def smp_comboclose():
         rbc.smp_apps = None
         rbc.smp_who = None
         ramu.screen_hideby(prefix='smp_')    
 
-    smp=ramen_object(id='smp')
+    smp=phone(id='smp')
+    
     smp.ui_set(
         bgr = smp.dir + "/body.png",
         x=0,
@@ -28,8 +31,6 @@ init -80 python:
         },        
     )
 
-    smp.index('apps','rpy')
-    
     rbc.smp_apps = None
     rbc.smp_disable = False
 
@@ -38,15 +39,6 @@ style phone_ui is default
 style phone_ui_text is abel_font:
     size 14
     color "#eee" 
-
-screen smp_backbutton(bucket,title=''):
-    hbox yalign 0.5 xfill True:
-        textbutton ico('arrow-left') style 'ram_ico':
-            text_color "#0009"
-            text_hover_color  "#000"
-            action SetVariable(bucket,None)
-        text title color "#000" size 24 xalign 1.0 line_leading 4
-    null height 8
 
 transform pullup:
 
@@ -57,6 +49,16 @@ transform pullup:
         ypos 0 
         alpha 1
         easeout 0.5 ypos config.screen_height, alpha 0
+        
+        
+screen smp_backbutton(bucket,title=''):
+    hbox yalign 0.5 xfill True:
+        textbutton ico('arrow-left') style 'ram_ico':
+            text_color "#0009"
+            text_hover_color  "#000"
+            action SetVariable(bucket,None)
+        text title color "#000" size 24 xalign 1.0 line_leading 4
+    null height 8
 
 screen smp_ui(apps=None):
 
@@ -67,7 +69,8 @@ screen smp_ui(apps=None):
         if rbc.smp_disable:
             ramu.screen_hideby('smp_')
         else:
-            renpy.use_screen('smp_main',apps=apps)
+            if not rbc.onphone: 
+                renpy.use_screen('smp_main',apps=apps)
     
 screen smp_main(apps=None):
 
