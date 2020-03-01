@@ -9,11 +9,15 @@ init -99 python:
             condition = list(dict.fromkeys(wo.sunword))
             condition2 = list(dict.fromkeys(wo.timeword))
 
-            try: self.__dict__['scene']
-            except: self.__dict__['scene'] = {}
+            try:
+                self.__dict__['scene']
+            except BaseException:
+                self.__dict__['scene'] = {}
 
-            try: ramen_dev('scenery',self.id)
-            except: pass
+            try:
+                ramen_dev('scenery', self.id)
+            except BaseException:
+                pass
 
             for file in sorted(scenes):
                 fn = ramu.fn_info(file)
@@ -40,13 +44,13 @@ init -99 python:
                     if fn['name'] + " " + s in fn['file']:
                         cond[fn['name']] += ("wo.suntime=='" + s + "'", f)
                         scenes.remove(f)
-                        self.__dict__['scene'][fn['name']+ " "+s]= f
+                        self.__dict__['scene'][fn['name'] + " " + s] = f
 
                 for s in condition2:
                     if fn['name'] + " " + s in fn['file']:
                         cond[fn['name']] += ("wo.daytime=='" + s + "'", f)
                         scenes.remove(f)
-                        self.__dict__['scene'][fn['name']+ " "+s]= f
+                        self.__dict__['scene'][fn['name'] + " " + s] = f
 
                 # the default condition
 
@@ -55,8 +59,7 @@ init -99 python:
                 if (m1 == fn['file']) and (len(cond[fn['name']]) > 1):
                     cond[fn['name']] += (True, f)
                     scenes.remove(f)
-                    self.__dict__['scene'][fn['name']]= f
-
+                    self.__dict__['scene'][fn['name']] = f
 
                 # create base on condition
 
@@ -72,12 +75,12 @@ init -99 python:
                 fn = ramu.fn_info(f)
                 renpy.image(self.id + " " + fn['name'], f)
 
-                self.__dict__['scene'][fn['name']]= f
+                self.__dict__['scene'][fn['name']] = f
 
                 if self.main and self.main == fn['name']:
                     renpy.image(self.id, f)
 
-                    self.__dict__['scene']['main']= f
+                    self.__dict__['scene']['main'] = f
 
             return
 
@@ -88,7 +91,7 @@ init -99 python:
             except BaseException:
                 self.__dict__['short'] = {}
 
-            if not id is None:
+            if id is not None:
 
                 try:
                     self.short[id]
@@ -143,7 +146,7 @@ init -99 python:
 
             try:
                 for f in maze['add'].keys():
-                    if not f in maze['floor']:
+                    if f not in maze['floor']:
                         maze['floor'].append(f)
             except BaseException:
                 pass
@@ -189,10 +192,10 @@ init -99 python:
                     if func == 'map':
                         dest = None
                         if "up" in i:
-                            if not up is None:
+                            if up is not None:
                                 dest = maze['floor'][up]
                         if "down" in i:
-                            if not down is None:
+                            if down is not None:
                                 dest = maze['floor'][down]
                     else:
                         dest = i
@@ -202,7 +205,7 @@ init -99 python:
                     except BaseException:
                         img = i
 
-                    if not dest is None and xy:
+                    if dest is not None and xy:
                         self.map[f][str(i)] = [xy, str(
                             func), str(dest), str(img)]
 
@@ -239,7 +242,7 @@ init -99 python:
                 hover = False
                 xy = w[0]
 
-                if not xy is None:
+                if xy is not None:
 
                     # print w
                     # w

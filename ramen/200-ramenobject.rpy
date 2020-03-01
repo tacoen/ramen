@@ -256,7 +256,7 @@ init -204 python:
             for d in dirs:
                 files += filter(lambda w: d + "/" + key in w, F)
 
-            if not scope is None:
+            if scope is not None:
                 res = filter(lambda w: scope in w, files)
                 return res
             else:
@@ -312,9 +312,9 @@ init -204 python:
             except BaseException:
                 self.__dict__[str(what)][apps]['bgr'] = "#ffffff"
 
-        def get_dir(self,p=0):
-        
-            if isinstance(self.dir,(unicode,str)):
+        def get_dir(self, p=0):
+
+            if isinstance(self.dir, (unicode, str)):
                 return self.dir
             else:
                 return self.dir[p]

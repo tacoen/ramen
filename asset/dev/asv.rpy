@@ -4,7 +4,6 @@ init -197 python:
     RD = {}
     RD.path = ramu.fn_getdir()
 
-
     def ramen_dev(what, item):
 
         if RAMEN_DEV:
@@ -111,29 +110,36 @@ init -197 python:
         return gui_propCollect(known_gui)
 
     gview = 'text'
-    
-    def mval(o,v,r=[0,10]):
+
+    def mval(o, v, r=[0, 10]):
         print o
         o += float(v)
-        o = round(o,2)
-        if o <= float(r[0]): o = float(r[0])
-        if o >= float(r[1]): o = float(r[1])
-        
+        o = round(o, 2)
+        if o <= float(r[0]):
+            o = float(r[0])
+        if o >= float(r[1]):
+            o = float(r[1])
+
         return o
-        
 
     def rai_dict_unpack(obj):
         param = obj
         val = ''
         for k in sorted(param.keys()):
-            if isinstance(param[k], (int, str, float, unicode)): val += k + "=" + str(param[k]) + "\n"
-            elif isinstance(param[k], (list)): val += k + "=" +repr(param[k])+ "\n"
+            if isinstance(param[k], (int, str, float, unicode)):
+                val += k + "=" + str(param[k]) + "\n"
+            elif isinstance(param[k], (list)):
+                val += k + "=" + repr(param[k]) + "\n"
             else:
-                if param[k] is None: val += k +'= None\n'
+                if param[k] is None:
+                    val += k + '= None\n'
                 else:
-                    try: val += k + "=" + rai_dict_unpack(param[k])
-                    # except: val += k + "=" + repr(param[k]).replace('{','<').replace('}','>')
-                    except: val += repr(type(param[k]))
+                    try:
+                        val += k + "=" + rai_dict_unpack(param[k])
+                    # except: val += k + "=" +
+                    # repr(param[k]).replace('{','<').replace('}','>')
+                    except BaseException:
+                        val += repr(type(param[k]))
                     #val += repr(param[k]).replace('{','<').replace('}','>')
 
         return val
@@ -141,14 +147,19 @@ init -197 python:
     def rai_dict_unpack__s(obj):
         param = obj.__dict__
         for k in param.keys():
-            if isinstance(param[k], (int, str, float)): val = str(param[k])
-            elif isinstance(param[k], (list)): val = ", ".join(param[k])
+            if isinstance(param[k], (int, str, float)):
+                val = str(param[k])
+            elif isinstance(param[k], (list)):
+                val = ", ".join(param[k])
             else:
                 val = ''
                 for v in param[k].keys():
-                    if isinstance(param[k][v], (int, str, float)): val += v +"=" + str(param[k][v])
-                    elif isinstance(param[k][v], (list)): val += v +"="+ ", ".join(param[k])
-                    else: val += rai_dict_unpack(param[k])
+                    if isinstance(param[k][v], (int, str, float)):
+                        val += v + "=" + str(param[k][v])
+                    elif isinstance(param[k][v], (list)):
+                        val += v + "=" + ", ".join(param[k])
+                    else:
+                        val += rai_dict_unpack(param[k])
         return val
 
 
@@ -165,11 +176,15 @@ screen ramen_ai_menu():
         except BaseException:
             tab = None
 
-        try: view
-        except: view = None
+        try:
+            view
+        except BaseException:
+            view = None
 
-        try: var
-        except: var = None
+        try:
+            var
+        except BaseException:
+            var = None
 
     modal True
     style_prefix "rai"
@@ -190,10 +205,10 @@ screen ramen_ai_menu():
                 if obj_id is not None:
 
                     frame background "#0003":
-                        xmaximum config.screen_width-200 
-                        xsize config.screen_width-200 
-                        ysize config.screen_height-70
-                        padding(8, 8, 8, 8) 
+                        xmaximum config.screen_width - 200
+                        xsize config.screen_width - 200
+                        ysize config.screen_height - 70
+                        padding(8, 8, 8, 8)
                         use rai_routecontent(tab, obj_id, view, var)
 
 
@@ -201,83 +216,86 @@ screen rai_viewertab(tab):
 
     hbox:
         for m in tab.keys():
-            textbutton m style 'rai_tab' action SetScreenVariable('view',m)
+            textbutton m style 'rai_tab' action SetScreenVariable('view', m)
             null width 8
-
 
     null height 8
 
 screen rai_routecontent(tab, obj_id, view, var):
 
     python:
-        try: route
-        except: route = {}
+        try:
+            route
+        except BaseException:
+            route = {}
 
-        try: route[tab]
-        except: route[tab] = {}
+        try:
+            route[tab]
+        except BaseException:
+            route[tab] = {}
 
-        route['scenery']={}
+        route['scenery'] = {}
         route['scenery']['asset'] = 'rai_asset_scene'
         route['scenery']['param'] = 'rai_param'
-        
-        route['npc']={}
+
+        route['npc'] = {}
         route['npc']['asset'] = 'rai_asset_npc'
         route['npc']['param'] = 'rai_param'
         route['npc']['profile'] = 'rai_profile'
 
-        route['events']= 'rai_event_param'
+        route['events'] = 'rai_event_param'
         #route['events']['param'] = 'rai_event_param'
-        
+
         err = False
 
-    if isinstance(route[tab],(str,unicode)):
+    if isinstance(route[tab], (str, unicode)):
         if renpy.has_screen(route[tab]):
             viewport:
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
 
-                $ renpy.use_screen(route[tab],obj_id=obj_id)
+                $ renpy.use_screen(route[tab], obj_id=obj_id)
         else:
             $ err = route[tab] + " not here!"
 
     else:
 
         if not route[tab] == {}:
-        
+
             vbox:
                 use rai_viewertab(route[tab])
-                
+
                 frame ysize 1 background "#ccc"
 
-                if not view is None:
+                if view is not None:
                     viewport:
                         draggable True
                         mousewheel True
                         scrollbars "vertical"
 
                         if renpy.has_screen(route[tab][view]):
-                            $ renpy.use_screen(route[tab][view],obj_id=obj_id,var=var)
+                            $ renpy.use_screen(route[tab][view], obj_id=obj_id, var=var)
                         else:
                             $ err = route[tab][view] + " not here!"
         else:
-        
+
             python:
-                ps = "rai_"+str(tab)+"_"+str(obj_id)
-            
+                ps = "rai_" + str(tab) + "_" + str(obj_id)
+
             if renpy.has_screen(ps):
                 $ renpy.use_screen(ps)
             else:
-                $ err =  ps+" not here!"
+                $ err = ps + " not here!"
 
     if err:
         hbox yalign 0.5 xalign 0.5:
             text err size 32
 
 
-screen rai_param(obj_id,var=None):
+screen rai_param(obj_id, var=None):
 
-    if not obj_id is None:
+    if obj_id is not None:
 
         python:
             obj = globals()[obj_id]
@@ -287,11 +305,15 @@ screen rai_param(obj_id,var=None):
 
             for k in param.keys():
                 python:
-                    if isinstance(param[k], (int, str, float)): val = str(param[k])
-                    elif isinstance(param[k], (list)): val = ", ".join(param[k])
+                    if isinstance(param[k], (int, str, float)):
+                        val = str(param[k])
+                    elif isinstance(param[k], (list)):
+                        val = ", ".join(param[k])
                     else:
-                        try : val = rai_dict_unpack(param[k])
-                        except:  val = repr(type(param[k]))
+                        try:
+                            val = rai_dict_unpack(param[k])
+                        except BaseException:
+                            val = repr(type(param[k]))
 
                 hbox:
                     vbox xsize 200:
@@ -308,7 +330,7 @@ screen rai_menu(tab):
         if tab == 'ramen':
             menus = ['ico', 'gui', 'vars', ]
         if tab == 'bucket':
-            menus = ['param', 'worldtime' ]
+            menus = ['param', 'worldtime']
 
     frame background "#0003" padding(8, 8):
 
@@ -318,12 +340,12 @@ screen rai_menu(tab):
             scrollbars "vertical"
             style_prefix 'rai_nav'
             vbox xsize 168:
-                
+
                 for m in menus:
-                    textbutton m xsize 168 action [ SetScreenVariable('obj_id', m),SetLocalVariable('obj_id', m) ]
+                    textbutton m xsize 168 action[SetScreenVariable('obj_id', m), SetLocalVariable('obj_id', m)]
                     null height 4
 
-screen rai_asset_npc(obj_id,var=None):
+screen rai_asset_npc(obj_id, var=None):
 
     if obj_id is not None:
 
@@ -331,45 +353,51 @@ screen rai_asset_npc(obj_id,var=None):
             obj = globals()[obj_id]
             colect = {}
 
-            try: var
-            except: var = None
+            try:
+                var
+            except BaseException:
+                var = None
 
             for s in sorted(obj.pose.keys()):
                 xy = renpy.image_size(obj.pose[s])
-                w = 'w'+str(xy[0])
-                try: colect[w]
-                except: colect[w] = []
+                w = 'w' + str(xy[0])
+                try:
+                    colect[w]
+                except BaseException:
+                    colect[w] = []
                 colect[w].append([s, xy])
-            
+
             nc = 5
-            mw = math.floor( (config.screen_width-300)/ nc)
-            sp = math.ceil( (config.screen_width-300)-(nc*mw) )
-            
+            mw = math.floor((config.screen_width - 300) / nc)
+            sp = math.ceil((config.screen_width - 300) - (nc * mw))
+
         hbox:
-        
-            frame background "#0003" padding(0, 8,8,8):
+
+            frame background "#0003" padding(0, 8, 8, 8):
                 viewport xsize 100:
                     draggable True
                     mousewheel True
                     scrollbars "vertical"
                     style_prefix 'rai_nav'
-            
+
                     vbox xsize 84:
-                        
+
                         text "Width" bold True size 12
                         null height 24
-                    
+
                         for w in sorted(colect.keys()):
-                            $ ws = w.replace('w','')
-                            textbutton ws action SetScreenVariable('var',w) xsize 84
+                            $ ws = w.replace('w', '')
+                            textbutton ws action SetScreenVariable('var', w) xsize 84
                             null height 8
-                    
+
             python:
-                try: colect[var]
-                except: var = None
-        
-            if not var is None:
-                    
+                try:
+                    colect[var]
+                except BaseException:
+                    var = None
+
+            if var is not None:
+
                 vpgrid:
                     cols int(nc)
                     spacing int(sp)
@@ -379,8 +407,8 @@ screen rai_asset_npc(obj_id,var=None):
                     for s in colect[var]:
                         vbox xsize mw ysize 300 yalign 0.0 yfill False:
                             $ ih = math.ceil(mw * s[1][1] / s[1][0])
-                            imagebutton action Show('rai_testpose',img=obj.pose[s[0]]):
-                                idle (im.Scale(obj.pose[s[0]], mw, ih))
+                            imagebutton action Show('rai_testpose', img=obj.pose[s[0]]):
+                                idle(im.Scale(obj.pose[s[0]], mw, ih))
                             vbox:
                                 text s[0] size 14 text_align 0.5
                                 text repr(s[1]) size 12 text_align 0.5
@@ -390,67 +418,74 @@ screen rai_testpose(img):
 
     zorder 199
     layer 'interface'
-    
+
     python:
-        try: xa
-        except: xa = 0.5
-        try: zo
-        except: zo=1.0
-        try: dec
-        except: dec = 0.1
-        try: ghost
-        except: ghost = False
-        
-    $ bgr = ramu.fn_ezy(RD.path+"/testbgr") 
-    
-    
+        try:
+            xa
+        except BaseException:
+            xa = 0.5
+        try:
+            zo
+        except BaseException:
+            zo = 1.0
+        try:
+            dec
+        except BaseException:
+            dec = 0.1
+        try:
+            ghost
+        except BaseException:
+            ghost = False
+
+    $ bgr = ramu.fn_ezy(RD.path + "/testbgr")
+
     frame background bgr xpos 0 ypos 0 xsize config.screen_width ysize config.screen_height:
-        padding (0,0)
-        
+        padding(0, 0)
+
         if locals()['ghost']:
-            add (ramu.fn_ezy(RD.path+"/ghost"))
-    
-        vbox at npc_align(xa,zo):
-            add ( img )
-    
-        frame background "#0004" xsize 200 xpos config.screen_width-200 ysize config.screen_height:
-            
-            padding (8,8)
-            
+            add(ramu.fn_ezy(RD.path + "/ghost"))
+
+        vbox at npc_align(xa, zo):
+            add(img)
+
+        frame background "#0004" xsize 200 xpos config.screen_width - 200 ysize config.screen_height:
+
+            padding(8, 8)
+
             vbox xsize 184:
-                
+
                 textbutton "close" action Hide('rai_testpose') xalign 1.0 text_size 16
-                
+
                 null height 64
-                
+
                 hbox yalign 0.5 xfill True:
                     style_prefix 'rai_opt'
-                    textbutton "0.1" action SetLocalVariable('dec',0.1)
+                    textbutton "0.1" action SetLocalVariable('dec', 0.1)
                     null width 2
-                    textbutton "0.05" action SetLocalVariable('dec',0.05)
+                    textbutton "0.05" action SetLocalVariable('dec', 0.05)
                     null width 2
-                    textbutton "0.01" action SetLocalVariable('dec',0.01)
+                    textbutton "0.01" action SetLocalVariable('dec', 0.01)
                 null height 16
-                
+
                 hbox yalign 0.5:
-                    textbutton "ghost" action SetLocalVariable('ghost',ramu.ltoggle(ghost)) style 'rai_opt_button'
-                null height 16
-                
-                hbox yalign 0.5 xfill True:
-                    style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('xa',mval(xa,-dec,[0.0,1.0]))
-                    textbutton str(locals()['xa']) action SetLocalVariable('xa',0.5)
-                    textbutton "+" action SetLocalVariable('xa',mval(xa,dec,[0.0,1.0]))
+                    textbutton "ghost" action SetLocalVariable('ghost', ramu.ltoggle(ghost)) style 'rai_opt_button'
                 null height 16
 
                 hbox yalign 0.5 xfill True:
                     style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('zo',mval(zo,-dec,[0.1,1.0]))
-                    textbutton str(locals()['zo']) action SetLocalVariable('zo',1.0)
-                    textbutton "+" action SetLocalVariable('zo',mval(zo,dec,[0.1,1.0]))
+                    textbutton "-" action SetLocalVariable('xa', mval(xa, -dec, [0.0, 1.0]))
+                    textbutton str(locals()['xa']) action SetLocalVariable('xa', 0.5)
+                    textbutton "+" action SetLocalVariable('xa', mval(xa, dec, [0.0, 1.0]))
                 null height 16
 
-                text "at npc_align("+str(locals()['xa'])+","+str(locals()['zo'])+")" style 'rai_text' size 18
+                hbox yalign 0.5 xfill True:
+                    style_prefix 'rai_ctl'
+                    textbutton "-" action SetLocalVariable('zo', mval(zo, -dec, [0.1, 1.0]))
+                    textbutton str(locals()['zo']) action SetLocalVariable('zo', 1.0)
+                    textbutton "+" action SetLocalVariable('zo', mval(zo, dec, [0.1, 1.0]))
+                null height 16
+
+                text "at npc_align(" + str(locals()['xa']) + "," + str(locals()['zo']) + ")" style 'rai_text' size 18
 
 screen rai_ctlheader(title=None):
 
@@ -461,7 +496,7 @@ screen rai_ctlheader(title=None):
             title = "Ramen Asset Inspector: " + title
 
         rdtabs = RD.keys()
-        
+
         rdtabs.append('ramen')
         rdtabs.append('bucket')
 
@@ -478,7 +513,7 @@ screen rai_ctlheader(title=None):
             hbox:
                 null width 200
                 for t in rdtabs:
-                    textbutton t style 'rai_tab' action [ SetScreenVariable('tab', t), SetScreenVariable('view', None), SetScreenVariable('obj_id', None) ]
+                    textbutton t style 'rai_tab' action[SetScreenVariable('tab', t), SetScreenVariable('view', None), SetScreenVariable('obj_id', None)]
                     null width 8
 
             frame ysize 1 background "#999"

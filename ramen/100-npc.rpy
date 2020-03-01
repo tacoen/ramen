@@ -7,7 +7,7 @@ init -99 python:
             try:
                 self.__dict__['pose']
             except BaseException:
-                self.__dict__['pose'] ={}
+                self.__dict__['pose'] = {}
             try:
                 self.color
             except BaseException:
@@ -48,8 +48,10 @@ init -99 python:
 
             self.define_byfile()
 
-            try: ramen_dev('npc',self.id)
-            except: pass
+            try:
+                ramen_dev('npc', self.id)
+            except BaseException:
+                pass
 
         def extend(self):
 
@@ -138,10 +140,10 @@ init -99 python:
             if files == []:
                 return False
 
-            conte = ['sprite','video','audio']
+            conte = ['sprite', 'video', 'audio']
 
             self.__dict__[str('side')] = {}
-            
+
             self.__dict__[str('pose')] = {}
 
             for f in sorted(files):
@@ -162,8 +164,8 @@ init -99 python:
                     self.profile_pic = f
 
                 if p['name'] == 'side':
-                    renpy.image('side '+self.id, f)
-                    self.side[self.id,f]
+                    renpy.image('side ' + self.id, f)
+                    self.side[self.id, f]
 
                 if p['path'] in conte:
                     try:
@@ -174,15 +176,17 @@ init -99 python:
                         if not p['name'] in voids:
                             self.__dict__[p['path']][str(p['name'])] = str(f)
                 else:
-                    if not p['name'] in voids and p['ext'] in ['webp','jpg','png']:
+                    if not p['name'] in voids and p['ext'] in [
+                            'webp', 'jpg', 'png']:
                         self.__dict__['pose'][str(p['name'])] = str(f)
 
             n = 0
 
             for k in self.pose.keys():
                 renpy.image(self.id + " " + k, self.pose[k])
-                if n==0: ff=self.pose[k]
-                n+=1
+                if n == 0:
+                    ff = self.pose[k]
+                n += 1
 
             if main is None:
                 l = sorted(self.pose.keys())
@@ -192,7 +196,7 @@ init -99 python:
 
             try:
                 for v in self.video.keys():
-                    renpy.image((self.id,v), Movie(play=alina.video[v]))
+                    renpy.image((self.id, v), Movie(play=alina.video[v]))
             except BaseException:
                 pass
 
@@ -201,47 +205,46 @@ init -99 python:
             except BaseException:
                 pass
 
-            pi = ['phone-incall','phone-outcall','phone-oncall']
-            
+            pi = ['phone-incall', 'phone-outcall', 'phone-oncall']
+
             for i in pi:
-                temp_img = ramu.theme_image(THEME_PATH,i)
+                temp_img = ramu.theme_image(THEME_PATH, i)
                 print i
                 print THEME_PATH
                 print temp_img
-                
+
                 try:
                     self.create_sideimage(self.profile_pic, temp_img, i)
-                except:
+                except BaseException:
                     pass
-            
+
         def create_sideimage(self, img, temp_img, tag):
             if temp_img:
                 compo = Composite(
-                    (340,340),
-                    (0,0), temp_img,
-                    (105,112), At(im.Scale(img, 96,96, bilinear=True))
+                    (340, 340),
+                    (0, 0), temp_img,
+                    (105, 112), At(im.Scale(img, 96, 96, bilinear=True))
                 )
-                    
-                what = tag.replace('phone-','')
-                renpy.image(self.id+ " "+what, compo)
-                
+
+                what = tag.replace('phone-', '')
+                renpy.image(self.id + " " + what, compo)
+
         def set_phonenum(self, fourdig=None):
             if fourdig is None:
                 self.phonenum = "555-" + \
                     str(ramu.random_int(10, 99)) + str(ramu.random_int(10, 99))
             else:
                 self.phonenum = "555-" + str(fourdig)
-                
-            return self.phonenum
-                
 
-        def play_video(self,name=None,loops=-1):
-            if not name is None:
-                renpy.movie_cutscene(self.video[name],loops=-1)
+            return self.phonenum
+
+        def play_video(self, name=None, loops=-1):
+            if name is not None:
+                renpy.movie_cutscene(self.video[name], loops=-1)
                 Movie(play=self.video[name], channel='movie')
 
-        def play_audio(self,name=None):
-            if not name is None:
+        def play_audio(self, name=None):
+            if name is not None:
                 renpy.music.play(self.audio[name])
 
         def spriteanim(self, name=None, list=None, tick=(0.25)):
@@ -258,7 +261,7 @@ init -99 python:
                 if not type(list) == tuple:
                     list = self.sprite.keys()
                 for i in list:
-    #                print i
+                    #                print i
                     try:
                         t = tick[n]
                     except BaseException:
@@ -268,10 +271,15 @@ init -99 python:
 
                 renpy.image((self.id, name), Animation(*anim))
 
-            except:
+            except BaseException:
                 print 'no sprite'
 
-        def chat_usingjson(self, key=None, use_pose=True, file=None, pose=None):
+        def chat_usingjson(
+                self,
+                key=None,
+                use_pose=True,
+                file=None,
+                pose=None):
 
             if file is None:
                 try:
@@ -325,81 +333,99 @@ init -99 python:
                     character.narator(self.name + " not answering your call.")
 
         def dialing(self):
-            rbc.onphone=True
-            renpy.show(self.id+ " outcall",[phone_speak],zorder=99,layer='above-screens')
+            rbc.onphone = True
+            renpy.show(
+                self.id + " outcall",
+                [phone_speak],
+                zorder=99,
+                layer='above-screens')
             nr = ramen_phone_dering()
-            phone_dialing("{size=18}Calling: "+ self.name + " ("+ self.phonenum + ")...{/size}\n"+nr)
+            phone_dialing("{size=18}Calling: " + self.name +
+                          " (" + self.phonenum + ")...{/size}\n" + nr)
 
-        def onphone(self,state=False):
+        def onphone(self, state=False):
 
             # Todo: onphone in state/world
 
             if state:
-                renpy.show(self.id+' oncall',at_list=[phone_speak],zorder=99,layer='above-screens')
-                rbc.onphone=True
+                renpy.show(
+                    self.id + ' oncall',
+                    at_list=[phone_speak],
+                    zorder=99,
+                    layer='above-screens')
+                rbc.onphone = True
             else:
-                renpy.hide(self.id+' oncall',layer='above-screens')
+                renpy.hide(self.id + ' oncall', layer='above-screens')
                 phone_hangup("(click)")
-                rbc.onphone=False
+                rbc.onphone = False
 
             return rbc.onphone
 
-        def phoneout(self,what=None,jl=None,jsonkey=None):
+        def phoneout(self, what=None, jl=None, jsonkey=None):
 
             self.dialing()
 
             if jl is not None:
-            
+
                 self.onphone(True)
-            
-                if what == 'label' and renpy.has_label(self.id+'_'+jl):
-                    renpy.call_in_new_context(self.id+'_'+jl)
+
+                if what == 'label' and renpy.has_label(self.id + '_' + jl):
+                    renpy.call_in_new_context(self.id + '_' + jl)
                 else:
                     if jsonkey is not None:
-                        self.chat_usingjson(jsonkey,False,jl)
+                        self.chat_usingjson(jsonkey, False, jl)
                     else:
-                        self.chat_usingjson(None,False,jl)
+                        self.chat_usingjson(None, False, jl)
 
                 self.onphone(False)
 
             else:
-                phone_status("No answer from "+self.name + ".")
-                
+                phone_status("No answer from " + self.name + ".")
 
-        def phonein(self,what='label',jl=None,jsonkey=None):
+        def phonein(self, what='label', jl=None, jsonkey=None):
 
-            rbc.answered=False
+            rbc.answered = False
 
             if jl is not None:
 
-                rbc.onphone=True
-            
-                renpy.sound.play(PHONE_SFXPATH +"/phone-ring.mp3", channel='sound', loop=3, fadeout=1, fadein=0)
-                renpy.show(self.id+ " incall",[phone_speak],zorder=99,layer='above-screens')
-                res = renpy.call_screen('phone_incoming_notice',who=self.id)
+                rbc.onphone = True
+
+                renpy.sound.play(
+                    PHONE_SFXPATH +
+                    "/phone-ring.mp3",
+                    channel='sound',
+                    loop=3,
+                    fadeout=1,
+                    fadein=0)
+                renpy.show(
+                    self.id + " incall",
+                    [phone_speak],
+                    zorder=99,
+                    layer='above-screens')
+                res = renpy.call_screen('phone_incoming_notice', who=self.id)
                 renpy.sound.stop()
 
                 if res:
-                
+
                     self.onphone(True)
-                    rbc.answered=True
- 
-                    if what == 'label' and renpy.has_label(self.id+'_'+jl):
-                        renpy.call_in_new_context(self.id+'_'+jl)
+                    rbc.answered = True
+
+                    if what == 'label' and renpy.has_label(self.id + '_' + jl):
+                        renpy.call_in_new_context(self.id + '_' + jl)
                     else:
                         if jsonkey is not None:
-                            self.chat_usingjson(jsonkey,False,jl)
+                            self.chat_usingjson(jsonkey, False, jl)
                         else:
-                            self.chat_usingjson(None,False,jl)
-                    
+                            self.chat_usingjson(None, False, jl)
+
                     self.onphone(False)
 
                 else:
                     phone_status("The call ignored")
                     self.onphone(False)
-                    
+
             else:
                 phone_status("You ignoring the call")
-                rbc.answered=False
+                rbc.answered = False
 
             return rbc.answered

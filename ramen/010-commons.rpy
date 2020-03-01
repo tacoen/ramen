@@ -2,17 +2,17 @@ init -4 python:
 
     def ramen_ingamenotify(msg='', icoram=None, who=None):
 
-        renpy.show_screen('ingame_notify',msg=msg,icoram=icoram,who=who)
+        renpy.show_screen('ingame_notify', msg=msg, icoram=icoram, who=who)
 
 # Common ATL and Shared Style
 
-transform npc_align(x=0.5,scale=1.0):
+transform npc_align(x=0.5, scale=1.0):
     yoffset 0
     yalign 1.0
     zoom scale
     xalign x
 
-transform npc_pos(x=0,scale=1.0):
+transform npc_pos(x=0, scale=1.0):
     yoffset 0
     yalign 1.0
     zoom scale
@@ -25,14 +25,14 @@ transform vertscrolling(sec):
     pause 1
     linear sec yoffset 0
     pause .25
-    easeout sec/2 yoffset 720
+    easeout sec / 2 yoffset 720
 
 ## woclock ####################################
 
 screen ramen_woclock():
     hbox xalign 0.9 yalign 0.68:
         text str(wo.clock) style "label" size 32 color "#fff":
-            outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
+            outlines[(2, gui.textbox_background, absolute(0), absolute(0))]
 
     timer 3.0 action Function(renpy.restart_interaction)
 
@@ -40,19 +40,19 @@ screen ramen_woclock():
 
 screen ramen_vsdisplay(img, sec=1, bounce=False):
     if bounce:
-        add (img) at vertscrolling_bounce(sec/2)
-        timer float(sec)+0.5 action Hide('ramen_vsdisplay')
+        add(img) at vertscrolling_bounce(sec / 2)
+        timer float(sec) + 0.5 action Hide('ramen_vsdisplay')
 
     else:
-        add (img) at vertscrolling(sec)
-        timer float(sec)+0.5 action Hide('ramen_vsdisplay')
+        add(img) at vertscrolling(sec)
+        timer float(sec) + 0.5 action Hide('ramen_vsdisplay')
 
 ## scene_mapping #########################################################
 
 screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None):
 
-    if not img is None:
-    
+    if img is not None:
+
         if str(img).lower() == 'auto':
             $ imgmap = obj.imagemaping(scene_id, None)
         else:
@@ -66,7 +66,7 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
 
     # overlays
 
-    if not overlays is None:
+    if overlays is not None:
         use _iblays(obj.id, overlays, True)
 
     # shortcut
@@ -77,7 +77,7 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
         except BaseException:
             shortcuts = None
 
-    if not shortcuts is None:
+    if shortcuts is not None:
         use scene_shortcut(scene_id, shortcuts, shortcut_position)
 
 
@@ -182,7 +182,7 @@ screen _iblays(obj_id, data, ontop):
 
     for d in data:
         python:
-            if not obj_id is None:
+            if obj_id is not None:
                 obj = globals()[obj_id]
 
             img = ramu.fn_ezy(obj.dir + "/overlays/" + d[0])
@@ -212,7 +212,7 @@ screen _overlays(obj_id, data, ontop=False):
         zorder 99
 
     python:
-        if not obj_id is None:
+        if obj_id is not None:
             obj = globals()[obj_id]
 
     for d in data:
@@ -236,8 +236,8 @@ screen ingame_notify(msg='', icoram=None, who=None):
         hbox xalign 1.0:
             frame xalign 1.0:
                 hbox yalign 0.5:
-                    if not who is None:
-                        add ramu.get_profilepic(who,(32, 32))
+                    if who is not None:
+                        add ramu.get_profilepic(who, (32, 32))
                         null width 8
                     text ico(icoram) style "ingame_notify_icon" min_width 24 text_align 0.5
                     null width 8

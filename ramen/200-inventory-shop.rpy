@@ -71,7 +71,7 @@ init -201 python:
             except BaseException:
                 return False
 
-            if not item.effect is None:
+            if item.effect is not None:
 
                 eff = item.effect
 
@@ -107,7 +107,7 @@ init -201 python:
                         else:
                             res = False
 
-            if item.persist == False:
+            if not item.persist:
                 item.count -= 1
                 if item.count <= 0:
                     self.drop(item_id)
@@ -281,7 +281,7 @@ screen shop_ui(obj):
                             python:
                                 c = {}
                                 for i in rbc.__dict__[obj.id + "_cart"]:
-                                    if not i in c:
+                                    if i not in c:
                                         c[i] = 1
                                     else:
                                         c[i] += 1
@@ -322,9 +322,9 @@ screen shop_item(obj, item, width=180):
                         name = item.name
                     except BaseException:
                         name = None
-                if not name is None:
+                if name is not None:
                     text item.name bold True size 14 color obj.ui.fg
                 text item.desc color obj.ui.fg
-                if not item.effect is None:
+                if item.effect is not None:
                     text item.effect[1].title() + " (" + str(item.effect[2]) + ")" size 18 color Color(obj.ui.fg).shade(.7)
                 text str(item.cost) + " $" color obj.ui.fg

@@ -48,7 +48,7 @@ init -202 python:
             except BaseException:
                 self.__dict__['effect'] = None
 
-            if self.persist == True:
+            if self.persist:
                 self.count = 1
 
         def __call__(self):
@@ -59,7 +59,7 @@ init -202 python:
 
         def icon(self):
             f = ramu.fn_ezy(self.dir + "/" + self.id)
-            if f == False:
+            if not f:
                 return self.dir + "/noicon.png"
             else:
                 return f

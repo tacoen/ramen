@@ -2,8 +2,8 @@ screen rai_ramen_ico():
 
     python:
         Ico = ico(None)
-        c = math.floor( (config.screen_width-200) / (200+20))
-        sp = math.floor( (config.screen_width-200) - (c*200 ))/c/2
+        c = math.floor((config.screen_width - 200) / (200 + 20))
+        sp = math.floor((config.screen_width - 200) - (c * 200)) / c / 2
 
     vpgrid:
         scrollbars "vertical"
@@ -26,11 +26,13 @@ screen rai_ramen_vars():
             gres
         except BaseException:
             gres = start_guicollect()
-            
-        try: gview
-        except: gview = ''
 
-    viewport ysize config.screen_height-70:
+        try:
+            gview
+        except BaseException:
+            gview = ''
+
+    viewport ysize config.screen_height - 70:
         draggable True
         mousewheel True
         scrollbars "vertical"
@@ -105,7 +107,7 @@ screen rai_ramen_gui():
             ['hover', gui.interface_hover_color],
         ]
 
-        h = config.screen_height-70
+        h = config.screen_height - 70
 
     frame xpos 0 background gui.interface_background.shade(.5) xsize 200 ysize h:
         vbox yalign 0.25:
@@ -186,4 +188,3 @@ screen rai_ramen_gui():
         $ test_items = ['Test', 'Eval']
         for i in test_items:
             textbutton i action Null
-            

@@ -65,8 +65,10 @@ init -199 python:
 
             self.set_occur(**kwargs)
 
-            try: ramen_dev('events',self.id)
-            except: pass
+            try:
+                ramen_dev('events', self.id)
+            except BaseException:
+                pass
 
         def __call__(self, what=None):
             if what is None:

@@ -9,8 +9,10 @@ init -208 python:
     import uuid
     import random
 
-    try: RAMEN_DEV
-    except: RAMEN_DEV=False
+    try:
+        RAMEN_DEV
+    except BaseException:
+        RAMEN_DEV = False
 
     class ramen_util:
 
@@ -136,7 +138,7 @@ init -208 python:
 
             ov += value
 
-            if not what in mc.limit.keys():
+            if what not in mc.limit.keys():
                 what = 'stat'
             if ov > mc.limit[what][1]:
                 ov = mc.limit[what][1]
@@ -157,7 +159,7 @@ init -208 python:
             if not ramu.sfx(THEME_PATH, "tone1", False, False):
                 sfx = False
 
-            if globals()[what] == True:
+            if globals()[what]:
                 globals()[what] = False
                 if sfx:
                     ramu.sfx(THEME_PATH, "tone0", True, False)

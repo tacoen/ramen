@@ -27,7 +27,7 @@ init -203 python:
             except BaseException:
                 self.__dict__[str('limit')] = {}
 
-            if not value is None:
+            if value is not None:
                 if isinstance(value, list):
                     self.__dict__['limit'][str(key)] = value
                     return value

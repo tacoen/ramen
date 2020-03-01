@@ -32,7 +32,7 @@ style rai_tab_text is rai_nav_button_text
 style rai_ctl is rai
 style rai_ctl_text is rai_text:
     line_leading 8
-    
+
 style rai_ctl_button is button
 
 style rai_ctl_button_text is rai_text:
@@ -43,7 +43,7 @@ style rai_ctl_button_text is rai_text:
 style rai_opt is rai
 style rai_opt_text is rai_text:
     color "#ddd"
-    
+
 style rai_opt_button is button:
     selected_background "#fc3"
 

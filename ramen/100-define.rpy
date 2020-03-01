@@ -3,7 +3,7 @@ init -200 python:
     ramu = ramen_util()
     RAMEN_PATH = ramu.fn_getdir()
 
-    renpy.music.register_channel('music','sfx','movie')
+    renpy.music.register_channel('music', 'sfx', 'movie')
 
     # Ramen bucket container, a proxydict for renpy storable
 
@@ -42,13 +42,13 @@ init -2:
     default mc = mc
 
     # define character.mc = Character(
-        # "mc_name", 
-        # dynamic=True, 
-        # who_color="#ffffff",
-        # what_color="#eeee00"
+    # "mc_name",
+    # dynamic=True,
+    # who_color="#ffffff",
+    # what_color="#eeee00"
     # )
 
-    $ mc__ = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor= "#eeee66", color="#ffffff")
+    $ mc__ = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor="#eeee66", color="#ffffff")
 
     # mc from third party views:
 
@@ -75,9 +75,9 @@ init -2:
     image side thou = ramu.theme_image(THEME_PATH, "side-thou")
 
     define character.anon = Character(
-        "anon_name", 
-        dynamic=True, 
-        who_color=ramu.random_color(128, 220), 
+        "anon_name",
+        dynamic=True,
+        who_color=ramu.random_color(128, 220),
         what_color="#ccc"
     )
 
@@ -85,31 +85,31 @@ init -2:
 
     define character.caption = Character(
         None,
-        window_yalign = 0.7,
+        window_yalign=0.7,
         what_xalign=0.5,
         what_yalign=0.5,
-        what_ypos = 24,
+        what_ypos=24,
         who_color="#ccc",
         what_color="#000",
         window_background=Solid("#FFCC33DD"),
         what_prefix="{size=-1}{cps=80}",
         what_suffix="{/cps}{/size}"
-        )
+    )
 
     define character.tips = Character(
-        None, 
-        who_color="#ccc", 
+        None,
+        who_color="#ccc",
         what_color="#ff0",
-        what_prefix="{size=-3}{cps=80}", 
-        what_suffix="{/cps}{/size}", 
+        what_prefix="{size=-3}{cps=80}",
+        what_suffix="{/cps}{/size}",
         ctc='ctcon'
     )
 
     define character.narator = Character(
-        None, 
-        who_color="#ccc", 
+        None,
+        who_color="#ccc",
         what_color="#eee",
-        what_prefix="{cps=80}", 
+        what_prefix="{cps=80}",
         what_suffix="{/cps}"
     )
 
@@ -125,4 +125,3 @@ init -2:
         what_xalign=0.5,
         what_outlines=[(absolute(2), "#0006", absolute(0), absolute(0))]
     )
-
