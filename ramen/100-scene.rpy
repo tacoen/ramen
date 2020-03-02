@@ -354,7 +354,7 @@ label ramen_scene_map:
         renpy.scene()
         renpy.show(obj_id + " " + d)
         renpy.with_statement(dissolve)
-
+        
     call screen scene_mapping(obj, d, ramu.get_sceneimg())
 
     return

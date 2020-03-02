@@ -13,8 +13,10 @@ init -103:
         
         python:
             if what is None: what = 'indoor'
-            
-        hbox xpos 0 ypos 0:
-            add (ramu.fn_ezy(AMBIENT_PATH+"/"+what))
+            img = (ramu.fn_ezy(AMBIENT_PATH+"/"+what))
+
+        if img:
+            hbox xpos 0 ypos 0:
+                add (img)
 
             

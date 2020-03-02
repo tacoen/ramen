@@ -284,10 +284,12 @@ init -208 python:
             file = self.fn_ezy(where + "/" + what, ['.ogg', '.mp3', '.wav'])
             if not file:
                 file = self.fn_ezy(RAMEN_THEME_PATH +
-                                   "/audio/" + what, ['.ogg', '.mp3', '.wav'])
+                                   "audio/" + what, ['.ogg', '.mp3', '.wav'])
             if not file:
                 file = self.fn_ezy(DEFAULT_SFXPATH + "/" +
                                    what, ['.ogg', '.mp3', '.wav'])
+                                   
+            print file
             if file and play:
                 renpy.music.play(file, loop=loop)
             return file
