@@ -1,4 +1,4 @@
-init - 100 python:
+init -100 python:
 
     PHONE_SFXPATH = ramu.fn_getdir() + "/audio"
 

@@ -38,6 +38,15 @@ init -205 python:
             self.timeword = tword
             self.sunword = sword
             self.wdayword = wword
+            self.greets = [
+                         'Night',
+                         'Morning',
+                         'Morning',
+                         'Afternoon',
+                         'Afternoon',
+                         'Evening',
+                         'Night',
+                         'Night']
             self.diff = 0
 
             self.starttime(gamedate)
@@ -57,11 +66,12 @@ init -205 python:
             self.daytime = str(self.timeword[self.daypart])
             self.sun = int(round(len(self.sunword) * self.time.hour / 24))
             self.suntime = str(self.sunword[self.sun])
+            self.greet = str(self.greets[self.sun])
             self.diff = self.time - self.start
             self.diff_sec = self.diff.total_seconds()
             self.date = self.time.strftime("%d %B %Y")
             self.clock = self.time.strftime("%H:%M")
-            self.hour = int(self.time.strftime("%I"))
+            self.hour = str(int(self.time.strftime("%I")))
 
             # globals()['diff']=self.diff
 

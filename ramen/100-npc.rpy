@@ -209,10 +209,6 @@ init -99 python:
 
             for i in pi:
                 temp_img = ramu.theme_image(THEME_PATH, i)
-                print i
-                print THEME_PATH
-                print temp_img
-
                 try:
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:

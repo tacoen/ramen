@@ -27,6 +27,8 @@ init -100 python:
 
     quick_menu = False
 
+    rbc.anon_name = "Annonymous"
+
     def ramen_nosideimage(tag, argument):
         return ""
 
@@ -75,7 +77,7 @@ init -2:
     image side thou = ramu.theme_image(THEME_PATH, "side-thou")
 
     define character.anon = Character(
-        "anon_name",
+        "rbc.anon_name",
         dynamic=True,
         who_color=ramu.random_color(128, 220),
         what_color="#ccc"

@@ -205,9 +205,17 @@ init -99 python:
                     except BaseException:
                         img = i
 
+                    if not renpy.has_label(self.id+"_"+f+"_"+dest):
+                        
+                        try:
+                            if self.doors[f][dest] is not None:
+                                func = 'meet'
+                                dest = self.doors[f][dest].lower()
+                            
+                        except: pass
+
                     if dest is not None and xy:
-                        self.map[f][str(i)] = [xy, str(
-                            func), str(dest), str(img)]
+                        self.map[f][str(i)] = [xy, str(func), str(dest), str(img)]
 
             return self.map
 
@@ -234,6 +242,9 @@ init -99 python:
 
             ways = self.map[floor]
 
+            try: self.doors
+            except: self.doors = {}
+
             for k in sorted(ways.keys()):
 
                 w = ways[k]
@@ -250,7 +261,7 @@ init -99 python:
                     # 1 key/func
                     # 2 hs code
                     # 3 img
-
+                    
                     if renpy.has_label(w[2]):
                         action = Jump(w[2])
                     elif renpy.has_label(self.id + '_' + w[2]):
@@ -330,7 +341,6 @@ init -99 python:
 
             return ramu.random_of(res)
 
-
 label ramen_scene_map:
 
     hide screen scene_mapping
@@ -348,7 +358,7 @@ label ramen_scene_map:
     call screen scene_mapping(obj, d, ramu.get_sceneimg())
 
     return
-
+    
 label ramen_scene_goto:
 
     hide screen scene_mapping
