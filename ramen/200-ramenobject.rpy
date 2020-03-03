@@ -262,6 +262,25 @@ init -204 python:
             else:
                 return files
 
+        def gallery(self,what,where):
+            try:
+                self.__dict__[what]
+            except BaseException:
+                self.__dict__[str(what)] = {}
+
+            res = {}
+            inf = renpy.get_filename_line()
+            cf = inf[0].replace('game/', '')
+            
+            v = self.__dict__[str(what)]
+            
+            for f in sorted(self.files(where)):
+                fn = ramu.fn_info(f)
+                dirs = f.replace(self.dir+"/",'')
+                d = dirs.split('/')
+                
+                print d
+        
         def index(self, what, where=None, ext='rpy'):
 
             try:
