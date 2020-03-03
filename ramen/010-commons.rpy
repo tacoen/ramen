@@ -27,6 +27,29 @@ transform vertscrolling(sec):
     pause .25
     easeout sec / 2 yoffset 720
 
+
+screen bar_example():
+
+        modal True
+        zorder 100
+        
+        python:
+            ooo = object()
+            ooo.name = 'apa'
+            ooo.number = '2'
+            surName = ''
+
+        frame:
+            xalign 0.5 ypos 50
+            xsize 500
+            vbox:
+                spacing 10
+                bar:
+                    value StaticValue(66, 100)
+                hbox:
+                    text 'nama'
+                    input default ooo.name
+
 ## woclock ####################################
 
 screen ramen_woclock():
@@ -79,10 +102,10 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
 
     if shortcuts is not None:
         use scene_shortcut(scene_id, shortcuts, shortcut_position)
-        
+
     if ambient is not None and renpy.has_screen('ramen_ambient'):
         use ramen_ambient('dark')
-        
+
 
 
 ## scene_shorcut #######################################################
@@ -250,7 +273,6 @@ screen ingame_notify(msg='', icoram=None, who=None):
             null width 32
 
     timer 3.25 action Hide('ingame_notify')
-
 
 style ingame_notify_frame:
     padding(8, 8)

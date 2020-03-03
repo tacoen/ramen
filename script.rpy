@@ -1,46 +1,65 @@
 ﻿# The game starts here.
-init python:
-#    event_test = event('test',label='start',day=1,require={'hygiene':2},call='eventest',jump='eventest_jump')
 
-    event_test = event('test',label='start',require={'hygiene':2},call='eventest',jump='eventest_jump')
+init python:
+
+    event_test = event(
+        'test',
+        label='start',
+        require={
+            'hygiene': 2},
+        call='eventest')
+
+image testbgr = Solid('#234')
 
 label start:
 
     call _ramen_start()
+
+    scene testbgr
     
-    "This is a development version of Ramen, and not intent to be a release."
+    "This is a development version of Ramen, and not intent to be a release.{w} When you see this in your working project, you will know that is not ready yet."
+
+    narator "I am a narator just like the line before me.{w}\nBut, I'm best when you want a multiline."
+
+    narator """
+    Now we are using three quotes for narations.
+    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as  published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+    """
+
+    show screen bar_example()
     
+    mc "I am your main character."
+    anon "a placeholder from annonymous, which can be named with 'rbc.anon_name'"
+    mc "We talk, I speak."
+    thou "In your mind."
+    anon "And, You listened."
+    emoti "smile"
+    caption "Once upon a time in testing land,{w=1}\nThere was a demo."
+    tips "When you see me, you saw a tips!"
+    
+    
+
     "This line above to end the game within 3."
-    
+
     "2"
-    
+
     "1"
-    
+
     "After this the game will end."
-    
+
     # This ends the game.
-    
+
     return
 
 
 label eventest:
     "You see a event occur here."
     "nice?"
-    
-    # infinite loop aware
-    $ event_test.set_pass()
-    
-    "Now back to last label"
-    
-    return
-    
-label eventest_jump:
 
-    "but hey, you got here from a jump!"
-    "So, you can use rbc.event_lastlabel to return"
-    "which are \"[rbc.event_lastlabel]\""
-    
     # infinite loop aware
     $ event_test.set_pass()
-    $ renpy.jump(rbc.event_lastlabel)
-    
+
+    "Now back to last label"
+
+    return
+

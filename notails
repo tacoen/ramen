@@ -1,1 +1,0 @@
-find  . -name "*.rpy" | xargs sed -i 's/[ \t]*$//'

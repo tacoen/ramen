@@ -92,61 +92,26 @@ style frame:
 screen say(who, what):
 
     window:
+    
         id "window"
+        background gui.textbox_background
+
         style_prefix "say"
-        
-        if who is None:
-            background gui.naration_overlay
-            xalign 1.0
-            text what id "what" yalign 0.75
 
-            ysize None
-            padding(0, 16, 0, 52)
-
+        if renpy.get_screen("smp_ui") or rbc.onphone:
+            padding (200,0,0,0)
+            xalign 0.0
+            
+        if who is None or who.endswith("~"):
+                text what id "what" xalign 0.5
         else:
-
-            if who.endswith("~"):
-
-                #python:
-                #    who = who.replace(' ~', '')
-
-                # frame background "#fff" xsize gui.dialogue_width+80 ysize
-                # gui.textbox_height-40 xalign 0.5
-
-                text what id "what"
-
-            elif who.endswith("*"):
-
                 window:
                     id "namebox"
                     style "namebox"
                     text who id "who"
                 text what id "what"
 
-            else:
-
-                background gui.textbox_background
-
-                if renpy.get_screen("smp_ui") or rbc.onphone:
-
-                    window:
-                        xalign 0
-                        xsize config.screen_width-490-32
-                        id "namebox"
-                        style "namebox"
-                        text who id "who" xpos 490
-                    text what id "what" xpos 500
-                    
-                    
-
-                else:
-                
-                    window:
-                        id "namebox"
-                        style "namebox"
-                        text who id "who"
-                    text what id "what"
-
+ 
     # If there's a side image, display it above the text. Do not display on the
     # phone variant - there's no room.
     if not renpy.variant("small"):
@@ -162,7 +127,6 @@ init python:
 style window is default
 style say_label is default
 style say_dialogue is default
-style say_thought is say_dialogue
 
 style namebox is default
 style namebox_label is say_label
@@ -194,12 +158,9 @@ style say_dialogue:
     ypos gui.dialogue_ypos
     background gui.textbox_background
 
-style say_dialoguzze:
-    xpos gui.dialogue_xpos
-    ypos gui.dialogue_ypos
-    xsize config.screen_width - (2 * gui.dialogue_xpos)
-
-
+style say_thought is say_dialogue:
+    xsize gui.dialogue_width-100
+    
 ## Input screen ##########################################################
 ##
 # This screen is used to display renpy.input. The prompt parameter is used to
