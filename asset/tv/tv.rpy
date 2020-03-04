@@ -88,7 +88,7 @@ screen tv(obj,channel=None,length=None,second=3,loop=True):
 #            if random: renpy.random.shuffle(ld)
             if length is None: length = len(ld)
             
-            list = ld[0:length]            
+            list = ld            
             
         use tvshow(list,second,loop) 
 
