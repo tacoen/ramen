@@ -262,12 +262,19 @@ init -204 python:
             else:
                 return files
 
-        def gallery(self,what,where=''):
+        def makegallery(self,what,where=''):
+            
             try:
-                self.__dict__[what]
+                self.__dict__['gallery']
             except BaseException:
-                self.__dict__[str(what)] = {}
+                self.__dict__[str('gallery')] = {}
 
+            try:
+                self.__dict__['gallery'][what]
+            except BaseException:
+                self.__dict__['gallery'][what] = {}
+                
+                
             res = {}
             inf = renpy.get_filename_line()
             cf = inf[0].replace('game/', '')
@@ -283,7 +290,7 @@ init -204 python:
                 if dirs is not None: d.append(dirs)
             
             for dirs in list(d):
-                dc = self.__dict__[str(what)]
+                dc = self.__dict__['gallery'][what]
                 for x in dirs.split('/'):
                     dc = dc.setdefault(x, {})
 
@@ -298,9 +305,9 @@ init -204 python:
                 s = str(n)
                 
                 if len(d)==2:
-                    self.__dict__[str(what)][d[0]][s]=f
+                    self.__dict__['gallery'][what][d[0]][s]=f
                 elif len(d)==3:
-                    self.__dict__[str(what)][d[0]][d[1]][s]=f
+                    self.__dict__['gallery'][what][d[0]][d[1]][s]=f
                 
                 n += 1
                 
