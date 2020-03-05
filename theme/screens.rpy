@@ -94,22 +94,26 @@ screen say(who, what):
     window:
     
         id "window"
-        background gui.textbox_background
 
         style_prefix "say"
 
         if renpy.get_screen("smp_ui") or rbc.onphone:
             padding (200,0,0,0)
             xalign 0.0
-            
-        if who is None or who.endswith("~"):
-                text what id "what" xalign 0.5
+
+        if not str(who).endswith("~"):
+            background gui.textbox_background
+
+        if who is None or str(who).endswith("~"):
+            text what id "what" xalign 0.5
         else:
-                window:
-                    id "namebox"
-                    style "namebox"
-                    text who id "who"
-                text what id "what"
+
+
+            window:
+                id "namebox"
+                style "namebox"
+                text who id "who"
+            text what id "what"
 
  
     # If there's a side image, display it above the text. Do not display on the
@@ -156,10 +160,10 @@ style say_dialogue:
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
-    background gui.textbox_background
 
 style say_thought is say_dialogue:
     xsize gui.dialogue_width-100
+    outlines[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]    
     
 ## Input screen ##########################################################
 ##

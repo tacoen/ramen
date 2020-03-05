@@ -8,14 +8,14 @@ init -205 python:
         def __init__(self,
                      gamedate=[2016, 1, 18, 9],
                      tword=[
-                         'Midnight',
-                         'Dusk',
-                         'Morning',
-                         'Morning',
-                         'Noon',
-                         'Evening',
-                         'Evening',
-                         'Night'],
+                         'midnight',
+                         'dusk',
+                         'morning',
+                         'morning',
+                         'noon',
+                         'evening',
+                         'evening',
+                         'night'],
                      sword=[
                          'dark',
                          'dark',
@@ -26,13 +26,13 @@ init -205 python:
                          'dark',
                          'dark'],
                      wword=[
-                         'Monday',
-                         'Tuesday',
-                         'Wednesday',
-                         'Thrusday',
-                         'Friday',
-                         'Saturday',
-                         'Sunday']
+                         'monday',
+                         'tuesday',
+                         'wednesday',
+                         'thrusday',
+                         'friday',
+                         'saturday',
+                         'sunday']
                      ):
 
             self.timeword = tword
@@ -72,6 +72,7 @@ init -205 python:
             self.date = self.time.strftime("%d %B %Y")
             self.clock = self.time.strftime("%H:%M")
             self.hour = str(int(self.time.strftime("%I")))
+            self.cond = list(set(self.sunword + self.timeword))
 
             # globals()['diff']=self.diff
 

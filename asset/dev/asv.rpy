@@ -204,7 +204,7 @@ screen ramen_ai_menu():
 
                 if obj_id is not None:
 
-                    frame background "#0003":
+                    frame background "#0006":
                         xmaximum config.screen_width - 200
                         xsize config.screen_width - 200
                         ysize config.screen_height - 70
@@ -250,11 +250,10 @@ screen rai_routecontent(tab, obj_id, view, var):
 
     if isinstance(route[tab], (str, unicode)):
         if renpy.has_screen(route[tab]):
-            viewport:
+            viewport xsize config.screen_height-500:
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
-
                 $ renpy.use_screen(route[tab], obj_id=obj_id)
         else:
             $ err = route[tab] + " not here!"

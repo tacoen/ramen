@@ -236,9 +236,6 @@ init -208 python:
             t = tuple(renpy.get_showing_tags('master', True))
             a = renpy.get_attributes(t[0])
 
-            if condition is None:
-                condition = wo.suntime
-
             if bgr is None:
                 try:
                     bgr = t[0] + " " + a[0]
@@ -246,11 +243,17 @@ init -208 python:
                     bgr = t[0]
 
             res = None
+            
+            print bgr
 
             try:
                 res = renpy.get_registered_image(bgr).filename
+                
             except BaseException:
 
+                if condition is None:
+                    condition = wo.suntime
+                
                 rl = renpy.get_registered_image(bgr).child.args[0]
 
                 for r in rl:
@@ -289,7 +292,6 @@ init -208 python:
                 file = self.fn_ezy(DEFAULT_SFXPATH + "/" +
                                    what, ['.ogg', '.mp3', '.wav'])
                                    
-            print file
             if file and play:
                 renpy.music.play(file, loop=loop)
             return file

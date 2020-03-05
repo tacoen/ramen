@@ -8,27 +8,24 @@ screen rai_asset_scene(obj_id, var=None):
             cu = False
 
         null height 8
-        vpgrid:
 
+        vpgrid yminimum config.screen_height yoffset 8 :
             draggable True
-            mousewheel True
             cols 4
             spacing 16
+
             for s in sorted(obj.scene.keys()):
-                vbox xsize iw yalign 0.0 ysize ih + 50:
+                vbox xsize iw yalign 0.0:
+                    spacing 8
                     python:
                         ct = ''
-                        wot = list(set(wo.sunword + wo.timeword))
+                        wot = wo.cond
                         for c in wot:
                             if s.endswith(c.lower()):
                                 ct = ' (cs)'
-                                cu = True
 
-                    if cu:
-                        imagebutton action Show('rai_scenetest', obj_id=obj_id, tag=s):
-                            idle(im.Scale(obj.scene[s], iw, ih))
-                    else:
-                        add(im.Scale(obj.scene[s], iw, ih))
+                    imagebutton action Show('rai_scenetest', obj_id=obj_id, tag=s):
+                        idle(im.Scale(obj.scene[s], iw, ih))
 
                     text s + ct size 14
 
@@ -38,15 +35,20 @@ screen rai_scenetest(obj_id, tag):
     zorder 198
 
     python:
-        t = tag.split(' ')
-
+    
+        cond = None
+        itag = tag
+        
         try:
-            t[1]
-        except BaseException:
-            t[1] = None
-            t[0] = tag
+            t = tag.split(' ')
+            if t[1] in (wo.cond): 
+                cond = t[1]
+                itag = t[0]
 
-        img = ramu.get_sceneimg(t[1], obj_id + " " + t[0])
+        except BaseException:
+            pass
+            
+        img = ramu.get_sceneimg(cond, obj_id + " " + itag)
 
         al = []
 

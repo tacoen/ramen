@@ -112,8 +112,8 @@ init python:
     else:
         game_menu_frame = gui.game_menu_overlay
 
-    if ramu.sfx(THEME_PATH, "/audio/open-theme", False):
-        config.main_menu_music = ramu.sfx(THEME_PATH, "/audio/open-theme", False)
+    if ramu.sfx(THEME_PATH, "audio/open-theme", False):
+        config.main_menu_music = ramu.sfx(THEME_PATH, "audio/open-theme", False)
 
 define gui.main_menu_background = main_menu_background
 define gui.game_menu_background = game_menu_background

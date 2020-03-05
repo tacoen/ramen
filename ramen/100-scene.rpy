@@ -343,8 +343,9 @@ init -99 python:
 
 label ramen_scene_map:
 
+    window hide
     hide screen scene_mapping
-
+    
     python:
         obj_id = rbc.scene_map['id']
         f = rbc.scene_map['f']

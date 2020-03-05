@@ -82,9 +82,9 @@ screen rai_asset_npc(obj_id, var=None):
             except BaseException:
                 pass
 
-            nc = 5
-            mw = math.floor((config.screen_width - 300) / nc)
-            sp = math.ceil((config.screen_width - 300) - (nc * mw))
+            nc = 4
+            mw = math.floor((config.screen_width - 302) / nc)
+            sp = math.ceil((config.screen_width - 302) - (nc * mw))
 
         hbox:
 
@@ -117,18 +117,20 @@ screen rai_asset_npc(obj_id, var=None):
 
             if var is not None:
 
-                vpgrid:
+                vpgrid yminimum config.screen_height yoffset 8:                
                     cols int(nc)
                     spacing int(sp)
                     draggable True
-                    mousewheel True
 
                     for s in collect[var]:
-                        vbox xsize mw ysize 300 yalign 0.0 yfill False:
+                        vbox xsize mw ysize 300 yalign 0.0:
                             $ ih = math.ceil(mw * s[1][1] / s[1][0])
-                            imagebutton action Show('rai_testpose', img=obj.pose[s[0]]):
-                                idle(im.Scale(obj.pose[s[0]], mw, ih))
+
+                            frame background Frame(ramu.theme_image(THEME_PATH, "gui/outline-w"),Borders(1,1,1,1)):
+                                imagebutton action Show('rai_testpose', img=obj.pose[s[0]]):
+                                    idle(im.Scale(obj.pose[s[0]], mw, ih))
                             vbox:
+                                spacing 4
                                 text s[0] size 14 text_align 0.5
                                 text repr(s[1]) size 12 text_align 0.5
 

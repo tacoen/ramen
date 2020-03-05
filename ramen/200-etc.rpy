@@ -61,8 +61,3 @@ init -96 python:
                                 npc = False
 
                         renpy.hide(self.id)
-                
-                
-                
-    
-    
