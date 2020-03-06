@@ -220,7 +220,7 @@ init -99 python:
             return self.map
 
         def scene_call(self, what, id, f, d):
-            rbc.data('scene_map', id=id, f=f, d=d)
+            rbc.data('scene_map', id=str(id), f=str(f), d=str(d))
             renpy.jump(what)
             # renpy.call_in_new_context(what,obj_id=obj_id)
 
@@ -263,20 +263,40 @@ init -99 python:
                     # 3 img
                     
                     if renpy.has_label(w[2]):
-                        action = Jump(w[2])
+                        action = Function(
+                            self.scene_call,
+                            what=w[2],
+                            id=self.id,
+                            f=floor,
+                            d=w[2])
                     elif renpy.has_label(self.id + '_' + w[2]):
                         action = Function(
                             self.scene_call,
                             what=self.id + '_' + w[2],
                             id=self.id,
                             f=floor,
-                            d=w[2])
+                            d=floor)
                     elif renpy.has_label(self.id + '_' + floor + "_" + w[2]):
-                        action = Jump(self.id + '_' + floor + "_" + w[2])
+                        action = Function(
+                            self.scene_call,
+                            what=self.id + '_' + floor + "_" + w[2],
+                            id=self.id,
+                            f=floor,
+                            d=w[2])
                     elif renpy.has_label(w[1]):
-                        action = Jump(w[1])
+                        action = Function(
+                            self.scene_call,
+                            what=w[1],
+                            id=self.id,
+                            f=floor,
+                            d=w[2])
                     elif renpy.has_label(self.id + '_' + floor + "_" + w[1]):
-                        action = Jump(self.id + '_' + floor + "_" + w[1])
+                        action = Function(
+                            self.scene_call,
+                            what=self.id + '_' + floor + "_" + w[1],
+                            id=self.id,
+                            f=floor,
+                            d=w[2])
                     elif renpy.has_label(self.id + '_' + w[1]):
                         action = Function(
                             self.scene_call,
@@ -351,12 +371,21 @@ label ramen_scene_map:
         f = rbc.scene_map['f']
         d = rbc.scene_map['d']
         obj = globals()[obj_id]
+        
+        #sometimes stupidos does it better:
 
+        try: 
+            obj.map[d]
+            w = d
+        except:
+            w = f
+        
         renpy.scene()
-        renpy.show(obj_id + " " + d)
+        renpy.show(obj_id + " " + w)
         renpy.with_statement(dissolve)
         
-    call screen scene_mapping(obj, d, ramu.get_sceneimg())
+        
+    call screen scene_mapping(obj, w, ramu.get_sceneimg())
 
     return
     

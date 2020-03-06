@@ -2,9 +2,37 @@
 
 init python:
 
+    import sys, inspect
+
+    tag = ['container','WorldTime','event']
+    cm = inspect.getmembers(sys.modules[__name__], inspect.isclass)
+    file = open("E:/pp-renpy/ramen/game/syntax-index.md","w") 
+    for c in cm:
+    
+        t1 = repr(c[1]) + repr(c[1].__bases__)
+        
+        if 'ramen' in t1 or c[0] in tag:
+            file.writelines("## "+str(c[0])+"\n")
+            file.writelines("   "+ str(eval(c[0]).__doc__)+"\n")
+            #file.writelines( repr(c[1])+"\n")
+        
+        #mc = eval(c[0])
+        
+            for m in dir(c[1]):
+                if not m.startswith('_'):
+                    file.writelines("### "+ m+"\n")
+        
+            file.writelines("\n")
+        
+    file.close()
+
+    print dir(uiobj)
+    print type(uiobj)
+
     event_test = event(
         'test',
-        label='start',
+        label='white_room',
+        day=2,
         require={
             'hygiene': 2},
         call='eventest')

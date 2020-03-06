@@ -144,25 +144,6 @@ init -197 python:
 
         return val
 
-    def rai_dict_unpack__s(obj):
-        param = obj.__dict__
-        for k in param.keys():
-            if isinstance(param[k], (int, str, float)):
-                val = str(param[k])
-            elif isinstance(param[k], (list)):
-                val = ", ".join(param[k])
-            else:
-                val = ''
-                for v in param[k].keys():
-                    if isinstance(param[k][v], (int, str, float)):
-                        val += v + "=" + str(param[k][v])
-                    elif isinstance(param[k][v], (list)):
-                        val += v + "=" + ", ".join(param[k])
-                    else:
-                        val += rai_dict_unpack(param[k])
-        return val
-
-
 screen ramen_ai_menu():
 
     python:

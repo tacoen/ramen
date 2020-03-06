@@ -244,8 +244,6 @@ init -208 python:
 
             res = None
             
-            print bgr
-
             try:
                 res = renpy.get_registered_image(bgr).filename
                 
