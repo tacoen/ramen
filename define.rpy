@@ -19,12 +19,12 @@ init -99 python:
     mc.set_limit('relation', [0, 20])
     mc.set_limit('stat', [0, 20])
 
-    mc.data('bio',
+    mc.setdata('bio',
             lastname=ramu.random_of(['South', 'North', 'East', 'West']),
             job='it'
             )
 
-    mc.data('stat',
+    mc.setdata('stat',
             hygiene=5,
             energy=5,
             vital=5,

@@ -29,7 +29,7 @@ label ramen_test:
 
 label scenery_demo:
 
-    $ rbc.data('scene_map',id='sdemo',f='f0',d='f0')
+    $ rbc.setdata('scene_map',id='sdemo',f='f0',d='f0')
     scene sdemo f0
     "Welcome to scenery demo"
     jump ramen_scene_map

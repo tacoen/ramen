@@ -17,7 +17,7 @@ init -204 python:
         def __repr__(self):
             return repr(type(_ramen_container))
 
-        def data(self, what, **kwargs):
+        def setdata(self, what, **kwargs):
             try:
                 _ramen_container.__dict__[what]
             except BaseException:
@@ -220,7 +220,7 @@ init -204 python:
             if key == 'area':
                 ins = self.makestyle_area(key, val)
 
-        def data(self, key, **kwargs):
+        def setdata(self, key, **kwargs):
             """set object as data container"""
 
             try:
@@ -231,7 +231,7 @@ init -204 python:
             for k in kwargs:
                 self.__dict__[str(key.lower())][str(k)] = kwargs[k]
 
-        def default(self, key, default, param=True):
+        def setdefault(self, key, default, param=True):
             if param:
                 self.__dict__['param'][str(key)] = default
             else:

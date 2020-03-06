@@ -202,12 +202,12 @@ screen scene_shortcut(scene_id, shorts, position=None):
 
 ## _overlays #######################################################
 
-screen _iblays(obj_id, data, ontop):
+screen _iblays(obj_id, vars, ontop):
 
     if ontop:
         zorder 99
 
-    for d in data:
+    for d in vars:
         python:
             if obj_id is not None:
                 obj = globals()[obj_id]
@@ -233,7 +233,7 @@ screen _iblays(obj_id, data, ontop):
                         idle img
                         hover im.MatrixColor(img, im.matrix.brightness(0.1))
 
-screen _overlays(obj_id, data, ontop=False):
+screen _overlays(obj_id, vars, ontop=False):
 
     if ontop:
         zorder 99
@@ -242,7 +242,7 @@ screen _overlays(obj_id, data, ontop=False):
         if obj_id is not None:
             obj = globals()[obj_id]
 
-    for d in data:
+    for d in vars:
         python:
             img = ramu.fn_ezy(obj.dir + "/overlays/" + d[0])
             xy = d[1]

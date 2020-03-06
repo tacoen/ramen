@@ -22,6 +22,9 @@ init -208 python:
 
         # fn -- files functions
 
+        def coba(self,x,a=1,b=2,c=3):
+            return None
+            
         def fn_getdir(self):
             """Get the directory of the scripts from renpy.get_filename_line"""
 

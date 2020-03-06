@@ -220,7 +220,7 @@ init -99 python:
             return self.map
 
         def scene_call(self, what, id, f, d):
-            rbc.data('scene_map', id=str(id), f=str(f), d=str(d))
+            rbc.setdata('scene_map', id=str(id), f=str(f), d=str(d))
             renpy.jump(what)
             # renpy.call_in_new_context(what,obj_id=obj_id)
 
@@ -427,7 +427,7 @@ label ramen_scene_goto:
 
     label _back:
         python:
-            rbc.data('scene_map', f=d, d=f, id=obj_id)
+            rbc.setdata('scene_map', f=d, d=f, id=obj_id)
             renpy.jump('ramen_scene_map')
 
     return
