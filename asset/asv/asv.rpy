@@ -111,7 +111,7 @@ init -197 python:
 
     gview = 'text'
 
-    def mval(o, v, r=[0, 10]):
+    def rai_mval(o, v, r=[0, 10]):
         print o
         o += float(v)
         o = round(o, 2)
@@ -453,16 +453,16 @@ screen rai_testpose(img):
 
                 hbox yalign 0.5 xfill True:
                     style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('xa', mval(xa, -dec, [0.0, 1.0]))
+                    textbutton "-" action SetLocalVariable('xa', rai_mval(xa, -dec, [0.0, 1.0]))
                     textbutton str(locals()['xa']) action SetLocalVariable('xa', 0.5)
-                    textbutton "+" action SetLocalVariable('xa', mval(xa, dec, [0.0, 1.0]))
+                    textbutton "+" action SetLocalVariable('xa', rai_mval(xa, dec, [0.0, 1.0]))
                 null height 16
 
                 hbox yalign 0.5 xfill True:
                     style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('zo', mval(zo, -dec, [0.1, 1.0]))
+                    textbutton "-" action SetLocalVariable('zo', rai_mval(zo, -dec, [0.1, 1.0]))
                     textbutton str(locals()['zo']) action SetLocalVariable('zo', 1.0)
-                    textbutton "+" action SetLocalVariable('zo', mval(zo, dec, [0.1, 1.0]))
+                    textbutton "+" action SetLocalVariable('zo', rai_mval(zo, dec, [0.1, 1.0]))
                 null height 16
 
                 text "at npc_align(" + str(locals()['xa']) + "," + str(locals()['zo']) + ")" style 'rai_text' size 18

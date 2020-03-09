@@ -2,7 +2,7 @@ init -9 python:
 
     cpuzzle_path=ramu.fn_getdir()
 
-    def rp_vars():
+    def cpuzzle_vars():
         return {
             'a': ramu.random_int(1,9),
             'b': ramu.random_int(1,9),
@@ -20,11 +20,11 @@ label cable_puzzle(broke=[]):
 
     python:
         rp={
-            'r1': rp_vars(),
-            'r2': rp_vars(),
-            'r3': rp_vars(),
-            'r4': rp_vars(),
-            'co': rp_vars()
+            'r1': cpuzzle_vars(),
+            'r2': cpuzzle_vars(),
+            'r3': cpuzzle_vars(),
+            'r4': cpuzzle_vars(),
+            'co': cpuzzle_vars()
         }
 
         if not broke == []:
