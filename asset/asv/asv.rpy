@@ -1,9 +1,12 @@
-init -197 python:
+init -10 python:
 
     RAMEN_DEV = True
     RD = {}
     RD.path = ramu.fn_getdir()
 
+    build.archive("asv", "all")
+    build.classify('game/'+ramu.fn_getdir()+'/**', 'asv')
+    
     def ramen_dev(what, item):
 
         if RAMEN_DEV:

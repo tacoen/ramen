@@ -7,16 +7,6 @@ label start:
     # init your game at start
     
     call _ramen_start()
-
-    menu:
-        "dialog":
-            jump dialog_demo
-        "scenery":
-            jump scenery_demo
-    jump start
-    
-    
-label dialog_demo:
     
     scene testbgr
     
@@ -28,9 +18,6 @@ label dialog_demo:
     Now we are using three quotes for narations.
     This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as  published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
     """
-
-    show screen bar_example()
-    
     mc "I am your main character."
     anon "a placeholder from annonymous, which can be named with 'rbc.anon_name'"
     mc "We talk, I speak."
