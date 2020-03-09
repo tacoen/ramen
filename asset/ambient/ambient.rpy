@@ -3,6 +3,16 @@ init -103 python:
     AMBIENT_PATH=ramu.fn_getdir()
     
     def ramen_ambient(what=None):
+        """
+        It's a shortcut to
+
+        ``` python
+        $ renpy.show_screen('ramen_ambient',what=what)
+        ```
+        
+        See [[Ambient|asset-ambient]]
+        """
+        
         renpy.show_screen('ramen_ambient',what=what)
     
 init -103:
