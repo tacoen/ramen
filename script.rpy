@@ -8,6 +8,16 @@ label start:
     
     call _ramen_start()
 
+    menu:
+        "dialog":
+            jump dialog_demo
+        "scenery":
+            jump scenery_demo
+    jump start
+    
+    
+label dialog_demo:
+    
     scene testbgr
     
     "This is a development version of Ramen, and not intent to be a release.{w} When you see this in your working project, you will know that is not ready yet."
@@ -39,6 +49,8 @@ label start:
     "1"
 
     "After this the game will end."
+
+    jump start
 
     # This ends the game.
 

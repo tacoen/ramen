@@ -1,8 +1,77 @@
-init -99 python:
+init -100 python:
 
     class npc(ramen_object):
+        """
+        Create a npc object. NPC, Non Player Character. a character of your renpy's visual novel. 
+        
+        ## How to Create a NPC
+        
+        ### Namespace
+        
+        ``` bash
+        game/mia/mia.rpy
+        game/mia/sprite/s0.png
+        game/mia/sprite/s1.png
+        game/mia/sprite/s2.png
+        game/mia/sprite/s3.png
+        game/mia/sprite/s4.png
+        game/mia/pose/smile.jpg
+        game/mia/pose/sad.jpg
+        game/mia/pose/bored.jpg
+        game/mia/audio/
+        game/mia/video/
+        game/mia/part/
+        ```
+
+        ### python code
+
+        ``` python 
+        mia = npc('mia',name='Mia',lastname='Oranama')
+        mia.spriteanim('dance',('s0','s1','s3','s4','s3'),(0.25,1,1,1,1))
+        mia.set_phonenum()
+        mia.gain('love',10)
+        ```
+        
+        ### renpy
+        
+        ``` python
+        show mia smile
+        mia 'Shall we dance?'
+        show mia dance
+        ```
+        
+        
+        """
 
         def load(self, id=None, **kwargs):
+            """
+            `load` is chained to __init__ at parent class
+            
+            Define Character() and its images.
+            
+            ``` python
+            joan = npc('joan', name='Joana', lastname='Hurry', callname='An')
+            ```
+            
+            kwargs:
+            
+            | keyword | argument/value |
+            | ---- | ---- |
+            | color | Color for character name in dialog. hexcolor or will be randomize |
+            | wcolor | Color for character text in dialog, hexcolor or will be `#d0d0d0` |
+            | name | Character name of will retrieve from id, textag: [joan.name] |
+            | callname | Character call name of will retrieve from name, textag: [joan.callname] |
+            | lastname | Character last name or will be empty string, textag: [joan.lastname]. `fullname` will be name + lastname |
+            | gender | just a value, realy! |
+
+            in label:
+            
+            ``` python
+            show joan hi
+            joan "Hi, everyone! My name is [joan.name]."
+            ```
+
+            """
 
             try:
                 self.__dict__['pose']
@@ -18,25 +87,26 @@ init -99 python:
                 self.wcolor = "#d0d0d0"
             try:
                 self.name
+                self.name = self.name.title()
             except BaseException:
                 self.name = self.id.title()
             try:
                 self.callname
+                self.callname = self.callname.title()
             except BaseException:
                 self.callname = self.name
             try:
                 self.lastname
+                self.lastname = self.lastname.title()
             except BaseException:
                 self.lastname = ""
             try:
                 self.gender
             except BaseException:
                 self.gender = "f"
-            try:
-                self.gender
-            except BaseException:
-                self.gender = "f"
 
+            self.fullname = str(self.name + " " + self.lastname).strip()
+            
             setattr(
                 character,
                 self.id.lower(),
@@ -54,7 +124,9 @@ init -99 python:
                 pass
 
         def extend(self):
-
+            """
+            Extend the character object.
+            """
             if isinstance(self.dir, list):
                 new_dir = self.dir
             else:
@@ -67,6 +139,7 @@ init -99 python:
             self.define_byfile()
 
         def get_stat(self):
+            """All characters store their stat inside `player`(mc). if its not defined, it will be loaded from `defaults`"""
 
             try:
                 mc.rel[self.id]
@@ -96,7 +169,7 @@ init -99 python:
             return mc.rel[self.id]
 
         def set_stat(self, **kwargs):
-
+            """Set the character stats (dup?)"""
             try:
                 mc.rel[self.id]
             except BaseException:
@@ -106,6 +179,7 @@ init -99 python:
                 mc.rel[self.id][k] = kwargs[k]
 
         def gain(self, what=None, value=1):
+            """Set the character stats within its limits"""
 
             # function that load from mc.rel
             stat = self.get_stat()
@@ -132,7 +206,10 @@ init -99 python:
             return self.__dict__['param']
 
         def define_byfile(self, main=None):
-
+            """
+            Called by init or load.
+            """
+            
             voids = ['profile', 'nsd-chat', 'side']
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")

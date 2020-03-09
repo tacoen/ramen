@@ -20,8 +20,8 @@ init -98 python:
             'map':False,
         },
         icons={
-            'pocket':[ '2','wallet', "Pocket", Function(hud_toggle,what='inventory') ],
-            'map':[ '3','map' , "Map", 'map', Function(hud_toggle,what='map') ],
+            'pocket':[ '2','wallet', "Pocket", Function(ramen_hud_toggle,what='inventory') ],
+            'map':[ '3','map' , "Map", 'map', Function(ramen_hud_toggle,what='map') ],
             'smp':[ '1','phone' , "Smartphone", ToggleScreen('smp_ui') ],
         },
         hbar={
@@ -59,7 +59,7 @@ screen hud_toolbar():
             hbox xoffset 48:
                 yalign 0.5
                 textbutton ("{:03d}".format(mc.score)) style "hud_score":
-                    action Function(hud_toggle,what='stats')
+                    action Function(ramen_hud_toggle,what='stats')
                     text_color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
                     text_hover_color hud.ui.fgcolor[rbc.hud_set]
                 hbox xoffset 8 yoffset 8:
@@ -132,12 +132,12 @@ screen hud_init():
         #add ramu.theme_image(THEME_PATH,"gui/hud-shade")
 
         key "K_F5" action SetVariable('rbc.hud_set',ramu.cycle(rbc.hud_set,hud.ui.bgcolor))
-        key "K_F6" action Function(hud_toggle,what='stats')
-        key "K_F8" action Function(hud_toggle,what='hud')
+        key "K_F6" action Function(ramen_hud_toggle,what='stats')
+        key "K_F8" action Function(ramen_hud_toggle,what='hud')
         key "shift_K_F8" action Function(ramu.toggle,what='quick_menu')
-        key "ctrl_K_F1" action Function(hud_toggle,what='legend')
+        key "ctrl_K_F1" action Function(ramen_hud_toggle,what='legend')
 
-        key "K_F9" action Function(hud_toggle,what='inventory')
+        key "K_F9" action Function(ramen_hud_toggle,what='inventory')
         key "K_F10" action ToggleScreen('smp_ui')
 
         if hud.ui.element['hud']:
@@ -153,7 +153,7 @@ screen hud_init():
             python:
                 hud_tic=ico('chevrons-down')
 
-        textbutton hud_tic xpos 16 ypos 18 action Function(hud_toggle,what='hud') style "hud_sunico":
+        textbutton hud_tic xpos 16 ypos 18 action Function(ramen_hud_toggle,what='hud') style "hud_sunico":
             if hud.ui.element['hud']:
                 text_color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.6)
                 text_hover_color hud.ui.fgcolor[rbc.hud_set]

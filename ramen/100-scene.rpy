@@ -1,7 +1,12 @@
 init -99 python:
 
     class scenery(ramen_object):
+        """ 
+        **From wikipedia:** Scenery is that which is used as a setting for a theatrical production. Scenery may be just about anything, from a single chair to an elaborately re-created street, no matter how large or how small, whether the item was custom-made or is the genuine item, appropriated for theatrical use.
 
+        See: [[scene example|game-scene]]
+        
+        """
         def load(self, id=None, **kwargs):
 
             scenes = self.files('scene')
@@ -127,6 +132,39 @@ init -99 python:
                     self.short[id][str('position')] = 'right'
 
         def mazing(self, **kwargs):
+            """
+            Maze setup for scenery imagemap
+            
+            | Keyword | Mark |
+            | ---- | ---- |
+            | floor | list of imgname for floor scene |
+            | hs | `ways`: [ (x,y) , keyfunc, hscode, img ] |
+            | add | `ways`: [ (x,y) , keyfunc, hscode, img ] |
+            
+            ``` python:
+            
+            mansion = scenery(id='mansion',main='f0')
+                
+            mansion.mazing(
+                floor=['f0','f1' ],
+                hs = {
+                    'r1':[(63,228),'goto'],
+                    'r2':[(655,228),'red_room'],
+                    'r3':[(909,228),'goto'],
+                },
+            
+            ```
+            
+            | Keyword | Mark |
+            | ---- | ---- | 
+            | (x,y) | top,left pixel position for the hotspot image |
+            | key/func | map, goto or yours own custom functions |
+            | hscode | imgname for hotspot |
+            | img | if imgname is not hscode |
+            
+            `mazing` will create `obj.map`
+            
+            """
 
             maze = {}
             ahs = {}
@@ -220,11 +258,31 @@ init -99 python:
             return self.map
 
         def scene_call(self, what, id, f, d):
+            """ See: [imagemaping](#imagemaping) """
+            
             rbc.setdata('scene_map', id=str(id), f=str(f), d=str(d))
             renpy.jump(what)
             # renpy.call_in_new_context(what,obj_id=obj_id)
 
         def imagemaping(self, floor, bgr=None):
+            
+            """
+            Create and return imagemap for `scene_mapping` (screen) from `obj.map`
+            
+            Ref: https://www.renpy.org/doc/html/screens.html#imagemap-statements
+
+            The action will be called in using this order 
+            
+              - True if label `obj_floor_hscode` exist
+              - True if label `obj_hscode` exist
+              - True if label `hscode` exist
+              - True if label `obj_floor_keyfunc` exist
+              - True if label `obj_keyfunc` exist
+              - True if label `keyfunc` exist
+              - True if label `ramen_scene_keyfunc` exist
+              - False
+            
+            """
 
             if not bgr or bgr is None:
                 bgr = ramu.get_sceneimg()
@@ -241,9 +299,6 @@ init -99 python:
             himg = ((0, 0), Solid('#fff0'))
 
             ways = self.map[floor]
-
-            try: self.doors
-            except: self.doors = {}
 
             for k in sorted(ways.keys()):
 
@@ -262,10 +317,10 @@ init -99 python:
                     # 2 hs code
                     # 3 img
                     
-                    if renpy.has_label(w[2]):
+                    if renpy.has_label(self.id + '_' + floor + "_" + w[2]):
                         action = Function(
                             self.scene_call,
-                            what=w[2],
+                            what=self.id + '_' + floor + "_" + w[2],
                             id=self.id,
                             f=floor,
                             d=w[2])
@@ -276,17 +331,10 @@ init -99 python:
                             id=self.id,
                             f=floor,
                             d=floor)
-                    elif renpy.has_label(self.id + '_' + floor + "_" + w[2]):
+                    elif renpy.has_label(w[2]):
                         action = Function(
                             self.scene_call,
-                            what=self.id + '_' + floor + "_" + w[2],
-                            id=self.id,
-                            f=floor,
-                            d=w[2])
-                    elif renpy.has_label(w[1]):
-                        action = Function(
-                            self.scene_call,
-                            what=w[1],
+                            what=w[2],
                             id=self.id,
                             f=floor,
                             d=w[2])
@@ -301,6 +349,13 @@ init -99 python:
                         action = Function(
                             self.scene_call,
                             what=self.id + '_' + w[1],
+                            id=self.id,
+                            f=floor,
+                            d=w[2])
+                    elif renpy.has_label(w[1]):
+                        action = Function(
+                            self.scene_call,
+                            what=w[1],
                             id=self.id,
                             f=floor,
                             d=w[2])

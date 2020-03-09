@@ -4,17 +4,15 @@ init -199 python:
 
     # renpy behave
 
-    def label_callback(name, abnormal):
+    def ramen_labelcallback(name, abnormal):
 
         store.last_label = name
 
         # event
         ramen_event_occuring()
+        ramen_cot(2,hygiene=0.5,vital=0.25)
 
-        # make game harder
-        cost_of_time()
-
-    config.label_callback = label_callback
+    config.label_callback = ramen_labelcallback
 
     rbc.event = object()
 
@@ -39,20 +37,49 @@ init -199 python:
                     if renpy.has_label(goto):
                         renpy.jump(goto)
 
-    def cost_of_time():
-
+    def ramen_cot(hour,**kwargs):
+        """ 
+        Cost of time. Make game harder using `rbc.tick` 
+        
+        #### Example:
+        
+        ``` python
+            ramen_cot(2,hygiene=0.5,vital=0.25)
+        ```
+        
+        Every 2 hours, reduce `hygiene` and `vital` from `mc.stat`
+        
+        """
+        
         if rbc.tick is None:
             rbc.tick = rbc.diff.total_seconds()
 
         hh = float(rbc.diff.total_seconds()) - float(rbc.tick)
-        if hh == float(2 * 3600):
-            mc.gain('energy', -0.5)
-            mc.gain('hygiene', -1)
+
+        if hh == float(hour * 3600):
+            for k in kwargs: mc.gain(k, -1*kwargs[k])
             rbc.tick = rbc.diff.total_seconds()
 
     class event():
 
         def __init__(self, id, label, **kwargs):
+            """
+            Create and set an event
+            
+            ``` python
+            event_test = event( 'test', 'white_room',
+                day=2,
+                hour=9,
+                sun=1,
+                require={
+                    'hygiene': 2
+                    },
+                call='eventest'
+                )
+            ```
+            
+            """
+            
             try:
                 rbc.events
             except BaseException:
@@ -110,8 +137,6 @@ init -199 python:
         except BaseException:
             pass
 
-#        print res
-
         try:
             if rbc.event.__dict__[id]['label'] == last_label:
                 res = True
@@ -120,17 +145,12 @@ init -199 python:
         except BaseException:
             pass
 
-#        print last_label
-#        print res
-
         if res:
             try:
                 if rbc.event.__dict__[id]['day'] > wo.dayplay:
                     res = True
             except BaseException:
                 pass
-
-#        print res
 
         if res:
 

@@ -24,9 +24,6 @@ init python:
         )
 
 
-label ramen_test:
-
-
 label scenery_demo:
 
     $ rbc.setdata('scene_map',id='sdemo',f='f0',d='f0')

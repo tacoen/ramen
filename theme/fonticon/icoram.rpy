@@ -23,6 +23,7 @@ init -198:
 init -197 python:
 
     def ico(what=None):
+        """ Translate Ramen Ico Webfont """
         i={
             'sun1':'d',
             'sun2':'a',

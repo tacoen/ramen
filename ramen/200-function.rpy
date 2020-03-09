@@ -22,9 +22,6 @@ init -208 python:
 
         # fn -- files functions
 
-        def coba(self,x,a=1,b=2,c=3):
-            return None
-            
         def fn_getdir(self):
             """Get the directory of the scripts from renpy.get_filename_line"""
 
@@ -296,19 +293,3 @@ init -208 python:
             if file and play:
                 renpy.music.play(file, loop=loop)
             return file
-
-
-# function to eval
-
-init -102 python:
-
-    def sceneimg():
-        t = tuple(renpy.get_showing_tags('master', True))
-        a = renpy.get_attributes(t[0])
-
-        try:
-            bgr = t[0] + " " + a[0]
-        except BaseException:
-            bgr = t[0]
-
-        return renpy.get_registered_image(bgr)

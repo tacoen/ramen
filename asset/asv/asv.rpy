@@ -14,7 +14,7 @@ init -197 python:
                 RD[what] = []
                 RD[what].append(item)
 
-    def gui_propCollect(t=None):
+    def ramendev_gui_propCollect(t=None):
 
         res = {}
         gk = sorted(gui.__dict__.keys())
@@ -107,7 +107,7 @@ init -197 python:
 
         known_gui = first + second
 
-        return gui_propCollect(known_gui)
+        return ramendev_gui_propCollect(known_gui)
 
     gview = 'text'
 

@@ -26,7 +26,7 @@ init -204 python:
                 _ramen_container.__dict__[what][k] = kwargs[k]
 
     class rn_obj(object):
-        """rn_obj=ramen native object"""
+        """Ramen Native Object. It's just like [[ramen_object]] but without functions. The reason why `rn_obj` was not a base class for `ramen_object`. It's because `ramen_object` was created first in this project; it's better late than sorry."""
 
         def __init__(self, default=False, **kwargs):
             self._ = default
@@ -146,6 +146,10 @@ init -204 python:
                 return super(object, self).__getattribute__(key)
 
         def ui_set(self, noparam=False, **kwargs):
+            """
+            Set the 'ramen_object' as `uiobj`. it can be retrieved by `obj.ui`. `uiobj` was base on `rn_obj`.
+            See: [[uiobj example|game-hud]]
+            """
 
             self.__dict__['ui'] = rn_obj(0)
 
@@ -311,8 +315,6 @@ init -204 python:
                 
                 n += 1
                 
-                
-        
         def index(self, what, where=None, ext='rpy'):
 
             try:

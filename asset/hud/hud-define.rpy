@@ -2,7 +2,7 @@ init -99 python:
 
     HUD_PATH=ramu.fn_getdir()
 
-    def hud_toggle(what,sfx=True):
+    def ramen_hud_toggle(what,sfx=True):
 
         try: hud.ui.element[what]
         except: hud.ui.element[what]=True
@@ -135,7 +135,7 @@ init -1:
                         text_size 16
                         text_color hud.ui.fgcolor[rbc.hud_set]
                         text_hover_color Color(hud.ui.fgcolor[rbc.hud_set]).tint(0.2)
-                        action Function(hud_toggle,what=element)
+                        action Function(ramen_hud_toggle,what=element)
                     null width 4
 
 
