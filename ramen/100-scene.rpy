@@ -1,12 +1,13 @@
 init -99 python:
 
     class scenery(ramen_object):
-        """ 
+        """
         **From wikipedia:** Scenery is that which is used as a setting for a theatrical production. Scenery may be just about anything, from a single chair to an elaborately re-created street, no matter how large or how small, whether the item was custom-made or is the genuine item, appropriated for theatrical use.
 
         See: [[scene example|game-scene]]
-        
+
         """
+
         def load(self, id=None, **kwargs):
 
             scenes = self.files('scene')
@@ -134,17 +135,17 @@ init -99 python:
         def mazing(self, **kwargs):
             """
             Maze setup for scenery imagemap
-            
+
             | Keyword | Mark |
             | ---- | ---- |
             | floor | list of imgname for floor scene |
             | hs | `ways`: [ (x,y) , keyfunc, hscode, img ] |
             | add | `ways`: [ (x,y) , keyfunc, hscode, img ] |
-            
+
             ``` python:
-            
+
             mansion = scenery(id='mansion',main='f0')
-                
+
             mansion.mazing(
                 floor=['f0','f1' ],
                 hs = {
@@ -152,18 +153,18 @@ init -99 python:
                     'r2':[(655,228),'red_room'],
                     'r3':[(909,228),'goto'],
                 },
-            
+
             ```
-            
+
             | Keyword | Mark |
-            | ---- | ---- | 
+            | ---- | ---- |
             | (x,y) | top,left pixel position for the hotspot image |
             | key/func | map, goto or yours own custom functions |
             | hscode | imgname for hotspot |
             | img | if imgname is not hscode |
-            
+
             `mazing` will create `obj.map`
-            
+
             """
 
             maze = {}
@@ -243,36 +244,37 @@ init -99 python:
                     except BaseException:
                         img = i
 
-                    if not renpy.has_label(self.id+"_"+f+"_"+dest):
-                        
+                    if not renpy.has_label(self.id + "_" + f + "_" + dest):
+
                         try:
                             if self.doors[f][dest] is not None:
                                 func = 'meet'
                                 dest = self.doors[f][dest].lower()
-                            
-                        except: pass
+
+                        except BaseException:
+                            pass
 
                     if dest is not None and xy:
-                        self.map[f][str(i)] = [xy, str(func), str(dest), str(img)]
+                        self.map[f][str(i)] = [xy, str(
+                            func), str(dest), str(img)]
 
             return self.map
 
         def scene_call(self, what, id, f, d):
             """ See: [imagemaping](#imagemaping) """
-            
+
             rbc.setdata('scene_map', id=str(id), f=str(f), d=str(d))
             renpy.jump(what)
             # renpy.call_in_new_context(what,obj_id=obj_id)
 
         def imagemaping(self, floor, bgr=None):
-            
             """
             Create and return imagemap for `scene_mapping` (screen) from `obj.map`
-            
+
             Ref: https://www.renpy.org/doc/html/screens.html#imagemap-statements
 
-            The action will be called in using this order 
-            
+            The action will be called in using this order
+
               - True if label `obj_floor_hscode` exist
               - True if label `obj_hscode` exist
               - True if label `hscode` exist
@@ -281,7 +283,7 @@ init -99 python:
               - True if label `keyfunc` exist
               - True if label `ramen_scene_keyfunc` exist
               - False
-            
+
             """
 
             if not bgr or bgr is None:
@@ -316,7 +318,7 @@ init -99 python:
                     # 1 key/func
                     # 2 hs code
                     # 3 img
-                    
+
                     if renpy.has_label(self.id + '_' + floor + "_" + w[2]):
                         action = Function(
                             self.scene_call,
@@ -420,30 +422,29 @@ label ramen_scene_map:
 
     window hide
     hide screen scene_mapping
-    
+
     python:
         obj_id = rbc.scene_map['id']
         f = rbc.scene_map['f']
         d = rbc.scene_map['d']
         obj = globals()[obj_id]
-        
-        #sometimes stupidos does it better:
 
-        try: 
+        # sometimes stupidos does it better:
+
+        try:
             obj.map[d]
             w = d
-        except:
+        except BaseException:
             w = f
-        
+
         renpy.scene()
         renpy.show(obj_id + " " + w)
         renpy.with_statement(dissolve)
-        
-        
+
     call screen scene_mapping(obj, w, ramu.get_sceneimg())
 
     return
-    
+
 label ramen_scene_goto:
 
     hide screen scene_mapping

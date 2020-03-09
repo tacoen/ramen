@@ -76,24 +76,24 @@ init -2:
         what_color="#ccc"
     )
 
-    image ctcon = Text("  "+ico('arrow-right'),line_leading=8,font=FONT_ICO_RAMEN,color="#fffc",size=16)
+    image ctcon = Text("  " + ico('arrow-right'), line_leading=8, font=FONT_ICO_RAMEN, color="#fffc", size=16)
 
     define character.caption = Character(
         None,
         window_xalign=0.1,
         window_yalign=0.15,
-        window_xsize=config.screen_width/2,
-        window_ysize= None,
-        window_padding=(0,0,0,0),
-        window_background= "#FFCC33DD",
+        window_xsize=config.screen_width / 2,
+        window_ysize=None,
+        window_padding=(0, 0, 0, 0),
+        window_background="#FFCC33DD",
         what_xalign=0.0,
-        what_xpos = 24,
+        what_xpos=24,
         what_yalign=0.5,
-        what_xsize= (config.screen_width/2) - 48,
+        what_xsize=(config.screen_width / 2) - 48,
         who_color="#ccc",
         what_color="#000",
         what_prefix="{vspace=24}{size=-1}{cps=80}",
-        what_suffix="{/cps}{/size}{vspace=0}",        
+        what_suffix="{/cps}{/size}{vspace=0}",
     )
 
     define character.tips = Character(
@@ -116,7 +116,7 @@ init -2:
         what_suffix="{/cps}",
         what_xalign=0.0,
         what_xpos=gui.dialogue_xpos,
-        what_xsize=gui.dialogue_width,        
+        what_xsize=gui.dialogue_width,
         ctc='ctcon'
     )
 

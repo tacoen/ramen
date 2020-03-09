@@ -286,7 +286,7 @@ screen real_quick_menu():
 
     frame ysize 32 xalign 1.0 yalign 1.0 xsize config.screen_width:
 
-        background gui.interface_background
+        background Color(gui.interface_background).opacity(.5)
 
         hbox:
             style_prefix "quick"

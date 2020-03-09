@@ -266,8 +266,8 @@ init -204 python:
             else:
                 return files
 
-        def makegallery(self,what,where=''):
-            
+        def makegallery(self, what, where=''):
+
             try:
                 self.__dict__['gallery']
             except BaseException:
@@ -277,44 +277,44 @@ init -204 python:
                 self.__dict__['gallery'][what]
             except BaseException:
                 self.__dict__['gallery'][what] = {}
-                
-                
+
             res = {}
             inf = renpy.get_filename_line()
             cf = inf[0].replace('game/', '')
-            d=[]
-            
+            d = []
+
             for f in sorted(self.files(where)):
                 fn = ramu.fn_info(f)
-                dirs = fn['dir'].replace(self.dir+'/','')
-                
+                dirs = fn['dir'].replace(self.dir + '/', '')
+
                 if dirs == self.dir:
                     dirs = None
-                
-                if dirs is not None: d.append(dirs)
-            
+
+                if dirs is not None:
+                    d.append(dirs)
+
             for dirs in list(d):
                 dc = self.__dict__['gallery'][what]
                 for x in dirs.split('/'):
                     dc = dc.setdefault(x, {})
 
-            n=0
+            n = 0
 
             for f in sorted(self.files(where)):
                 fn = ramu.fn_info(f)
-                dirs = f.replace(self.dir+"/",'')
+                dirs = f.replace(self.dir + "/", '')
 
                 d = dirs.split('/')
-                
+
                 s = str(n)
-                
-                if len(d)==2:
-                    self.__dict__['gallery'][what][d[0]][s]=f
-                elif len(d)==3:
-                    self.__dict__['gallery'][what][d[0]][d[1]][s]=f
-                
+
+                if len(d) == 2:
+                    self.__dict__['gallery'][what][d[0]][s] = f
+                elif len(d) == 3:
+                    self.__dict__['gallery'][what][d[0]][d[1]][s] = f
+
                 n += 1
-                
+
         def index(self, what, where=None, ext='rpy'):
 
             try:

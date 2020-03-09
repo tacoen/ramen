@@ -10,7 +10,7 @@ init -199 python:
 
         # event
         ramen_event_occuring()
-        ramen_cot(2,hygiene=0.5,vital=0.25)
+        ramen_cot(2, hygiene=0.5, vital=0.25)
 
     config.label_callback = ramen_labelcallback
 
@@ -37,27 +37,28 @@ init -199 python:
                     if renpy.has_label(goto):
                         renpy.jump(goto)
 
-    def ramen_cot(hour,**kwargs):
-        """ 
-        Cost of time. Make game harder using `rbc.tick` 
-        
+    def ramen_cot(hour, **kwargs):
+        """
+        Cost of time. Make game harder using `rbc.tick`
+
         #### Example:
-        
+
         ``` python
             ramen_cot(2,hygiene=0.5,vital=0.25)
         ```
-        
+
         Every 2 hours, reduce `hygiene` and `vital` from `mc.stat`
-        
+
         """
-        
+
         if rbc.tick is None:
             rbc.tick = rbc.diff.total_seconds()
 
         hh = float(rbc.diff.total_seconds()) - float(rbc.tick)
 
         if hh == float(hour * 3600):
-            for k in kwargs: mc.gain(k, -1*kwargs[k])
+            for k in kwargs:
+                mc.gain(k, -1 * kwargs[k])
             rbc.tick = rbc.diff.total_seconds()
 
     class event():
@@ -65,7 +66,7 @@ init -199 python:
         def __init__(self, id, label, **kwargs):
             """
             Create and set an event
-            
+
             ``` python
             event_test = event( 'test', 'white_room',
                 day=2,
@@ -77,9 +78,9 @@ init -199 python:
                 call='eventest'
                 )
             ```
-            
+
             """
-            
+
             try:
                 rbc.events
             except BaseException:

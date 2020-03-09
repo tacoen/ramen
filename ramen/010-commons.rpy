@@ -49,7 +49,7 @@ screen ramen_vsdisplay(img, sec=1, bounce=False):
 
 ## scene_mapping #########################################################
 
-screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None,ambient=None):
+screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=None, ambient=None):
 
     if img is not None:
 
@@ -82,7 +82,6 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
 
     if ambient is not None and renpy.has_screen('ramen_ambient'):
         use ramen_ambient('dark')
-
 
 
 ## scene_shorcut #######################################################

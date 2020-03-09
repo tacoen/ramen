@@ -2,12 +2,12 @@ init -100 python:
 
     class npc(ramen_object):
         """
-        Create a npc object. NPC, Non Player Character. a character of your renpy's visual novel. 
-        
+        Create a npc object. NPC, Non Player Character. a character of your renpy's visual novel.
+
         ## How to Create a NPC
-        
+
         ### Namespace
-        
+
         ``` bash
         game/mia/mia.rpy
         game/mia/sprite/s0.png
@@ -25,36 +25,36 @@ init -100 python:
 
         ### python code
 
-        ``` python 
+        ``` python
         mia = npc('mia',name='Mia',lastname='Oranama')
         mia.spriteanim('dance',('s0','s1','s3','s4','s3'),(0.25,1,1,1,1))
         mia.set_phonenum()
         mia.gain('love',10)
         ```
-        
+
         ### renpy
-        
+
         ``` python
         show mia smile
         mia 'Shall we dance?'
         show mia dance
         ```
-        
-        
+
+
         """
 
         def load(self, id=None, **kwargs):
             """
             `load` is chained to __init__ at parent class
-            
+
             Define Character() and its images.
-            
+
             ``` python
             joan = npc('joan', name='Joana', lastname='Hurry', callname='An')
             ```
-            
+
             kwargs:
-            
+
             | keyword | argument/value |
             | ---- | ---- |
             | color | Color for character name in dialog. hexcolor or will be randomize |
@@ -65,7 +65,7 @@ init -100 python:
             | gender | just a value, realy! |
 
             in label:
-            
+
             ``` python
             show joan hi
             joan "Hi, everyone! My name is [joan.name]."
@@ -106,7 +106,7 @@ init -100 python:
                 self.gender = "f"
 
             self.fullname = str(self.name + " " + self.lastname).strip()
-            
+
             setattr(
                 character,
                 self.id.lower(),
@@ -209,7 +209,7 @@ init -100 python:
             """
             Called by init or load.
             """
-            
+
             voids = ['profile', 'nsd-chat', 'side']
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")

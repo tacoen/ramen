@@ -311,7 +311,9 @@ screen rai_menu(tab):
         if tab in RD.keys():
             menus = RD[tab]
         if tab == 'ramen':
-            menus = ['ico', 'gui', 'vars', ]
+            menus = ['ico', 'gui', 'vars' ]
+            if 'ramen_documentation' in globals():
+                menus.append('compile_md')
         if tab == 'bucket':
             menus = ['param', 'worldtime']
 

@@ -30,19 +30,19 @@ init -208 python:
             return str(re.sub(r'^game/', '', dir))
 
         def fn_info(self, f):
-            """ 
+            """
             Get and extract the file information of the [file] as dict
 
             f = "e:/yourproject/game/npc/girls_of_90/alpha/lucy smile.png"
-            
+
             | key | mark | example |
             | ---- | ---- | ---- |
-            | file | filename | lucy smile.png | 
-            | name | name | lucy smile | 
+            | file | filename | lucy smile.png |
+            | name | name | lucy smile |
             | ext | extension | png |
-            | dir  | where the file was | npc/girl_of_90 | " 
+            | dir  | where the file was | npc/girl_of_90 | "
             | path | path | alpha |
-            
+
             """
 
             r = {}
@@ -256,15 +256,15 @@ init -208 python:
                     bgr = t[0]
 
             res = None
-            
+
             try:
                 res = renpy.get_registered_image(bgr).filename
-                
+
             except BaseException:
 
                 if condition is None:
                     condition = wo.suntime
-                
+
                 rl = renpy.get_registered_image(bgr).child.args[0]
 
                 for r in rl:
@@ -302,7 +302,7 @@ init -208 python:
             if not file:
                 file = self.fn_ezy(DEFAULT_SFXPATH + "/" +
                                    what, ['.ogg', '.mp3', '.wav'])
-                                   
+
             if file and play:
                 renpy.music.play(file, loop=loop)
             return file
