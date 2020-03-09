@@ -30,7 +30,20 @@ init -208 python:
             return str(re.sub(r'^game/', '', dir))
 
         def fn_info(self, f):
-            """ Get and extract the file information of the [file] as dict"""
+            """ 
+            Get and extract the file information of the [file] as dict
+
+            f = "e:/yourproject/game/npc/girls_of_90/alpha/lucy smile.png"
+            
+            | key | mark | example |
+            | ---- | ---- | ---- |
+            | file | filename | lucy smile.png | 
+            | name | name | lucy smile | 
+            | ext | extension | png |
+            | dir  | where the file was | npc/girl_of_90 | " 
+            | path | path | alpha |
+            
+            """
 
             r = {}
             r[str('path')], r[str('file')] = ntpath.split(f)
@@ -43,7 +56,7 @@ init -208 python:
             return r
 
         def fn_ezy(self, file, ext=['.jpg', '.png', '.webp']):
-            """Get renpy.loadable [file] base on last-seen [extension-list]"""
+            """Get renpy.loadable [file] base on last-seen [ext] extension-list"""
 
             rfile = False
             n = 0
