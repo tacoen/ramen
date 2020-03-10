@@ -1,0 +1,7 @@
+{
+"1":[ "Hi!", "Hello!", "You know what?", "We're chating inside JSON file.","Realy?","Yes, I'm sure about it" ],
+"2":[ "Did you know?", "What is it?", "Our chat is not important.","It's was randomize." ],
+"3":[ "Did you know?", "Yes?", "This is randomize","Yeah, I feel it to." ],
+"4":[ "[wo.greet]", "[wo.daytime].", "text tagging is working in chat like this.","That why, I know you. [mc_name]" ],
+"5":[ "First, I talk.","","Then, you talk.","","But you are speechless aren't you?","I'am actually talking, but on whitespaces.","Correct!" ]
+}
