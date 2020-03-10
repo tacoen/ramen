@@ -475,13 +475,13 @@ label ramen_scene_goto:
             choice = menu(doors)
 
             if choice == 'Return':
-                renpy.jump('_back')
+                renpy.jump('ramen_scene_goto.back')
             else:
                 renpy.jump(choice)
 
     "Nothing responding..."
 
-    label _back:
+    label .back:
         python:
             rbc.setdata('scene_map', f=d, d=f, id=obj_id)
             renpy.jump('ramen_scene_map')

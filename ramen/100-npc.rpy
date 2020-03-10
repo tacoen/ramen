@@ -9,18 +9,20 @@ init -100 python:
         ### Namespace
 
         ``` bash
-        game/mia/mia.rpy
-        game/mia/sprite/s0.png
-        game/mia/sprite/s1.png
-        game/mia/sprite/s2.png
-        game/mia/sprite/s3.png
-        game/mia/sprite/s4.png
-        game/mia/pose/smile.jpg
-        game/mia/pose/sad.jpg
-        game/mia/pose/bored.jpg
-        game/mia/audio/
-        game/mia/video/
-        game/mia/part/
+        . mia.rpy
+        + -- /sprite/
+             +-- s0.png
+             +-- s1.png
+             +-- s2.png
+             +-- s3.png
+             +-- s4.png
+        +-- /pose/
+             +-- smile.jpg
+             +-- sad.jpg
+             +-- bored.jpg
+        +-- audio/
+        +-- video/
+        +-- expression/
         ```
 
         ### python code
@@ -217,7 +219,7 @@ init -100 python:
             if files == []:
                 return False
 
-            conte = ['sprite', 'video', 'audio']
+            conte = ['expression', 'sprite', 'video', 'audio']
 
             self.__dict__[str('side')] = {}
 
@@ -290,6 +292,54 @@ init -100 python:
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:
                     pass
+
+        def express(self,xy,expimg=None):
+            """
+            Put Expression to your NPC, inside the game.
+            
+            ``` python
+            init python:
+                tina = npc('tina')
+            
+            label start:
+                show tina standing
+                $ tina.express( (70,125), 'smile')
+            ```
+
+            * 'tina standing' was the template, a faceless image
+            * (70,125) is (x,y) pos relative to the image
+            * the size and ATL will be retrieved from 'tina standing'
+            * use `None` to remove/hide it: `$ tina.express(None)`
+            * the list of expressions in on `tina.expression`
+
+            """
+            
+            if xy is None:
+                renpy.hide('ramen_npc_expression')
+                return False
+                
+            t= ''
+            s = tuple(renpy.get_showing_tags())
+            if self.id in s:
+                a = renpy.get_attributes(self.id)
+                try: t = " " + str(a[0])
+                except: pass
+            else:
+                return False
+                
+            try:
+                res = renpy.get_registered_image(self.id+t).filename                
+            except:
+                res = False
+                
+            if res:
+                hw = renpy.image_size(res)
+                compo = Composite( hw, (0,0), res, xy, self.expression[expimg] )
+                atl = renpy.get_at_list(self.id+t)
+            
+            renpy.show_screen('ramen_npc_expression',compo, atl)
+            
+            return res
 
         def create_sideimage(self, img, temp_img, tag):
             if temp_img:

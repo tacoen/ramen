@@ -27,6 +27,13 @@ transform vertscrolling(sec):
     pause .25
     easeout sec / 2 yoffset 720
 
+
+## npc expression ####################################
+
+screen ramen_npc_expression(img,atl):
+    layer 'master'
+    add img at atl
+
 ## woclock ####################################
 
 screen ramen_woclock():

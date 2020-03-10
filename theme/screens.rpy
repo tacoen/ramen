@@ -102,7 +102,9 @@ screen say(who, what):
             xalign 0.0
 
         if not str(who).endswith("~"):
-            background gui.textbox_background
+        
+            if not renpy.get_screen('choice'):
+                background gui.textbox_background
 
         if who is None or str(who).endswith("~"):
             text what id "what" xalign 0.5
@@ -236,7 +238,7 @@ style choice_button_text is button_text
 
 style choice_vbox:
     xalign 0.5
-    yalign 0.75
+    yalign 0.85
     yanchor 1.0
 
     spacing gui.choice_spacing
