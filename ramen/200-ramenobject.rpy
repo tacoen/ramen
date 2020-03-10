@@ -67,7 +67,8 @@ init -204 python:
                 self.__dict__[str('param')] = {}
 
             inf = renpy.get_filename_line()
-            dir, fn = ntpath.split(inf[0])
+            dir = os.path.dirname(inf[0])
+            fn = os.path.basename(inf[0])
             f, e = fn.split('.')
 
             if dir == 'renpy/common':

@@ -1,6 +1,6 @@
 init -208 python:
 
-    import ntpath
+#    import ntpath
     import re
     import datetime
     import copy
@@ -8,7 +8,8 @@ init -208 python:
     import json
     import uuid
     import random
-
+    import os
+    
     try:
         RAMEN_DEV
     except BaseException:
@@ -26,8 +27,7 @@ init -208 python:
             """Get the directory of the scripts from renpy.get_filename_line"""
 
             inf = renpy.get_filename_line()
-            dir, fn = ntpath.split(inf[0])
-            return str(re.sub(r'^game/', '', dir))
+            return str(re.sub(r'^game/', '', os.path.dirname(inf[0])))
 
         def fn_info(self, f):
             """
@@ -46,13 +46,14 @@ init -208 python:
             """
 
             r = {}
-            r[str('path')], r[str('file')] = ntpath.split(f)
+            r[str('path')] = os.path.dirname(f)
+            r[str('file')] = os.path.basename(f)
             a = r['file'].split('.')
             r[str('name')] = str(a[0])
             r[str('ext')] = str(a[1])
             r[str('dir')] = str(r['path'])
             r[str('path')] = r['path'].replace(
-                ntpath.dirname(r['path']) + "/", '')
+                os.path.dirname(r['path']) + "/", '')
             return r
 
         def fn_ezy(self, file, ext=['.jpg', '.png', '.webp']):
