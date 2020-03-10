@@ -16,7 +16,7 @@ init -100 python:
 
         def setting(self, **kwagrs):
 
-            self.footer = "\n\n[[Home]] | [[Class Index|index]] | [[Function|function]] | [[Init level|init_level]]\n"
+            self.footer = ""
             self.title = 'Ramen'
             self.home_info = "Renpy according me, a modular approach. It is renpy framework to help you creating of visual novell game."
 
@@ -297,7 +297,7 @@ init -100 python:
             self.collect_init()
         # home
 
-            home = "#" + self.title
+            home = "# " + self.title + "\n\n"
             home += "\n" + self.home_info + "\n\n"
 
             home += "## Reference:\n\n"
