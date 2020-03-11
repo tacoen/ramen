@@ -43,8 +43,6 @@ init -2:
     default _ramen_container = _ramen_container
     default mc = mc
 
-    $ mc__ = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor="#eeee66", color="#ffffff")
-
     # mc from third party views:
 
     define character.thou = Character(

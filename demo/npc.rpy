@@ -8,20 +8,34 @@ init -1 python:
     
     hoshi.by_expression('hs',(70,125))
 
-    renpy.image('hoshi coba', hoshi.expression['upset'] )
-    
-label ramen_test:
+    mc_name = 'Lucas'
 
-    "pppp"
 
 label demo_npc:
 
-    show hoshi hs at npc_align(0.8,1)
-    $ hoshi.express((70,125),ramu.random_of(hoshi.expression.keys()))
+    show demo red
 
-    hoshi "My name is [hoshi.fullname]. You can call me [hoshi.callname].{w}\nI am Visual Novel Free Sprite Asset by Liah."
-    hoshi "{a=https://liah0227.itch.io/hoshiko}https://liah0227.itch.io/hoshiko{/a}"
-    hoshi "You can find my sister and other Liah creations at\n{a=https://itch.io/profile/liah0227}https://itch.io/profile/liah0227{/a}"
+    show hoshi hs_smile at npc_align(0.8,1)
+
+    hoshi "My name is [hoshi.name]. You can call me [hoshi.callname].{w}"
+
+    label .start:
+        menu:
+            'intro':
+                hoshi "I am Visual Novel Sprite Asset by Liah."
+                hoshi "{a=https://liah0227.itch.io/hoshiko}https://liah0227.itch.io/hoshiko{/a}"
+                hoshi "You can find other Liah creations at\n{a=https://itch.io/profile/liah0227}https://itch.io/profile/liah0227{/a}"
+            
+            'non-story dialog':
+                'Non-story dialog, is a dialog defined by .json file'
+                show hoshi hs_shy
+                $ hoshi.chat_usingjson()
+            'npc expression':
+                jump demo_npc_expression
+            'exit':
+                jump demo_floor1
+    jump .start
+    
 
 label demo_npc_expression:
 

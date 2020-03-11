@@ -109,11 +109,16 @@ init -100 python:
 
             self.fullname = str(self.name + " " + self.lastname).strip()
 
+            if "[" in self.name:
+                safename = self.name.lower()
+            else:
+                safename = self.name
+
             setattr(
                 character,
                 self.id.lower(),
                 Character(
-                    self.name,
+                    safename,
                     who_color=self.color,
                     what_color=self.wcolor,
                     image=self.id))
@@ -172,6 +177,7 @@ init -100 python:
 
         def set_stat(self, **kwargs):
             """Set the character stats (dup?)"""
+            
             try:
                 mc.rel[self.id]
             except BaseException:
@@ -209,10 +215,10 @@ init -100 python:
 
         def define_byfile(self, main=None):
             """
-            Called by init or load.
+            Called by init or load. Define everything in `namespaces` 
             """
 
-            voids = ['profile', 'nsd-chat', 'side']
+            voids = ['profile', 'chat', 'side']
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")
 
@@ -342,7 +348,8 @@ init -100 python:
             """
             
             if xy is None:
-                renpy.hide('ramen_npc_expression')
+                print "---!"
+                renpy.hide_screen('ramen_npc_expression')
                 return False
                 
             t= ''
@@ -427,10 +434,18 @@ init -100 python:
         def chat_usingjson(
                 self,
                 key=None,
-                use_pose=True,
-                file=None,
+                use_pose=False,
+                file='chat',
                 pose=None):
-
+                
+            """
+            Start a dialog using JSON file. 
+            
+            ``` python
+            $ monica.chat_usingjson(None,True,'daily','standing')
+            ```
+            """
+            
             if file is None:
                 try:
                     l = sorted(self.json.keys())
