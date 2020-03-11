@@ -292,10 +292,37 @@ init -100 python:
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:
                     pass
+                    
+        def by_expression(self,pose,xy=(0,0)):
+            """
+            ``` python:
+                tina.by_expression('hs',(70,125))
+            ```
+
+            * tina.expression.keys() = [ 'happy', 'sad' ]
+            * create: `tina hs_happy`, `tina hs_sad` 
+
+            See: [[#expressa]], [[#express]]
+            """
+
+            for e in self.expression.keys():
+                renpy.image(self.id+" "+pose+"_"+e.lower(), self.expressa(pose,xy,e))
+        
+        def expressa(self, atag, xy, expimg=None):
+            """
+            Put Expression to your NPC, inside the game. by compose them.
+
+            Also See: [[#express]]
+            """
+
+            res = renpy.get_registered_image(self.id+" "+str(atag)).filename                
+            hw = renpy.image_size(res)
+            compo = Composite( hw, (0,0), res, xy, self.expression[expimg] )
+            return compo
 
         def express(self,xy,expimg=None):
             """
-            Put Expression to your NPC, inside the game.
+            Put Expression to your NPC, inside the game. Using 'screens'.
             
             ``` python
             init python:
@@ -334,12 +361,12 @@ init -100 python:
                 
             if res:
                 hw = renpy.image_size(res)
-                compo = Composite( hw, (0,0), res, xy, self.expression[expimg] )
-                atl = renpy.get_at_list(self.id+t)
             
-            renpy.show_screen('ramen_npc_expression',compo, atl)
+            atl = renpy.get_at_list(self.id+t)
             
-            return res
+            renpy.show_screen('ramen_npc_expression',self.expression[expimg], hw, xy, atl)
+            
+            #return res
 
         def create_sideimage(self, img, temp_img, tag):
             if temp_img:
@@ -552,3 +579,5 @@ init -100 python:
                 rbc.answered = False
 
             return rbc.answered
+
+    

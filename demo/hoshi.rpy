@@ -5,9 +5,14 @@ init -1 python:
         callname='Hoshi',
         lastname='Liah'
     )
+    
+    hoshi.by_expression('hs',(70,125))
 
-
+    renpy.image('hoshi coba', hoshi.expression['upset'] )
+    
 label ramen_test:
+
+    "pppp"
 
 label demo_npc:
 

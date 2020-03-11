@@ -30,9 +30,9 @@ transform vertscrolling(sec):
 
 ## npc expression ####################################
 
-screen ramen_npc_expression(img,atl):
-    layer 'master'
-    add img at atl
+screen ramen_npc_expression(img, hw, xy, atl):
+    hbox xsize hw[0] ysize hw[1] at atl:
+        add img pos xy
 
 ## woclock ####################################
 
