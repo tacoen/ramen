@@ -60,7 +60,7 @@ init -204 python:
     class ramen_object:
 
         def __init__(self, id=None, **param):
-
+            """ramen_object need uuid module to make 'id' for unnamed object. """
             try:
                 self.param
             except BaseException:
@@ -242,7 +242,7 @@ init -204 python:
             else:
                 self.__dict__[str(key)] = default
 
-        def files(self, key=None, scope=None):
+        def files(self, key=None, scope=None, ext=None):
             """set object as files container"""
 
             files = []
@@ -260,6 +260,9 @@ init -204 python:
 
             for d in dirs:
                 files += filter(lambda w: d + "/" + key in w, F)
+                
+            if ext is not None:
+                files = filter(lambda w:w.endswith(ext), files)
 
             if scope is not None:
                 res = filter(lambda w: scope in w, files)
@@ -268,6 +271,7 @@ init -204 python:
                 return files
 
         def makegallery(self, what, where=''):
+            """Make and set ramen_object as gallery of image/video/audio."""
 
             try:
                 self.__dict__['gallery']
@@ -316,7 +320,12 @@ init -204 python:
 
                 n += 1
 
-        def index(self, what, where=None, ext='rpy'):
+        def index(self, what, where=None, ext='rpy', suffix=None):
+            """
+            Make and set ramen_object as screen aplication index/list
+            
+            See: [[#index_update]]
+            """
 
             try:
                 self.__dict__[what]
@@ -326,15 +335,63 @@ init -204 python:
             res = {}
             inf = renpy.get_filename_line()
             cf = inf[0].replace('game/', '')
+            
+            if where is None: where = ""
 
             for f in sorted(self.files(where)):
-                if not f == cf and f.endswith(ext):
-                    fn = ramu.fn_info(f)
-                    res[fn['name']] = {}
+                if not f == cf:
+                    if suffix is not None:
+                        ew = "-"+suffix+"."+ext
+                    else:
+                        ew = "."+ext
 
-            self.__dict__[str(what)] = res
+                    if f.endswith(ew):
+                        fn = ramu.fn_info(f)
+                        if suffix is not None:
+                            print suffix
+                            fn['name']=fn['name'].replace("-"+suffix,'')
+
+                        res[fn['name']] = {}
+
+                    self.__dict__[str(what)] = res
 
         def index_update(self, what='apps', **kwargs):
+            """
+            Set the apps as part of the screens aplication index/list.
+
+            in game/phone/phone.rpy
+            
+            ``` python
+            smp = ramen_object(id='smp')            
+            smp.index('apps', 'apps', 'rpy')
+            ```
+            
+            in game/phone/apps/mytask.rpy:
+            
+            ``` python
+            smp.index_update(
+                title='My Task',
+                hcolor='#c11',
+                order=1,
+            )
+            ````
+
+            in game/herphone/apps/secret.rpy:
+            
+            ``` python
+            smp.index_update(
+                title='Secret Revealer',
+                hcolor='#900',
+                order=5,
+                active=False
+            )
+            ````
+            
+            * both aplication with shown in `smp`. But 'Secret Notes' not active.
+            * to make it active `smp.apps['secret']['active']=True`
+            * 'secret' retrieved from its filename (secret.rpy)
+            
+            """
 
             inf = renpy.get_filename_line()
             i = ramu.fn_info(inf[0])
@@ -366,7 +423,13 @@ init -204 python:
             except BaseException:
                 self.__dict__[str(what)][apps]['bgr'] = "#ffffff"
 
+            try:
+                self.__dict__[str(what)][apps]['active']
+            except BaseException:
+                self.__dict__[str(what)][apps]['active'] = True
+
         def get_dir(self, p=0):
+            """get the ramen_object directory and its extender, when obj.dir become a list."""
 
             if isinstance(self.dir, (unicode, str)):
                 return self.dir

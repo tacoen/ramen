@@ -5,7 +5,6 @@ init -203 python:
         def load(self, id=None, **kwargs):
             self.ui_set(True, **kwargs)
 
-
 init -96 python:
 
     class npcrowd(ramen_object):

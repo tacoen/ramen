@@ -3,6 +3,15 @@ init -10 python:
     RAMEN_DEV = True
     RD = {}
     RD.path = ramu.fn_getdir()
+    
+    ram.component(
+        'asv',
+        title = "Ramen Object Inspector",
+        version = "1.0",
+        author = "tacoen",
+        author_url = 'https://github.com/tacoen/ramen',
+        desc = "A debug tools for developer, If you include this in your distributions, this became a cheating tools.",
+    )
 
     build.archive("asv", "all")
     build.classify('game/'+ramu.fn_getdir()+'/**', 'asv')
@@ -476,9 +485,9 @@ screen rai_ctlheader(title=None):
 
     python:
         if title is None:
-            title = "Ramen Asset Inspector"
+            title = "Ramen Object Inspector"
         else:
-            title = "Ramen Asset Inspector: " + title
+            title = "Ramen Object Inspector: " + title
 
         rdtabs = RD.keys()
 
