@@ -1,13 +1,15 @@
 transform slide_pause(s):
 
     alpha 0.1
-    easein 0.5 alpha 1
-    pause float(s) - 1
-    easeout 0.5 alpha 0.1
+    easein 1 alpha 1
+    pause float(s) - 2
+    easeout 1 alpha 0.1
     repeat
 
 screen tvshow(list, s=3, loop=True):
 
+    $ if s < 3: s = 3
+    
     python:
 
         if s < 3:
@@ -33,14 +35,18 @@ screen tvshow(list, s=3, loop=True):
 
         add(im.Scale(list[n], tv.ui.w, tv.ui.h)) at slide_pause(s)
 
-#    text str(locals()['n'])+ repr(len(list))
-
     timer s action[SetLocalVariable('n', n + 1)] repeat True
 
 screen tv(obj, what, channel=None, length=None, second=3, loop=True):
 
+    key "K_ESCAPE" action Hide('tv')
+
     layer 'above-screens'
-    add(obj.dir + '/tv.png')
+    
+    if renpy.loadable(obj.dir + '/body.png'):
+        add(obj.dir + '/body.png')
+    else:
+        add Solid('#000000')
 
     $ gal = obj.gallery[what]
 
@@ -54,8 +60,10 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
         except BaseException:
             random = False
 
-    hbox pos tv.exitarea:
-        textbutton 'stop' action Hide('tv')
+    imagebutton pos tv.exitarea action Hide('tv'):
+        idle(obj.dir+'/btn.png')
+        hover(obj.dir+'/btn-hover.png') 
+            
 
     # text repr(locals()['chan'])
 

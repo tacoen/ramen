@@ -8,7 +8,8 @@ init -98 python:
         y=0,
         w=config.screen_width,
         h=config.screen_height/10,
-        sun=['g','a','c','d','e'],
+        
+        sun=['g','g','a','c','c','d','e','e','e'],
         bgcolor=[ "#0000", "#fff", "#000c", "#fffc", "#123", "#123c" ],
         fgcolor=[ "#eee", "#111", "#fff", "#000", "#eee", "#fff" ],
         winbgcolor=[ '#333', '#ddd', '#333', '#ddd', '#333', '#333' ],

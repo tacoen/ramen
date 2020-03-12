@@ -555,13 +555,18 @@ init -100 python:
 
                 rbc.onphone = True
 
-                renpy.sound.play(
-                    PHONE_SFXPATH +
-                    "/phone-ring.mp3",
-                    channel='sound',
-                    loop=3,
-                    fadeout=1,
-                    fadein=0)
+                try:
+                    renpy.sound.play(
+                        PHONE_SFXPATH +
+                        "/phone-ring.mp3",
+                        channel='sound',
+                        loop=3,
+                        fadeout=1,
+                        fadein=0)
+                except: 
+                    print "--- The phone_sfxpath/phone-ring can't be found."
+                pass
+                
                 renpy.show(
                     self.id + " incall",
                     [phone_speak],

@@ -1,6 +1,6 @@
 ﻿# The game starts here.
 
-image testbgr = Solid('#234')
+
 
 label start:
 
@@ -8,17 +8,31 @@ label start:
     
     call _ramen_start()
     
-    scene testbgr
+    #
     
+    scene slate
+
     "This is a development version of Ramen, and not intent to be a release.{w} When you see this in your working project, you will know that is not ready yet."
+    
+    
+    menu:
+        'Demo':
+            jump demo
+        'others':
+            jump other
+            
+
+label other:
 
     narator "I am a narator just like the line before me.{w}\nBut, I'm best when you want a multiline."
+
+    mc "I am your main character."
 
     narator """
     Now we are using three quotes for narations.
     This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as  published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
     """
-    mc "I am your main character."
+    
     anon "a placeholder from annonymous, which can be named with 'rbc.anon_name'"
     mc "We talk, I speak."
     thou "In your mind."
@@ -42,4 +56,5 @@ label start:
     # This ends the game.
 
     return
+
 

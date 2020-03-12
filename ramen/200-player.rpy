@@ -30,7 +30,8 @@ init -203 python:
             self._inventory = {}
             self.__dict__['rel'] = {}
             
-            mc_npc = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor="#eeee66", color="#ffffff")            
+            
+            globals()['mc__'] = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor="#eeee66", color="#ffffff")            
 
         def newname(self, name, lastname):
             self.name = name.title()

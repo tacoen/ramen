@@ -422,7 +422,7 @@ screen rai_testpose(img):
         except BaseException:
             ghost = False
 
-    $ bgr = ramu.fn_ezy(RD.path + "/testbgr")
+    $ bgr = ramu.fn_ezy(RD.path + "/asvbgr")
 
     frame background bgr xpos 0 ypos 0 xsize config.screen_width ysize config.screen_height:
         padding(0, 0)

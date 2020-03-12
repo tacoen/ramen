@@ -27,13 +27,9 @@ init -1 python:
     demo.shortcut(id='goback',icon='log-out',goto='demo',position='left',text="Exit",show_on=['floor0'])        
         
         
-label ramen_test:
-
 label demo:
 
-    scene testbgr
-    
-    "Welcome to ramen demo!"
+    tips "See the source, young padawan. See the Source you must."
    
 label demo_scenery:
 
@@ -43,7 +39,6 @@ label demo_floor1:
 
     $ rbc.setdata('scene_map',id='demo',f='floor1',d='floor1')
     jump ramen_scene_map
-    
     
 label demo_floor2:
 

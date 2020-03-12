@@ -1,6 +1,7 @@
 init -102 python:
 
     class phone(ramen_object):
+        """ phone class is deprecated, use ramen_object instead """
 
         def load(self, id=None, **kwargs):
             self.index('apps', 'apps', 'rpy')
@@ -11,7 +12,7 @@ init -102 python:
             scrs = filter(
                 lambda fw: 'smp_ui' in fw,
                 renpy.get_showing_tags('screens'))
-            if 'phone_ui' not in scrs:
+            if 'smp_ui' not in scrs:
                 renpy.show_screen('smp_ui', app=appname)
 
         def hide(self,):

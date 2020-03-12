@@ -1,5 +1,11 @@
 init -205 python:
 
+    class norb(NoRollback):
+        """No rollback! https://www.renpy.org/doc/html/save_load_rollback.html#norollback"""
+        
+        def __init__(self):
+            self.value = 0
+
     class WorldTime:
         """
         Ramen use python datetime for it's game. It also support strftime(format) method, to create a string representing the time under the control of an explicit format string.
@@ -19,6 +25,8 @@ init -205 python:
         See: [[scenery]]
 
         Ref: https://docs.python.org/2/library/datetime.html
+        
+        Note: Wordltime is 'NoRollback!' as `datetime` was not in renpy.
 
         """
 
@@ -137,7 +145,13 @@ init -205 python:
             self.time_populate()
 
         def adv(self, a=1, block=False):
-            """advance `a` hour(s), for half hours: `obj.adv(0.5)`. For 15 minuets: `obj.adv(0.25)`. To reverse the time, `obj.adv(-1)` also can be used, but beware."""
+            """
+            Advance `a` hour(s).
+             * For half hours: `obj.adv(0.5)`. 
+             * For 15 minuets: `obj.adv(0.25)`. 
+             * To reverse the time, `obj.adv(-1)` also can be used, but beware.
+             * if block is True, then no-rollback.
+            """
             self.time = self.time + datetime.timedelta(hours=a)
             self.time_populate()
             if block:
