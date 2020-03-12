@@ -31,6 +31,7 @@ transform vertscrolling(sec):
 ## npc expression ####################################
 
 screen ramen_npc_expression(img, hw, xy, atl):
+    layer 'master'
     hbox xsize hw[0] ysize hw[1] at atl:
         add img pos xy
 
