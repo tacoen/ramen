@@ -43,6 +43,14 @@ init -105 python:
                 self._component[str(a)] = {}
                 self._component[str(a)]['dir'] = fn['dir']
                 
+        def _call(self, func, **kwargs):
+            """Call a modular function and pass their keyword argument. Return `False` if fail/errors"""
+            
+            try: res = globals()[func](**kwargs)
+            except: res = False
+            
+            return res
+                
         def component(self,what,**kwargs):
             """
             Set the component, and to get the component use _component. 

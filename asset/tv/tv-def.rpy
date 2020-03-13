@@ -1,3 +1,14 @@
+init -80 python:
+
+    ram.component(
+        'tv',
+        title = "tv",
+        version = "1.0",
+        author = "tacoen",
+        author_url = 'https://github.com/tacoen/ramen',
+        desc = "Ramen Object Gallery Slideshow screen interface",
+    )
+
 transform slide_pause(s):
 
     alpha 0.1
@@ -12,25 +23,24 @@ screen tvshow(list, s=3, loop=True):
     
     python:
 
+        try:
+            locals()['n']
+        except:
+            locals()['n'] = 0
+
+        n = locals()['n']
+        
         if s < 3:
             s = 3
-
-        try:
-            n
-        except BaseException:
-            n = 0
 
         if n == len(list) - 1:
             if not loop:
                 renpy.hide_screen('tvshow')
-
-        try:
-            img = list[n]
-
-        except BaseException:
-            n = 0
-            img = list[n]
-
+            else:
+                n = 0
+            
+        img = list[n]
+            
     hbox xpos tv.ui.x ypos tv.ui.y:
 
         add(im.Scale(list[n], tv.ui.w, tv.ui.h)) at slide_pause(s)
@@ -64,17 +74,14 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
         idle(obj.dir+'/btn.png')
         hover(obj.dir+'/btn-hover.png') 
             
-
-    # text repr(locals()['chan'])
-
     if chan is None:
 
         vbox xpos tv.ui.x ypos tv.ui.y:
-
+            spacing 24
             for c in gal.keys():
                 $ cz = c.replace('-random', '')
                 $ cz = cz.replace('-show', '')
-                textbutton cz action[SetLocalVariable('chan', c)]
+                textbutton cz action[SetLocalVariable('chan', c)] text_size 24 xoffset 24
     else:
 
         python:
@@ -89,6 +96,8 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
                 except BaseException:
                     ld = sorted(gal[chan].values())
 
+                print ld
+                
                 if chan.endswith('-show') or length is None:
                     length = len(ld)
 

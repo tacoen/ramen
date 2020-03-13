@@ -321,11 +321,7 @@ init -204 python:
                 n += 1
 
         def index(self, what, where=None, ext='rpy', suffix=None):
-            """
-            Make and set ramen_object as screen aplication index/list
-            
-            See: [[#index_update]]
-            """
+            """Make and set ramen_object as screen aplication index/list"""
 
             try:
                 self.__dict__[what]
@@ -356,42 +352,6 @@ init -204 python:
                     self.__dict__[str(what)] = res
 
         def index_update(self, what='apps', **kwargs):
-            """
-            Set the apps as part of the screens aplication index/list.
-
-            in game/phone/phone.rpy
-            
-            ``` python
-            smp = ramen_object(id='smp')            
-            smp.index('apps', 'apps', 'rpy')
-            ```
-            
-            in game/phone/apps/mytask.rpy:
-            
-            ``` python
-            smp.index_update(
-                title='My Task',
-                hcolor='#c11',
-                order=1,
-            )
-            ````
-
-            in game/herphone/apps/secret.rpy:
-            
-            ``` python
-            smp.index_update(
-                title='Secret Revealer',
-                hcolor='#900',
-                order=5,
-                active=False
-            )
-            ````
-            
-            * both aplication with shown in `smp`. But 'Secret Notes' not active.
-            * to make it active `smp.apps['secret']['active']=True`
-            * 'secret' retrieved from its filename (secret.rpy)
-            
-            """
 
             inf = renpy.get_filename_line()
             i = ramu.fn_info(inf[0])

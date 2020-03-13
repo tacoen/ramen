@@ -1,14 +1,25 @@
-init -100 python:
+init -80 python:
 
+    ram.component(
+        'ramendoc',
+        title = "Ramen Markdown generator",
+        version = "1.0",
+        author = "tacoen",
+        author_url = 'https://github.com/tacoen/ramen',
+        desc = "Because my pydoc doesn't work in renpy, please set the `MD_PATH`",
+    )
+    
     build.archive("ramendoc", "all")
     build.classify('game/' + ramu.fn_getdir() + '/**', 'ramendoc')
+
+    MD_PATH = "E:/pp-renpy/ramen/wiki/"
 
     class ramen_documentation():
         """ Create a md documentations from __doc__. base on pydoc but customized for renpy/ramen """
 
         def __init__(self, **kwagrs):
 
-            self.dir = "E:/pp-renpy/ramen/wiki/"
+            self.dir = MD_PATH
             self.rs = ''
             self.files = filter(
                 lambda w: w.endswith(".rpy"), sorted(

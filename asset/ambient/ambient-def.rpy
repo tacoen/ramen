@@ -1,21 +1,25 @@
-init -103 python:
+init -80 python:
 
-    AMBIENT_PATH=ramu.fn_getdir()
+    ram.component(
+        'asv',
+        title = "Ramen Ambient Screens",
+        version = "1.0",
+        author = "tacoen",
+        author_url = 'https://github.com/tacoen/ramen',
+        desc = "Add ambient as screen. you need to add layer 'ambient'.",
+    )
     
     def ramen_ambient(what=None):
         """
         It's a shortcut to
-
         ``` python
         $ renpy.show_screen('ramen_ambient',what=what)
         ```
-        
-        See [[Ambient|asset-ambient]]
         """
         
         renpy.show_screen('ramen_ambient',what=what)
     
-init -103:
+init -81:
 
     screen ramen_ambient(what=None):
     
@@ -23,7 +27,7 @@ init -103:
         
         python:
             if what is None: what = 'indoor'
-            img = (ramu.fn_ezy(AMBIENT_PATH+"/"+what))
+            img = (ramu.fn_ezy(ram._component['ambient']['dir']+"/"+what))
 
         if img:
             hbox xpos 0 ypos 0:
