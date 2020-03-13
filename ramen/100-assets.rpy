@@ -49,7 +49,7 @@ init -105 python:
             
             ``` python
             
-            ramen_asset.component(
+            ram.component(
                 'asv',
                 title = "Ramen Object Inspector",
                 version = "1.0",
