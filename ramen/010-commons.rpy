@@ -92,8 +92,10 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
     if shortcuts is not None:
         use scene_shortcut(scene_id, shortcuts, shortcut_position)
 
-    if ambient is not None and renpy.has_screen('ramen_ambient'):
-        use ramen_ambient('dark')
+    python:
+    
+        if renpy.has_screen('ramen_ambient') and ambient is not None:
+            renpy.use_screen('ramen_ambient',what=ambient)
 
 
 ## scene_shorcut #######################################################
