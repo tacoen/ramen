@@ -1,7 +1,7 @@
 init -80 python:
 
     ram.component(
-        'asv',
+        'ambient',
         title = "Ramen Ambient Screens",
         version = "1.0",
         author = "tacoen",

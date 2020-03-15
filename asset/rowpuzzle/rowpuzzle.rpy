@@ -1,5 +1,14 @@
 init -9 python:
 
+    ram.component(
+        'rowpuzzle',
+        title = "Row Puzzle",
+        version = "1.0",
+        author = "tacoen",
+        author_url = 'https://github.com/tacoen/ramen',
+        desc = "Minigame: Row Puzzle",
+    )
+    
     cpuzzle_path=ramu.fn_getdir()
 
     def cpuzzle_vars():
@@ -16,9 +25,11 @@ init -9 python:
 label cable_puzzle(broke=[]):
 
     # need to reset vars
-    hide screen cable_puzzle
 
     python:
+
+        renpy.hide_screen('cable_puzzle')
+
         rp={
             'r1': cpuzzle_vars(),
             'r2': cpuzzle_vars(),
