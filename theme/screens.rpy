@@ -352,6 +352,10 @@ screen navigation():
 
             if main_menu:
                 textbutton _("Start") action Start()
+
+                if RAMEN_EPISODES_MENU and renpy.has_screen('ramen_episode_menu'):
+                    textbutton _("Episodes") action ShowMenu('ramen_episode_menu')
+                    
             else:
                 textbutton _("History") action ShowMenu("history")
                 textbutton _("Save") action ShowMenu("save")
@@ -366,7 +370,7 @@ screen navigation():
 
             textbutton _("About") action ShowMenu("about")
 
-            if renpy.has_screen('ramen_ai_menu'):
+            if RAMEN_DEV and renpy.has_screen('ramen_ai_menu'):
                 textbutton _("Asset") action Show('ramen_ai_menu')
 
             if renpy.variant("pc") or (renpy.variant(
