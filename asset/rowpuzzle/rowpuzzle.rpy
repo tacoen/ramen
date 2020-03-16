@@ -8,6 +8,9 @@ init -9 python:
         author_url = 'https://github.com/tacoen/ramen',
         desc = "Minigame: Row Puzzle",
     )
+
+    build.archive("mg_rowpuzzle", "all")
+    build.classify('game/' + ramu.fn_getdir() + '/**', 'mg_rowpuzzle')
     
     cpuzzle_path=ramu.fn_getdir()
 

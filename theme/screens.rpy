@@ -123,7 +123,11 @@ screen say(who, what):
     if not renpy.variant("small"):
     
         if not "{noside}" in what:
-            add SideImage() xalign 1.0 yalign 1.0
+            if who == "thou":
+                add SideImage() xalign 1.0 yalign 1.0
+            else:
+                add SideImage() xalign 0.0 yalign 1.0
+            
 
 # Make the namebox available for styling through the Character object.
 

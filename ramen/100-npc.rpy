@@ -121,7 +121,10 @@ init -100 python:
                     safename,
                     who_color=self.color,
                     what_color=self.wcolor,
-                    image=self.id))
+                    image=self.id,
+#                    window_left_padding=160
+                    )
+            )
 
             self.define_byfile()
 
@@ -222,10 +225,12 @@ init -100 python:
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")
 
+            print files
+            
             if files == []:
                 return False
 
-            conte = ['expression', 'sprite', 'video', 'audio']
+            conte = ['expression', 'sprite', 'video', 'audio', 'side']
 
             self.__dict__[str('side')] = {}
 
@@ -252,7 +257,9 @@ init -100 python:
                     renpy.image('side ' + self.id, f)
                     self.side[self.id, f]
 
+
                 if p['path'] in conte:
+
                     try:
                         if not p['name'] in voids:
                             self.__dict__[p['path']][str(p['name'])] = str(f)
@@ -261,8 +268,7 @@ init -100 python:
                         if not p['name'] in voids:
                             self.__dict__[p['path']][str(p['name'])] = str(f)
                 else:
-                    if not p['name'] in voids and p['ext'] in [
-                            'webp', 'jpg', 'png']:
+                    if not p['name'] in voids and p['ext'] in ['webp', 'jpg', 'png']:
                         self.__dict__['pose'][str(p['name'])] = str(f)
 
             n = 0
@@ -281,7 +287,13 @@ init -100 python:
 
             try:
                 for v in self.video.keys():
-                    renpy.image((self.id, v), Movie(play=alina.video[v]))
+                    renpy.image((self.id, v), Movie(play=self.video[v]))
+            except BaseException:
+                pass
+
+            try:
+                for v in self.side.keys():
+                    renpy.image('side '+ self.id +" "+v, self.side[v] )
             except BaseException:
                 pass
 
