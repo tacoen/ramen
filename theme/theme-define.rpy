@@ -27,7 +27,7 @@ init -99 python:
 
     gui.init(1280, 720)
 
-init -12 python:
+init -190 python:
 
     # must before gui.rpy
 

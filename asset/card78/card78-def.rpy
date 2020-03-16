@@ -11,7 +11,7 @@ init -78 python:
 
     build.archive("card78", "all")
     build.classify('game/'+ramu.fn_getdir()+'/**', 'card78')
-    
+
     c78_cardpath = ramu.fn_getdir()+"/card/"
     renpy.image('c78_table', ramu.fn_getdir()+"/table.webp")
 
@@ -33,12 +33,12 @@ screen c78_score():
             text "[ipoint]"
 
 screen c78_bet():
-    
+
     style_prefix 'choice'
-    
+
     vbox:
 
-        
+
         if btnn<5:
             textbutton "Bet" xalign .5 yalign .8  action [
                 SetVariable("karta"+str(btnn),
@@ -52,15 +52,15 @@ screen c78_bet():
                 SetVariable("btnn",btnn+1),
                 Jump("card78.cpui")
                 ]
-                
+
             $ sword = 'Hold'
         else:
             $ sword = 'Stand'
-        
+
         textbutton sword xalign .5 yalign .84 action Jump("card78.cstand")
 
 screen c78(rpa,rpo):
-   
+
     vbox xalign .5 yalign .2 xoffset 0:
         add c78_cardpath+str(kart1+kartm1)+".png"
         at transform:
@@ -96,13 +96,13 @@ screen c78(rpa,rpo):
             rotate rpa[0]
 
 label card78(bet):
-    
+
     python:
         rpo = ramu.random_series(5,-5,5)
         rpa = ramu.random_series(5,-4,4)
-        
+
     scene c78_table
-    
+
     python:
         btnn=2
         kart1=ramu.random_int(2,11)
@@ -131,7 +131,7 @@ label card78(bet):
         jump .bgme
 
     label .cpui:
-    
+
         if cpupoint>16:
             if btnn==4:
                 $ kart3=0
@@ -161,13 +161,13 @@ label card78(bet):
             elif karta4==11:
                 $ karta4=1
             $ ipoint=karta1+karta2+karta3+karta4
-        
+
         jump .bgme
 
     label .cstand:
-    
+
         hide screen c78_bet
-        
+
         $ cpupoint=kart1+kart2+kart3+kart4
         $ ipoint=karta1+karta2+karta3+karta4
         if ipoint>21:
@@ -224,4 +224,3 @@ label c78_lost(bet):
     c78_dealer @lost "[text]\n{w}You Win $ [bet]."
     return
 
-    

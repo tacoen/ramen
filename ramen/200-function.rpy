@@ -113,36 +113,44 @@ init -208 python:
                 return hex_color
 
         def color_Darken(self, hex_color, ammount=0.2):
+            """Utilize renpy color.rpy."""
             return Color(hex_color).shade(ammount)
 
         def color_Brighten(self, hex_color, amount=0.2):
+            """Utilize renpy color.rpy."""
             return Color(hex_color).tint(1 - float(ammount))
 
         # Love the random (renpy.random.randint)
 
         def color_random(self, lo=0, hi=255):
+            """Color be random. """
+            if lo < 96: lo = 96
+            if hi > 255: hi = 255
             def r(): return renpy.random.randint(lo, hi)
             return ('#%02X%02X%02X' % (r(), r(), r()))
 
         random_color = color_random
 
         def random_shuffle(self, array):
-            random.shuffle(array)
+            renpy.random_shuffle(array)
             return array
 
         def random_series(self, many=5,min=-5,max=5):
+            """Return random series of number from min to max for many.""" 
             r = []
             for n in range(0,many-1):
                 r.append(self.random_int(min,max))
             return r
 
         def random_int(self, min=0, max=1, array=False):
+            """renpy.random.randint made easy."""
             if array:
                 return array[int(renpy.random.randint(min, max) - 1)]
             else:
                 return int(renpy.random.randint(min, max))
 
         def random_of(self, array):
+            """renpy.random.randint of array/list."""
             return array[int(renpy.random.randint(0, len(array) - 1))]
 
         # mc interaction

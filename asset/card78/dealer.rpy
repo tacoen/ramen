@@ -30,7 +30,7 @@ init -77 python:
         "Thanks for playing, [mc_name].",
         "Have a nice "+ wo.daytime+", buddy."
     ]
-    
+
     c78_dealer.word['win'] = [
         "Like always it should be done.",
         "Ace for me!",
@@ -73,7 +73,7 @@ init -77 python:
 label c78_play:
 
     scene c78_table
-    
+
     $ text = ramu.random_of(c78_dealer.word['greets'])
 
     menu:

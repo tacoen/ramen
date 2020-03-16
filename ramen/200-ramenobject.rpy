@@ -34,6 +34,7 @@ init -204 python:
             self.load(default, **kwargs)
 
         def set(self, **kwargs):
+            
             for k in kwargs:
                 self.__dict__[k] = kwargs[k]
 
