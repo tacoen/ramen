@@ -79,14 +79,24 @@ init -100 python:
                 self.__dict__['pose']
             except BaseException:
                 self.__dict__['pose'] = {}
+
             try:
-                self.color
+                self.__dict__['chaattr']
             except BaseException:
-                self.color = ramu.color_random(128, 255)
+                self.__dict__['chaattr'] = {}
+
             try:
-                self.wcolor
+                self.chaattr['who_color']=str(self.color)
+                del self.color
             except BaseException:
-                self.wcolor = "#d0d0d0"
+                self.chaattr['who_color']=str(ramu.color_random(128, 255))
+
+            try:
+                self.chaattr['what_color']=str(self.wcolor)
+                del self.wcolor
+            except BaseException:
+                self.chaattr['what_color']=str("#d9d9d9")
+
             try:
                 self.name
                 self.name = self.name.title()
@@ -114,15 +124,24 @@ init -100 python:
             else:
                 safename = self.name
 
+            delm = []
+            
+            for p in self.param:
+                for chp in [ 'window_', 'who_', 'what_' ]:
+                    if p.startswith(chp): 
+                        self.chaattr[p] = self.param[p]
+                        delm.append(p)
+                    
+            for d in delm:
+                del self.param[d]
+            
             setattr(
                 character,
                 self.id.lower(),
                 Character(
                     safename,
-                    who_color=self.color,
-                    what_color=self.wcolor,
                     image=self.id,
-#                    window_left_padding=160
+                    **self.chaattr
                     )
             )
 
@@ -225,7 +244,6 @@ init -100 python:
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")
 
-            print files
             
             if files == []:
                 return False
@@ -305,8 +323,8 @@ init -100 python:
             pi = ['phone-incall', 'phone-outcall', 'phone-oncall']
 
             for i in pi:
-                temp_img = ramu.theme_image(THEME_PATH, i)
                 try:
+                    temp_img = ramu.theme_image(THEME_PATH, i)
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:
                     pass
@@ -360,7 +378,6 @@ init -100 python:
             """
             
             if xy is None:
-                print "---!"
                 renpy.hide_screen('ramen_npc_expression')
                 return False
                 

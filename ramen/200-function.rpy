@@ -130,6 +130,12 @@ init -208 python:
             random.shuffle(array)
             return array
 
+        def random_series(self, many=5,min=-5,max=5):
+            r = []
+            for n in range(0,many-1):
+                r.append(self.random_int(min,max))
+            return r
+
         def random_int(self, min=0, max=1, array=False):
             if array:
                 return array[int(renpy.random.randint(min, max) - 1)]
