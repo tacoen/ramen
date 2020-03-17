@@ -1,35 +1,111 @@
 ﻿# The init offset statement causes the initialization statements in this file
 # to run before init statements in any other file.
 
-init offset = -11
+
+init offset = -19
 
 define gui.language = "unicode"
-
-define gui.text_font = game_font
-define gui.text_size = 20
-define gui.text_color = Color('#dddddd')
-define gui.idle_color = Color('#ffffff')
-define gui.insensitive_color = gui.idle_color.shade(0.9)
-define gui.muted_color = gui.idle_color.shade(0.7)
-
-define gui.hover_color = Color("#eebb00")
-define gui.selected_color = gui.hover_color.shade(0.9)
-define gui.hover_muted_color = gui.hover_color.shade(0.7)
 
 define gui.accent_color = Color('#69c')
 define gui.hyperlink_text_color = gui.accent_color.shade(0.9)
 
+define gui.hover_color = Color("#eebb00")
+define gui.hover_muted_color = gui.hover_color.shade(0.7)
+define gui.selected_color = gui.hover_color.shade(0.9)
+
+define gui.idle_color = Color('#ffffff')
+define gui.insensitive_color = gui.idle_color.shade(0.9)
+define gui.muted_color = gui.idle_color.shade(0.7)
+
+define gui.text_font = font.game_text
+define gui.text_color = Color('#dddddd')
+define gui.text_size = 20
+
 define gui.label_text_size = 24
 define gui.label_text_color = gui.accent_color.tint(0.3)
-define gui.label_text_font = FONT_PATH + '/WorkSans-Regular.ttf'
+define gui.label_text_font = font.ui_label
 
-define gui.name_text_font = FONT_PATH + '/WorkSans-SemiBold.ttf'
+define gui.name_text_font = font.game_label
 define gui.name_text_size = 22
 define gui.name_text_color = '#fff'
 
 define gui.title_text_size = 48
 define gui.title_text_color = gui.hover_color
-define gui.title_text_font = FONT_PATH + '/WorkSans-Light.ttf'
+define gui.title_text_font = font.ui_title
+
+style default:
+    properties gui.text_properties()
+    language gui.language
+    antialias True
+
+define gui.input_text_font = font.game_text
+define gui.input_text_size = 22
+define gui.input_text_color = Color('#f0f9fC')
+
+style input:
+    properties gui.text_properties("input", accent=True)
+    adjust_spacing False
+
+style hyperlink_text:
+    properties gui.text_properties("hyperlink", accent=True)
+    hover_underline True
+
+style button:
+    properties gui.button_properties("button")
+
+style button_text is default:
+    properties gui.text_properties("button")
+    yalign 0.5
+
+style label_text is default:
+    properties gui.text_properties("label", accent=True)
+
+style prompt_text is default:
+    properties gui.text_properties("prompt")
+
+# Interface
+
+define gui.interface_text_font = font.ui_text
+define gui.interface_text_size = 24
+define gui.interface_text_color = Color('#ddd')
+define gui.interface_idle_color = gui.interface_text_color
+define gui.interface_hover_color = gui.accent_color
+define gui.interface_selected_color = gui.accent_color.tint(0.3)
+define gui.interface_insensitive_color = gui.interface_idle_color.shade(0.9)
+define gui.interface_muted_color = gui.interface_idle_color.shade(0.7)
+
+define gui.interface_background = gui.game_menu_background.tint(0.3)
+
+style gui_text is default:
+    properties gui.text_properties('interface')
+
+# Navigation
+
+define gui.navigation_text_font = font.ui_text
+define gui.navigation_xpos = 40
+define gui.navigation_spacing = 10
+define gui.navigation_button_width = 220
+define gui.navigation_button_text_size = 24
+define gui.navigation_button_text_xalign = 0.0
+define gui.navigation_button_text_hover_color = gui.interface_hover_color
+define gui.navigation_button_text_color = Color("#ddd")
+define gui.navigation_button_text_idle_color = gui.navigation_button_text_color
+define gui.navigation_button_text_selected_color = gui.interface_selected_color
+define gui.navigation_xsize = (2 * gui.navigation_xpos) + gui.navigation_button_width
+define gui.navigation_button_text_font = gui.interface_text_font
+define gui.navigation_button_text_hover_underline = True
+define gui.navigation_button_text_selected_bold = True
+
+define gui.navigation_background = gui.game_menu_overlay.shade(0.2)
+
+style navigation_button is gui_button
+
+style navigation_button:
+    size_group "navigation"
+    properties gui.button_properties("navigation_button")
+
+style navigation_button_text is gui_button_text:
+    properties gui.button_text_properties("navigation_button")
 
 ## Bars, Scrollbars, and Sliders #########################################
 
@@ -53,72 +129,12 @@ define gui.vbar_borders = Borders(4, 4, 4, 4)
 define gui.vscrollbar_borders = Borders(4, 4, 4, 4)
 define gui.vslider_borders = Borders(4, 4, 4, 4)
 
-define gui.game_menu_background = Color('#123')
-define gui.game_menu_overlay = gui.game_menu_background.opacity(0.2)
 
-# Interface
 
-define gui.interface_background = gui.game_menu_background.tint(0.3)
-define gui.interface_text_font = gui_font
-define gui.interface_text_size = 24
-define gui.interface_text_color = Color('#ddd')
-define gui.interface_idle_color = gui.interface_text_color
-define gui.interface_hover_color = gui.accent_color
-define gui.interface_selected_color = gui.accent_color.tint(0.3)
-define gui.interface_insensitive_color = gui.interface_idle_color.shade(0.9)
-define gui.interface_muted_color = gui.interface_idle_color.shade(0.7)
 
-define gui.navigation_background = gui.game_menu_overlay.shade(0.5)
-define gui.navigation_text_font = gui_font
-define gui.navigation_xpos = 40
-define gui.navigation_spacing = 8
-define gui.navigation_button_width = 220
-define gui.navigation_button_text_size = 24
-define gui.navigation_button_text_xalign = 0.0
-define gui.navigation_button_text_hover_color = gui.interface_hover_color
-define gui.navigation_button_text_color = Color("#ddd")
-define gui.navigation_button_text_idle_color = gui.navigation_button_text_color
-define gui.navigation_button_text_selected_color = gui.interface_selected_color
-define gui.navigation_xsize = (2 * gui.navigation_xpos) + gui.navigation_button_width
-define gui.navigation_button_text_font = gui.interface_text_font
-define gui.navigation_button_text_hover_underline = True
-define gui.navigation_button_text_selected_bold = True
 
-define gui.input_text_font = game_font
-define gui.input_text_size = 22
-define gui.input_text_color = Color('#f0f9fC')
 
-# The images used for the main and game menus.
 
-init python:
-
-    if renpy.loadable(THEME_PATH + "/main_menu.png"):
-        main_menu_background = THEME_PATH + "/main_menu.png"
-    else:
-        main_menu_background = gui.game_menu_background
-
-    if renpy.loadable(THEME_PATH + "/game_menu.png"):
-        game_menu_background = THEME_PATH + "/game_menu.png"
-    else:
-        game_menu_background = gui.game_menu_background
-
-    if renpy.loadable(THEME_PATH + "/ingame-overlay.png"):
-        gui.game_menu_overlay = THEME_PATH + "/ingame-overlay.png"
-    else:
-        gui.game_menu_overlay = gui.game_menu_overlay
-
-    if renpy.loadable(THEME_PATH + "/menu_frame.png"):
-        game_menu_frame = THEME_PATH + "/menu_frame.png"
-    else:
-        game_menu_frame = gui.game_menu_overlay
-
-    if ramu.sfx(THEME_PATH, "audio/open-theme", False):
-        config.main_menu_music = ramu.sfx(THEME_PATH, "audio/open-theme", False)
-
-define gui.main_menu_background = main_menu_background
-define gui.game_menu_background = game_menu_background
-define gui.game_menu_frame = game_menu_frame
-define gui.game_menu_width = 280
 
 define gui.quick_button_text_font = FONT_ICO_RAMEN
 define gui.quick_button_borders = Borders(16, 0, 16, 4)
@@ -137,13 +153,13 @@ define gui.confirm_frame_background = Frame(
 
 define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
 
-define gui.confirm_prompt_text_font = gui_font
+define gui.confirm_prompt_text_font = font.ui_text
 define gui.confirm_prompt_text_size = 22
 define gui.confirm_prompt_text_color = gui.confirm_background.replace_lightness(0)
 
 define gui.confirm_button_text_xalign = 0.5
 define gui.confirm_button_text_size = 22
-define gui.confirm_button_text_font = FONT_PATH + '/WorkSans-SemiBold.ttf'
+define gui.confirm_button_text_font = gui.interface_text_font
 define gui.confirm_button_text_idle_color = gui.interface_hover_color
 define gui.confirm_button_text_hover_color = gui.interface_hover_color.tint(0.1)
 
@@ -219,7 +235,7 @@ define gui.button_borders = Borders(4, 4, 4, 4)
 # will be linearly scaled.
 
 define gui.button_tile = False
-define gui.button_text_font = gui.interface_text_font
+define gui.button_text_font = gui.text_font
 define gui.button_text_size = gui.interface_text_size
 define gui.button_text_idle_color = gui.interface_idle_color
 define gui.button_text_hover_color = gui.interface_hover_color

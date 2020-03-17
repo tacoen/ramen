@@ -147,7 +147,7 @@ screen ramen_episode_menu():
 
     tag menu
 
-    use game_menu(_("Episodes"), scroll="viewport"):
+    use game_menu(_("Episodes"), scroll="vpgrid"):
 
         vpgrid:
             cols 3

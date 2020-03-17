@@ -69,7 +69,7 @@ define phone_hangup = Character("Phone",
         
 style smp_ui is default
 
-style smp_ui_text is abel_font:
+style smp_ui_text is ramen_gui:
     size 14
     color "#eee"
 
@@ -123,7 +123,7 @@ screen smp_main(apps=None):
             idle(smp.dir + "/images/btn.png")
             hover(smp.dir + "/images/btn-hover.png")
 
-        text wo.clock color "#fff" style 'abel_font' xpos style['smp']['area']['display'].xpos + 8 ypos style['smp']['area']['display'].ypos + 8 size 48
+        text wo.clock color "#fff" style 'ramen_gui' xpos style['smp']['area']['display'].xpos + 8 ypos style['smp']['area']['display'].ypos + 8 size 48
 
         if rbc.smp_apps is None:
 
@@ -181,7 +181,7 @@ transform phone_ringging:
 
 style phone_notif is default
 
-style phone_notif_text is abel_font:
+style phone_notif_text is ramen_gui:
     color "#333"
 
 style phone_notif_frame:
@@ -199,9 +199,9 @@ style phone_notif_name is phone_notif_text:
 style phone_btn:
     padding(8, 8)
 
-style phone_btn_text is abel_font
-style phone_btn_green_text is abel_font
-style phone_btn_red_text is abel_font
+style phone_btn_text is ramen_gui
+style phone_btn_green_text is ramen_gui
+style phone_btn_red_text is ramen_gui
 
 style phone_btn_green is phone_btn:
     background Solid('#090')

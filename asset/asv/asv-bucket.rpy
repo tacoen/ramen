@@ -24,7 +24,7 @@ screen rai_bucket_param():
 
                 hbox:
                     text k min_width 200
-                    text val style 'abel_font'
+                    text val style 'ramen_gui'
 
 screen rai_bucket_worldtime():
 

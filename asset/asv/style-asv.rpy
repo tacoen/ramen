@@ -1,12 +1,12 @@
 style devtheme is default
-style devtheme_text is abel_font:
+style devtheme_text is ramen_gui:
     color "#ccc"
 
-style devtheme_textbutton is button
-style devtheme_textbutton_text_font is abel_font
+style devtheme_button is button
+style devtheme_button_text_font is ramen_gui
 
 style rai is default
-style rai_text is abel_font:
+style rai_text is ramen_gui:
     size 16
 
 style rai_nav is rai

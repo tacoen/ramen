@@ -1,37 +1,61 @@
-init -99:
+init -21 python:
+    
+    try: FONT_PATH
+    except NameError: FONT_PATH = ramu.fn_getdir()
+    
+    font = object()
 
-    python:
-        try: FONT_PATH
-        except NameError: FONT_PATH=ramu.fn_getdir()
+    font.game_text = FONT_PATH+'/WorkSans-Regular.ttf'
+    font.game_label = FONT_PATH+'/WorkSans-SemiBold.ttf'
 
-        gui_font=ramu.fn_getdir()+'/Abel-Regular.ttf'
-        game_font=ramu.fn_getdir()+'/WorkSans-Regular.ttf'
-        game_label_font=ramu.fn_getdir()+'/WorkSans-SemiBold.ttf'
-        game_title_font=ramu.fn_getdir()+'/WorkSans-Light.ttf'
+    font.ui_title=FONT_PATH+'/WorkSans-ExtraLight.ttf'
+    font.ui_label=FONT_PATH+'/WorkSans-Light.ttf'
+    font.ui_text = FONT_PATH+'/Abel-Regular.ttf'
 
-    style abel_font:
-        font ramu.fn_getdir()+'/Abel-Regular.ttf'
-        antialias True
+    gui.main_menu_background = Color('#123')
+    gui.game_menu_background = Color('#234')
+    gui.game_menu_overlay = gui.game_menu_background.opacity(0.5)
+    gui.game_menu_frame = gui.game_menu_overlay
+    gui.game_menu_width = 300
+    
+    if renpy.loadable(THEME_PATH + "/main_menu.png"):
+        gui.main_menu_background = THEME_PATH + "/main_menu.png"
 
-    style ramen_gui:
-        font ramu.fn_getdir()+'/WorkSans-Light.ttf'
-        antialias True
-        size 22
+    if renpy.loadable(THEME_PATH + "/game_menu.png"):
+        gui.game_menu_background = THEME_PATH + "/game_menu.png"
 
-    style ramen_text:
-        font ramu.fn_getdir()+'/WorkSans-Regular.ttf'
-        antialias True
-        size 22
+    if renpy.loadable(THEME_PATH + "/ingame-overlay.png"):
+        gui.game_menu_overlay = THEME_PATH + "/ingame-overlay.png"
 
+    if renpy.loadable(THEME_PATH + "/menu_frame.png"):
+        gui.game_menu_frame = THEME_PATH + "/menu_frame.png"
 
-    style ramen_title:
-        font ramu.fn_getdir()+'/WorkSans-ExtraLight.ttf'
-        antialias True
-        size 48
+    if ramu.sfx(THEME_PATH, "audio/open-theme", False):
+        config.main_menu_music = ramu.sfx(THEME_PATH, "audio/open-theme", False)
 
-    style ramen_label:
-        font ramu.fn_getdir()+'/WorkSans-SemiBold.ttf'
-        antialias True
-        size 22
+init offset = -20
 
+style ramen_gui:
+    font font.ui_text
+    antialias True
+
+style ramen_gui_label:
+    font font.ui_label
+    antialias True
+    size 22
+
+style ramen_gui_title:
+    font font.ui_title
+    antialias True
+    size 48
+
+style ramen_text:
+    font font.game_text
+    antialias True
+    size 22
+
+style ramen_label:
+    font font.game_label
+    antialias True
+    size 22
 

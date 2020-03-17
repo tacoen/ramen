@@ -8,34 +8,6 @@ init offset = -9
 # Styles
 ##########################################################################
 
-style default:
-    properties gui.text_properties()
-    language gui.language
-    antialias True
-
-style input:
-    properties gui.text_properties("input", accent=True)
-    adjust_spacing False
-
-style hyperlink_text:
-    properties gui.text_properties("hyperlink", accent=True)
-    hover_underline True
-
-style gui_text:
-    properties gui.text_properties('interface')
-
-style button:
-    properties gui.button_properties("button")
-
-style button_text is gui_text:
-    properties gui.text_properties("button")
-    yalign 0.5
-
-style label_text is gui_text:
-    properties gui.text_properties("label", accent=True)
-
-style prompt_text is gui_text:
-    properties gui.text_properties("prompt")
 
 style bar:
     ysize gui.bar_size
@@ -234,7 +206,6 @@ screen choice(items):
 # menu captions will be displayed as empty buttons.
 define config.narrator_menu = True
 
-
 style choice_vbox is vbox
 style choice_button is button
 
@@ -340,9 +311,19 @@ style quick_button_text:
 # This screen is included in the main and game menus, and provides navigation
 # to other menus, and to start the game.
 
+transform cfl:
+    on show:
+        alpha 0
+        pause 0.5
+        linear 0.5 alpha 1
+
 screen navigation():
 
-    frame ysize config.screen_height xsize gui.navigation_xsize background gui.navigation_background:
+    frame xpos 0 ypos 0:
+        ysize config.screen_height 
+        xsize gui.navigation_xsize 
+        background gui.navigation_background
+        at cfl
 
         vbox:
             style_prefix "navigation"
@@ -368,7 +349,6 @@ screen navigation():
             elif not main_menu:
                 textbutton _("Main Menu") action MainMenu()
 
-            textbutton _("About") action ShowMenu("about")
 
             if RAMEN_DEV and renpy.has_screen('ramen_ai_menu'):
                 textbutton _("Asset") action Show('ramen_ai_menu')
@@ -379,21 +359,14 @@ screen navigation():
                 # Help isn't necessary or relevant to mobile devices.
                 textbutton _("Help") action ShowMenu("help")
 
+            textbutton _("About") action ShowMenu("about")
+
             if renpy.variant("pc"):
 
                 # The quit button is banned on iOS and unnecessary on Android and
                 # Web.
                 textbutton _("Quit") action Quit(confirm=not main_menu)
 
-
-style navigation_button is gui_button
-
-style navigation_button:
-    size_group "navigation"
-    properties gui.button_properties("navigation_button")
-
-style navigation_button_text is gui_button_text:
-    properties gui.button_text_properties("navigation_button")
 
 ## Main Menu screen ######################################################
 ##
@@ -412,14 +385,13 @@ screen main_menu():
 
     # This empty frame darkens the main menu.
 
-    frame:
-        xpos 0
-        ypos 0
-        ysize config.screen_height
-        style "main_menu_frame"
+#    frame:
+#       ysize config.screen_height
+#       style "main_menu_frame"
 
     # The use statement includes another screen inside this one. The actual
     # contents of the main menu are in the navigation screen.
+    
     use navigation
 
     if gui.show_name:
@@ -438,9 +410,9 @@ style main_menu_text is gui_text
 style main_menu_title is main_menu_text
 style main_menu_version is main_menu_text
 
-style main_menu_frame:
-    xsize gui.game_menu_width
-    yfill True
+# style main_menu_frame:
+    # xsize gui.game_menu_width
+    # yfill True
 
 style main_menu_vbox:
     xalign 0.9
@@ -491,12 +463,6 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
     frame:
         style "game_menu_outer_frame"
-
-        frame:
-            xpos 0
-            ypos 0
-            ysize config.screen_height
-            style "main_menu_frame"
 
         hbox:
 
@@ -569,16 +535,16 @@ style game_menu_outer_frame:
     background gui.game_menu_overlay
 
 style game_menu_navigation_frame:
-    xsize 280
+    xsize 300
     yfill True
 
 style game_menu_content_frame:
-    left_margin 40
+    left_margin 20
     right_margin 20
     top_margin 10
 
 style game_menu_viewport:
-    xsize 920
+    xsize config.screen_width-300-60
 
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
@@ -603,7 +569,7 @@ style game_menu_label_text:
 style return_button:
     xpos gui.navigation_xpos
     yalign 1.0
-    yoffset - 30
+    yoffset -30
 
 
 ## About screen ##########################################################
@@ -624,31 +590,36 @@ screen about():
 
         style_prefix "about"
 
-        vbox:
+        vbox ymaximum 0:
 
             python:
                 nicename = config.name.title()
 
-            label "[nicename!t]"
+            text "[nicename!t]" size 32
             text _("Version [config.version!t]\n")
+            null height 16
 
             # gui.about is usually set in options.rpy.
-            if gui.about:
+            if gui.about and not gui.about.strip() == '':
                 text "[gui.about!t]\n"
 
-            vbox:
-                style_prefix 'credit'
-                label "[build.name!t]"
-                text "Ramen -- It's Renpy According Me {a=https://github.com/tacoen/ramen}Modular Aproach{/a}."
-                null height 15
-                text "Work Sans is licensed under the SIL Open Font License. Copyright (c) 2014-2015 Wei Huang"
-                text "Feathericons/feather is licensed under the MIT License. Copyright (c) Colebemis"
-                null height 60
+            null height 16
 
-            text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
+            text "[build.name!t]" color gui.hover_muted_color
+            text _("Made with {a=https://www.renpy.org/}{font="+font.ui_text+"}Ren'Py{/font}{/a} [renpy.version_only].")
+            null height 8
+            text "Ramen -- It's Renpy According Me {a=https://github.com/tacoen/ramen}{font="+font.ui_text+"}Modular Aproach{/font}{/a}."
+            text "Work Sans is licensed under the SIL Open Font License. Copyright (c) 2014-2015 Wei Huang"
+            text "Feathericons/feather is licensed under the MIT License. Copyright (c) Colebemis"
+            null height 16
+
+            text _("[renpy.license!t]")
 
 # This is redefined in options.rpy to add text to the about screen.
 
+style about_vbox:
+    ysize 0
+    
 style about_label is gui_label
 
 style about_label_text is gui_label_text:
@@ -660,10 +631,15 @@ style about_text is gui_text:
 style credit_text is gui_text:
     color gui.text_color
 
-style about_text is abel_font:
+style about_text_hyperlink is gui_text
+
+style credit_text_hyperlink is gui_text:
+    size 3
+
+style about_text is ramen_gui:
     size 18
 
-style credit_text is abel_font:
+style credit_text is ramen_gui:
     size 20
 
 ## Load and Save screens #################################################
@@ -895,7 +871,7 @@ screen preferences():
 style smaller_label_text is gui_label_text:
     size 20
 
-style pref_label is gui_label
+style pref_label is gui_text
 style pref_label_text is smaller_label_text
 style pref_vbox is vbox
 
@@ -963,7 +939,8 @@ style slider_button_text:
     properties gui.button_text_properties("slider_button")
 
 style slider_vbox:
-    xsize 450
+    xsize (style['game_menu_viewport'].xminimum / 2) - (4 * gui.pref_spacing)
+    #xsize 450
 
 
 ## History screen ########################################################
@@ -1339,7 +1316,7 @@ style skip_frame is empty:
     xsize 180
     padding gui.skip_frame_borders.padding
 
-style skip_text is abel_font:
+style skip_text is ramen_gui:
     size gui.notify_text_size
     outlines[(absolute(1), gui.textbox_background, absolute(0), absolute(0))]
  #   color hud_fgcolor
@@ -1613,7 +1590,7 @@ style slider_pref_slider:
 style _console is _default:
     background "#111E"
 
-style _console_text is abel_font:
+style _console_text is ramen_gui:
     size 16
     color "#ccc"
 

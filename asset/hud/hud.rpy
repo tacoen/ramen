@@ -45,14 +45,14 @@ init -1:
 
     style hud_score is default
 
-    style hud_score_text is abel_font:
+    style hud_score_text is ramen_gui:
         size 48
         hover_color "#ffd"
 
-    style hud_label is abel_font:
+    style hud_label is ramen_gui:
         size 18
 
-    style hud_title is abel_font:
+    style hud_title is ramen_gui:
         size 14
         yalign 0.5
         xoffset 2

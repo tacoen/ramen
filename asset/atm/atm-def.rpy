@@ -16,7 +16,7 @@ style atm_frame:
     xsize 740
     ysize 430
 
-style atm_text is abel_font:
+style atm_text is ramen_gui:
     color "#ff0"
     size 32
 

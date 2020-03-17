@@ -311,7 +311,7 @@ screen rai_param(obj_id, var=None):
                     vbox xsize 200:
                         text k
                     vbox:
-                        text val style 'abel_font'
+                        text val style 'ramen_gui'
 
 
 screen rai_menu(tab):

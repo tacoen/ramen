@@ -16,7 +16,7 @@ screen rai_ramen_ico():
             hbox xsize 200:
                 text Ico[i] style "ram_ico" color "#fff"
                 null width 8
-                text i style "abel_font" color "#fff" text_align 0.0 min_width 180
+                text i style "ramen_gui" color "#fff" text_align 0.0 min_width 180
                 null width 32
 
 screen rai_ramen_vars():
