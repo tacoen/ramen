@@ -132,7 +132,7 @@ init -208 python:
         random_color = color_random
 
         def random_shuffle(self, array):
-            renpy.random_shuffle(array)
+            random.shuffle(array)
             return array
 
         def random_series(self, many=5,min=-5,max=5):

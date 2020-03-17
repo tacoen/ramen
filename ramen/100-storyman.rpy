@@ -58,8 +58,6 @@ init -105 python:
             for p in kwargs:
         
                 if p == 'tags':
-                    print 'tag!'
-                    print kwargs[p]
                     if isinstance(kwargs[p],(int,str,unicode)): 
                         tags = kwargs[p].split(",")
                         print tags
@@ -154,21 +152,17 @@ screen ramen_episode_menu():
             spacing 10
             style_prefix "story"
         
-            for s in rast():
-                use rast_menuitem(s)
+            if len(rast()) > 0:
+                for s in rast():
+                    use rast_menuitem(s)
+            else:
+                label "No episodes installed."
         
 screen rast_menuitem(story):
     
     python:
         inf = rast(story)
         thumb = im.Scale(inf['thumb'], style['story_vbox'].xminimum, style['story_vbox'].xminimum * 9/16 )
-        
-        # Composite(
-            # (, style['story_vbox'].yminimum),
-            # (0, 0), Solid(gui.choice_background),
-        # (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-embose")
-    # ), Borders(3, 1, 1, 1), tile=False, xalign=0.5)
-
     
     vbox:
         spacing 4

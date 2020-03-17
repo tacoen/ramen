@@ -1,10 +1,35 @@
 ﻿# The init offset statement causes the initialization statements in this file
 # to run before init statements in any other file.
 
+init -19 python:
+    gui.language = "unicode"
 
-init offset = -19
+    gui.main_menu_background = Color('#123')
+    gui.game_menu_background = Color('#234')
+    gui.game_menu_overlay = gui.game_menu_background.opacity(0.5)
+    gui.game_menu_frame = gui.game_menu_overlay
+    gui.game_menu_width = 300
 
-define gui.language = "unicode"
+    gui.interface_background = gui.game_menu_background.tint(0.3)
+    gui.navigation_background = gui.game_menu_overlay.shade(0.2)
+
+    
+    if renpy.loadable(THEME_PATH + "/main_menu.png"):
+        gui.main_menu_background = THEME_PATH + "/main_menu.png"
+
+    if renpy.loadable(THEME_PATH + "/game_menu.png"):
+        gui.game_menu_background = THEME_PATH + "/game_menu.png"
+
+    if renpy.loadable(THEME_PATH + "/ingame-overlay.png"):
+        gui.game_menu_overlay = THEME_PATH + "/ingame-overlay.png"
+
+    if renpy.loadable(THEME_PATH + "/menu_frame.png"):
+        gui.game_menu_frame = THEME_PATH + "/menu_frame.png"
+
+    if ramu.sfx(THEME_PATH, "audio/open-theme", False):
+        config.main_menu_music = ramu.sfx(THEME_PATH, "audio/open-theme", False)
+
+init offset = -18
 
 define gui.accent_color = Color('#69c')
 define gui.hyperlink_text_color = gui.accent_color.shade(0.9)
@@ -74,7 +99,6 @@ define gui.interface_selected_color = gui.accent_color.tint(0.3)
 define gui.interface_insensitive_color = gui.interface_idle_color.shade(0.9)
 define gui.interface_muted_color = gui.interface_idle_color.shade(0.7)
 
-define gui.interface_background = gui.game_menu_background.tint(0.3)
 
 style gui_text is default:
     properties gui.text_properties('interface')
@@ -96,7 +120,6 @@ define gui.navigation_button_text_font = gui.interface_text_font
 define gui.navigation_button_text_hover_underline = True
 define gui.navigation_button_text_selected_bold = True
 
-define gui.navigation_background = gui.game_menu_overlay.shade(0.2)
 
 style navigation_button is gui_button
 
@@ -129,13 +152,6 @@ define gui.vbar_borders = Borders(4, 4, 4, 4)
 define gui.vscrollbar_borders = Borders(4, 4, 4, 4)
 define gui.vslider_borders = Borders(4, 4, 4, 4)
 
-
-
-
-
-
-
-
 define gui.quick_button_text_font = FONT_ICO_RAMEN
 define gui.quick_button_borders = Borders(16, 0, 16, 4)
 define gui.quick_button_text_size = 16
@@ -144,6 +160,7 @@ define gui.quick_button_text_selected_color = gui.interface_selected_color
 define gui.quick_button_text_hover_color = gui.interface_hover_color
 
 define gui.confirm_background = gui.interface_background.tint(0.3)
+
 define gui.confirm_frame_background = Frame(
     Composite(
         (200, 80),
