@@ -61,6 +61,8 @@ label demo_floor2:
                 jump ramen_scene_map
         jump .scs
 
+
+
 label demo_floor4_d2:
     "We gonna jump to blue_room"
     "When you exit from blue_room', You gonna be in floor 3."

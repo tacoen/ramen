@@ -323,8 +323,13 @@ init -100 python:
             pi = ['phone-incall', 'phone-outcall', 'phone-oncall']
 
             for i in pi:
+                
+                print THEME_PATH
+                
                 try:
                     temp_img = ramu.theme_image(THEME_PATH, i)
+                    print temp_img
+                    print self.profile_pic
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:
                     pass
@@ -413,6 +418,7 @@ init -100 python:
                 )
 
                 what = tag.replace('phone-', '')
+                print self.id + " " + what
                 renpy.image(self.id + " " + what, compo)
 
         def set_phonenum(self, fourdig=None):

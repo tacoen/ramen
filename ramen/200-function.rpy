@@ -298,12 +298,13 @@ init -208 python:
 
         def theme_image(self, where, what):
             file = self.fn_ezy(where + "/" + what)
-            if file:
-                return file
-            else:
-                file = self.fn_ezy(RAMEN_THEME_PATH + "/" + what)
-                if file:
-                    return file
+            if file: return file
+
+            file = self.fn_ezy(THEME_PATH + "/" + what)
+            if file: return file
+            
+            file = self.fn_ezy(RAMEN_THEME_PATH + "/" + what)
+            if file: return file
 
             return RAMEN_PATH + "/img/noimage.png"
 
