@@ -72,6 +72,7 @@ screen say(who, what):
         if renpy.get_screen("smp_ui") or rbc.onphone:
             padding (200,0,0,0)
             xalign 0.0
+            
 
         if not str(who).endswith("~"):
         
@@ -94,7 +95,7 @@ screen say(who, what):
     # phone variant - there's no room.
     if not renpy.variant("small"):
     
-        if not "{noside}" in what:
+        if not "{noside}" in what or not rbc.onphone:
             if who == "thou":
                 add SideImage() xalign 1.0 yalign 1.0
             else:

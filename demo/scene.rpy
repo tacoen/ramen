@@ -27,10 +27,6 @@ init -1 python:
     demo.shortcut(id='goback',icon='log-out',goto='demo',position='left',text="Exit",show_on=['floor0'])        
         
         
-label demo:
-
-    tips "See the source, young padawan. See the Source you must."
-   
 label demo_scenery:
 
     scene demo floor1
