@@ -7,6 +7,12 @@ init -203 python:
 
 init -96 python:
 
+    def Mouse():
+        """Get Mouse pos, return (x,y)"""
+        import pygame
+        return pygame.mouse.get_pos()
+
+
     class npcrowd(ramen_object):
 
         def load(self, id=None, **kwargs):

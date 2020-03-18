@@ -314,8 +314,8 @@ style quick_button_text:
 transform cfl:
     on show:
         alpha 0
-        pause 0.5
-        linear 0.5 alpha 1
+        pause 0.25
+        linear 0.25 alpha 1
 
 screen navigation():
 
