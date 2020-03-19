@@ -35,7 +35,7 @@ define gui.about = _p("""
 # distribution. This must be ASCII-only, and must not contain spaces, colons,
 # or semicolons.
 
-define build.name = ramu.safeid(str(config.name) + "_" + str(config.version)).replace(".","")
+define build.name = str(config.name).lower().strip().replace(".","").replace(" ","_")
 
 ## Sounds and music ######################################################
 
@@ -173,7 +173,9 @@ init python:
     build.classify('**/thumbs.db', None)
 
     build.classify('**.md', None)
-    build.classify('**.rpyc', None)
+    build.classify('**.rpy', None)
+    build.classify('**.bat', None)
+    build.classify('wiki/**', None)
 
     # To archive files, classify them as 'archive'.
 

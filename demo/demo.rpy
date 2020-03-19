@@ -1,8 +1,18 @@
 
 label demo:
 
-    label .tips:
-        tips "See the source, young padawan. See the Source you must."
+    label .name:
+
+    "Your name please..."
+
+    python:
+        mc_name = renpy.input("My Name is:",default="Liam")
+        mc_name = mc_name.strip()
+        lastname = renpy.input("Last Name",default=mc.bio['lastname'])
+        lastname = lastname.strip()
+
+    mc "[mc_name] [lastname]."
+    
 
     label .demomenu:
     

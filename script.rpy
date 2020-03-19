@@ -18,11 +18,11 @@ label start:
     menu:
         'Demo':
             jump demo
-        'others':
-            jump other
+        'Dialogs':
+            jump dialog
             
 
-label other:
+label dialog:
 
     narator "I am a narator just like the line before me.{w}\nBut, I'm best when you want a multiline."
 

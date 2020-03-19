@@ -602,6 +602,8 @@ init -100 python:
                     print "--- The phone_sfxpath/phone-ring can't be found."
                 pass
                 
+                _window_hide()
+                
                 renpy.show(
                     self.id + " incall",
                     [phone_speak],
@@ -609,6 +611,8 @@ init -100 python:
                     layer='above-screens')
                 res = renpy.call_screen('phone_incoming_notice', who=self.id)
                 renpy.sound.stop()
+
+                _window_show()
 
                 if res:
 

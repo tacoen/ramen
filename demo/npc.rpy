@@ -8,9 +8,6 @@ init -1 python:
     
     hoshi.by_expression('hs',(70,125))
 
-    mc_name = 'Lucas'
-
-
 label demo_npc:
 
     show demo red

@@ -70,9 +70,15 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
         except BaseException:
             random = False
 
+        if renpy.loadable(obj.dir + '/btn.png'): exitbtn = obj.dir + '/btn.png'
+        else: exitbtn = Text('ON')
+
+        if renpy.loadable(obj.dir + '/btn-hover.png'): exitbtn_hover = obj.dir + '/btn-hover.png'
+        else: exitbtn_hover = Text('OFF')
+
     imagebutton pos tv.exitarea action Hide('tv'):
-        idle(obj.dir+'/btn.png')
-        hover(obj.dir+'/btn-hover.png') 
+        idle exitbtn
+        hover exitbtn_hover 
             
     if chan is None:
 

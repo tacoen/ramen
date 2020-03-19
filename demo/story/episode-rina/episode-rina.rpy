@@ -1,5 +1,8 @@
 init -1 python:
 
+    build.archive("rina", "all")
+    build.classify('game/' + ramu.fn_getdir() + '/**', 'rina')
+    
     rast.register('rina_qna',
         title='Rina qna',
         start='rina_qna', 
