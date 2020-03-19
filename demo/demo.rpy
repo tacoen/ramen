@@ -16,7 +16,8 @@ label demo:
                         jump demo_floor4_d1
                     "Outgoing Call":
                         jump demo_floor3_d2
-                    
+            "Assets":
+                jump demo_asset
             "NPC":
                 jump demo_npc
             
