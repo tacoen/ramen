@@ -42,7 +42,6 @@ label rina_qna:
         mc "Great! She is gone."
         return
 
-
 label rina_phonedemo:
 
     rina "[mc_name]?! Hello?"
@@ -77,7 +76,7 @@ label demo_floor3_d1:
     rina "[mc_name]!"
     rina @0_blush "For your information, this label and me was inside 'episode-rina'"
     mc "Acknowledge!"
-    rina "You you remove 'episode rina' you will end up with a 'Nothing responding...'"
+    rina "If 'episode rina' removed; You will end up with a 'Nothing responding...'"
     rina "and error if you select any of 'Phone' demo."
     mc "Yes. Mam!"
     rina @0_happy "Hahaha!"
