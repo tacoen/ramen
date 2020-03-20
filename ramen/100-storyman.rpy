@@ -15,10 +15,8 @@ init -105 python:
                 globals()['ramenepisode'] = rn_obj()
 
             ramenepisode._prop = {}
-            ramenepisode._prop['thumb'] = ramu.theme_image(
-                THEME_PATH, 'story_thumb.png')
-            ramenepisode._prop['cover'] = ramu.theme_image(
-                THEME_PATH, 'story_cover.png')
+            ramenepisode._prop['thumb'] = ramu.fn_search('story_thumb.png')
+            ramenepisode._prop['cover'] = ramu.fn_search('story_cover.png')
 
         def __call__(self, pack=None):
 
@@ -64,7 +62,6 @@ init -105 python:
                 if p == 'tags':
                     if isinstance(kwargs[p], (int, str, unicode)):
                         tags = kwargs[p].split(",")
-                        print tags
                     obj.__dict__['tags'] = tags
 
                 else:

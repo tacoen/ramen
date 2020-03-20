@@ -13,21 +13,20 @@ init -19 python:
     gui.interface_background = gui.game_menu_background.tint(0.3)
     gui.navigation_background = gui.game_menu_overlay.shade(0.2)
 
-    if renpy.loadable(THEME_PATH + "/main_menu.png"):
-        gui.main_menu_background = THEME_PATH + "/main_menu.png"
+    file = ramu.fn_search('main_menu')
+    if file: gui.main_menu_background = file
 
-    if renpy.loadable(THEME_PATH + "/game_menu.png"):
-        gui.game_menu_background = THEME_PATH + "/game_menu.png"
+    file = ramu.fn_search('game_menu')
+    if file: gui.game_menu_background = file
+    
+    file = ramu.fn_search('ingame-overlay')
+    if file: gui.game_menu_overlay = file
 
-    if renpy.loadable(THEME_PATH + "/ingame-overlay.png"):
-        gui.game_menu_overlay = THEME_PATH + "/ingame-overlay.png"
+    file = ramu.fn_search('menu_frame.png')
+    if file: gui.game_menu_frame = file
 
-    if renpy.loadable(THEME_PATH + "/menu_frame.png"):
-        gui.game_menu_frame = THEME_PATH + "/menu_frame.png"
-
-    if ramu.sfx(THEME_PATH, "audio/open-theme", False):
-        config.main_menu_music = ramu.sfx(
-            THEME_PATH, "audio/open-theme", False)
+    file = ramu.sfx("open-theme", None, False)
+    if file: config.main_menu_music = file
 
 init offset = -18
 
@@ -165,7 +164,7 @@ define gui.confirm_frame_background = Frame(
     Composite(
         (200, 80),
         (0, 0), Solid(gui.confirm_background),
-        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-b")
+        (0, 0), ramu.fn_search('outline-b')
     ), Borders(1, 1, 1, 1), tile=False, xalign=0.5)
 
 define gui.confirm_frame_borders = Borders(40, 40, 40, 40)
@@ -190,7 +189,7 @@ define gui.notify_frame_background = Frame(
     Composite(
         (200, 80),
         (0, 0), Solid(gui.notify_background),
-        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-b.png")
+        (0, 0), ramu.fn_search('outline-b')
     ), Borders(1, 1, 1, 1), tile=False, xalign=0.5)
 
 

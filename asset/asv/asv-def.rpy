@@ -19,7 +19,7 @@ init -10 python:
     def ramen_dev(what, item):
 
         if RAMEN_DEV:
-            print 'RAMEN_DEV: ' + what
+            print '--- RAMEN_DEV: ' + what
             try:
                 RD[what].append(item)
             except BaseException:
@@ -47,7 +47,6 @@ init -10 python:
                 topic = t
 
         for t in topic:
-            # print t
             try:
                 res[t] = gui.__dict__[t + "_properties"]()
             except BaseException:
@@ -124,7 +123,7 @@ init -10 python:
     gview = 'text'
 
     def rai_mval(o, v, r=[0, 10]):
-        print o
+#        print o
         o += float(v)
         o = round(o, 2)
         if o <= float(r[0]):

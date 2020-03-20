@@ -289,8 +289,6 @@ init -99 python:
             if not bgr or bgr is None:
                 bgr = ramu.get_sceneimg()
 
-                # print bgr
-
             img = {}
             img['ground'] = bgr
             gimg = tuple()
@@ -312,7 +310,6 @@ init -99 python:
 
                 if xy is not None:
 
-                    # print w
                     # w
                     # 0 xy
                     # 1 key/func

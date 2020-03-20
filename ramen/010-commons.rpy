@@ -269,7 +269,7 @@ style ingame_notify_frame:
     background Frame(Composite(
         (200, 80),
         (0, 0), Solid("#f91d"),
-        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-b")
+        (0, 0), ramu.fn_search('outline-b')
     ), Borders(1, 1, 1, 1), tile=False, xalign=0.5)
 
 style ingame_notify_text:

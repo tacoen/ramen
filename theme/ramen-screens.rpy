@@ -220,14 +220,14 @@ image choice_ = Frame(
     Composite(
         (100, 60),
         (0, 0), Solid(gui.choice_background),
-        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-embose")
+        (0, 0), ramu.fn_search('outline-embose')
     ), Borders(3, 1, 1, 1), tile=False, xalign=0.5)
 
 image choice_hover_ = Frame(
     Composite(
         (100, 60),
         (0, 0), Solid(gui.hover_color),
-        (0, 0), ramu.theme_image(THEME_PATH, "gui/outline-embose")
+        (0, 0), ramu.fn_search('outline-embose')
     ), Borders(2, 1, 2, 1), tile=False, xalign=0.5)
 
 style choice_button is default:
@@ -449,7 +449,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
             page = title.lower()
 
             if page == 'load':
-                page_bgr = ramu.theme_image(THEME_PATH, "load_menu")
+                page_bgr = ramu.fn_search('load_menu')
             else:
                 page_bgr = gui.game_menu_background
 

@@ -126,7 +126,7 @@ screen rai_asset_npc(obj_id, var=None):
                         vbox xsize mw ysize 300 yalign 0.0:
                             $ ih = math.ceil(mw * s[1][1] / s[1][0])
 
-                            frame background Frame(ramu.theme_image(THEME_PATH, "gui/outline-w"), Borders(1, 1, 1, 1)):
+                            frame background Frame(ramu.fn_search('outline-w'), Borders(1, 1, 1, 1)):
                                 imagebutton action Show('rai_testpose', img=obj.pose[s[0]]):
                                     idle(im.Scale(obj.pose[s[0]], mw, ih))
                             vbox:

@@ -322,13 +322,8 @@ init -100 python:
             pi = ['phone-incall', 'phone-outcall', 'phone-oncall']
 
             for i in pi:
-
-                print THEME_PATH
-
                 try:
-                    temp_img = ramu.theme_image(THEME_PATH, i)
-                    print temp_img
-                    print self.profile_pic
+                    temp_img = ramu.fn_search(i)
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:
                     pass
@@ -469,7 +464,6 @@ init -100 python:
                 if not type(list) == tuple:
                     list = self.sprite.keys()
                 for i in list:
-                    #                print i
                     try:
                         t = tick[n]
                     except BaseException:
@@ -480,7 +474,7 @@ init -100 python:
                 renpy.image((self.id, name), Animation(*anim))
 
             except BaseException:
-                print 'no sprite'
+                print '! no sprite'
 
         def chat_usingjson(
                 self,
@@ -606,16 +600,15 @@ init -100 python:
                 rbc.onphone = True
 
                 try:
+                    file = ramu.sfx("phone-ring", PHONE_SFXPATH, False)
                     renpy.sound.play(
-                        PHONE_SFXPATH +
-                        "/phone-ring.mp3",
+                        file,
                         channel='sound',
                         loop=3,
                         fadeout=1,
                         fadein=0)
                 except BaseException:
-                    print "--- The phone_sfxpath/phone-ring can't be found."
-                pass
+                    pass
 
                 _window_hide()
 

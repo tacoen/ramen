@@ -9,10 +9,10 @@ init -99 python:
 
         if hud.ui.element[what]:
             hud.ui.element[what]=False
-            if sfx: ramu.sfx(HUD_PATH,"tone0")
+            if sfx: ramu.sfx("tone0")
         else:
             hud.ui.element[what]=True
-            if sfx: ramu.sfx(HUD_PATH,"tone1")
+            if sfx: ramu.sfx("tone1")
 
         rbc.hud_element[what]=hud.ui.element[what]
 

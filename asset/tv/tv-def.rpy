@@ -102,12 +102,8 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
                 except BaseException:
                     ld = sorted(gal[chan].values())
 
-                print ld
-                
                 if chan.endswith('-show') or length is None:
                     length = len(ld)
-
-                playlist = ld[0:length]
 
                 if 'random' in chan:
                     renpy.random.shuffle(playlist)

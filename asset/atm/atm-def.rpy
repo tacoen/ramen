@@ -4,7 +4,7 @@ init -2 python:
 
     def atm_drawn(ammount):
         mc.banking(ammount)
-        ramu.sfx(ATMPATH,"atm-over",True)
+        ramu.sfx("atm-over",ATMPATH,True)
         return True
 
 style atm is default
@@ -117,7 +117,7 @@ screen atm_mainmenu():
 
 label atm:
     show screen atm_pin('pin:')
-    $ ramu.sfx(ATMPATH,'atm-start',True)
+    $ ramu.sfx('atm-start',ATMPATH,True)
     pause 1
     hide screen atm_pin
     show screen atm_pin('pin: ******')
@@ -127,7 +127,7 @@ label atm:
     if _return == 'balance':
         call screen atm('balance')
     else:
-        $ ramu.sfx(ATMPATH,'atm-cancel')
+        $ ramu.sfx('atm-cancel',ATMPATH)
         show screen atm('thanks')
         pause 2
         hide screen atm

@@ -2,13 +2,39 @@
 # Initialization
 ##########################################################################
 
+init -209 python:
+
+    RAMEN_GUI_PATHS = [
+        'titles',
+        'theme/titles',
+        'theme/gui',
+    ]
+
+    RAMEN_SFX_PATHS = [
+        'audio',
+        'titles',
+        'titles/audio',
+        'theme/audio',
+    ]
+    
 init -199 python:
 
-    # For Shared Resources
+    # Constant For Shared Resources
 
     RAMEN_THEME_PATH = ramu.fn_getdir()
-    DEFAULT_SFXPATH = RAMEN_THEME_PATH
 
+    try:
+        FONT_PATH
+    except NameError:
+        FONT_PATH = RAMEN_THEME_PATH + "/fonts"
+
+    try:
+        THEME_PATH
+    except NameError:
+        THEME_PATH = RAMEN_THEME_PATH + "/titles"
+
+    DEFAULT_SFXPATH = RAMEN_THEME_PATH
+    
 init -99 python:
 
     # defaults
@@ -26,20 +52,6 @@ init -99 python:
         hud_fgcolor = "#fff"
 
     gui.init(1280, 720)
-
-init -190 python:
-
-    # must before gui.rpy
-
-    try:
-        FONT_PATH
-    except NameError:
-        FONT_PATH = RAMEN_THEME_PATH + "/fonts"
-
-    try:
-        THEME_PATH
-    except NameError:
-        THEME_PATH = RAMEN_THEME_PATH + "/titles"
 
 
 define config.window_show_transition = {"screens": Dissolve(.25)}

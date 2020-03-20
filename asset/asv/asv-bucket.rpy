@@ -31,19 +31,19 @@ screen rai_bucket_worldtime():
     python:
         i = [
             'python_weekday',
-            ' python_month',
-            ' weekday',
-            ' daypart',
-            ' daytime',
-            ' sun',
-            ' suntime',
-            ' diff',
-            ' date',
-            ' clock',
-            ' hour',
-            ' diff',
-            ' dayplay',
-            ' cycle']
+            'python_month',
+            'weekday',
+            'daypart',
+            'daytime',
+            'sun',
+            'suntime',
+            'diff',
+            'date',
+            'clock',
+            'hour',
+            'diff',
+            'dayplay',
+            'cycle']
         w = wo.__dict__
 
     viewport:

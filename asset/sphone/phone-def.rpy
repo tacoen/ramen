@@ -21,14 +21,16 @@ init -100 python:
     def ramen_phone_cb_dialing(event, interact=False, **kwargs):
         """Provide callback function for `phone_dialing`."""
         if event == "show_done":
-            renpy.sound.play(PHONE_SFXPATH + "/phone-dial.mp3")
+            ramu.sfx("phone-dial", PHONE_SFXPATH, True)
+#            renpy.sound.play(PHONE_SFXPATH + "/phone-dial.mp3")
         elif event == "end":
             renpy.sound.stop()
 
     def ramen_phone_cb_hangup(event, interact=False, **kwargs):
         """Provide callback function for `phone_hangup`."""
         if event == "show_done":
-            renpy.sound.play(PHONE_SFXPATH + "/phone-close.mp3")
+            ramu.sfx("phone-close", PHONE_SFXPATH, True)
+#            renpy.sound.play(PHONE_SFXPATH + "/phone-close.mp3")
         elif event == "end":
             renpy.sound.stop()
 

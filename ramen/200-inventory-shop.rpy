@@ -164,7 +164,7 @@ init -201 python:
             return True
 
         def checkout(self):
-            print 'checkout'
+            #print 'checkout'
             for i in rbc.__dict__[self.id + "_cart"]:
                 res = self.buy(self.container[i])
 

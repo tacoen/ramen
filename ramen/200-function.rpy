@@ -1,6 +1,5 @@
 init -208 python:
 
-    #    import ntpath
     import re
     import datetime
     import copy
@@ -58,16 +57,12 @@ init -208 python:
 
         def fn_ezy(self, file, ext=['.jpg', '.png', '.webp']):
             """Get renpy.loadable [file] base on last-seen [ext] extension-list"""
-
             rfile = False
             n = 0
             for e in ext:
-                if renpy.loadable(file + e):
-                    rfile = file + e
-                    n = 1
-                if n == 1:
-                    break
-            return rfile
+                if renpy.loadable(file + e): return file+e
+                
+            return False
 
         def fn_files(self, where, key=False):
             """ Collect files from [where], and [keyword]."""
@@ -187,17 +182,17 @@ init -208 python:
 
         def toggle(self, what, sfx=True):
 
-            if not ramu.sfx(THEME_PATH, "tone1", False, False):
+            if not self.sfx("tone1", False, False):
                 sfx = False
 
             if globals()[what]:
                 globals()[what] = False
                 if sfx:
-                    ramu.sfx(THEME_PATH, "tone0", True, False)
+                    self.sfx("tone0", True, False)
             else:
                 globals()[what] = True
                 if sfx:
-                    ramu.sfx(THEME_PATH, "tone1", True, False)
+                    self.sfx("tone1", True, False)
 
         def cycle(self, current, list):
             current += 1
@@ -260,7 +255,7 @@ init -208 python:
             try:
                 ppic = globals()[whoid].profile_pic
             except BaseException:
-                ppic = ramu.theme_image(THEME_PATH, "gui/profile")
+                ppic = ramu.fn_search('profile')
             return im.Scale(ppic, size[0], size[1])
 
         def get_sceneimg(self, condition=None, bgr=None):
@@ -298,33 +293,31 @@ init -208 python:
                     res = res_default
 
             return res
-
-        def theme_image(self, where, what):
-            file = self.fn_ezy(where + "/" + what)
-            if file:
-                return file
-
-            file = self.fn_ezy(THEME_PATH + "/" + what)
-            if file:
-                return file
-
-            file = self.fn_ezy(RAMEN_THEME_PATH + "/" + what)
-            if file:
-                return file
-
-            return RAMEN_PATH + "/img/noimage.png"
-
+            
         # Sound util
 
-        def sfx(self, where, what, play=True, loop=False):
-            file = self.fn_ezy(where + "/" + what, ['.ogg', '.mp3', '.wav'])
-            if not file:
-                file = self.fn_ezy(RAMEN_THEME_PATH +
-                                   "audio/" + what, ['.ogg', '.mp3', '.wav'])
-            if not file:
-                file = self.fn_ezy(DEFAULT_SFXPATH + "/" +
-                                   what, ['.ogg', '.mp3', '.wav'])
-
+        def sfx(self, file, where=None, play=True, loop=False):
+        
+            file = self.fn_search(file, where, ['.ogg', '.mp3', '.wav'], RAMEN_SFX_PATHS)
+            
             if file and play:
                 renpy.music.play(file, loop=loop)
             return file
+
+        def fn_search(self, what, where=None, ext=['.jpg', '.png', '.webp'], wheres=RAMEN_GUI_PATHS):
+            
+            if where is not None: wheres.append(where)
+            
+            wheres.sort()
+            wheres.reverse()
+
+            for where in wheres:
+                if "." in what:
+                    file = where + "/" + what
+                    if renpy.loadable(file): return file
+                else:
+                    file = self.fn_ezy(where + "/" + what, ext)
+                    if file: return file
+            
+            return False
+
