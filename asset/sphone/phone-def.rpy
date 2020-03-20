@@ -5,7 +5,7 @@ init -100 python:
         rbc.smp_apps = None
         rbc.smp_who = None
         ramu.screen_hideby(prefix='smp_')
-        
+
     def ramen_phone_dering(nr=False):
         """Make phone ringging in stories. """
         if nr:
@@ -32,7 +32,7 @@ init -100 python:
         elif event == "end":
             renpy.sound.stop()
 
-init offset=-1
+init offset = -1
 
 define phone_status = Character("Phone",
                                 who_suffix="~",
@@ -64,9 +64,9 @@ define phone_hangup = Character("Phone",
                                 what_size=24,
                                 what_xsize=400,
                                 what_outlines=[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]
-                                )        
-        
-        
+                                )
+
+
 style smp_ui is default
 
 style smp_ui_text is ramen_gui:
@@ -168,7 +168,7 @@ screen smp_item(a):
             style "smp_ui" text_xalign 0.5 xsize smp.ui.icon_size[0]
 
 
-## For phone calls:
+# For phone calls:
 
 
 transform phone_ringging:

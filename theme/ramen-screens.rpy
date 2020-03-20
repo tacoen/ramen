@@ -64,18 +64,17 @@ style frame:
 screen say(who, what):
 
     window:
-    
+
         id "window"
 
         style_prefix "say"
 
         if renpy.get_screen("smp_ui") or rbc.onphone:
-            padding (200,0,0,0)
+            padding(200, 0, 0, 0)
             xalign 0.0
-            
 
         if not str(who).endswith("~"):
-        
+
             if not renpy.get_screen('choice'):
                 background gui.textbox_background
 
@@ -83,24 +82,22 @@ screen say(who, what):
             text what id "what" xalign 0.5
         else:
 
-
             window:
                 id "namebox"
                 style "namebox"
                 text who id "who"
             text what id "what"
 
- 
     # If there's a side image, display it above the text. Do not display on the
     # phone variant - there's no room.
     if not renpy.variant("small"):
-    
+
         if not "{noside}" in what or not rbc.onphone:
             if who == "thou":
                 add SideImage() xalign 1.0 yalign 1.0
             else:
                 add SideImage() xalign 0.0 yalign 1.0
-            
+
 
 # Make the namebox available for styling through the Character object.
 
@@ -141,9 +138,9 @@ style say_dialogue:
     ypos gui.dialogue_ypos
 
 style say_thought is say_dialogue:
-    xsize gui.dialogue_width-100
-    outlines[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]    
-    
+    xsize gui.dialogue_width - 100
+    outlines[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]
+
 ## Input screen ##########################################################
 ##
 # This screen is used to display renpy.input. The prompt parameter is used to
@@ -197,7 +194,7 @@ screen choice(items):
                 textbutton i.caption action i.action
 
     else:
-    
+
         vbox:
             for i in items:
                 textbutton i.caption action i.action
@@ -321,8 +318,8 @@ transform cfl:
 screen navigation():
 
     frame xpos 0 ypos 0:
-        ysize config.screen_height 
-        xsize gui.navigation_xsize 
+        ysize config.screen_height
+        xsize gui.navigation_xsize
         background gui.navigation_background
         at cfl
 
@@ -335,9 +332,10 @@ screen navigation():
             if main_menu:
                 textbutton _("Start") action Start()
 
-                if RAMEN_EPISODES_MENU and renpy.has_screen('ramen_episode_menu'):
+                if RAMEN_EPISODES_MENU and renpy.has_screen(
+                        'ramen_episode_menu'):
                     textbutton _("Episodes") action ShowMenu('ramen_episode_menu')
-                    
+
             else:
                 textbutton _("History") action ShowMenu("history")
                 textbutton _("Save") action ShowMenu("save")
@@ -349,7 +347,6 @@ screen navigation():
                 textbutton _("End Replay") action EndReplay(confirm=True)
             elif not main_menu:
                 textbutton _("Main Menu") action MainMenu()
-
 
             if RAMEN_DEV and renpy.has_screen('ramen_ai_menu'):
                 textbutton _("Asset") action Show('ramen_ai_menu')
@@ -392,7 +389,7 @@ screen main_menu():
 
     # The use statement includes another screen inside this one. The actual
     # contents of the main menu are in the navigation screen.
-    
+
     use navigation
 
     if gui.show_name:
@@ -412,8 +409,8 @@ style main_menu_title is main_menu_text
 style main_menu_version is main_menu_text
 
 # style main_menu_frame:
-    # xsize gui.game_menu_width
-    # yfill True
+# xsize gui.game_menu_width
+# yfill True
 
 style main_menu_vbox:
     xalign 0.9
@@ -447,20 +444,19 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     if main_menu:
         add gui.main_menu_background
     else:
-    
+
         python:
             page = title.lower()
-                       
+
             if page == 'load':
                 page_bgr = ramu.theme_image(THEME_PATH, "load_menu")
             else:
                 page_bgr = gui.game_menu_background
-            
+
         if page_bgr:
             add page_bgr
         else:
             add gui.game_menu_background
-        
 
     frame:
         style "game_menu_outer_frame"
@@ -545,7 +541,7 @@ style game_menu_content_frame:
     top_margin 10
 
 style game_menu_viewport:
-    xsize config.screen_width-300-60
+    xsize config.screen_width - 300 - 60
 
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
@@ -570,7 +566,7 @@ style game_menu_label_text:
 style return_button:
     xpos gui.navigation_xpos
     yalign 1.0
-    yoffset -30
+    yoffset - 30
 
 
 ## About screen ##########################################################
@@ -607,9 +603,9 @@ screen about():
             null height 16
 
             text "[build.name!t]" color gui.hover_muted_color
-            text _("Made with {a=https://www.renpy.org/}{font="+font.ui_text+"}Ren'Py{/font}{/a} [renpy.version_only].")
+            text _("Made with {a=https://www.renpy.org/}{font=" + font.ui_text + "}Ren'Py{/font}{/a} [renpy.version_only].")
             null height 8
-            text "Ramen -- It's Renpy According Me {a=https://github.com/tacoen/ramen}{font="+font.ui_text+"}Modular Aproach{/font}{/a}."
+            text "Ramen -- It's Renpy According Me {a=https://github.com/tacoen/ramen}{font=" + font.ui_text + "}Modular Aproach{/font}{/a}."
             text "Work Sans is licensed under the SIL Open Font License. Copyright (c) 2014-2015 Wei Huang"
             text "Feathericons/feather is licensed under the MIT License. Copyright (c) Colebemis"
             null height 16
@@ -620,7 +616,7 @@ screen about():
 
 style about_vbox:
     ysize 0
-    
+
 style about_label is gui_label
 
 style about_label_text is gui_label_text:
@@ -662,7 +658,7 @@ screen save():
 screen load():
 
     tag menu
- 
+
     use file_slots(_("Load"))
 
 
@@ -940,8 +936,8 @@ style slider_button_text:
     properties gui.button_text_properties("slider_button")
 
 style slider_vbox:
-    xsize (style['game_menu_viewport'].xminimum / 2) - (4 * gui.pref_spacing)
-    #xsize 450
+    xsize(style['game_menu_viewport'].xminimum / 2) - (4 * gui.pref_spacing)
+    # xsize 450
 
 
 ## History screen ########################################################

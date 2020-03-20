@@ -23,11 +23,10 @@ init -99 python:
             'libido': ['#959', 12],
         },
     )
-    
+
     smp.index('apps', 'apps', 'rpy')
 
     PHONE_SFXPATH = smp.dir + "/audio"
 
     rbc.smp_apps = None
     rbc.smp_disable = False
-    

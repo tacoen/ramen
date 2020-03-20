@@ -34,7 +34,7 @@ init -204 python:
             self.load(default, **kwargs)
 
         def set(self, **kwargs):
-            
+
             for k in kwargs:
                 self.__dict__[k] = kwargs[k]
 
@@ -261,9 +261,9 @@ init -204 python:
 
             for d in dirs:
                 files += filter(lambda w: d + "/" + key in w, F)
-                
+
             if ext is not None:
-                files = filter(lambda w:w.endswith(ext), files)
+                files = filter(lambda w: w.endswith(ext), files)
 
             if scope is not None:
                 res = filter(lambda w: scope in w, files)
@@ -332,21 +332,22 @@ init -204 python:
             res = {}
             inf = renpy.get_filename_line()
             cf = inf[0].replace('game/', '')
-            
-            if where is None: where = ""
+
+            if where is None:
+                where = ""
 
             for f in sorted(self.files(where)):
                 if not f == cf:
                     if suffix is not None:
-                        ew = "-"+suffix+"."+ext
+                        ew = "-" + suffix + "." + ext
                     else:
-                        ew = "."+ext
+                        ew = "." + ext
 
                     if f.endswith(ew):
                         fn = ramu.fn_info(f)
                         if suffix is not None:
                             print suffix
-                            fn['name']=fn['name'].replace("-"+suffix,'')
+                            fn['name'] = fn['name'].replace("-" + suffix, '')
 
                         res[fn['name']] = {}
 

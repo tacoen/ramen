@@ -13,7 +13,6 @@ init -19 python:
     gui.interface_background = gui.game_menu_background.tint(0.3)
     gui.navigation_background = gui.game_menu_overlay.shade(0.2)
 
-    
     if renpy.loadable(THEME_PATH + "/main_menu.png"):
         gui.main_menu_background = THEME_PATH + "/main_menu.png"
 
@@ -27,7 +26,8 @@ init -19 python:
         gui.game_menu_frame = THEME_PATH + "/menu_frame.png"
 
     if ramu.sfx(THEME_PATH, "audio/open-theme", False):
-        config.main_menu_music = ramu.sfx(THEME_PATH, "audio/open-theme", False)
+        config.main_menu_music = ramu.sfx(
+            THEME_PATH, "audio/open-theme", False)
 
 init offset = -18
 

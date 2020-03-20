@@ -26,7 +26,6 @@ init -1 python:
     
     demo.shortcut(id='goback',icon='log-out',goto='demo',position='left',text="Exit",show_on=['floor0'])        
         
-        
 label demo_scenery:
 
     scene demo floor1

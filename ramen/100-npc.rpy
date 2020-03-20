@@ -86,16 +86,16 @@ init -100 python:
                 self.__dict__['chaattr'] = {}
 
             try:
-                self.chaattr['who_color']=str(self.color)
+                self.chaattr['who_color'] = str(self.color)
                 del self.color
             except BaseException:
-                self.chaattr['who_color']=str(ramu.color_random(128, 255))
+                self.chaattr['who_color'] = str(ramu.color_random(128, 255))
 
             try:
-                self.chaattr['what_color']=str(self.wcolor)
+                self.chaattr['what_color'] = str(self.wcolor)
                 del self.wcolor
             except BaseException:
-                self.chaattr['what_color']=str("#d9d9d9")
+                self.chaattr['what_color'] = str("#d9d9d9")
 
             try:
                 self.name
@@ -125,16 +125,16 @@ init -100 python:
                 safename = self.name
 
             delm = []
-            
+
             for p in self.param:
-                for chp in [ 'window_', 'who_', 'what_' ]:
-                    if p.startswith(chp): 
+                for chp in ['window_', 'who_', 'what_']:
+                    if p.startswith(chp):
                         self.chaattr[p] = self.param[p]
                         delm.append(p)
-                    
+
             for d in delm:
                 del self.param[d]
-            
+
             setattr(
                 character,
                 self.id.lower(),
@@ -142,7 +142,7 @@ init -100 python:
                     safename,
                     image=self.id,
                     **self.chaattr
-                    )
+                )
             )
 
             self.define_byfile()
@@ -199,7 +199,7 @@ init -100 python:
 
         def set_stat(self, **kwargs):
             """Set the character stats (dup?)"""
-            
+
             try:
                 mc.rel[self.id]
             except BaseException:
@@ -237,14 +237,13 @@ init -100 python:
 
         def define_byfile(self, main=None):
             """
-            Called by init or load. Define everything in `namespaces` 
+            Called by init or load. Define everything in `namespaces`
             """
 
             voids = ['profile', 'chat', 'side']
 
             files = self.files(self.id + '/pose/') + self.files(self.id + "/")
 
-            
             if files == []:
                 return False
 
@@ -275,7 +274,6 @@ init -100 python:
                     renpy.image('side ' + self.id, f)
                     self.side[self.id, f]
 
-
                 if p['path'] in conte:
 
                     try:
@@ -286,7 +284,8 @@ init -100 python:
                         if not p['name'] in voids:
                             self.__dict__[p['path']][str(p['name'])] = str(f)
                 else:
-                    if not p['name'] in voids and p['ext'] in ['webp', 'jpg', 'png']:
+                    if not p['name'] in voids and p['ext'] in [
+                            'webp', 'jpg', 'png']:
                         self.__dict__['pose'][str(p['name'])] = str(f)
 
             n = 0
@@ -311,7 +310,7 @@ init -100 python:
 
             try:
                 for v in self.side.keys():
-                    renpy.image('side '+ self.id +" "+v, self.side[v] )
+                    renpy.image('side ' + self.id + " " + v, self.side[v])
             except BaseException:
                 pass
 
@@ -323,9 +322,9 @@ init -100 python:
             pi = ['phone-incall', 'phone-outcall', 'phone-oncall']
 
             for i in pi:
-                
+
                 print THEME_PATH
-                
+
                 try:
                     temp_img = ramu.theme_image(THEME_PATH, i)
                     print temp_img
@@ -333,22 +332,31 @@ init -100 python:
                     self.create_sideimage(self.profile_pic, temp_img, i)
                 except BaseException:
                     pass
-                    
-        def by_expression(self,pose,xy=(0,0)):
+
+        def by_expression(self, pose, xy=(0, 0)):
             """
             ``` python:
                 tina.by_expression('hs',(70,125))
             ```
 
             * tina.expression.keys() = [ 'happy', 'sad' ]
-            * create: `tina hs_happy`, `tina hs_sad` 
+            * create: `tina hs_happy`, `tina hs_sad`
 
             See: [[#expressa]], [[#express]]
             """
 
             for e in self.expression.keys():
-                renpy.image(self.id+" "+pose+"_"+e.lower(), self.expressa(pose,xy,e))
-        
+                renpy.image(
+                    self.id +
+                    " " +
+                    pose +
+                    "_" +
+                    e.lower(),
+                    self.expressa(
+                        pose,
+                        xy,
+                        e))
+
         def expressa(self, atag, xy, expimg=None):
             """
             Put Expression to your NPC, inside the game. by compose them.
@@ -356,19 +364,20 @@ init -100 python:
             Also See: [[#express]]
             """
 
-            res = renpy.get_registered_image(self.id+" "+str(atag)).filename                
+            res = renpy.get_registered_image(
+                self.id + " " + str(atag)).filename
             hw = renpy.image_size(res)
-            compo = Composite( hw, (0,0), res, xy, self.expression[expimg] )
+            compo = Composite(hw, (0, 0), res, xy, self.expression[expimg])
             return compo
 
-        def express(self,xy,expimg=None):
+        def express(self, xy, expimg=None):
             """
             Put Expression to your NPC, inside the game. Using 'screens'.
-            
+
             ``` python
             init python:
                 tina = npc('tina')
-            
+
             label start:
                 show tina standing
                 $ tina.express( (70,125), 'smile')
@@ -381,33 +390,40 @@ init -100 python:
             * the list of expressions in on `tina.expression`
 
             """
-            
+
             if xy is None:
                 renpy.hide_screen('ramen_npc_expression')
                 return False
-                
-            t= ''
+
+            t = ''
             s = tuple(renpy.get_showing_tags())
             if self.id in s:
                 a = renpy.get_attributes(self.id)
-                try: t = " " + str(a[0])
-                except: pass
+                try:
+                    t = " " + str(a[0])
+                except BaseException:
+                    pass
             else:
                 return False
-                
+
             try:
-                res = renpy.get_registered_image(self.id+t).filename                
-            except:
+                res = renpy.get_registered_image(self.id + t).filename
+            except BaseException:
                 res = False
-                
+
             if res:
                 hw = renpy.image_size(res)
-            
-            atl = renpy.get_at_list(self.id+t)
-            
-            renpy.show_screen('ramen_npc_expression',self.expression[expimg], hw, xy, atl)
-            
-            #return res
+
+            atl = renpy.get_at_list(self.id + t)
+
+            renpy.show_screen(
+                'ramen_npc_expression',
+                self.expression[expimg],
+                hw,
+                xy,
+                atl)
+
+            # return res
 
         def create_sideimage(self, img, temp_img, tag):
             if temp_img:
@@ -472,15 +488,14 @@ init -100 python:
                 use_pose=False,
                 file='chat',
                 pose=None):
-                
             """
-            Start a dialog using JSON file. 
-            
+            Start a dialog using JSON file.
+
             ``` python
             $ monica.chat_usingjson(None,True,'daily','standing')
             ```
             """
-            
+
             if file is None:
                 try:
                     l = sorted(self.json.keys())
@@ -598,12 +613,12 @@ init -100 python:
                         loop=3,
                         fadeout=1,
                         fadein=0)
-                except: 
+                except BaseException:
                     print "--- The phone_sfxpath/phone-ring can't be found."
                 pass
-                
+
                 _window_hide()
-                
+
                 renpy.show(
                     self.id + " incall",
                     [phone_speak],
@@ -638,5 +653,3 @@ init -100 python:
                 rbc.answered = False
 
             return rbc.answered
-
-    

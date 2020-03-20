@@ -2,13 +2,13 @@ init -80 python:
 
     ram.component(
         'ramendoc',
-        title = "Ramen Markdown generator",
-        version = "1.0",
-        author = "tacoen",
-        author_url = 'https://github.com/tacoen/ramen',
-        desc = "Because my pydoc doesn't work in renpy, please set the `MD_PATH`",
+        title="Ramen Markdown generator",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="Because my pydoc doesn't work in renpy, please set the `MD_PATH`",
     )
-    
+
     build.archive("ramendoc", "all")
     build.classify('game/' + ramu.fn_getdir() + '/**', 'ramendoc')
 
@@ -48,7 +48,7 @@ init -80 python:
             sts = sts.replace('\n\n\n', '\n\n')
             return sts
 
-        def collect_init(self,st=''):
+        def collect_init(self, st=''):
 
             what = 'init'
             it = {}
@@ -57,36 +57,47 @@ init -80 python:
                 fn = ramu.fn_info(f)
                 line_fileinfo = fn['dir'] + "/" + fn['file']
                 c = ''
-                pyh =''
-                rpy =''
+                pyh = ''
+                rpy = ''
                 for line in open("E:/pp-renpy/ramen/game/" + f, "r"):
                     line = line.strip()
                     if line.startswith(what):
                         rn = line.split(what + ' ')
                         rn[1] = rn[1].replace(":", '')
                         if 'python' in rn[1]:
-                            v = rn[1].replace('python','')
+                            v = rn[1].replace('python', '')
                             vs = str(v.strip())
-                            if vs =="": vs = 0
+                            if vs == "":
+                                vs = 0
 
-                            try: it[vs]
-                            except: it[vs] = {}
-                            try: it[vs]['python']
-                            except: it[vs]['python'] = []
+                            try:
+                                it[vs]
+                            except BaseException:
+                                it[vs] = {}
+                            try:
+                                it[vs]['python']
+                            except BaseException:
+                                it[vs]['python'] = []
 
                             it[vs]['python'].append(line_fileinfo)
 
                         else:
 
-                            v = rn[1].replace(' ','')
-                            if 'offset=' in v: v = v.replace('offset=','')
+                            v = rn[1].replace(' ', '')
+                            if 'offset=' in v:
+                                v = v.replace('offset=', '')
                             vs = str(v.strip())
-                            if vs =="": vs = 0
+                            if vs == "":
+                                vs = 0
 
-                            try: it[vs]
-                            except: it[vs] = {}
-                            try: it[vs]['renpy']
-                            except: it[vs]['renpy'] = []
+                            try:
+                                it[vs]
+                            except BaseException:
+                                it[vs] = {}
+                            try:
+                                it[vs]['renpy']
+                            except BaseException:
+                                it[vs]['renpy'] = []
 
                             it[vs]['renpy'].append(line_fileinfo)
 
@@ -96,16 +107,17 @@ init -80 python:
             last = -10000
             list.sort(key=int)
             for i in list:
-                wh = ['python','renpy']
+                wh = ['python', 'renpy']
                 for w in wh:
                     try:
-                        v = ' <br>'.join(it[i][w]).replace("//","")
+                        v = ' <br>'.join(it[i][w]).replace("//", "")
                         if not v == '':
                             ix = str(i)
-                            st += "\n| " + ix + " | "+w+" | "+ v + " |"
-                    except: pass
+                            st += "\n| " + ix + " | " + w + " | " + v + " |"
+                    except BaseException:
+                        pass
 
-            self.write('init_level', st+"\n\n")
+            self.write('init_level', st + "\n\n")
 
         def collect_style(self):
 
@@ -118,25 +130,27 @@ init -80 python:
 
                 for line in open("E:/pp-renpy/ramen/game/" + f, "r"):
                     line = line.strip()
-                    if line.startswith('style') and not '"' in line and not '=' in line and not '_prefix' in line:
-                        if ":" in line: line=line[:-1]
-                        line = line.replace('style ','')
+                    if line.startswith(
+                            'style') and '"' not in line and '=' not in line and '_prefix' not in line:
+                        if ":" in line:
+                            line = line[:-1]
+                        line = line.replace('style ', '')
                         c.append(line)
 
                 if not c == []:
-                    sts += "\n| "+ line_fileinfo +" | "+ "<br>".join(c) + " |"
+                    sts += "\n| " + line_fileinfo + \
+                        " | " + "<br>".join(c) + " |"
 
-
-            self.write('style', sts+"\n\n")
+            self.write('style', sts + "\n\n")
 
         def collect(self, what, st=''):
 
-            st += "\n# "+what.title()+"\n\n"
+            st += "\n# " + what.title() + "\n\n"
             for f in self.files:
                 fn = ramu.fn_info(f)
                 fine = True
 
-                if what=='label' and fn['name'] == 'screens':
+                if what == 'label' and fn['name'] == 'screens':
                     fine = False
 
                 if fine:
@@ -374,13 +388,11 @@ init -80 python:
     ramendoc = ramen_documentation()
 
 
-
-
 screen rai_ramen_compile_md():
 
     $ report = ramendoc.build(False)
 
-    viewport yminimum config.screen_height yoffset 8 :
+    viewport yminimum config.screen_height yoffset 8:
         draggable True
         spacing 8
         scrollbars "vertical"

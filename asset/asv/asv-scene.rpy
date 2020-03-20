@@ -9,7 +9,7 @@ screen rai_asset_scene(obj_id, var=None):
 
         null height 8
 
-        vpgrid yminimum config.screen_height yoffset 8 :
+        vpgrid yminimum config.screen_height yoffset 8:
             draggable True
             cols 4
             spacing 16
@@ -35,19 +35,19 @@ screen rai_scenetest(obj_id, tag):
     zorder 198
 
     python:
-    
+
         cond = None
         itag = tag
-        
+
         try:
             t = tag.split(' ')
-            if t[1] in (wo.cond): 
+            if t[1] in (wo.cond):
                 cond = t[1]
                 itag = t[0]
 
         except BaseException:
             pass
-            
+
         img = ramu.get_sceneimg(cond, obj_id + " " + itag)
 
         al = []

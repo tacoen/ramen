@@ -3,19 +3,19 @@ init -10 python:
     RAMEN_DEV = True
     RD = {}
     RD.path = ramu.fn_getdir()
-    
+
     ram.component(
         'asv',
-        title = "Ramen Object Inspector",
-        version = "1.0",
-        author = "tacoen",
-        author_url = 'https://github.com/tacoen/ramen',
-        desc = "A debug tools for developer, If you include this in your distributions, this became a cheating tools.",
+        title="Ramen Object Inspector",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="A debug tools for developer, If you include this in your distributions, this became a cheating tools.",
     )
 
     build.archive("asv", "all")
-    build.classify('game/'+ramu.fn_getdir()+'/**', 'asv')
-    
+    build.classify('game/' + ramu.fn_getdir() + '/**', 'asv')
+
     def ramen_dev(what, item):
 
         if RAMEN_DEV:
@@ -243,7 +243,7 @@ screen rai_routecontent(tab, obj_id, view, var):
 
     if isinstance(route[tab], (str, unicode)):
         if renpy.has_screen(route[tab]):
-            viewport xsize config.screen_height-500:
+            viewport xsize config.screen_height - 500:
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
@@ -320,7 +320,7 @@ screen rai_menu(tab):
         if tab in RD.keys():
             menus = RD[tab]
         if tab == 'ramen':
-            menus = ['ico', 'gui', 'vars' ]
+            menus = ['ico', 'gui', 'vars']
             if 'ramen_documentation' in globals():
                 menus.append('compile_md')
         if tab == 'bucket':

@@ -40,8 +40,7 @@ init -190 python:
         THEME_PATH
     except NameError:
         THEME_PATH = RAMEN_THEME_PATH + "/titles"
-        
 
-define config.window_show_transition = { "screens" : Dissolve(.25) }
-define config.window_hide_transition = { "screens" : Dissolve(.25) }
-        
+
+define config.window_show_transition = {"screens": Dissolve(.25)}
+define config.window_hide_transition = {"screens": Dissolve(.25)}

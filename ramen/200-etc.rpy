@@ -12,7 +12,6 @@ init -96 python:
         import pygame
         return pygame.mouse.get_pos()
 
-
     class npcrowd(ramen_object):
 
         def load(self, id=None, **kwargs):

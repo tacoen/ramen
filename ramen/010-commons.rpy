@@ -93,9 +93,9 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
         use scene_shortcut(scene_id, shortcuts, shortcut_position)
 
     python:
-    
+
         if renpy.has_screen('ramen_ambient') and ambient is not None:
-            renpy.use_screen('ramen_ambient',what=ambient)
+            renpy.use_screen('ramen_ambient', what=ambient)
 
 
 ## scene_shorcut #######################################################

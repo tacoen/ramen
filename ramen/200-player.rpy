@@ -1,10 +1,10 @@
 init -203 python:
 
     class player(ramen_object):
-        """ Create player object  
-        
+        """ Create player object
+
         Say, our character has cash 200, and musical ability:
-        
+
         ``` python
             mc = player(
                 score=0,
@@ -17,7 +17,7 @@ init -203 python:
         ```
 
         """
-     
+
         def load(self, id=None, **kwargs):
             self.__dict__['id'] = str('player')
             self.__dict__['dir'] = str('')
@@ -29,9 +29,13 @@ init -203 python:
 
             self._inventory = {}
             self.__dict__['rel'] = {}
-            
-            
-            globals()['mc__'] = npc('mc', name='[mc_name]', lastname='[mc.lastname]', wcolor="#eeee66", color="#ffffff")            
+
+            globals()['mc__'] = npc(
+                'mc',
+                name='[mc_name]',
+                lastname='[mc.lastname]',
+                wcolor="#eeee66",
+                color="#ffffff")
 
         def newname(self, name, lastname):
             self.name = name.title()
