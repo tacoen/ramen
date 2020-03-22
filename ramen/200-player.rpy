@@ -43,7 +43,7 @@ init -203 python:
             self.bio['lastname'] = lastname
 
         def set_limit(self, key, value=None):
-            """ see: ramu.limit() """
+            """ see: ramu.mc_limit() """
 
             try:
                 self.__dict__[str('limit')]
@@ -72,7 +72,7 @@ init -203 python:
             stat = self.__dict__['stat']
 
             ov = stat[what]
-            nv = ramu.limit(what, ov, value)
+            nv = ramu.mc_limit(what, ov, value)
 
             self.__dict__['stat'][what] = nv
 

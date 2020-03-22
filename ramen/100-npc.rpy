@@ -220,7 +220,7 @@ init -100 python:
                 stat[what] = 0
 
             ov = stat[what]
-            nv = ramu.limit(what, ov, value)
+            nv = ramu.mc_limit(what, ov, value)
             stat[what] = nv
 
             mc.rel[self.id] = stat
@@ -429,7 +429,6 @@ init -100 python:
                 )
 
                 what = tag.replace('phone-', '')
-                print self.id + " " + what
                 renpy.image(self.id + " " + what, compo)
 
         def set_phonenum(self, fourdig=None):

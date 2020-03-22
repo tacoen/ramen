@@ -13,10 +13,12 @@ init -1 python:
     tv.exitarea=(909, 612)
 
     tv.makegallery('demo','test')
+
+label ramen_test:
     
 label demo_tv:
 
-    show screen tv(tv, 'demo', 'test', 5, 5)
+    show screen tv(tv, 'demo', 'test-random', 5, 5)
     window auto
 
     return 

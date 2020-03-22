@@ -153,15 +153,16 @@ init -208 python:
 
         # mc interaction
 
-        def buy(self, price):
+        def mc_pay(self, price):
+            """Pay `price` from mc.cash"""
             if mc.cash >= price:
                 mc.cash -= price
                 return True
             else:
                 return False
 
-        def limit(self, what, ov, value=1):
-
+        def mc_limit(self, what, ov, value=1):
+            """Set value base on mc.limit values of it"""
             ov += value
 
             if what not in mc.limit.keys():
@@ -216,11 +217,27 @@ init -208 python:
                 return False
 
         def notify(self, msg, icoram=None):
+            """
+            Show 'ingame_notify' with 'msg' and 'icoram'
+            """ 
+            
             renpy.show_screen('ingame_notify', msg=msg, icoram=icoram)
 
-        # Mass function : Items
-
         def create_items(self, inventory, where, prefix, **kwargs):
+            """
+            Mass Create items
+      
+            ``` python
+                ramu.create_items(marto,'items','zd_',
+                    cost=(20,29), 
+                    eatable=True,
+                    name='Soft Drinks',
+                    effect=['stat','energy',2] 
+                )
+            ```
+            
+            Scan image file from 'items', which has 'zd_' prefix and add the rest item attributes, and put them into `marto` inventory.
+            """
 
             files = ramu.fn_files(where, prefix)
 
@@ -252,6 +269,7 @@ init -208 python:
         # Image util
 
         def get_profilepic(self, whoid, size=(48, 48)):
+            """Get profile pic of whoid(npc)"""
             try:
                 ppic = globals()[whoid].profile_pic
             except BaseException:
@@ -259,6 +277,7 @@ init -208 python:
             return im.Scale(ppic, size[0], size[1])
 
         def get_sceneimg(self, condition=None, bgr=None):
+            """Get currently showing scene"""
             t = tuple(renpy.get_showing_tags('master', True))
             a = renpy.get_attributes(t[0])
 
@@ -297,7 +316,8 @@ init -208 python:
         # Sound util
 
         def sfx(self, file, where=None, play=True, loop=False):
-        
+            """Play audio file if play is True, return if play is False."""
+            
             file = self.fn_search(file, where, ['.ogg', '.mp3', '.wav'], RAMEN_SFX_PATHS)
             
             if file and play:
@@ -305,7 +325,15 @@ init -208 python:
             return file
 
         def fn_search(self, what, where=None, ext=['.jpg', '.png', '.webp'], wheres=RAMEN_GUI_PATHS):
+            """
+            Search file[.ext] from where_list. Ramen use RAMEN_GUI_PATHS and RAMEN_SFX_PATHS. Both are defined in theme_define.rpy
+                        
+            ``` python
+                ppic = ramu.fn_search('profile')
+                file = self.fn_search(file, where, ['.ogg', '.mp3', '.wav'], RAMEN_SFX_PATHS)
+            ```
             
+            """
             if where is not None: wheres.append(where)
             
             wheres.sort()
@@ -321,3 +349,18 @@ init -208 python:
             
             return False
 
+        def safe(self,what,type='image'):
+            """
+            Safe value, default of type
+            
+            ``` python:
+            image side thou = ramu.safe( ramu.fn_search('side-thou'), 'image')
+            ```
+            
+            """
+            if what:
+                return what
+            else:
+                if type == 'sound': return RAMEN_THEME_PATH+"/audio/beep.mp3"
+                return RAMEN_THEME_PATH+"/gui/noimage.png"
+                

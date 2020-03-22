@@ -53,14 +53,10 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
 
     layer 'above-screens'
     
-    if renpy.loadable(obj.dir + '/body.png'):
-        add(obj.dir + '/body.png')
-    else:
-        add Solid('#000000')
-
-    $ gal = obj.gallery[what]
-
     python:
+        tvbgr = ramu.fn_search('tv-body',obj.dir)    
+        gal = obj.gallery[what]
+
         try:
             chan
         except BaseException:
@@ -70,11 +66,16 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
         except BaseException:
             random = False
 
-        if renpy.loadable(obj.dir + '/btn.png'): exitbtn = obj.dir + '/btn.png'
-        else: exitbtn = Text('ON')
+        exitbtn = ramu.fn_search('tv-btn',obj.dir)
+        if not exitbtn: exitbtn = Text('ON')
 
-        if renpy.loadable(obj.dir + '/btn-hover.png'): exitbtn_hover = obj.dir + '/btn-hover.png'
-        else: exitbtn_hover = Text('OFF')
+        exitbtn_hover = ramu.fn_search('tv-btn-hover',obj.dir)
+        if not exitbtn_hover: exitbtn_hover = Text('OFF')
+
+    if tvbgr: 
+        add(tvbgr)
+    else:
+        add Solid('#000000')
 
     imagebutton pos tv.exitarea action Hide('tv'):
         idle exitbtn
@@ -98,14 +99,14 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
             except BaseException:
 
                 try:
-                    ld = sorted(gal[chan][wo.daytime.lower()].values())
+                    playlist = sorted(gal[chan][wo.daytime.lower()].values())
                 except BaseException:
-                    ld = sorted(gal[chan].values())
+                    playlist = sorted(gal[chan].values())
 
                 if chan.endswith('-show') or length is None:
-                    length = len(ld)
+                    length = len(playlist)
 
                 if 'random' in chan:
-                    renpy.random.shuffle(playlist)
+                    random.shuffle(playlist)
 
         use tvshow(playlist, second, loop)

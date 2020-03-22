@@ -68,7 +68,7 @@ init -2:
         window_ysize=150,
     )
 
-    image side thou = ramu.fn_search('side-thou')
+    image side thou = ramu.safe( ramu.fn_search('side-thou'), 'image')
 
     define character.anon = Character(
         "rbc.anon_name",
