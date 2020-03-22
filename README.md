@@ -10,4 +10,4 @@ https://github.com/tacoen/ramen/wiki
 
 ### Notes
 
- * Renpy Web = ImportError: No module named uuid
+ * Renpy Web = Passed

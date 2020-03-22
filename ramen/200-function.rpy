@@ -74,13 +74,28 @@ init -208 python:
 
         def safe_id(self, id):
             """Strip non-safecharacter for [id]."""
-            id = re.sub('[^0-9a-zA-Z]+', '', id)
+            id = re.sub('[^0-9a-zA-Z_]+', '', id)
             id = id.replace('-', '').replace(' ', '_')
             return id.lower()
             
         def unique_id(self,prefix='obj'):
+            """
+            Random generic id base on classname
             
-            return "".join(random.choice(string.ascii_lowercase) for x in range(2))+"".join(random.choice(string.digits) for x in range(2))
+            ``` python:
+                testobj = ramen_object(keyword='value')
+            
+                > testobj.id
+                ramen_object_VH98
+            ```
+            
+            Beware of this kind of object, it's not be in your `renpy store` because it's randomize.
+            It's there for counter-measuring.
+            
+            """
+            return prefix+"_"+\
+                   "".join(random.choice(string.ascii_lowercase) for x in range(2))+ \
+                   "".join(random.choice(string.digits) for x in range(2))
 
         # json
 
