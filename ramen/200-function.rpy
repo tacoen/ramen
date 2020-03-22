@@ -1,14 +1,5 @@
 init -208 python:
 
-    import re
-    import datetime
-    import copy
-    import sys
-    import json
-    import uuid
-    import random
-    import os
-
     try:
         RAMEN_DEV
     except BaseException:
@@ -81,11 +72,15 @@ init -208 python:
             nn = name.replace(str_strip, '').replace('_', ' ')
             return nn.title()
 
-        def safeid(self, id):
+        def safe_id(self, id):
             """Strip non-safecharacter for [id]."""
-
-            id = id.replace('-', '').replace(' ', '')
+            id = re.sub('[^0-9a-zA-Z]+', '', id)
+            id = id.replace('-', '').replace(' ', '_')
             return id.lower()
+            
+        def unique_id(self,prefix='obj'):
+            
+            return "".join(random.choice(string.ascii_lowercase) for x in range(2))+"".join(random.choice(string.digits) for x in range(2))
 
         # json
 

@@ -86,7 +86,7 @@ init -199 python:
             except BaseException:
                 rbc.event = object()
 
-            self.id = str(id)
+            self.id = ramu.safe_id(id)
 
             rbc.event.__dict__[str(id)] = {}
             rbc.event.__dict__[str(id)][str('label')] = str(label)

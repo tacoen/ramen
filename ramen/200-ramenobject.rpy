@@ -80,22 +80,9 @@ init -204 python:
             self.dir = str(dir.replace('game/', ""))
 
             if id is None:
-                self.__dict__[
-                    str('id')] = str(
-                    f.replace(
-                        " ",
-                        "").replace(
-                        "-",
-                        "").lower())
-                self.__dict__[str('id')] = str(uuid.uuid4())[:8].lower()
+                self.__dict__[str('id')] = ramu.safe_id(ramu.unique_id(self.__class__.__name__))
             else:
-                self.__dict__[
-                    str('id')] = str(
-                    id.replace(
-                        " ",
-                        "").replace(
-                        "-",
-                        "").lower())
+                self.__dict__[str('id')] = ramu.safe_id(id)
 
             for key in param:
                 if key.startswith("_"):

@@ -8,10 +8,9 @@ init -202 python:
                 self.__dict__[k] = kwargs[k]
 
             if id is None:
-                self.__dict__['id'] = self.__class__.__name__ + \
-                    "_" + str(uuid.uuid4())[:8].lower()
+                self.__dict__['id'] = ramu.safe_id(ramu.unique_id(self.__class__.__name__))
             else:
-                self.__dict__['id'] = str(id)
+                self.__dict__['id'] = ramu.safe_id(id)
 
             try:
                 self.dir

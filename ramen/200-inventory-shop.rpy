@@ -14,7 +14,7 @@ init -201 python:
                 mc._inventory[store]
             except BaseException:
                 mc._inventory[str(store)] = {}
-            self.id = str(store)
+            self.id = ramu.safe_id(store)
             self.container = mc._inventory[self.id]
             self.max = int(max)
 
