@@ -35,8 +35,12 @@ screen atm(dscr=None):
         
     style_prefix "atm"
 
-    add (ATMPATH+"/atm-face.png")
+    python:
+        face = ramu.fn_search("atm-face",ATMPATH)
+        if not face: face= Solid('#009')
 
+    add face
+    
     frame:
         vbox yfill True:
             vbox:
@@ -58,7 +62,13 @@ screen atm(dscr=None):
                     text "Thank you for banking with us." xalign 0.5
 
 screen atm_pin(text):
-    add (ATMPATH+"/atm-face.png")
+
+    python:
+        face = ramu.fn_search("atm-face",ATMPATH)
+        if not face: face= Solid('#009')
+
+    add face
+    
     style_prefix "atm"
     frame:
         vbox xalign 0.5 yalign 0.5:

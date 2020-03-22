@@ -387,7 +387,6 @@ init -99 python:
                         if not area:
                             area = xy + renpy.image_size(hover)
                         if not ground:
-                            #ground=RAMEN_PATH + "/img/blank.png"
                             ground = Solid('#0000')
 
                     if hover:

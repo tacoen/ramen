@@ -67,15 +67,22 @@ init -208 python:
         # str
 
         def nicenaming(self, str_strip, name):
-            """ Turn 'nice_name some' to 'nicenamesome'."""
-
-            nn = name.replace(str_strip, '').replace('_', ' ')
-            return nn.title()
+            """ 
+            Strip 'str_strip' from 'name', and replace '_' as whitespace as title
+            
+            ``` python
+                a = ramu.nicenaming('prefix_','prefix_keyword_some')
+                
+                >a
+                Keyword Some
+            ```
+            """
+            return str(name.replace(str_strip, '').replace('_', ' ').title())
 
         def safe_id(self, id):
             """Strip non-safecharacter for [id]."""
+            id = id.replace('-', '').replace(' ', '_').strip()
             id = re.sub('[^0-9a-zA-Z_]+', '', id)
-            id = id.replace('-', '').replace(' ', '_')
             return id.lower()
             
         def unique_id(self,prefix='obj'):
@@ -226,12 +233,12 @@ init -208 python:
             else:
                 return False
 
-        def notify(self, msg, icoram=None):
+        def notify(self, msg, ramen_icon=None):
             """
-            Show 'ingame_notify' with 'msg' and 'icoram'
+            Show 'ingame_notify' with 'msg' and 'ramen_icon'
             """ 
             
-            renpy.show_screen('ingame_notify', msg=msg, icoram=icoram)
+            renpy.show_screen('ingame_notify', msg=msg, ramen_icon=ramen_icon)
 
         def create_items(self, inventory, where, prefix, **kwargs):
             """

@@ -1,8 +1,8 @@
 init -4 python:
 
-    def ramen_ingamenotify(msg='', icoram=None, who=None):
+    def ramen_ingamenotify(msg='', ramen_icon=None, who=None):
 
-        renpy.show_screen('ingame_notify', msg=msg, icoram=icoram, who=who)
+        renpy.show_screen('ingame_notify', msg=msg, ramen_icon=ramen_icon, who=who)
 
 # Common ATL and Shared Style
 
@@ -100,10 +100,10 @@ screen scene_mapping(obj, scene_id, img=None, overlays=None, shortcut_position=N
 
 ## scene_shorcut #######################################################
 
-style shortcut_icon is icoram:
+style shortcut_icon is ramen_icon:
     xalign 0.5
 
-style shortcut_icon_text is icoram:
+style shortcut_icon_text is ramen_icon:
     size 24
     min_width 30
     text_align 0.5
@@ -240,11 +240,11 @@ screen _overlays(obj_id, vars, ontop=False):
             hbox pos xy:
                 add img
 
-screen ingame_notify(msg='', icoram=None, who=None):
+screen ingame_notify(msg='', ramen_icon=None, who=None):
 
     python:
-        if icoram is None:
-            icoram = 'arrow-up'
+        if ramen_icon is None:
+            ramen_icon = 'arrow-up'
 
     zorder 102
     style_prefix "ingame_notify"
@@ -256,7 +256,7 @@ screen ingame_notify(msg='', icoram=None, who=None):
                     if who is not None:
                         add ramu.get_profilepic(who, (32, 32))
                         null width 8
-                    text ico(icoram) style "ingame_notify_icon" min_width 24 text_align 0.5
+                    text ico(ramen_icon) style "ingame_notify_icon" min_width 24 text_align 0.5
                     null width 8
                     text "[msg]"
                     null width 8
@@ -276,7 +276,7 @@ style ingame_notify_text:
     properties gui.text_properties("notify")
     color "#000"
 
-style ingame_notify_icon is ram_ico:
+style ingame_notify_icon is ramen_icon:
     color "#000"
     size 24
 

@@ -4,7 +4,6 @@
 # them. Lines beginning with a single '#' mark are commented-out code, and you
 # may want to uncomment them when appropriate.
 
-
 ## Basics ################################################################
 
 # A human-readable name of the game. This is used to set the default window
@@ -13,7 +12,6 @@
 # The _() surrounding the string marks it as eligible for translation.
 
 define config.name = _("Your Working Title")
-
 
 # Determines if the title given above is shown on the main menu screen. Set
 # this to False to hide the title.
@@ -35,7 +33,7 @@ define gui.about = _p("""
 # distribution. This must be ASCII-only, and must not contain spaces, colons,
 # or semicolons.
 
-define build.name = str(config.name).lower().strip().replace(".","").replace(" ","_")
+define build.name = ramu.safe_id(config.name)
 
 ## Sounds and music ######################################################
 
@@ -100,11 +98,10 @@ define config.end_game_transition = dissolve
 
 define config.window = "auto"
 
-
 # Transitions used to show and hide the dialogue window
 
-define config.window_show_transition = Dissolve(.2)
-define config.window_hide_transition = Dissolve(.2)
+define config.window_show_transition = Dissolve(.25)
+define config.window_hide_transition = Dissolve(.25)
 
 
 ## Preference defaults ###################################################
@@ -188,14 +185,4 @@ init python:
     build.documentation('*.html')
     build.documentation('*.txt')
 
-# A Google Play license key is required to download expansion files and perform
-# in-app purchases. It can be found on the "Services & APIs" page of the Google
-# Play developer console.
 
-# define build.google_play_key="..."
-
-
-# The username and project name associated with an itch.io project, separated
-# by a slash.
-
-# define build.itch_project="renpytom/test-project"

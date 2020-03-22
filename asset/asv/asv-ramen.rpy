@@ -14,7 +14,7 @@ screen rai_ramen_ico():
 
         for i in sorted(Ico.keys()):
             hbox xsize 200:
-                text Ico[i] style "ram_ico" color "#fff"
+                text Ico[i] style "ramen_icon" color "#fff"
                 null width 8
                 text i style "ramen_gui" color "#fff" text_align 0.0 min_width 180
                 null width 32

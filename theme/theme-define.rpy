@@ -20,21 +20,16 @@ init -209 python:
 init -199 python:
 
     # Constant For Shared Resources
-
     RAMEN_THEME_PATH = ramu.fn_getdir()
 
-    try:
-        FONT_PATH
-    except NameError:
-        FONT_PATH = RAMEN_THEME_PATH + "/fonts"
-
-    try:
-        THEME_PATH
-    except NameError:
-        THEME_PATH = RAMEN_THEME_PATH + "/titles"
-
-    DEFAULT_SFXPATH = RAMEN_THEME_PATH
-    
+    font = object()
+    font.game_text = RAMEN_THEME_PATH+'/fonts/WorkSans-Regular.ttf'
+    font.game_label = RAMEN_THEME_PATH+'/fonts/WorkSans-SemiBold.ttf'
+    font.ui_title=RAMEN_THEME_PATH+'/fonts/WorkSans-ExtraLight.ttf'
+    font.ui_label=RAMEN_THEME_PATH+'/fonts/WorkSans-Light.ttf'
+    font.ui_text = RAMEN_THEME_PATH+'/fonts/Abel-Regular.ttf'
+    font.ui_ico = RAMEN_THEME_PATH+'/fonts/icon/fonts/ramen-ico.ttf'
+        
 init -99 python:
 
     # defaults
@@ -52,6 +47,39 @@ init -99 python:
         hud_fgcolor = "#fff"
 
     gui.init(1280, 720)
+
+init offset = -9
+
+style ramen_gui:
+    font font.ui_text
+    antialias True
+
+style ramen_gui_label:
+    font font.ui_label
+    antialias True
+    size 22
+
+style ramen_gui_title:
+    font font.ui_title
+    antialias True
+    size 48
+
+style ramen_text:
+    font font.game_text
+    antialias True
+    size 22
+
+style ramen_label:
+    font font.game_label
+    antialias True
+    size 22
+
+style ramen_icon:
+    font font.ui_ico
+    antialias True
+    size 32
+
+style ramen_icon_text is ramen_icon
 
 
 define config.window_show_transition = {"screens": Dissolve(.25)}

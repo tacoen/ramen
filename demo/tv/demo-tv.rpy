@@ -14,8 +14,6 @@ init -1 python:
 
     tv.makegallery('demo','test')
 
-label ramen_test:
-    
 label demo_tv:
 
     show screen tv(tv, 'demo', 'test-random', 5, 5)

@@ -86,7 +86,7 @@ transform smp_pullup:
 
 screen smp_backbutton(bucket, title=''):
     hbox yalign 0.5 xfill True:
-        textbutton ico('arrow-left') style 'ram_ico':
+        textbutton ico('arrow-left') style 'ramen_icon':
             text_color "#0009"
             text_hover_color  "#000"
             action SetVariable(bucket, None)
@@ -145,7 +145,7 @@ screen smp_main(apps=None):
                 hbox yalign 0.5 xfill True xoffset 4:
                     text smp.apps[a]['title'] color "#fff6" size 20 bold True
                     textbutton ico('close') action SetVariable('rbc.smp_apps', None):
-                        style "ram_ico" xsize 32 xalign 1.0
+                        style "ramen_icon" xsize 32 xalign 1.0
                         text_size 16 text_hover_color "#fff" text_line_leading 4 text_xalign 0.5
 
             frame yoffset 32:
@@ -219,7 +219,7 @@ screen phone_incoming_notice(who):
         hbox xfill True xoffset 320 xsize style['phone_notif_frame'].xminimum - 320:
             vbox xalign 0 yalign 0.5:
                 hbox:
-                    text "V" style 'icoram' at phone_ringging color style['phone_notif_text'].color
+                    text "V" style 'ramen_icon' at phone_ringging color style['phone_notif_text'].color
                     text 'Incoming call'  xoffset 8
                 $ whoname = globals()[who].name
                 text whoname.title() style 'phone_notif_name'

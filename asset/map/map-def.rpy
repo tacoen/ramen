@@ -55,8 +55,8 @@ style map_button_text is gui_text:
     color "#fff"
     outlines[(absolute(2), "#000", absolute(0), absolute(0))]
 
-style map_ico is ram_ico
-style map_ico_text is ram_ico_text:
+style map_ico is ramen_icon
+style map_ico_text is ramen_icon_text:
     size 20
     outlines[(absolute(6), "#fffc", absolute(0), absolute(0))]
     hover_outlines[(absolute(6), "#fff", absolute(0), absolute(0))]

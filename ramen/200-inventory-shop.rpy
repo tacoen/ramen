@@ -290,7 +290,7 @@ screen shop_ui(obj):
                                 hbox xfit True:
                                     vbox xsize 20:
                                         textbutton ico("minus-square") action Function(obj.cart, item_id=prod[i].id, check=True):
-                                            style "ram_ico" text_size 18 text_line_leading 2 text_color obj.ui.fg
+                                            style "ramen_icon" text_size 18 text_line_leading 2 text_color obj.ui.fg
                                     vbox xsize 60:
                                         text str(c[i]) xalign 1.0 color obj.ui.fg
                                     vbox xsize 80:

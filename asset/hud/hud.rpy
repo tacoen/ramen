@@ -26,18 +26,18 @@ init -1:
         xsize hud.ui.w
         ysize hud.ui.h
 
-    style hud_icon is icoram:
+    style hud_icon is ramen_icon:
         xsize 48
         ysize 32
 
-    style hud_icon_text is icoram:
+    style hud_icon_text is ramen_icon:
         size 32
 
-    style hud_sunico is icoram:
+    style hud_sunico is ramen_icon:
         xsize 24
         ysize 24
 
-    style hud_sunico_text is icoram:
+    style hud_sunico_text is ramen_icon:
         size 24
 
     style hud_text is gui_text:

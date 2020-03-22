@@ -151,7 +151,7 @@ define gui.vbar_borders = Borders(4, 4, 4, 4)
 define gui.vscrollbar_borders = Borders(4, 4, 4, 4)
 define gui.vslider_borders = Borders(4, 4, 4, 4)
 
-define gui.quick_button_text_font = FONT_ICO_RAMEN
+define gui.quick_button_text_font = font.ui_ico
 define gui.quick_button_borders = Borders(16, 0, 16, 4)
 define gui.quick_button_text_size = 16
 define gui.quick_button_text_idle_color = gui.interface_idle_color
@@ -195,10 +195,10 @@ define gui.notify_frame_background = Frame(
 
 # ui
 
-image radio_selected_ = Text(ico("check-square"), font=FONT_ICO_RAMEN, color=gui.idle_color, size=18, line_leading=8)
-image radio_ = Text(ico("square"), font=FONT_ICO_RAMEN, color=gui.idle_color, size=18, line_leading=8)
-image check_selected_ = Text(ico("toggle-right"), font=FONT_ICO_RAMEN, color=gui.idle_color, size=18, line_leading=10)
-image check_ = Text(ico("toggle-left"), font=FONT_ICO_RAMEN, color=gui.muted_color, size=18, line_leading=10)
+image radio_selected_ = Text(ico("check-square"), font=font.ui_ico, color=gui.idle_color, size=18, line_leading=8)
+image radio_ = Text(ico("square"), font=font.ui_ico, color=gui.idle_color, size=18, line_leading=8)
+image check_selected_ = Text(ico("toggle-right"), font=font.ui_ico, color=gui.idle_color, size=18, line_leading=10)
+image check_ = Text(ico("toggle-left"), font=font.ui_ico, color=gui.muted_color, size=18, line_leading=10)
 
 ## Dialogue ##############################################################
 ##

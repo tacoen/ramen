@@ -22,10 +22,10 @@ screen phone_app_task(data=False):
         for t in task.keys():
             hbox:
                 if task[t][1]:
-                    text "v" style 'icoram' size 18 color "#393" yoffset 2
+                    text "v" style 'ramen_icon' size 18 color "#393" yoffset 2
                     $ tcolor = "#999"
                 else:
-                    text "q" style 'icoram' size 18 color "#333" yoffset 2
+                    text "q" style 'ramen_icon' size 18 color "#333" yoffset 2
                     $ tcolor = "#000"
                 null width 8
                 text task[t][0] color tcolor

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'ramen-ico';
-  src:  url('fonts/ramen-ico.eot?ux07hp');
-  src:  url('fonts/ramen-ico.eot?ux07hp#iefix') format('embedded-opentype'),
-    url('fonts/ramen-ico.ttf?ux07hp') format('truetype'),
-    url('fonts/ramen-ico.woff?ux07hp') format('woff'),
-    url('fonts/ramen-ico.svg?ux07hp#ramen-ico') format('svg');
+  src:  url('fonts/ramen-ico.eot?3bb3h0');
+  src:  url('fonts/ramen-ico.eot?3bb3h0#iefix') format('embedded-opentype'),
+    url('fonts/ramen-ico.ttf?3bb3h0') format('truetype'),
+    url('fonts/ramen-ico.woff?3bb3h0') format('woff'),
+    url('fonts/ramen-ico.svg?3bb3h0#ramen-ico') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ramicomouse-lc:before {
+  content: "\6f";
+}
+.ramicomouse-rc:before {
+  content: "\73";
+}
 .ramicosun1:before {
   content: "\64";
 }

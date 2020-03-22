@@ -1299,7 +1299,7 @@ transform delayed_blink(delay, cycle):
         pause(cycle - .4)
         repeat
 
-style skip_triangle is icoram:
+style skip_triangle is ramen_icon:
     line_leading 5
     size 14
     kerning - 10

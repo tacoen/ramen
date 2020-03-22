@@ -77,7 +77,8 @@ init -2:
         what_color="#ccc"
     )
 
-    image ctcon = Text("  " + ico('arrow-right'), line_leading=8, font=FONT_ICO_RAMEN, color="#fffc", size=16)
+    image arrow = Text("  " + ico('arrow-right'), line_leading=8, font=font.ui_ico, color="#fc3", size=16)
+    image mouse_l = Text("  " + ico('mouse-l'), line_leading=6, font=font.ui_ico, color="#fffc", size=18)
 
     define character.caption = Character(
         None,
@@ -106,7 +107,8 @@ init -2:
         what_suffix="{/cps}{/size}",
         what_xalign=0.9,
         what_yalign=0.5,
-        what_outlines=[(absolute(2), "#0006", absolute(0), absolute(0))]
+        what_outlines=[(absolute(2), "#0006", absolute(0), absolute(0))],
+        ctc='arrow'
     )
 
     define character.narator = Character(
@@ -118,7 +120,7 @@ init -2:
         what_xalign=0.0,
         what_xpos=gui.dialogue_xpos,
         what_xsize=gui.dialogue_width,
-        ctc='ctcon'
+        ctc='mouse_l'
     )
 
     define character.emoti = Character(
