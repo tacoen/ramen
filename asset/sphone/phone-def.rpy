@@ -1,5 +1,14 @@
-init -100 python:
-
+init -90 python:
+    
+    ram.component(
+        'phone',
+        title="Smartphone UI",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="A nice apps container. A Modular approach to your stats, relations, game stats, etc.",
+    )
+    
     def smp_comboclose():
         """Hide every phone screens ('smp_'), and clear its `rbc`."""
         rbc.smp_apps = None

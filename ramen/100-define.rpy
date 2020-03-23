@@ -17,10 +17,9 @@ init -200 python:
     # Default fallback:
 
     style['hbar'] = Style(style.default)
-    bcolor = "#9AB"
-    style['hbar'].thumb = bcolor
-    style['hbar'].right_bar = Color(bcolor).opacity(.5)
-    style['hbar'].left_bar = Color(bcolor).opacity(.75)
+    style['hbar'].thumb = "#9AB"
+    style['hbar'].right_bar = Color("#9AB").opacity(.5)
+    style['hbar'].left_bar = Color("#9AB").opacity(.75)
     style['hbar'].ysize = 16
 
 init -100 python:

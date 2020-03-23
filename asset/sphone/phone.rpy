@@ -1,4 +1,4 @@
-init -99 python:
+init -89 python:
 
     smp = ramen_object(id='smp')
 

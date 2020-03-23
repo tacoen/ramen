@@ -1,5 +1,14 @@
 init -2 python:
 
+    ram.component(
+        'atm',
+        title="ATM. Mini Banking screen.",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="Transfer between mc.money and mc.cash with customable payments items.",
+    )
+    
     ATMPATH = ramu.fn_getdir() 
 
     def atm_drawn(ammount):

@@ -1,8 +1,10 @@
 init -10 python:
 
     RAMEN_DEV = True
-    RD = {}
-    RD.path = ramu.fn_getdir()
+    
+    if RAMEN_DEV:
+        RD = {}
+        RD.path = ramu.fn_getdir()
 
     ram.component(
         'asv',
@@ -10,7 +12,7 @@ init -10 python:
         version="1.0",
         author="tacoen",
         author_url='https://github.com/tacoen/ramen',
-        desc="A debug tools for developer, If you include this in your distributions, this became a cheating tools.",
+        desc="Developer only! A debug tools for developer, If you include this in your distributions, this became a cheating tools.",
     )
 
     build.archive("asv", "all")
@@ -319,7 +321,7 @@ screen rai_menu(tab):
         if tab in RD.keys():
             menus = RD[tab]
         if tab == 'ramen':
-            menus = ['ico', 'gui', 'vars']
+            menus = ['ico', 'gui', 'vars','component']
             if 'ramen_documentation' in globals():
                 menus.append('compile_md')
         if tab == 'bucket':

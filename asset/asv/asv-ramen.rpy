@@ -188,3 +188,40 @@ screen rai_ramen_gui():
         $ test_items = ['Test', 'Eval']
         for i in test_items:
             textbutton i action Null
+
+screen rai_ramen_component():
+
+    python:
+        mywidth = config.screen_width - 200
+        cw = (mywidth / 2)
+        ff = [ 'title', 'version', 'desc', 'author', 'dir' ]
+    
+    viewport:
+        draggable True
+        mousewheel True
+        scrollbars "vertical"
+    
+        vbox xsize mywidth:
+            spacing 24
+            
+            for c in sorted(ram._component.keys()):
+                $ comp = ram._component[c]
+
+                vbox:
+                    text c.title() size 24 bold True color "#fff"
+                    null height 8
+                    frame ysize 1 background "#ccc"
+                    null height 8
+                    
+                    for f in ff:
+                        python:
+                            try: val = str(comp[f])
+                            except: val = ""
+                        
+                        hbox:
+                            text f min_width 120 color "#ccc"
+                            text val color "#ddd"
+
+                    null height 16
+            
+        

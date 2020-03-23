@@ -1,5 +1,14 @@
-init -98 python:
-
+init -90 python:
+    
+    ram.component(
+        'hud',
+        title="Game HUD",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="Life Simulation Game HUD",
+    )
+    
     # hub object
 
     hud=ramen_object(id='hud')

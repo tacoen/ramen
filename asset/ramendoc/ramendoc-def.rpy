@@ -6,7 +6,7 @@ init -80 python:
         version="1.0",
         author="tacoen",
         author_url='https://github.com/tacoen/ramen',
-        desc="Because my pydoc doesn't work in renpy, please set the `MD_PATH`",
+        desc="Developer only! Because my pydoc doesn't work in renpy, please set the `MD_PATH`.",
     )
 
     build.archive("ramendoc", "all")

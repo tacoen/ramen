@@ -1,5 +1,14 @@
 init -90 python:
 
+    ram.component(
+        'map',
+        title="Interactive Map",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="Put Interative maps screens into yourgames.",
+    )
+    
     def map_item(obj,id,**kwargs):
         """
         Put map_item into map.

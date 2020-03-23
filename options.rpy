@@ -132,6 +132,7 @@ default preferences.afm_time = 15
 
 define config.save_directory = "renpy-ramen"
 
+
 ## Icon ##################################################################
 ##
 # The icon displayed on the taskbar or dock.
@@ -141,6 +142,7 @@ define config.window_icon = "gui/window_icon.png"
 ## Build configuration ###################################################
 ##
 # This section controls how Ren'Py turns your project into distribution files.
+
 
 init python:
 
@@ -186,3 +188,5 @@ init python:
     build.documentation('*.txt')
 
 
+    build.include_old_themes = False
+    
