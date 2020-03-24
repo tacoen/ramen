@@ -1,6 +1,8 @@
 
 label demo:
 
+    scene twhite
+    
     label .name:
 
     "Your name please..."
@@ -13,7 +15,6 @@ label demo:
 
     mc "[mc_name] [lastname]."
     
-
     label .demomenu:
     
         $ rbc.setdata('scene_map',id='demo',f='floor1',d='floor1')

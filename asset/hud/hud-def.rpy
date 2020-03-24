@@ -208,7 +208,7 @@ screen hud_inventory():
         tr=int(round(h/(iconsize[1])))
         cmax=tc * tr
         cs=((w-(tc * iconsize[0]+2)) / tc)/2
-        safebgr=ramu.safecolor_for_bgr(hud.ui.bgcolor[rbc.hud_set],'#000000')
+        safebgr=ramu.safecolor_for_bgr(hud.ui.bgcolor[rbc.hud_set], hud.ui.fgcolor[rbc.hud_set])
         
         mc.limit['pocket']=[0, tc*tr]
 

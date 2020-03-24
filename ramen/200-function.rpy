@@ -117,20 +117,29 @@ init -208 python:
 
         # Color
 
-        def safecolor_for_bgr(self, hex_color, bgr_hc):
-            nno = Color(hex_color).hexcode[:7]
-            if nno == bgr_hc:
-                return Color(nno).replace_lightness(.1).hexcode
+        def safecolor_for_bgr(self, hex_color, bgr_hc='#000'):
+            if Color(hex_color) == Color(bgr_hc):
+                return self.Color_invert(hex_color)
             else:
-                return hex_color
+                return Color(hex_color)
 
         def color_Darken(self, hex_color, ammount=0.2):
-            """Utilize renpy color.rpy."""
+            """Utilize renpy color.py."""
             return Color(hex_color).shade(ammount)
 
         def color_Brighten(self, hex_color, amount=0.2):
-            """Utilize renpy color.rpy."""
+            """Utilize renpy color.py."""
             return Color(hex_color).tint(1 - float(ammount))
+            
+        def color_Invert(self, hex_color):
+            """Invert color, #fff -> #000 vice-versa"""
+            a = Color(hex_color).alpha
+            (r,g,b) = Color(hex_color).rgb
+            r = 1.0 - float(r)
+            g = 1.0 - float(g)
+            b = 1.0 - float(b)
+            return Color(rgb=(r,g,b)).opacity(a)
+
 
         # Love the random (renpy.random.randint)
 
