@@ -26,7 +26,6 @@ init -89 python:
 
     smp.index('apps', 'apps', 'rpy')
 
+    smp.wallpaper = im.Scale(ramu.random_of(smp.files('images/wp')), style['smp']['area']['display'].xminimum, style['smp']['area']['display'].yminimum)
+    
     PHONE_SFXPATH = smp.dir + "/audio"
-
-    rbc.smp_apps = None
-    rbc.smp_disable = False

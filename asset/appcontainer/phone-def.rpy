@@ -1,20 +1,32 @@
 init -90 python:
+
+    def smp_activated():
     
+        hud.ui.icons['smp_ui']=[ '1','phone' , "Smartphone", ToggleScreen('smp_ui') ]
+        hud.ui.keyb['f10']=[ "K_F10" , ToggleScreen('smp_ui') ]
+        mc.pref['icons'].append('smp_ui')
+        rbc.smp_apps = None
+        rbc.smp_who = None        
+        rbc.smp_disable = False
+
     ram.component(
         'phone',
-        title="Smartphone UI",
+        title="Appcontainer: Smartphone UI",
         version="1.0",
         author="tacoen",
         author_url='https://github.com/tacoen/ramen',
         desc="A nice apps container. A Modular approach to your stats, relations, game stats, etc.",
+        active_func='smp_activated'
     )
-    
+
     def smp_comboclose():
         """Hide every phone screens ('smp_'), and clear its `rbc`."""
         rbc.smp_apps = None
-        rbc.smp_who = None
+        rbc.smp_who = None        
         ramu.screen_hideby(prefix='smp_')
 
+    # For phone calls
+        
     def ramen_phone_dering(nr=False):
         """Make phone ringging in stories. """
         if nr:
@@ -31,7 +43,6 @@ init -90 python:
         """Provide callback function for `phone_dialing`."""
         if event == "show_done":
             ramu.sfx("phone-dial", PHONE_SFXPATH, True)
-#            renpy.sound.play(PHONE_SFXPATH + "/phone-dial.mp3")
         elif event == "end":
             renpy.sound.stop()
 
@@ -39,9 +50,9 @@ init -90 python:
         """Provide callback function for `phone_hangup`."""
         if event == "show_done":
             ramu.sfx("phone-close", PHONE_SFXPATH, True)
-#            renpy.sound.play(PHONE_SFXPATH + "/phone-close.mp3")
         elif event == "end":
             renpy.sound.stop()
+
 
 init offset = -1
 
@@ -76,7 +87,6 @@ define phone_hangup = Character("Phone",
                                 what_xsize=400,
                                 what_outlines=[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]
                                 )
-
 
 style smp_ui is default
 
@@ -128,7 +138,7 @@ screen smp_main(apps=None):
 
     frame background smp.ui.bgr xpos smp.ui.x ypos smp.ui.y xsize smp.ui.w ysize smp.ui.h at smp_pullup:
 
-        add(ramu.fn_ezy(smp.dir + "/images/wp/1")) xpos style['smp']['area']['display'].xpos ypos style['smp']['area']['display'].ypos
+        add(smp.wallpaper) xpos style['smp']['area']['display'].xpos ypos style['smp']['area']['display'].ypos
 
         imagebutton xpos smp.ui.bx ypos smp.ui.by action Function(smp_comboclose):
             idle(smp.dir + "/images/btn.png")

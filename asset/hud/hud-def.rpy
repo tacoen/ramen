@@ -1,4 +1,4 @@
-init -90 python:
+init -95 python:
     
     ram.component(
         'hud',
@@ -32,8 +32,16 @@ init -90 python:
         icons={
             'pocket':[ '2','wallet', "Pocket", Function(ramen_hud_toggle,what='inventory') ],
             'map':[ '3','map' , "Map", 'map', Function(ramen_hud_toggle,what='map') ],
-            'smp':[ '1','phone' , "Smartphone", ToggleScreen('smp_ui') ],
         },
+        
+        keyb={
+            'f6': [ "K_F6" , Function(ramen_hud_toggle,what='stats') ],
+            'f8': [ "K_F8" , Function(ramen_hud_toggle,what='hud') ],
+            'shift_f8': [ "shift_K_F8" , Function(ramu.toggle,what='quick_menu') ],
+            'ctrl_f1': [ "ctrl_K_F1", Function(ramen_hud_toggle,what='legend') ],
+            'f9': [ "K_F9", Function(ramen_hud_toggle,what='inventory') ],
+        },
+
         hbar={
             'energy':['#f91',12],
             'hygiene':['#2B2',12],
@@ -142,13 +150,11 @@ screen hud_init():
         #add ramu.fn_search('hud-shade')
 
         key "K_F5" action SetVariable('rbc.hud_set',ramu.cycle(rbc.hud_set,hud.ui.bgcolor))
-        key "K_F6" action Function(ramen_hud_toggle,what='stats')
-        key "K_F8" action Function(ramen_hud_toggle,what='hud')
-        key "shift_K_F8" action Function(ramu.toggle,what='quick_menu')
-        key "ctrl_K_F1" action Function(ramen_hud_toggle,what='legend')
-
-        key "K_F9" action Function(ramen_hud_toggle,what='inventory')
-        key "K_F10" action ToggleScreen('smp_ui')
+        
+        for a in hud.ui.keyb.keys():
+            $ k = hud.ui.keyb[a]
+            key k[0] action k[1]
+            
 
         if hud.ui.element['hud']:
             $ hud_tic=ico('chevrons-up')

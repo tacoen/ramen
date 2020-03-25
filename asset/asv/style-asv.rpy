@@ -50,3 +50,12 @@ style rai_opt_button is button:
 style rai_opt_button_text is rai_opt_text:
     hover_color "#fff"
     selected_color "#000"
+
+style rai_uico is ramen_icon:
+    xalign 1.0
+
+style rai_uico_text is ramen_icon:
+    size 16
+    color "#ccc"
+    hover_color "#fff"
+

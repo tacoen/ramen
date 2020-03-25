@@ -76,7 +76,7 @@ screen rai_scenetest(obj_id, tag):
             padding(8, 8)
 
             vbox xsize 184:
-                textbutton "close" action Hide('rai_scenetest') xalign 1.0 text_size 16
+                textbutton ico('x-square') style 'rai_uico' action Hide('rai_scenetest')
                 null height 64
                 text repr(img) size 12
                 null height 32

@@ -2,9 +2,7 @@ init -10 python:
 
     RAMEN_DEV = True
     
-    if RAMEN_DEV:
-        RD = {}
-        RD.path = ramu.fn_getdir()
+    if RAMEN_DEV: RD = {}
 
     ram.component(
         'asv',
@@ -14,6 +12,8 @@ init -10 python:
         author_url='https://github.com/tacoen/ramen',
         desc="Developer only! A debug tools for developer, If you include this in your distributions, this became a cheating tools.",
     )
+
+    ram._component['asv']['dir']
 
     build.archive("asv", "all")
     build.classify('game/' + ramu.fn_getdir() + '/**', 'asv')
@@ -409,79 +409,6 @@ screen rai_asset_npc(obj_id, var=None):
                                 text repr(s[1]) size 12 text_align 0.5
 
 
-screen rai_testpose(img):
-
-    zorder 199
-    layer 'interface'
-
-    python:
-        try:
-            xa
-        except BaseException:
-            xa = 0.5
-        try:
-            zo
-        except BaseException:
-            zo = 1.0
-        try:
-            dec
-        except BaseException:
-            dec = 0.1
-        try:
-            ghost
-        except BaseException:
-            ghost = False
-
-    $ bgr = ramu.fn_ezy(RD.path + "/asvbgr")
-
-    frame background bgr xpos 0 ypos 0 xsize config.screen_width ysize config.screen_height:
-        padding(0, 0)
-
-        if locals()['ghost']:
-            add(ramu.fn_ezy(RD.path + "/ghost"))
-
-        vbox at npc_align(xa, zo):
-            add(img)
-
-        frame background "#0004" xsize 200 xpos config.screen_width - 200 ysize config.screen_height:
-
-            padding(8, 8)
-
-            vbox xsize 184:
-
-                textbutton "close" action Hide('rai_testpose') xalign 1.0 text_size 16
-
-                null height 64
-
-                hbox yalign 0.5 xfill True:
-                    style_prefix 'rai_opt'
-                    textbutton "0.1" action SetLocalVariable('dec', 0.1)
-                    null width 2
-                    textbutton "0.05" action SetLocalVariable('dec', 0.05)
-                    null width 2
-                    textbutton "0.01" action SetLocalVariable('dec', 0.01)
-                null height 16
-
-                hbox yalign 0.5:
-                    textbutton "ghost" action SetLocalVariable('ghost', ramu.ltoggle(ghost)) style 'rai_opt_button'
-                null height 16
-
-                hbox yalign 0.5 xfill True:
-                    style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('xa', rai_mval(xa, -dec, [0.0, 1.0]))
-                    textbutton str(locals()['xa']) action SetLocalVariable('xa', 0.5)
-                    textbutton "+" action SetLocalVariable('xa', rai_mval(xa, dec, [0.0, 1.0]))
-                null height 16
-
-                hbox yalign 0.5 xfill True:
-                    style_prefix 'rai_ctl'
-                    textbutton "-" action SetLocalVariable('zo', rai_mval(zo, -dec, [0.1, 1.0]))
-                    textbutton str(locals()['zo']) action SetLocalVariable('zo', 1.0)
-                    textbutton "+" action SetLocalVariable('zo', rai_mval(zo, dec, [0.1, 1.0]))
-                null height 16
-
-                text "at npc_align(" + str(locals()['xa']) + "," + str(locals()['zo']) + ")" style 'rai_text' size 18
-
 screen rai_ctlheader(title=None):
 
     python:
@@ -503,7 +430,7 @@ screen rai_ctlheader(title=None):
             hbox xfill True:
                 text title bold True color "#fff"
                 hbox xalign 1.0:
-                    textbutton "close" action Hide('ramen_ai_menu') text_color "#ccc" text_hover_color "#fff" text_size 12
+                    textbutton ico('x-square') style 'rai_uico' action Hide('ramen_ai_menu') 
 
             hbox:
                 null width 200

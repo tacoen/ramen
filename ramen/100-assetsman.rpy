@@ -52,10 +52,10 @@ init -105 python:
                 res = False
 
             return res
-
+        
         def component(self, what, **kwargs):
             """
-            Set the component, and to get the component use _component.
+            Set the component, and to get the component use `_component`.
 
             ``` python
 
@@ -68,13 +68,26 @@ init -105 python:
 
             ```
 
-            Called in every asset component, to maintain its relative path.
+            * To maintain its relative path, 'ram.component' shall be called in every asset component.
+            * you also can use 'active_func' to bind the component to your scripts.
+            
             """
+
+            will_active = False
 
             if what in self._component.keys():
 
                 for k in kwargs:
                     self._component[what][str(k)] = kwargs[k]
+                    
+                    if k.lower() == 'active_func': will_active = True
+                        
+                if will_active:
+                    func = self._component[what]['active_func']
+                    
+                    import inspect
+                    if (func in globals() and inspect.isfunction(globals()[func])):
+                        globals()[func]()
 
             else:
 

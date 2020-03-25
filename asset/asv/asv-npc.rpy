@@ -158,13 +158,13 @@ screen rai_testpose(img):
         except BaseException:
             ghost = False
 
-    $ bgr = ramu.fn_ezy(RD.path + "/asvbgr")
+    $ bgr = ramu.fn_ezy(ram._component['asv']['dir'] + "/asvbgr")
 
     frame background bgr xpos 0 ypos 0 xsize config.screen_width ysize config.screen_height:
         padding(0, 0)
 
         if locals()['ghost']:
-            add(ramu.fn_ezy(RD.path + "/ghost"))
+            add(ramu.fn_ezy(ram._component['asv']['dir'] + "/ghost"))
 
         vbox at npc_align(xa, zo):
             add(img)
@@ -175,7 +175,7 @@ screen rai_testpose(img):
 
             vbox xsize 184:
 
-                textbutton "close" action Hide('rai_testpose') xalign 1.0 text_size 16
+                textbutton ico('x-square') style 'rai_uico' action Hide('rai_testpose')
 
                 null height 64
 

@@ -33,10 +33,11 @@ init -99 python:
             )
 
     mc.pref = {}
+    mc.task = {}
     mc.flags = []
     mc.ability = []
 
-    mc.pref['icons'] = ['pocket', 'smp']
+    mc.pref['icons'] = ['pocket', 'smp_ui']
     mc.limit['pocket'] = [0, 12]
 
     pocket = inventory('pocket')

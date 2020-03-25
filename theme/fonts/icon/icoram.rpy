@@ -7,7 +7,7 @@
 init -197 python:
 
     def ico(what=None):
-        """ Translate Ramen Ico Webfont """
+        """ Translate Ramen Ico Webfont, see demo.html in the 'fonts/icon' for the list"""
         i={
             'sun1':'d',
             'sun2':'a',
