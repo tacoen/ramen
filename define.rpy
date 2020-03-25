@@ -19,6 +19,8 @@ init -99 python:
     mc.set_limit('relation', [0, 20])
     mc.set_limit('stat', [0, 20])
 
+    mc.name = mc_name
+    
     mc.setdata('bio',
             lastname=ramu.random_of(['South', 'North', 'East', 'West']),
             job='it'

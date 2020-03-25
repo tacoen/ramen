@@ -1,10 +1,3 @@
-#init -1 python:
-
-#    mcph.update_app({
- #       'title': 'My Task',
-  #      'hcolor': '#c11',
-   # })
-
 init -1 python:
 
     pc.index_update(

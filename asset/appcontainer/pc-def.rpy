@@ -22,11 +22,6 @@ init -90 python:
         ramu.screen_hideby(prefix='pc_')
         
         
-style pc_ui is default
-
-style pc_ui_text is ramen_gui:
-    size 14
-    color "#eee"
 
 screen pc_backbutton(bucket, title=''):
     hbox yalign 0.5 xfill True:
@@ -108,4 +103,24 @@ screen pc_item(a):
             idle icon
             hover im.MatrixColor(icon, im.matrix.brightness(0.3))
         textbutton pc.apps[a]['title'] action SetVariable('rbc.pc_apps', a):
-            style "pc_ui" text_xalign 0.5 xsize pc.ui.icon_size[0]
+            style "pc_desktop" text_xalign 0.5 xsize pc.ui.icon_size[0]
+
+
+style pc_ui is default
+
+style pc_ui_text is ramen_gui:
+    size 20
+    color "#000"
+
+style pc_ui_button is button
+
+style pc_ui_button_text is ramen_gui:
+    size 20
+    color "#000"
+
+style pc_desktop is default
+
+style pc_desktop_text is ramen_gui:
+    size 14
+    color "#fff"
+    

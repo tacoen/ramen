@@ -58,14 +58,15 @@ init -105 python:
             Set the component, and to get the component use `_component`.
 
             ``` python
-
             ram.component(
-                'asv',
-                title = "Ramen Object Inspector",
-                version = "1.0",
-                desc = "a debug tools for developer, If you include this in your distributions, this became a cheating tools.",
+                'phone',
+                title="Appcontainer: Smartphone UI",
+                version="1.0",
+                author="tacoen",
+                author_url='https://github.com/tacoen/ramen',
+                desc="A nice apps container. A Modular approach to your stats, relations, game stats, etc.",
+                active_func='smp_activated'
             )
-
             ```
 
             * To maintain its relative path, 'ram.component' shall be called in every asset component.

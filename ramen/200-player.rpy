@@ -33,14 +33,13 @@ init -203 python:
             globals()['mc__'] = npc(
                 'mc',
                 name='[mc_name]',
-                lastname='[mc.lastname]',
                 wcolor="#eeee66",
                 color="#ffffff")
 
         def newname(self, name, lastname):
             self.name = name.title()
             globals()['mc_name'] = self.name
-            self.bio['lastname'] = lastname
+            self.bio['lastname'] = lastname.title()
 
         def set_limit(self, key, value=None):
             """ see: ramu.mc_limit() """

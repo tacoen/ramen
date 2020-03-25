@@ -341,7 +341,7 @@ init -204 python:
                     self.__dict__[str(what)] = res
 
         def index_update(self, what='apps', **kwargs):
-
+            """Put more information into index"""
             inf = renpy.get_filename_line()
             i = ramu.fn_info(inf[0])
             apps = i['name']
