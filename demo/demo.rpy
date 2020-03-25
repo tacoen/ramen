@@ -1,8 +1,6 @@
 
 label demo:
 
-    scene twhite
-    
     label .name:
 
     "Your name please..."

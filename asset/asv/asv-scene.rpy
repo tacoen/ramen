@@ -52,10 +52,13 @@ screen rai_scenetest(obj_id, tag):
 
         al = []
 
-        for f in ramu.fn_files(AMBIENT_PATH, "png"):
-            fn = ramu.fn_info(f)
-            al.append(fn['name'])
-
+        try:
+            for f in ramu.fn_files(ram._component['ambient']['dir'], "png"):
+                fn = ramu.fn_info(f)
+                al.append(fn['name'])
+        except:
+            ambient = None
+            
         try:
             ambient
         except BaseException:
@@ -65,6 +68,7 @@ screen rai_scenetest(obj_id, tag):
         padding(0, 0)
 
         add(img)
+        
         if ambient is not None:
             use ramen_ambient(ambient)
 

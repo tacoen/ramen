@@ -36,10 +36,10 @@ init -100 python:
 init -2:
 
     # layers
-    define config.layers = ['master', 'transient', 'ambient', 'screens', 'above-screens', 'overlay', 'interface']
+    define config.layers = ['master', 'transient', 'ambient', 'screens', 'above-screens', 'console', 'overlay', 'interface']
 
     # A list of layers that are cleared when entering a new context.
-    define config.context_clear_layers = ['ambient']
+    define config.context_clear_layers = ['ambient','console']
 
     # proxydict
     default _ramen_container = _ramen_container

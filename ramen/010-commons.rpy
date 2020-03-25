@@ -1,4 +1,4 @@
-init -4 python:
+init -10 python:
 
     def ramen_ingamenotify(msg='', ramen_icon=None, who=None):
 
@@ -6,9 +6,12 @@ init -4 python:
 
 # Common ATL and Shared Style
 
+init offset = -1
+
 image black = Solid('#000000')
 image white = Solid('#FFFFFF')
 image slate = Solid('#223344')
+
 
 transform npc_align(x=0.5, scale=1.0):
     yoffset 0
