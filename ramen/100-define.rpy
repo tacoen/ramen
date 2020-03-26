@@ -11,7 +11,7 @@ init -200 python:
 
     rbc = container()
     rbc.diff = 0
-    rbc.doom = 0
+    rbc.doom = None
     rbc.cycle = True
 
     # Default fallback:

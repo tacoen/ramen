@@ -98,7 +98,7 @@ screen hud_toolbar():
 
 screen hud_status():
     
-    zorder 90
+    zorder 102
     
     python:
         ct={}
@@ -119,26 +119,29 @@ screen hud_status():
                     ctext=ct[s][1]
                     pp=pulse
                     w=s
+                    rbc.doom=None
                 elif mc.stat[s] <= 2:
                     ctext=ct[s][0]
                     pp=pulse_dying
                     w=s
-                    rbc.doom=wo.time + datetime.timedelta(hours=ct[s][2])
+                    try: 
+                        if rbc.doom is None:
+                            rbc.doom = wo.time + datetime.timedelta(hours=ct[s][2])
+                    except: rbc.doom = wo.time + datetime.timedelta(hours=ct[s][2])
 
         try: tcolor=Color(hud.ui.hbar[w][0]).opacity(.9)
         except: tcolor=Color(hud.ui.fgcolor[w]).opacity(.9)
+        
 
     if pp:
-        
         hbox xalign 1.0 ypos 80:
             text ico('user') style "hud_sunico" size 24 color tcolor at pp:
                 outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
-            if not hud.ui.element['stats']:
-                null width 8
-                text ctext color tcolor at pp:
-                    outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
+            null width 8
+            text ctext color tcolor at pp:
+                outlines [ (2, gui.textbox_background, absolute(0), absolute(0)) ]
 
-                null width 32
+            null width 32
 
 screen hud_init():
 

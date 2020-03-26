@@ -19,6 +19,7 @@ init -90 python:
         """Hide every pc screens ('pc_'), and clear its `rbc`."""
         rbc.pc_apps = None
         rbc.pc_who = None
+        rbc.pc_val = False
         ramu.screen_hideby(prefix='pc_')
         
         
@@ -53,7 +54,7 @@ screen pc_main(apps=None):
 
         iw = pc.ui.icon_size[0]
         ih = pc.ui.icon_size[1]
-        cs = round((style['pc']['area']['display'].xminimum / 4) - iw)
+        cs = 16
 
     frame background pc.ui.bgr xpos pc.ui.x ypos pc.ui.y xsize pc.ui.w ysize pc.ui.h:
         

@@ -6,11 +6,21 @@ init -199 python:
 
     def ramen_labelcallback(name, abnormal):
 
-        store.last_label = name
+        if not name.startswith('ramen_'):
 
-        # event
-        ramen_event_occuring()
-        ramen_cot(2, hygiene=0.5, vital=0.25)
+            store.last_label = name
+
+            # event
+            ramen_event_occuring()
+            ramen_cot(2, hygiene=0.5, vital=0.25)
+        
+            if rbc.doom is not None:
+        
+                print rbc.doom
+        
+                if wo.time >= rbc.doom:
+                    if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
+                    renpy.jump('ramen_super_end')
 
     config.label_callback = ramen_labelcallback
 
@@ -189,3 +199,17 @@ init -199 python:
                 pass
 
         return res
+
+label ramen_super_end:
+
+    scene white
+    with dissolve
+    pause 1
+    scene black
+    with dissolve
+    
+    $ renpy.block_rollback()
+    "Because the lack of life. You're dead!"
+    
+    $ renpy.quit(True,0,False)
+    

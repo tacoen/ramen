@@ -83,8 +83,6 @@ init -99 python:
                 fn = ramu.fn_info(f)
                 renpy.image(self.id + " " + fn['name'], f)
                 
-                print f
-
                 self.__dict__['scene'][fn['name']] = f
 
                 if self.main and self.main == fn['name']:
