@@ -18,9 +18,9 @@ init -199 python:
         
                 print rbc.doom
         
-                if wo.time >= rbc.doom:
-                    if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
-                    renpy.jump('ramen_super_end')
+                # if wo.time >= rbc.doom:
+                    # if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
+                    # renpy.jump('ramen_super_end')
 
     config.label_callback = ramen_labelcallback
 

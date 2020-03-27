@@ -6,13 +6,16 @@ init -10 python:
 
 # Common ATL and Shared Style
 
-init offset = -1
+init offset = -10
 
 image black = Solid('#000000')
 image white = Solid('#FFFFFF')
 image slate = Solid('#223344')
 
-
+transform mc_side:
+    xalign 1.0
+    yalign 1.0
+    
 transform npc_align(x=0.5, scale=1.0):
     yoffset 0
     yalign 1.0

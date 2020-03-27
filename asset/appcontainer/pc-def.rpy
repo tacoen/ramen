@@ -84,15 +84,25 @@ screen pc_main(apps=None):
                     text pc.apps[a]['title'] color "#fff6" size 20 bold True
                     textbutton ico('close') action SetVariable('rbc.pc_apps', None):
                         style "ramen_icon" xsize 32 xalign 1.0
-                        text_size 16 text_hover_color "#fff" text_line_leading 4 text_xalign 0.5
+                        text_size 20 text_hover_color "#fff" text_line_leading 4 text_xalign 0.5
 
             frame yoffset 32:
                 background pc.apps[a]['bgr']
                 style style['pc']['area']['display']
                 ysize style['pc']['area']['display'].yminimum - 32
-
+                padding (0,0)
                 if renpy.has_screen("pc_app_" + a):
-                    $ renpy.use_screen("pc_app_" + a)
+                
+                    side "c r":
+                        area (8,0,style['pc']['area']['display'].xminimum-8,style['pc']['area']['display'].yminimum)
+                    
+                        viewport xoffset 8 xsize style['pc']['area']['display'].xminimum-32 id "pcapp_vp":
+                            mousewheel True
+                            drag True
+                            $ renpy.use_screen("pc_app_" + a)
+
+                        vbar value YScrollValue("pcapp_vp") xsize 8
+                            
                 else:
                     text "N/A" color "#000" yalign 0.5 xalign 0.5 size 32
 
