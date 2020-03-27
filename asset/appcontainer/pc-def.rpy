@@ -98,7 +98,6 @@ screen pc_main(apps=None):
                     
                         viewport xoffset 8 xsize style['pc']['area']['display'].xminimum-32 id "pcapp_vp":
                             mousewheel True
-                            drag True
                             $ renpy.use_screen("pc_app_" + a)
 
                         vbar value YScrollValue("pcapp_vp") xsize 8
