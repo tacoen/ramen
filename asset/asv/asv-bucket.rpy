@@ -75,6 +75,11 @@ screen rai_event_param(obj_id, var=None):
     python:
         event = rbc.event.__dict__[obj_id]
 
+        try:
+            passed = event['pass']
+        except:
+           passed = False
+
         req = ['day', 'sun', 'hour', 'require']
         jum = ['call', 'jump']
 
@@ -110,6 +115,11 @@ screen rai_event_param(obj_id, var=None):
                             hbox:
                                 text r min_width 100
                                 text repr(event[r])
+                    hbox:
+                        text 'Pass' min_width 100
+                        text repr(passed)
+
+                    
 
                 vbox:
                     spacing 4
@@ -119,4 +129,4 @@ screen rai_event_param(obj_id, var=None):
                         if event[r] is not None:
                             hbox:
                                 text r  min_width 100
-                                text repr(event[r])
+                                text str(event[r])

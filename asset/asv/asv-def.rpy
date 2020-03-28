@@ -244,7 +244,7 @@ screen rai_routecontent(tab, obj_id, view, var):
 
     if isinstance(route[tab], (str, unicode)):
         if renpy.has_screen(route[tab]):
-            viewport xsize config.screen_height - 500:
+            viewport xsize config.screen_width - 200:
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
@@ -262,7 +262,7 @@ screen rai_routecontent(tab, obj_id, view, var):
                 frame ysize 1 background "#ccc"
 
                 if view is not None:
-                    viewport:
+                    viewport xsize config.screen_height-200:
                         draggable True
                         mousewheel True
                         scrollbars "vertical"

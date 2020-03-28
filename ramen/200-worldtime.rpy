@@ -79,7 +79,8 @@ init -205 python:
         def starttime(self, gamedate):
             self.time = datetime.datetime(
                 gamedate[0], gamedate[1], gamedate[2], gamedate[3])
-            self.start = self.time
+            # day start is 00:00
+            self.start = self.time - datetime.timedelta(hours=gamedate[3])
             self.time_populate()
 
         def time_populate(self):
@@ -139,9 +140,9 @@ init -205 python:
                 rbc.cycle = True
                 self.cycle = self.dayplay
 
-        def seed(self, diff):
+        def seed(self):
             """get time seed, aka. time sync. mostly when restore/load saved game"""
-            self.time = self.start + diff
+            self.time = self.start + rbc.diff
             self.time_populate()
 
         def adv(self, a=1, block=False):

@@ -43,3 +43,4 @@ init -99 python:
     mc.limit['pocket'] = [0, 12]
 
     pocket = inventory('pocket')
+

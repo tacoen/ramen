@@ -473,7 +473,7 @@ init -100 python:
                 renpy.image((self.id, name), Animation(*anim))
 
             except BaseException:
-                print '! no sprite'
+                pass
 
         def chat_usingjson(
                 self,
@@ -593,6 +593,9 @@ init -100 python:
         def phonein(self, what='label', jl=None, jsonkey=None):
 
             rbc.answered = False
+            
+            print jl
+            
 
             if jl is not None:
 
@@ -629,10 +632,7 @@ init -100 python:
                     if what == 'label' and renpy.has_label(self.id + '_' + jl):
                         renpy.call_in_new_context(self.id + '_' + jl)
                     else:
-                        if jsonkey is not None:
-                            self.chat_usingjson(jsonkey, False, jl)
-                        else:
-                            self.chat_usingjson(None, False, jl)
+                        self.chat_usingjson(jsonkey, False, jl)
 
                     self.onphone(False)
 
@@ -641,7 +641,7 @@ init -100 python:
                     self.onphone(False)
 
             else:
-                phone_status("You ignoring the call")
+                phone_status("You ignoring you")
                 rbc.answered = False
 
             return rbc.answered

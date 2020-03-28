@@ -12,7 +12,7 @@ init -199 python:
 
             # event
             ramen_event_occuring()
-            ramen_cot(2, hygiene=0.5, vital=0.25)
+            ramen_cot(2, hygiene=0.25, vital=0.25)
         
             if rbc.doom is not None:
         
@@ -158,16 +158,23 @@ init -199 python:
 
         if res:
             try:
-                if rbc.event.__dict__[id]['day'] > wo.dayplay:
+                if int(wo.dayplay) >= int(rbc.event.__dict__[id]['day']):
                     res = True
+                else: 
+                    res = False
+
             except BaseException:
                 pass
 
+        print res
+        
         if res:
 
             try:
-                if int(rbc.event.__dict__[id]['sun']) == int(wo.sun):
+                if int(wo.sun) >= int(rbc.event.__dict__[id]['sun']):
                     res = True
+                    print "---"
+                    print id
                 else:
                     res = False
             except BaseException:
@@ -176,7 +183,7 @@ init -199 python:
         if res:
 
             try:
-                if int(rbc.event.__dict__[id]['hour']) > int(wo.time.hour):
+                if int(wo.time.hour) >= int(rbc.event.__dict__[id]['hour']):
                     res = True
                 else:
                     res = False

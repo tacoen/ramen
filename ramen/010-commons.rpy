@@ -291,8 +291,10 @@ style ingame_notify_icon is ramen_icon:
 label after_load:
     stop music fadeout 1.0
     stop sound fadeout 1.0
-    $ renpy.free_memory
-    # $ renpy.block_rollback()
+    python:
+        wo.seed()
+        renpy.free_memory
+        #renpy.block_rollback()
     return
 
 label _ramen_start:

@@ -1,7 +1,7 @@
 
 # a copy from 00console.rpy in renpy sdk
 
-screen _console:
+screen _console():
     # This screen takes as arguments:
     #
     # lines
