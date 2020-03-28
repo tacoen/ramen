@@ -292,9 +292,9 @@ label after_load:
     stop music fadeout 1.0
     stop sound fadeout 1.0
     python:
-        wo.seed()
         renpy.free_memory
-        #renpy.block_rollback()
+        wo.seed
+        # $ renpy.block_rollback()
     return
 
 label _ramen_start:

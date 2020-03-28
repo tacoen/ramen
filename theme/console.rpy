@@ -1,7 +1,9 @@
 
 # a copy from 00console.rpy in renpy sdk
 
-screen _console():
+# don't obey lint suggestion in _console !!!
+
+screen _console:
     # This screen takes as arguments:
     #
     # lines

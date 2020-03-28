@@ -12,11 +12,12 @@ init -199 python:
 
             # event
             ramen_event_occuring()
-            ramen_cot(2, hygiene=0.2, vital=0.1)
+            
+            try:
+                if RAMEN_COSTOFTIME: ramen_cot(2, hygiene=0.2, vital=0.1)
+            except: pass
         
-            if rbc.doom is not None:
-        
-                print rbc.doom
+            #if rbc.doom is not None:
         
                 # if wo.time >= rbc.doom:
                     # if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
@@ -46,30 +47,6 @@ init -199 python:
                 if goto:
                     if renpy.has_label(goto):
                         renpy.jump(goto)
-
-    def ramen_cot(hour, **kwargs):
-        """
-        Cost of time. Make game harder using `rbc.tick`
-
-        #### Example:
-
-        ``` python
-            ramen_cot(2,hygiene=0.5,vital=0.25)
-        ```
-
-        Every 2 hours, reduce `hygiene` and `vital` from `mc.stat`
-
-        """
-
-        if rbc.tick is None:
-            rbc.tick = rbc.diff.total_seconds()
-
-        hh = float(rbc.diff.total_seconds()) - float(rbc.tick)
-
-        if hh == float(hour * 3600):
-            for k in kwargs:
-                mc.gain(k, -1 * kwargs[k])
-            rbc.tick = rbc.diff.total_seconds()
 
     class event():
 
@@ -166,15 +143,11 @@ init -199 python:
             except BaseException:
                 pass
 
-        print res
-        
         if res:
 
             try:
                 if int(wo.sun) >= int(rbc.event.__dict__[id]['sun']):
                     res = True
-                    print "---"
-                    print id
                 else:
                     res = False
             except BaseException:
@@ -205,7 +178,49 @@ init -199 python:
             except BaseException:
                 pass
 
+        if res:
+
+            try:
+
+                for r in rbc.event.__dict__[id]['condition'].keys():
+
+                    if int(mc.stat[r]) == int(
+                            rbc.event.__dict__[id]['condition'][r]):
+                        res = True
+                    else:
+                        res = False
+
+            except BaseException:
+                pass
+                
         return res
+
+##### Cost of time #####################
+    
+    def ramen_cot(hour, **kwargs):
+        """
+        Cost of time. Make game harder using `rbc.tick`
+
+        #### Example:
+
+        ``` python
+            ramen_cot(2,hygiene=0.5,vital=0.25)
+        ```
+
+        Every 2 hours, reduce `hygiene` and `vital` from `mc.stat`
+
+        """
+
+        if rbc.tick is None:
+            rbc.tick = rbc.diff.total_seconds()
+
+        hh = float(rbc.diff.total_seconds()) - float(rbc.tick)
+
+        if hh == float(hour * 3600):
+            for k in kwargs:
+                mc.gain(k, -1 * kwargs[k])
+            rbc.tick = rbc.diff.total_seconds()
+
 
 label ramen_super_end:
 
