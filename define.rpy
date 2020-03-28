@@ -2,6 +2,8 @@
 
 init -99 python:
 
+    RAMEN_COSTOFTIME = False
+
     wo = WorldTime(
         [2019, 1, 18, 8],
         ['Midnight', 'Dusk', 'Morning', 'Noon', 'Evening', 'Night'],

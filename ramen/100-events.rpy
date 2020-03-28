@@ -12,7 +12,7 @@ init -199 python:
 
             # event
             ramen_event_occuring()
-            ramen_cot(2, hygiene=0.25, vital=0.25)
+            ramen_cot(2, hygiene=0.2, vital=0.1)
         
             if rbc.doom is not None:
         
