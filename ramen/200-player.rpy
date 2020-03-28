@@ -35,6 +35,11 @@ init -203 python:
                 name='[mc_name]',
                 wcolor="#eeee66",
                 color="#ffffff")
+                
+            try:
+                ramen_dev('player', self.id)
+            except BaseException:
+                pass                
 
         def newname(self, name, lastname):
             self.name = name.title()

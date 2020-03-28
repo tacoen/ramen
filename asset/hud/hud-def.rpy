@@ -153,7 +153,10 @@ screen hud_init():
         #add ramu.fn_search('hud-shade')
 
         key "K_F5" action SetVariable('rbc.hud_set',ramu.cycle(rbc.hud_set,hud.ui.bgcolor))
-        
+
+        if RAMEN_DEV and renpy.has_screen('ramen_ai_menu'):
+            key "shift_K_F5"  action  Show('ramen_ai_menu')
+
         for a in hud.ui.keyb.keys():
             $ k = hud.ui.keyb[a]
             key k[0] action k[1]

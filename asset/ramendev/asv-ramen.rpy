@@ -189,6 +189,28 @@ screen rai_ramen_gui():
         for i in test_items:
             textbutton i action Null
 
+screen rai_ramen_constant():
+
+    python:
+        mywidth = config.screen_width - 200
+        cw = (mywidth / 2)
+        dc=[]
+        for d in globals():
+            if d.startswith('RAMEN'):
+                dc.append(d)
+
+    viewport:
+        draggable True
+        mousewheel True
+        scrollbars "vertical"
+    
+        vbox xsize mywidth:
+            spacing 20
+            for d in dc:
+                hbox:
+                    text d min_width 300 
+                    text repr(globals()[d])
+
 screen rai_ramen_component():
 
     python:

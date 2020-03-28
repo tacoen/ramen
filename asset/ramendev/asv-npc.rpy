@@ -207,3 +207,12 @@ screen rai_testpose(img):
                 null height 16
 
                 text "at npc_align(" + str(locals()['xa']) + "," + str(locals()['zo']) + ")" style 'rai_text' size 16
+
+
+screen rai_player(obj_id):
+
+    vbox:
+        for i in mc():
+            hbox:
+                text i min_width 200
+                text rai_dict_unpack(mc.__dict__[i])

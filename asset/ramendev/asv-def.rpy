@@ -1,9 +1,5 @@
 init -10 python:
 
-    RAMEN_DEV = True
-    
-    if RAMEN_DEV: RD = {}
-
     ram.component(
         'asv',
         title="Ramen Object Inspector",
@@ -18,10 +14,16 @@ init -10 python:
     build.archive("asv", "all")
     build.classify('game/' + ramu.fn_getdir() + '/**', 'asv')
 
+init -208 python:
+
+    RAMEN_DEV = True
+    
+    if RAMEN_DEV: RD = {}
+
     def ramen_dev(what, item):
 
         if RAMEN_DEV:
-            print '--- RAMEN_DEV: ' + what
+            print '-!- RAMEN_DEV: ' + what
             try:
                 RD[what].append(item)
             except BaseException:
@@ -138,6 +140,10 @@ init -10 python:
     def rai_dict_unpack(obj):
         param = obj
         val = ''
+        
+        if isinstance(param, (int, str, float, unicode)):
+            return param
+            
         for k in sorted(param.keys()):
             if isinstance(param[k], (int, str, float, unicode)):
                 val += k + "=" + str(param[k]) + "\n"
@@ -237,6 +243,8 @@ screen rai_routecontent(tab, obj_id, view, var):
         route['npc']['param'] = 'rai_param'
         route['npc']['profile'] = 'rai_profile'
 
+        route['player'] = 'rai_player'
+
         route['events'] = 'rai_event_param'
         #route['events']['param'] = 'rai_event_param'
 
@@ -321,7 +329,7 @@ screen rai_menu(tab):
         if tab in RD.keys():
             menus = RD[tab]
         if tab == 'ramen':
-            menus = ['ico', 'gui', 'vars','component']
+            menus = ['ico', 'gui', 'vars', 'component', 'constant']
             if 'ramen_documentation' in globals():
                 menus.append('compile_md')
         if tab == 'bucket':
