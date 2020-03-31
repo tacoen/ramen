@@ -41,8 +41,9 @@ init -99 python:
     mc.flags = []
     mc.ability = []
 
-    mc.pref['icons'] = ['pocket', 'smp_ui']
+    mc.pref['icons'] = ['pocket']
     mc.limit['pocket'] = [0, 12]
+    mc.limit['stock'] = [0, 36]
 
     pocket = inventory('pocket')
-
+    stock = inventory('stock')

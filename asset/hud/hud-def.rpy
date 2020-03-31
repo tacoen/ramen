@@ -24,13 +24,13 @@ init -95 python:
         winbgcolor=[ '#333', '#ddd', '#333', '#ddd', '#333', '#333' ],
         element={
             'hud': rbc.hud_show,
-            'inventory': False,
+            'pocket': False,
             'stats': False,
             'legend': False,
             'map':False,
         },
         icons={
-            'pocket':[ '2','wallet', "Pocket", Function(ramen_hud_toggle,what='inventory') ],
+            'pocket':[ '2','wallet', "Pocket", Function(ramen_hud_toggle,what='pocket') ],
             'map':[ '3','map' , "Map", 'map', Function(ramen_hud_toggle,what='map') ],
         },
         
@@ -39,7 +39,7 @@ init -95 python:
             'f8': [ "K_F8" , Function(ramen_hud_toggle,what='hud') ],
             'shift_f8': [ "shift_K_F8" , Function(ramu.toggle,what='quick_menu') ],
             'ctrl_f1': [ "ctrl_K_F1", Function(ramen_hud_toggle,what='legend') ],
-            'f9': [ "K_F9", Function(ramen_hud_toggle,what='inventory') ],
+            'f9': [ "K_F9", Function(ramen_hud_toggle,what='pocket') ],
         },
 
         hbar={
@@ -47,16 +47,24 @@ init -95 python:
             'hygiene':['#2B2',12],
             'vital':['#959',12],
         },
+        
         area={
             'toolbar': [0,0,config.screen_width,config.screen_height/10],
             'stats': [16,config.screen_height/10 + 4, 224, None,(8,8,8,20)],
-            'inventory': [
-                config.screen_width/2,
-                config.screen_height/10 + 4,
-                config.screen_width/2-16,
-                config.screen_height-(config.screen_height/10+4)-48,
-                (8,8,8,8)
-            ]
+            'pocket': [
+                    config.screen_width/2,
+                    config.screen_height/10 + 4,
+                    config.screen_width/2-16,
+                    config.screen_height-(config.screen_height/10+4)-48,
+                    (8,8,8,8)
+                ],
+            'stock': [
+                    16,
+                    config.screen_height/10 + 4,
+                    config.screen_width/2-20,
+                    config.screen_height-(config.screen_height/10+4)-48,
+                    (8,8,8,8)
+                ]
         }
     )
 
@@ -64,8 +72,6 @@ init -95 python:
 
     for e in hud.ui.element.keys():
         rbc.hud_element[e]=hud.ui.element[e]
-
-    for e in hud.ui.element.keys():
         hud.ui.element[e]=rbc.hud_element[e]
 
 screen hud_toolbar():
@@ -168,8 +174,9 @@ screen hud_init():
                 use hud_legend
             if hud.ui.element['stats']:
                 use hud_stats
-            if hud.ui.element['inventory']:
-                use hud_inventory
+            if hud.ui.element['pocket']:
+                use inventory_ui('pocket')
+
             use hud_toolbar
         else:
             python:
@@ -195,118 +202,6 @@ screen hud_stats():
                 spacing 12
                 for topic in sorted(hud.ui.hbar.keys()):
                     use hc_hbar(hud, topic, mc.stat[topic], style['hud']['area']['stats'], hud.ui.fgcolor[rbc.hud_set] )
-
-
-style hudinventory is empty
-
-python:
-
-    def item_view(item):
-        renpy.use_screen('hc_item',item=item)
-
-screen hud_inventory():
-
-    modal True
-
-    python:
-        try: rbc.hud_selected_item
-        except: rbc.hud_selected_item=None
-
-        inv=mc._inventory['pocket']
-        iconsize=(100,100)
-        w=style['hud']['area']['inventory'].xminimum
-        h=style['hud']['area']['inventory'].yminimum
-        tc=int(round(w/(iconsize[0])))
-        tr=int(round(h/(iconsize[1])))
-        cmax=tc * tr
-        cs=((w-(tc * iconsize[0]+2)) / tc)/2
-        safebgr=ramu.safecolor_for_bgr(hud.ui.bgcolor[rbc.hud_set], hud.ui.fgcolor[rbc.hud_set])
-        
-        mc.limit['pocket']=[0, tc*tr]
-
-    frame background safebgr style style['hud']['area']['inventory']:
-
-        style_prefix "hudinventory"
-
-        vbox:
-            use hc_tbar('inventory','Pocket')
-
-            hbox ysize 32 yalign 0.5 xfill True:
-                text "Maximum: " + ("{:02d}".format(mc.limit['pocket'][1])) color hud.ui.fgcolor[rbc.hud_set]
-                text ("{:03d}".format(mc.cash)) +" $" yalign 0.5 line_leading 2 color hud.ui.fgcolor[rbc.hud_set] size 24 xalign 1.0
-
-            null height 16
-
-            if rbc.hud_selected_item is None:
-
-                vpgrid cols tc spacing cs ysize h/2:
-                    draggable True
-                    mousewheel True
-                    scrollbars "vertical"
-
-                    for i in sorted(inv.keys()):
-                        python:
-                            item=inv[i]
-                            icon=im.Scale(item.icon(),iconsize[0],iconsize[1])
-
-                        imagebutton:
-                            idle icon
-                            hover im.MatrixColor(icon,im.matrix.brightness(0.3))
-                            action SetVariable('rbc.hud_selected_item',item)
-
-                null height 16
-
-            else:
-                frame background Color(safebgr).replace_lightness(0.3) padding (8,8,8,8):
-                    textbutton "x" action SetVariable('rbc.hud_selected_item',None) xpos 1.0 ypos -8 xanchor 0.9
-                    viewport:
-                        use hc_item(rbc.hud_selected_item)
-
-screen hbox_item(what,value):
-    hbox xfill True yalign 0.5:
-        text str(what) size 20 color hud.ui.fgcolor[rbc.hud_set]
-        text str(value) size 20 xalign 1.0 color hud.ui.fgcolor[rbc.hud_set]
-
-screen hc_item(item):
-
-    python:
-        try: eatable=item.eatable
-        except: eatable=False
-        try: depend=item.depend
-        except: depend=False
-        w=style['hud']['area']['inventory'].xminimum - 120
-
-    hbox:
-        add item.icon()
-        null width 12
-        vbox spacing 6 yfit True:
-            if not item.name is None:
-                text "{b}"+item.name +"{/b}\n{size=-2}"+item.desc+"{/size}" color hud.ui.fgcolor[rbc.hud_set]
-            else:
-                text item.desc color hud.ui.fgcolor[rbc.hud_set]
-
-            null height 8
-            frame background hud.ui.fgcolor[rbc.hud_set] ysize 1
-            null height 8
-
-            use hbox_item('Price', item.cost)
-
-            if depend:
-                use hbox_item('Require',depend)
-
-            if not item.effect is None:
-                use hbox_item(item.effect[1].title()+"("+item.effect[0].title()+")", item.effect[2] )
-
-            null height 8
-            frame background hud.ui.fgcolor[rbc.hud_set] ysize 1
-            null height 8
-
-            hbox xfill True:
-                if eatable:
-                    textbutton "Eat/Drink" action Null
-
-                textbutton "Give" action Null
-                textbutton "Drop" action Null
 
 screen hud_legend():
     modal True

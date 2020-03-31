@@ -118,10 +118,22 @@ init -1:
                 null height 3
             bar range max value val style barsty xmaximum xmax
 
-    screen hc_tbar(element,title=''):
+    screen hc_tbar(element,title='',returnvalue):
 
         python:
             xmax=style['hud']['area'][element].xminimum-2
+            
+            if returnvalue:
+                act = [
+                    Function(ramen_hud_toggle,what=element),
+                    Function(ramu.screen_hideby,prefix='hud_ext_'),
+                    Return()
+                ]
+            else:
+                act = [
+                    Function(ramen_hud_toggle,what=element),
+                    Function(ramu.screen_hideby,prefix='hud_ext_')
+                ]
 
         frame background Color(hud.ui.bgcolor[rbc.hud_set]).shade(0.5):
             xsize xmax
@@ -135,7 +147,7 @@ init -1:
                         text_size 16
                         text_color hud.ui.fgcolor[rbc.hud_set]
                         text_hover_color Color(hud.ui.fgcolor[rbc.hud_set]).tint(0.2)
-                        action Function(ramen_hud_toggle,what=element)
+                        action act
                     null width 4
 
 
