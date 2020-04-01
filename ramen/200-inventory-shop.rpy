@@ -218,6 +218,8 @@ python:
 
 screen inventory_ui(obj='pocket',max=None,returnvalue=False):
 
+    $ globals()[obj].sync()
+    
     modal True
 
     python:
