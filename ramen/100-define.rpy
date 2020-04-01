@@ -39,7 +39,7 @@ init -2:
     define config.layers = ['master', 'transient', 'ambient', 'screens', 'above-screens', 'console', 'overlay', 'interface']
 
     # A list of layers that are cleared when entering a new context.
-    define config.context_clear_layers = ['ambient','console']
+    define config.context_clear_layers = ['ambient', 'console']
 
     # proxydict
     default _ramen_container = _ramen_container
@@ -67,9 +67,7 @@ init -2:
         window_ysize=150,
     )
 
-
-    image side thou = Fixed(Image(ramu.safe( ramu.fn_search('side-thou'), 'image'), xalign=1.0, yalign=1.0))
-
+    image side thou = Fixed(Image(ramu.safe(ramu.fn_search('side-thou'), 'image'), xalign=1.0, yalign=1.0))
 
     define character.anon = Character(
         "rbc.anon_name",

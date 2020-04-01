@@ -51,8 +51,9 @@ init -208 python:
             rfile = False
             n = 0
             for e in ext:
-                if renpy.loadable(file + e): return file+e
-                
+                if renpy.loadable(file + e):
+                    return file + e
+
             return False
 
         def fn_files(self, where, key=False):
@@ -67,12 +68,12 @@ init -208 python:
         # str
 
         def nicenaming(self, str_strip, name):
-            """ 
+            """
             Strip 'str_strip' from 'name', and replace '_' as whitespace as title
-            
+
             ``` python
                 a = ramu.nicenaming('prefix_','prefix_keyword_some')
-                
+
                 >a
                 Keyword Some
             ```
@@ -84,25 +85,25 @@ init -208 python:
             id = id.replace('-', '').replace(' ', '_').strip()
             id = re.sub('[^0-9a-zA-Z_]+', '', id)
             return id.lower()
-            
-        def unique_id(self,prefix='obj'):
+
+        def unique_id(self, prefix='obj'):
             """
             Random generic id base on classname
-            
+
             ``` python:
                 testobj = ramen_object(keyword='value')
-            
+
                 > testobj.id
                 ramen_object_VH98
             ```
-            
+
             Beware of this kind of object, it's not be in your `renpy store` because it's randomize.
             It's there for counter-measuring.
-            
+
             """
-            return prefix+"_"+\
-                   "".join(random.choice(string.ascii_lowercase) for x in range(2))+ \
-                   "".join(random.choice(string.digits) for x in range(2))
+            return prefix + "_" +\
+                "".join(random.choice(string.ascii_lowercase) for x in range(2)) + \
+                "".join(random.choice(string.digits) for x in range(2))
 
         # json
 
@@ -130,16 +131,15 @@ init -208 python:
         def color_Brighten(self, hex_color, amount=0.2):
             """Utilize renpy color.py."""
             return Color(hex_color).tint(1 - float(ammount))
-            
+
         def color_Invert(self, hex_color):
             """Invert color, #fff -> #000 vice-versa"""
             a = Color(hex_color).alpha
-            (r,g,b) = Color(hex_color).rgb
+            (r, g, b) = Color(hex_color).rgb
             r = 1.0 - float(r)
             g = 1.0 - float(g)
             b = 1.0 - float(b)
-            return Color(rgb=(r,g,b)).opacity(a)
-
+            return Color(rgb=(r, g, b)).opacity(a)
 
         # Love the random (renpy.random.randint)
 
@@ -245,23 +245,23 @@ init -208 python:
         def notify(self, msg, ramen_icon=None):
             """
             Show 'ingame_notify' with 'msg' and 'ramen_icon'
-            """ 
-            
+            """
+
             renpy.show_screen('ingame_notify', msg=msg, ramen_icon=ramen_icon)
 
         def create_items(self, inventory, where, prefix, **kwargs):
             """
             Mass Create items
-      
+
             ``` python
                 ramu.create_items(marto,'items','zd_',
-                    cost=(20,29), 
+                    cost=(20,29),
                     eatable=True,
                     name='Soft Drinks',
-                    effect=['stat','energy',2] 
+                    effect=['stat','energy',2]
                 )
             ```
-            
+
             Scan image file from 'items', which has 'zd_' prefix and add the rest item attributes, and put them into `marto` inventory.
             """
 
@@ -338,55 +338,61 @@ init -208 python:
                     res = res_default
 
             return res
-            
+
         # Sound util
 
         def sfx(self, file, where=None, play=True, loop=False):
             """Play audio file if play is True, return if play is False."""
-            
-            file = self.fn_search(file, where, ['.ogg', '.mp3', '.wav'], RAMEN_SFX_PATHS)
-            
+
+            file = self.fn_search(
+                file, where, [
+                    '.ogg', '.mp3', '.wav'], RAMEN_SFX_PATHS)
+
             if file and play:
                 renpy.music.play(file, loop=loop)
             return file
 
-        def fn_search(self, what, where=None, ext=['.jpg', '.png', '.webp'], wheres=RAMEN_GUI_PATHS):
+        def fn_search(self, what, where=None, ext=[
+                      '.jpg', '.png', '.webp'], wheres=RAMEN_GUI_PATHS):
             """
             Search file[.ext] from where_list. Ramen use RAMEN_GUI_PATHS and RAMEN_SFX_PATHS. Both are defined in theme_define.rpy
-                        
+
             ``` python
                 ppic = ramu.fn_search('profile')
                 file = self.fn_search(file, where, ['.ogg', '.mp3', '.wav'], RAMEN_SFX_PATHS)
             ```
-            
+
             """
-            if where is not None: wheres.append(where)
-            
+            if where is not None:
+                wheres.append(where)
+
             wheres.sort()
             wheres.reverse()
 
             for where in wheres:
                 if "." in what:
                     file = where + "/" + what
-                    if renpy.loadable(file): return file
+                    if renpy.loadable(file):
+                        return file
                 else:
                     file = self.fn_ezy(where + "/" + what, ext)
-                    if file: return file
-            
+                    if file:
+                        return file
+
             return False
 
-        def safe(self,what,type='image'):
+        def safe(self, what, type='image'):
             """
             Safe value, default of type
-            
+
             ``` python:
             image side thou = ramu.safe( ramu.fn_search('side-thou'), 'image')
             ```
-            
+
             """
             if what:
                 return what
             else:
-                if type == 'sound': return RAMEN_THEME_PATH+"/audio/beep.mp3"
-                return RAMEN_THEME_PATH+"/gui/noimage.png"
-                
+                if type == 'sound':
+                    return RAMEN_THEME_PATH + "/audio/beep.mp3"
+                return RAMEN_THEME_PATH + "/gui/noimage.png"

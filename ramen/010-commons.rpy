@@ -2,7 +2,11 @@ init -10 python:
 
     def ramen_ingamenotify(msg='', ramen_icon=None, who=None):
 
-        renpy.show_screen('ingame_notify', msg=msg, ramen_icon=ramen_icon, who=who)
+        renpy.show_screen(
+            'ingame_notify',
+            msg=msg,
+            ramen_icon=ramen_icon,
+            who=who)
 
 # Common ATL and Shared Style
 
@@ -15,7 +19,7 @@ image slate = Solid('#223344')
 transform mc_side:
     xalign 1.0
     yalign 1.0
-    
+
 transform npc_align(x=0.5, scale=1.0):
     yoffset 0
     yalign 1.0

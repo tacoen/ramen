@@ -12,16 +12,18 @@ init -199 python:
 
             # event
             ramen_event_occuring()
-            
+
             try:
-                if RAMEN_COSTOFTIME: ramen_cot(2, hygiene=0.2, vital=0.1)
-            except: pass
-        
-            #if rbc.doom is not None:
-        
-                # if wo.time >= rbc.doom:
-                    # if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
-                    # renpy.jump('ramen_super_end')
+                if RAMEN_COSTOFTIME:
+                    ramen_cot(2, hygiene=0.2, vital=0.1)
+            except BaseException:
+                pass
+
+            # if rbc.doom is not None:
+
+              # if wo.time >= rbc.doom:
+                # if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
+                # renpy.jump('ramen_super_end')
 
     config.label_callback = ramen_labelcallback
 
@@ -137,7 +139,7 @@ init -199 python:
             try:
                 if int(wo.dayplay) >= int(rbc.event.__dict__[id]['day']):
                     res = True
-                else: 
+                else:
                     res = False
 
             except BaseException:
@@ -192,11 +194,11 @@ init -199 python:
 
             except BaseException:
                 pass
-                
+
         return res
 
 ##### Cost of time #####################
-    
+
     def ramen_cot(hour, **kwargs):
         """
         Cost of time. Make game harder using `rbc.tick`
@@ -229,9 +231,8 @@ label ramen_super_end:
     pause 1
     scene black
     with dissolve
-    
+
     $ renpy.block_rollback()
     "Because the lack of life. You're dead!"
-    
-    $ renpy.quit(True,0,False)
-    
+
+    $ renpy.quit(True, 0, False)

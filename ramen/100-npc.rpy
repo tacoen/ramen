@@ -593,9 +593,6 @@ init -100 python:
         def phonein(self, what='label', jl=None, jsonkey=None):
 
             rbc.answered = False
-            
-            print jl
-            
 
             if jl is not None:
 

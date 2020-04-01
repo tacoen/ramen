@@ -22,7 +22,7 @@ init -204 python:
                 _ramen_container.__dict__[what]
             except BaseException:
                 _ramen_container.__dict__[str(what)] = {}
-                
+
             for k in kwargs:
                 _ramen_container.__dict__[what][k] = kwargs[k]
 
@@ -81,7 +81,8 @@ init -204 python:
             self.dir = str(dir.replace('game/', ""))
 
             if id is None:
-                self.__dict__[str('id')] = ramu.safe_id(ramu.unique_id(self.__class__.__name__))
+                self.__dict__[str('id')] = ramu.safe_id(
+                    ramu.unique_id(self.__class__.__name__))
             else:
                 self.__dict__[str('id')] = ramu.safe_id(id)
 

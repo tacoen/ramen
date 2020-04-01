@@ -10,9 +10,9 @@ init -99 python:
 
         def load(self, id=None, **kwargs):
             """Will collect everything in 'scene/'"""
-            
+
             scenes = self.files('scene/')
-            
+
             cond = {}
             condition = list(dict.fromkeys(wo.sunword))
             condition2 = list(dict.fromkeys(wo.timeword))
@@ -82,7 +82,7 @@ init -99 python:
             for f in scenes:
                 fn = ramu.fn_info(f)
                 renpy.image(self.id + " " + fn['name'], f)
-                
+
                 self.__dict__['scene'][fn['name']] = f
 
                 if self.main and self.main == fn['name']:

@@ -8,7 +8,8 @@ init -202 python:
                 self.__dict__[k] = kwargs[k]
 
             if id is None:
-                self.__dict__['id'] = ramu.safe_id(ramu.unique_id(self.__class__.__name__))
+                self.__dict__['id'] = ramu.safe_id(
+                    ramu.unique_id(self.__class__.__name__))
             else:
                 self.__dict__['id'] = ramu.safe_id(id)
 
