@@ -1,12 +1,13 @@
 init -90 python:
 
     def smp_activated():
-    
-        hud.ui.icons['smp_ui']=[ '1','phone' , "Smartphone", ToggleScreen('smp_ui') ]
-        hud.ui.keyb['f10']=[ "K_F10" , ToggleScreen('smp_ui') ]
+
+        hud.ui.icons['smp_ui'] = [
+            '1', 'phone', "Smartphone", ToggleScreen('smp_ui')]
+        hud.ui.keyb['f10'] = ["K_F10", ToggleScreen('smp_ui')]
         mc.pref['icons'].append('smp_ui')
         rbc.smp_apps = None
-        rbc.smp_who = None        
+        rbc.smp_who = None
         rbc.smp_disable = False
 
     ram.component(
@@ -22,11 +23,11 @@ init -90 python:
     def smp_comboclose():
         """Hide every phone screens ('smp_'), and clear its `rbc`."""
         rbc.smp_apps = None
-        rbc.smp_who = None        
+        rbc.smp_who = None
         ramu.screen_hideby(prefix='smp_')
 
     # For phone calls
-        
+
     def ramen_phone_dering(nr=False):
         """Make phone ringging in stories. """
         if nr:
@@ -63,7 +64,8 @@ define phone_status = Character("Phone",
                                 what_color="#9CF",
                                 what_size=24,
                                 what_xsize=400,
-                                what_outlines=[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]
+                                what_outlines=[
+                                    (absolute(2), gui.textbox_background, absolute(0), absolute(0))]
                                 )
 
 define phone_dialing = Character("Phone",
@@ -74,7 +76,8 @@ define phone_dialing = Character("Phone",
                                  what_color="#9CF",
                                  what_size=24,
                                  what_xsize=400,
-                                 what_outlines=[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]
+                                 what_outlines=[
+                                     (absolute(2), gui.textbox_background, absolute(0), absolute(0))]
                                  )
 
 define phone_hangup = Character("Phone",
@@ -85,7 +88,8 @@ define phone_hangup = Character("Phone",
                                 what_color="#9CF",
                                 what_size=24,
                                 what_xsize=400,
-                                what_outlines=[(absolute(2), gui.textbox_background, absolute(0), absolute(0))]
+                                what_outlines=[
+                                    (absolute(2), gui.textbox_background, absolute(0), absolute(0))]
                                 )
 
 style smp_ui is default

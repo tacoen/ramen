@@ -2,7 +2,7 @@ init -90 python:
 
     def pc_activated():
         rbc.pc_apps = None
-        rbc.pc_who = None        
+        rbc.pc_who = None
         rbc.pc_disable = False
 
     ram.component(
@@ -12,17 +12,16 @@ init -90 python:
         author="tacoen",
         author_url='https://github.com/tacoen/ramen',
         desc="A nice apps container. A Modular approach to your stats, relations, game stats, etc.",
-        active_func='pc_activated'        
+        active_func='pc_activated'
     )
-    
+
     def pc_comboclose():
         """Hide every pc screens ('pc_'), and clear its `rbc`."""
         rbc.pc_apps = None
         rbc.pc_who = None
         rbc.pc_val = False
         ramu.screen_hideby(prefix='pc_')
-        
-        
+
 
 screen pc_backbutton(bucket, title=''):
     hbox yalign 0.5 xfill True:
@@ -57,8 +56,7 @@ screen pc_main(apps=None):
         cs = 16
 
     frame background pc.ui.bgr xpos pc.ui.x ypos pc.ui.y xsize pc.ui.w ysize pc.ui.h:
-        
-        
+
         add(pc.wallpaper) xpos style['pc']['area']['display'].xpos ypos style['pc']['area']['display'].ypos
 
         imagebutton xpos pc.ui.bx ypos pc.ui.by action Function(pc_comboclose):
@@ -90,18 +88,23 @@ screen pc_main(apps=None):
                 background pc.apps[a]['bgr']
                 style style['pc']['area']['display']
                 ysize style['pc']['area']['display'].yminimum - 32
-                padding (0,0)
+                padding(0, 0)
                 if renpy.has_screen("pc_app_" + a):
-                
+
                     side "c r":
-                        area (8,0,style['pc']['area']['display'].xminimum-8,style['pc']['area']['display'].yminimum)
-                    
-                        viewport xoffset 8 xsize style['pc']['area']['display'].xminimum-32 id "pcapp_vp":
+                        area(
+                            8,
+                            0,
+                            style['pc']['area']['display'].xminimum -
+                            8,
+                            style['pc']['area']['display'].yminimum)
+
+                        viewport xoffset 8 xsize style['pc']['area']['display'].xminimum - 32 id "pcapp_vp":
                             mousewheel True
                             $ renpy.use_screen("pc_app_" + a)
 
                         vbar value YScrollValue("pcapp_vp") xsize 8
-                            
+
                 else:
                     text "N/A" color "#000" yalign 0.5 xalign 0.5 size 32
 
@@ -133,4 +136,3 @@ style pc_desktop is default
 style pc_desktop_text is ramen_gui:
     size 14
     color "#fff"
-    

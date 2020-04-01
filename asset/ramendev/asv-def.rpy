@@ -17,8 +17,9 @@ init -10 python:
 init -208 python:
 
     RAMEN_DEV = True
-    
-    if RAMEN_DEV: RD = {}
+
+    if RAMEN_DEV:
+        RD = {}
 
     def ramen_dev(what, item):
 
@@ -127,7 +128,7 @@ init -208 python:
     gview = 'text'
 
     def rai_mval(o, v, r=[0, 10]):
-#        print o
+        #        print o
         o += float(v)
         o = round(o, 2)
         if o <= float(r[0]):
@@ -140,10 +141,10 @@ init -208 python:
     def rai_dict_unpack(obj):
         param = obj
         val = ''
-        
+
         if isinstance(param, (int, str, float, unicode)):
             return param
-            
+
         for k in sorted(param.keys()):
             if isinstance(param[k], (int, str, float, unicode)):
                 val += k + "=" + str(param[k]) + "\n"
@@ -270,7 +271,7 @@ screen rai_routecontent(tab, obj_id, view, var):
                 frame ysize 1 background "#ccc"
 
                 if view is not None:
-                    viewport xsize config.screen_height-200:
+                    viewport xsize config.screen_height - 200:
                         draggable True
                         mousewheel True
                         scrollbars "vertical"
@@ -438,7 +439,7 @@ screen rai_ctlheader(title=None):
             hbox xfill True:
                 text title bold True color "#fff"
                 hbox xalign 1.0:
-                    textbutton ico('x-square') style 'rai_uico' action Hide('ramen_ai_menu') 
+                    textbutton ico('x-square') style 'rai_uico' action Hide('ramen_ai_menu')
 
             hbox:
                 null width 200

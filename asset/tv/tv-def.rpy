@@ -2,11 +2,11 @@ init -80 python:
 
     ram.component(
         'tv',
-        title = "tv",
-        version = "1.0",
-        author = "tacoen",
-        author_url = 'https://github.com/tacoen/ramen',
-        desc = "Ramen Object Gallery Slideshow screen interface",
+        title="tv",
+        version="1.0",
+        author="tacoen",
+        author_url='https://github.com/tacoen/ramen',
+        desc="Ramen Object Gallery Slideshow screen interface",
     )
 
 transform slide_pause(s):
@@ -20,16 +20,16 @@ transform slide_pause(s):
 screen tvshow(list, s=3, loop=True):
 
     $ if s < 3: s = 3
-    
+
     python:
 
         try:
             locals()['n']
-        except:
+        except BaseException:
             locals()['n'] = 0
 
         n = locals()['n']
-        
+
         if s < 3:
             s = 3
 
@@ -38,9 +38,9 @@ screen tvshow(list, s=3, loop=True):
                 renpy.hide_screen('tvshow')
             else:
                 n = 0
-            
+
         img = list[n]
-            
+
     hbox xpos tv.ui.x ypos tv.ui.y:
 
         add(im.Scale(list[n], tv.ui.w, tv.ui.h)) at slide_pause(s)
@@ -52,9 +52,9 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
     key "K_ESCAPE" action Hide('tv')
 
     layer 'above-screens'
-    
+
     python:
-        tvbgr = ramu.fn_search('tv-body',obj.dir)    
+        tvbgr = ramu.fn_search('tv-body', obj.dir)
         gal = obj.gallery[what]
 
         try:
@@ -66,21 +66,23 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
         except BaseException:
             random = False
 
-        exitbtn = ramu.fn_search('tv-btn',obj.dir)
-        if not exitbtn: exitbtn = Text('ON')
+        exitbtn = ramu.fn_search('tv-btn', obj.dir)
+        if not exitbtn:
+            exitbtn = Text('ON')
 
-        exitbtn_hover = ramu.fn_search('tv-btn-hover',obj.dir)
-        if not exitbtn_hover: exitbtn_hover = Text('OFF')
+        exitbtn_hover = ramu.fn_search('tv-btn-hover', obj.dir)
+        if not exitbtn_hover:
+            exitbtn_hover = Text('OFF')
 
-    if tvbgr: 
+    if tvbgr:
         add(tvbgr)
     else:
         add Solid('#000000')
 
     imagebutton pos tv.exitarea action Hide('tv'):
         idle exitbtn
-        hover exitbtn_hover 
-            
+        hover exitbtn_hover
+
     if chan is None:
 
         vbox xpos tv.ui.x ypos tv.ui.y:

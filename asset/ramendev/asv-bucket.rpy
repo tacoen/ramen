@@ -77,8 +77,8 @@ screen rai_event_param(obj_id, var=None):
 
         try:
             passed = event['pass']
-        except:
-           passed = False
+        except BaseException:
+            passed = False
 
         req = ['day', 'sun', 'hour', 'require']
         jum = ['call', 'jump']
@@ -118,8 +118,6 @@ screen rai_event_param(obj_id, var=None):
                     hbox:
                         text 'Pass' min_width 100
                         text repr(passed)
-
-                    
 
                 vbox:
                     spacing 4

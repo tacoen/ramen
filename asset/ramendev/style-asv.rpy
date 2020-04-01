@@ -58,4 +58,3 @@ style rai_uico_text is ramen_icon:
     size 16
     color "#ccc"
     hover_color "#fff"
-

@@ -144,7 +144,8 @@ init -80 python:
                 if fine:
 
                     line_fileinfo = "\n### " + \
-                        fn['name'] + "\n\nFile: " + fn['dir'] + "/" + fn['file'] + "\n"
+                        fn['name'] + "\n\nFile: " + \
+                        fn['dir'] + "/" + fn['file'] + "\n"
                     c = ''
                     for line in open("E:/pp-renpy/ramen/game/" + f, "r"):
                         line = line.strip()

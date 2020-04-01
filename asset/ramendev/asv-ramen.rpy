@@ -194,7 +194,7 @@ screen rai_ramen_constant():
     python:
         mywidth = config.screen_width - 200
         cw = (mywidth / 2)
-        dc=[]
+        dc = []
         for d in globals():
             if d.startswith('RAMEN'):
                 dc.append(d)
@@ -203,12 +203,12 @@ screen rai_ramen_constant():
         draggable True
         mousewheel True
         scrollbars "vertical"
-    
+
         vbox xsize mywidth:
             spacing 20
             for d in dc:
                 hbox:
-                    text d min_width 300 
+                    text d min_width 300
                     text repr(globals()[d])
 
 screen rai_ramen_component():
@@ -216,16 +216,16 @@ screen rai_ramen_component():
     python:
         mywidth = config.screen_width - 200
         cw = (mywidth / 2)
-        ff = [ 'title', 'version', 'desc', 'author', 'dir' ]
-    
+        ff = ['title', 'version', 'desc', 'author', 'dir']
+
     viewport:
         draggable True
         mousewheel True
         scrollbars "vertical"
-    
+
         vbox xsize mywidth:
             spacing 24
-            
+
             for c in sorted(ram._component.keys()):
                 $ comp = ram._component[c]
 
@@ -234,16 +234,16 @@ screen rai_ramen_component():
                     null height 8
                     frame ysize 1 background "#ccc"
                     null height 8
-                    
+
                     for f in ff:
                         python:
-                            try: val = str(comp[f])
-                            except: val = ""
-                        
+                            try:
+                                val = str(comp[f])
+                            except BaseException:
+                                val = ""
+
                         hbox:
                             text f min_width 120 color "#ccc"
                             text val color "#ddd"
 
                     null height 16
-            
-        

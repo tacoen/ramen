@@ -1,20 +1,24 @@
 init -99 python:
 
-    HUD_PATH=ramu.fn_getdir()
+    HUD_PATH = ramu.fn_getdir()
 
-    def ramen_hud_toggle(what,sfx=True):
+    def ramen_hud_toggle(what, sfx=True):
 
-        try: hud.ui.element[what]
-        except: hud.ui.element[what]=True
+        try:
+            hud.ui.element[what]
+        except BaseException:
+            hud.ui.element[what] = True
 
         if hud.ui.element[what]:
-            hud.ui.element[what]=False
-            if sfx: ramu.sfx("tone0")
+            hud.ui.element[what] = False
+            if sfx:
+                ramu.sfx("tone0")
         else:
-            hud.ui.element[what]=True
-            if sfx: ramu.sfx("tone1")
+            hud.ui.element[what] = True
+            if sfx:
+                ramu.sfx("tone1")
 
-        rbc.hud_element[what]=hud.ui.element[what]
+        rbc.hud_element[what] = hud.ui.element[what]
 
 init -1:
 
@@ -76,69 +80,70 @@ init -1:
 
     transform pulldown:
         on show:
-            ypos -config.screen_height
+            ypos - config.screen_height
             linear 0.2 ypos 80
             linear 0.3 ypos 72
         on hide:
             pause 0.5
             ypos 72
             linear 0.2 ypos 80
-            linear 0.6 ypos -config.screen_height
-
+            linear 0.6 ypos - config.screen_height
 
     screen hc_debug(msg):
-    
+
         text repr(msg) ypos 0.9 xpos 0.9
 
-    screen hc_hbar_pos(obj, topic, val, sty, tcolor="#fff", legend=True, xy=(24,config.screen_height-200)):
-    
+    screen hc_hbar_pos(obj, topic, val, sty, tcolor="#fff", legend=True, xy=(24, config.screen_height - 200)):
+
         vbox pos xy:
             use hc_hbar(obj, topic, val, sty, tcolor, legend)
-            
+
     screen hc_hbar(obj, topic, val, sty, tcolor="#000", legend=True):
 
         python:
-            xmax=sty.xminimum - ( sty.left_padding + sty.right_padding )
-            
-            barsty=style[obj.id]['hbar'][topic]
-            
+            xmax = sty.xminimum - (sty.left_padding + sty.right_padding)
+
+            barsty = style[obj.id]['hbar'][topic]
+
             if type(barsty.thumb) is Null:
-                barsty=style['hbar']
-            
-            try: max=mc.limit[topic][1]
-            except: max=mc.limit['stat'][1]
+                barsty = style['hbar']
+
+            try:
+                max = mc.limit[topic][1]
+            except BaseException:
+                max = mc.limit['stat'][1]
 
         vbox:
-            
+
             if legend:
                 hbox xminimum xmax:
                     xfill True
                     text topic.title() style 'hud_label' color tcolor size 12 xalign 0
-                    text str(val)+"/"+str(max) style 'hud_label' color tcolor size 12 xalign 1.0 text_align 1.0
+                    text str(val) + "/" + str(max) style 'hud_label' color tcolor size 12 xalign 1.0 text_align 1.0
                 null height 3
             bar range max value val style barsty xmaximum xmax
 
-    screen hc_tbar(element,title='',returnvalue):
+    screen hc_tbar(element, title='', returnvalue):
 
         python:
-            xmax=style['hud']['area'][element].xminimum-2
-            
+            xmax = style['hud']['area'][element].xminimum - 2
+
             if returnvalue:
                 act = [
-                    Function(ramen_hud_toggle,what=element),
-                    Function(ramu.screen_hideby,prefix='hud_ext_'),
+                    Function(ramen_hud_toggle, what=element),
+                    Function(ramu.screen_hideby, prefix='hud_ext_'),
                     Return()
                 ]
             else:
                 act = [
-                    Function(ramen_hud_toggle,what=element),
-                    Function(ramu.screen_hideby,prefix='hud_ext_')
+                    Function(ramen_hud_toggle, what=element),
+                    Function(ramu.screen_hideby, prefix='hud_ext_')
                 ]
 
         frame background Color(hud.ui.bgcolor[rbc.hud_set]).shade(0.5):
             xsize xmax
-            xoffset -7
-            yoffset -7
+            xoffset - 7
+            yoffset - 7
             hbox:
                 xfill True
                 text title style "hud_title" color hud.ui.fgcolor[rbc.hud_set]
@@ -150,5 +155,4 @@ init -1:
                         action act
                     null width 4
 
-
-        $ hc_test=True
+        $ hc_test = True
