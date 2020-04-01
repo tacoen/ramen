@@ -3,13 +3,15 @@ screen rai_asset_scene(obj_id, var=None):
     if obj_id is not None:
         python:
             obj = globals()[obj_id]
-            iw = math.floor((config.screen_width - 200 - 32) / 4)
+            sw = config.screen_width - 200 - 32
+            sh = config.screen_height
+            iw = math.floor(sw / 4)
             ih = math.ceil(iw * 9 / 16)
             cu = False
 
         null height 8
 
-        vpgrid yminimum config.screen_height yoffset 8:
+        vpgrid xminimum sw yminimum sh yoffset 8:
             draggable True
             cols 4
             spacing 16

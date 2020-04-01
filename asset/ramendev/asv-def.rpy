@@ -271,7 +271,7 @@ screen rai_routecontent(tab, obj_id, view, var):
                 frame ysize 1 background "#ccc"
 
                 if view is not None:
-                    viewport xsize config.screen_height - 200:
+                    viewport xsize config.screen_width - 200:
                         draggable True
                         mousewheel True
                         scrollbars "vertical"

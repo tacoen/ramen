@@ -209,7 +209,7 @@ screen rai_ramen_constant():
             for d in dc:
                 hbox:
                     text d min_width 300
-                    text repr(globals()[d])
+                    text repr(globals()[d]) style 'ramen_gui'
 
 screen rai_ramen_component():
 
@@ -244,6 +244,6 @@ screen rai_ramen_component():
 
                         hbox:
                             text f min_width 120 color "#ccc"
-                            text val color "#ddd"
+                            text val color "#ddd" style 'ramen_gui'
 
                     null height 16

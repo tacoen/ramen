@@ -127,11 +127,6 @@ init -201 python:
 
 ### Inventory ############################################################
 
-python:
-
-    def item_view(item):
-        renpy.use_screen('hc_item', item=item)
-
 screen inventory_ui(obj='pocket', max=None, returnvalue=False):
 
     $ globals()[obj].sync()

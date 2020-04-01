@@ -43,7 +43,7 @@ screen rai_profile(obj_id, var=None):
                 for c in collect['sta'].keys():
                     hbox:
                         text c min_width 200
-                        text str(collect['sta'][c])
+                        text str(collect['sta'][c]) style 'ramen_gui'
                     null height 8
 
                 null height 8
@@ -53,7 +53,7 @@ screen rai_profile(obj_id, var=None):
                 for c in collect['bio'].keys():
                     hbox:
                         text c min_width 200
-                        text str(collect['bio'][c])
+                        text str(collect['bio'][c]) style 'ramen_gui'
                     null height 8
 
 
@@ -215,4 +215,4 @@ screen rai_player(obj_id):
         for i in mc():
             hbox:
                 text i min_width 200
-                text rai_dict_unpack(mc.__dict__[i])
+                text rai_dict_unpack(mc.__dict__[i]) style 'ramen_gui'

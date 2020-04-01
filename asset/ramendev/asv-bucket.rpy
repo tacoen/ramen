@@ -57,17 +57,17 @@ screen rai_bucket_worldtime():
             for i in sorted(w.keys()):
                 hbox:
                     text i min_width 200
-                    text repr(w[i])
+                    text repr(w[i]) style 'ramen_gui'
 
             text "Simulation" bold True
 
             hbox:
                 text '@ sun' min_width 200
-                text str(24 / len(wo.sunword))
+                text str(24 / len(wo.sunword)) style 'ramen_gui'
 
             hbox:
                 text '@ time' min_width 200
-                text str(24 / len(wo.timeword))
+                text str(24 / len(wo.timeword)) style 'ramen_gui'
 
 
 screen rai_event_param(obj_id, var=None):
@@ -104,7 +104,7 @@ screen rai_event_param(obj_id, var=None):
                 vbox:
                     spacing 4
                     text "on label" bold True
-                    text event['label']
+                    text event['label'] style 'ramen_gui'
 
                 vbox:
                     spacing 4
@@ -114,7 +114,7 @@ screen rai_event_param(obj_id, var=None):
                         if event[r] is not None:
                             hbox:
                                 text r min_width 100
-                                text repr(event[r])
+                                text repr(event[r]) style 'ramen_gui'
                     hbox:
                         text 'Pass' min_width 100
                         text repr(passed)
@@ -127,4 +127,4 @@ screen rai_event_param(obj_id, var=None):
                         if event[r] is not None:
                             hbox:
                                 text r  min_width 100
-                                text str(event[r])
+                                text str(event[r]) style 'ramen_gui'

@@ -164,18 +164,24 @@ init -80 python:
             import inspect
 
             collect = []
-            ndx_st = '# Function\n\n'
+            ndx_st = '# Non Class Function\n\n'
 
             for i in sorted(globals().keys()):
                 o = globals()[i]
                 try:
-                    if "game/" in repr(o.func_code):
-                        # print i + '=' + repr( o )
-                        ndx_st += "\n#### " + i + "\n"
-                        try:
-                            ndx_st += "\n   " + inspect.getdoc(o) + "\n"
-                        except BaseException:
-                            pass
+                    file = inspect.getfile(o)
+                    if "game/" in file:
+                    
+                        if inspect.isfunction(o):
+                            ndx_st += "\n#### " + i + "\n"
+                            file = file.replace('game/','')
+                            ndx_st += "File: `"+ file+"`\n"
+                        
+                            try:
+                                ndx_st += "\n  " + inspect.getdoc(o) + "\n"
+                            except BaseException:
+                                pass
+
 
                 except BaseException:
                     pass
@@ -386,4 +392,4 @@ screen rai_ramen_compile_md():
         spacing 8
         scrollbars "vertical"
 
-        text report
+        text report style 'ramen_gui'
