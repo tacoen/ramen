@@ -1,7 +1,8 @@
 screen rai_bucket_param():
 
     python:
-        param = rbc()
+        #param = rbc()
+        param = {}
 
     viewport:
         draggable True
@@ -28,23 +29,24 @@ screen rai_bucket_param():
 
 screen rai_bucket_worldtime():
 
+#            'python_weekday',
+#            'python_month',
+#           'daypart',
+            # 'diff',
+            # 'date',
+            # 'clock',
+            # 'hour',
+            # 'diff',
+
     python:
         i = [
-            'python_weekday',
-            'python_month',
             'weekday',
-            'daypart',
             'daytime',
             'sun',
             'suntime',
-            'diff',
-            'date',
-            'clock',
-            'hour',
-            'diff',
-            'dayplay',
-            'cycle']
-        w = wo.__dict__
+            'dayplay'
+            ]
+        w = ramen.__dict__
 
     viewport:
         draggable True
@@ -63,11 +65,11 @@ screen rai_bucket_worldtime():
 
             hbox:
                 text '@ sun' min_width 200
-                text str(24 / len(wo.sunword)) style 'ramen_gui'
+                text str(24 / len(ramen.suntime_word)) style 'ramen_gui'
 
             hbox:
                 text '@ time' min_width 200
-                text str(24 / len(wo.timeword)) style 'ramen_gui'
+                text str(24 / len(ramen.timeword)) style 'ramen_gui'
 
 
 screen rai_event_param(obj_id, var=None):

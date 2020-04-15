@@ -14,8 +14,8 @@ init -99 python:
             scenes = self.files('scene/')
 
             cond = {}
-            condition = list(dict.fromkeys(wo.sunword))
-            condition2 = list(dict.fromkeys(wo.timeword))
+            condition = list(dict.fromkeys(ramen.time.suntime_word))
+            condition2 = list(dict.fromkeys(ramen.time.daytime_word))
 
             try:
                 self.__dict__['scene']
@@ -50,13 +50,17 @@ init -99 python:
 
                 for s in condition:
                     if fn['name'] + " " + s in fn['file']:
-                        cond[fn['name']] += ("wo.suntime=='" + s + "'", f)
-                        scenes.remove(f)
+                        cond[fn['name']] += ("ramen.suntime=='" + s + "'", f)
+                        
+                        # 2.0
+                        try: scenes.remove(f)
+                        except: pass
+                        
                         self.__dict__['scene'][fn['name'] + " " + s] = f
 
                 for s in condition2:
                     if fn['name'] + " " + s in fn['file']:
-                        cond[fn['name']] += ("wo.daytime=='" + s + "'", f)
+                        cond[fn['name']] += ("ramen.daytime=='" + s + "'", f)
                         scenes.remove(f)
                         self.__dict__['scene'][fn['name'] + " " + s] = f
 

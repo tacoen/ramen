@@ -64,7 +64,7 @@ init -90 python:
     def map_goto(label, dist=0):
 
         time_cost = dist * (1 / 60)
-        wo.adv(time_cost)
+        ramen.time.adv(time_cost)
         renpy.jump(label)
 
 style map is default

@@ -21,7 +21,7 @@ screen rai_asset_scene(obj_id, var=None):
                     spacing 8
                     python:
                         ct = ''
-                        wot = wo.cond
+                        wot = ramen.timecond
                         for c in wot:
                             if s.endswith(c.lower()):
                                 ct = ' (cs)'
@@ -43,7 +43,7 @@ screen rai_scenetest(obj_id, tag):
 
         try:
             t = tag.split(' ')
-            if t[1] in (wo.cond):
+            if t[1] in (ramen.timecond):
                 cond = t[1]
                 itag = t[0]
 

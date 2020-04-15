@@ -101,7 +101,7 @@ screen tv(obj, what, channel=None, length=None, second=3, loop=True):
             except BaseException:
 
                 try:
-                    playlist = sorted(gal[chan][wo.daytime.lower()].values())
+                    playlist = sorted(gal[chan][ramen.daytime.lower()].values())
                 except BaseException:
                     playlist = sorted(gal[chan].values())
 

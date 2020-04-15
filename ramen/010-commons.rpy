@@ -53,7 +53,7 @@ screen ramen_npc_expression(img, hw, xy, atl):
 
 screen ramen_woclock():
     hbox xalign 0.9 yalign 0.68:
-        text str(wo.clock) style "label" size 32 color "#fff":
+        text str(ramen.time.clock()) style "label" size 32 color "#fff":
             outlines[(2, gui.textbox_background, absolute(0), absolute(0))]
 
     timer 3.0 action Function(renpy.restart_interaction)
@@ -297,7 +297,7 @@ label after_load:
     stop sound fadeout 1.0
     python:
         renpy.free_memory
-        wo.seed
+        #wo.seed
         # $ renpy.block_rollback()
     return
 

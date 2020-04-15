@@ -48,9 +48,9 @@ label demo_floor2:
         show screen ramen_woclock
         menu:
             "+1 hours":
-                $ wo.adv(1)
+                $ ramen.time.adv(1)
             "+6 hours":
-                $ wo.adv(+6)
+                $ ramen.time.adv(+6)
             "continue":
                 hide screen ramen_woclock
                 jump ramen_scene_map

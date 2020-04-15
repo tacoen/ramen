@@ -9,7 +9,7 @@ init -200 python:
 
     _ramen_container = object()
 
-    rbc = container()
+    rbc = ramen.var
     rbc.diff = 0
     rbc.doom = None
     rbc.cycle = True

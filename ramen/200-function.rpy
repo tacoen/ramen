@@ -321,7 +321,7 @@ init -208 python:
             except BaseException:
 
                 if condition is None:
-                    condition = wo.suntime
+                    condition = ramen.suntime
 
                 rl = renpy.get_registered_image(bgr).child.args[0]
 

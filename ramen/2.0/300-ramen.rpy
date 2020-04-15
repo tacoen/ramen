@@ -19,8 +19,8 @@ init -300 python in ramen:
 
     | func | return |
     | ---- | ---- |
-    | suntime() | True: return name, False: Return Interger (Default=True) |
-    | daytime() | True: return name, False: Return Interger (Default=True) |
+    | _suntime() | True: return name, False: Return Interger (Default=True) |
+    | _daytime() | True: return name, False: Return Interger (Default=True) |
     | ... | All function from datetime. See: https://docs.python.org/2/library/datetime.html |
     
     * ramen.time.hour return 8
@@ -65,27 +65,43 @@ init -300 python in ramen:
         uid_number += 1
         return "{:03d}".format(uid_number)
 
-    _container = object()
+    _var = object()
     
-    class container(object):
+    class var_container(object):
     
         def __call__(self):
-            return _container.__dict__
+            return _var.__dict__
             
         def __setattr__(self, key, value):
-            _container.__dict__[key] = value
+            _var.__dict__[key] = value
 
         def __getattr__(self, key):
             try:
-                return _container.__dict__[key]
+                return _var.__dict__[key]
             except BaseException:
                 return False
+                
+        def setdata(self, what, **kwargs):
+            try:
+                _var.__dict__[what]
+            except BaseException:
+                _var.__dict__[str(what)] = {}
 
-    var = container()
+            for k in kwargs:
+                _var.__dict__[what][k] = kwargs[k]                
+
+    var = var_container()
 
     time_seed = datetime.timedelta(0, 0)
     time_doom = None
-
+    
+    suntime = ''
+    daytime = ''
+    sun = ''
+    weekday = ''
+    dayplay = 0
+    timecond = []
+    
     class time():
         """
         Python datetime for game's time
@@ -117,10 +133,21 @@ init -300 python in ramen:
                     'dark',
                     'dark']
 
+            global timecond
+            
+            timecond = list(set( self.suntime_word + self.suntime_word))
+            
             self.start = self.time
+            self.populate()            
             
         def __getattr__(self,key):
-            return getattr(self.time,key)
+            try: 
+                return self.__dict__[key] 
+            except:
+                return getattr(self.time,key)
+            
+        def clock(self):
+            return self.time.strftime('%H:%M')
 
         def daytime(self, name=True):
             """If True, return in word. If False, return int"""
@@ -174,12 +201,28 @@ init -300 python in ramen:
             time_doom = self.time + \
                 datetime.timedelta(hours=kwags['hour'], days=kwags['day'])
 
+        def populate(self):
+
+            global time_seed
+            global sun
+            global suntime
+            global daytime
+            global weekday
+            global dayplay
+            
+            time_seed = self.time - self.start
+            suntime = self.suntime(True)
+            daytime = self.daytime(True)
+            sun = self.suntime(False)
+            weekday = self.strftime('%A')
+            dayplay = self.dayplay()
+            
         def adv(self, a, block=True):
             """Advance `a` hours from time. Update `ramen.time_seed` (store). If `block` is True, rollback will be block."""
 
-            global time_seed
             self.time = self.time + datetime.timedelta(hours=a)
-            time_seed = self.time - self.start
+
+            self.populate()
 
             if block:
                 renpy.block_rollback()

@@ -148,7 +148,7 @@ screen smp_main(apps=None):
             idle(smp.dir + "/images/btn.png")
             hover(smp.dir + "/images/btn-hover.png")
 
-        text wo.clock color "#fff" style 'ramen_gui' xpos style['smp']['area']['display'].xpos + 8 ypos style['smp']['area']['display'].ypos + 8 size 48
+        text ramen.time.clock() color "#fff" style 'ramen_gui' xpos style['smp']['area']['display'].xpos + 8 ypos style['smp']['area']['display'].ypos + 8 size 48
 
         if rbc.smp_apps is None:
 

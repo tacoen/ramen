@@ -21,19 +21,19 @@ init -199 python:
 
             # if rbc.doom is not None:
 
-              # if wo.time >= rbc.doom:
+              # if ramen.time >= rbc.doom:
                 # if renpy.has_label('ramen_end'): renpy.jump('ramen_end')
                 # renpy.jump('ramen_super_end')
 
     config.label_callback = ramen_labelcallback
 
-    rbc.event = object()
+    ramen.event = object()
 
     def ramen_event_occuring():
-        h = rbc.event.__dict__
+        h = ramen.event.__dict__
         for e in h.keys():
             if ramen_event_isoccur(e):
-                rbc.event_lastlabel = last_label
+                ramen.event_lastlabel = last_label
                 try:
                     goto = h[e]['call']
                 except BaseException:
@@ -71,14 +71,14 @@ init -199 python:
             """
 
             try:
-                rbc.events
+                ramen.events
             except BaseException:
-                rbc.event = object()
+                ramen.event = object()
 
             self.id = ramu.safe_id(id)
 
-            rbc.event.__dict__[str(id)] = {}
-            rbc.event.__dict__[str(id)][str('label')] = str(label)
+            ramen.event.__dict__[str(id)] = {}
+            ramen.event.__dict__[str(id)][str('label')] = str(label)
 
             self.set_occur(**kwargs)
 
@@ -89,23 +89,23 @@ init -199 python:
 
         def __call__(self, what=None):
             if what is None:
-                return rbc.event.__dict__[str(self.id)]
+                return ramen.event.__dict__[str(self.id)]
             else:
                 try:
-                    return rbc.event.__dict__[str(self.id)][what]
+                    return ramen.event.__dict__[str(self.id)][what]
                 except BaseException:
                     return None
 
         def set_occur(self, **kwargs):
             for k in kwargs:
-                rbc.event.__dict__[str(self.id)][str(k)] = kwargs[k]
+                ramen.event.__dict__[str(self.id)][str(k)] = kwargs[k]
 
         def set_pass(self):
-            rbc.event.__dict__[str(self.id)][str('pass')] = True
+            ramen.event.__dict__[str(self.id)][str('pass')] = True
 
         def is_pass(self):
             try:
-                return rbc.event.__dict__[str(self.id)][str('pass')]
+                return ramen.event.__dict__[str(self.id)][str('pass')]
             except BaseException:
                 return False
 
@@ -120,7 +120,7 @@ init -199 python:
         res = False
 
         try:
-            if rbc.event.__dict__[id]['pass']:
+            if ramen.event.__dict__[id]['pass']:
                 return False
             else:
                 return True
@@ -128,7 +128,7 @@ init -199 python:
             pass
 
         try:
-            if rbc.event.__dict__[id]['label'] == last_label:
+            if ramen.event.__dict__[id]['label'] == last_label:
                 res = True
             else:
                 return False
@@ -137,7 +137,7 @@ init -199 python:
 
         if res:
             try:
-                if int(wo.dayplay) >= int(rbc.event.__dict__[id]['day']):
+                if int(ramen.time.dayplay()) >= int(ramen.event.__dict__[id]['day']):
                     res = True
                 else:
                     res = False
@@ -148,7 +148,7 @@ init -199 python:
         if res:
 
             try:
-                if int(wo.sun) >= int(rbc.event.__dict__[id]['sun']):
+                if int(ramen.sun) >= int(ramen.event.__dict__[id]['sun']):
                     res = True
                 else:
                     res = False
@@ -158,7 +158,7 @@ init -199 python:
         if res:
 
             try:
-                if int(wo.time.hour) >= int(rbc.event.__dict__[id]['hour']):
+                if int(ramen.time.hour) >= int(ramen.event.__dict__[id]['hour']):
                     res = True
                 else:
                     res = False
@@ -169,10 +169,10 @@ init -199 python:
 
             try:
 
-                for r in rbc.event.__dict__[id]['require'].keys():
+                for r in ramen.event.__dict__[id]['require'].keys():
 
                     if int(mc.stat[r]) >= int(
-                            rbc.event.__dict__[id]['require'][r]):
+                            ramen.event.__dict__[id]['require'][r]):
                         res = True
                     else:
                         res = False
@@ -184,10 +184,10 @@ init -199 python:
 
             try:
 
-                for r in rbc.event.__dict__[id]['condition'].keys():
+                for r in ramen.event.__dict__[id]['condition'].keys():
 
                     if int(mc.stat[r]) == int(
-                            rbc.event.__dict__[id]['condition'][r]):
+                            ramen.event.__dict__[id]['condition'][r]):
                         res = True
                     else:
                         res = False

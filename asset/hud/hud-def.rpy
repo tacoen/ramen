@@ -80,9 +80,9 @@ screen hud_toolbar():
                     text_color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
                     text_hover_color hud.ui.fgcolor[rbc.hud_set]
                 hbox xoffset 8 yoffset 8:
-                    textbutton hud.ui.sun[wo.sun] style 'hud_sunico' text_color hud.ui.fgcolor[rbc.hud_set] action Null
+                    textbutton hud.ui.sun[ramen.sun] style 'hud_sunico' text_color hud.ui.fgcolor[rbc.hud_set] action Null
                     vbox xoffset 6:
-                        text "Day " + str(wo.dayplay) color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
+                        text "Day " + str(ramen.dayplay) color Color(hud.ui.fgcolor[rbc.hud_set]).opacity(.8)
                         text("{:03d}".format(mc.cash)) + " $" color hud.ui.fgcolor[rbc.hud_set] size 18
             hbox xalign 1.0 yalign 0.5:
                 for m in hud.ui.icons.keys():
@@ -125,10 +125,10 @@ screen hud_status():
                     w = s
                     try:
                         if rbc.doom is None:
-                            rbc.doom = wo.time + \
+                            rbc.doom = ramen.time + \
                                 datetime.timedelta(hours=ct[s][2])
                     except BaseException:
-                        rbc.doom = wo.time + datetime.timedelta(hours=ct[s][2])
+                        rbc.doom = ramen.time + datetime.timedelta(hours=ct[s][2])
 
         try:
             tcolor = Color(hud.ui.hbar[w][0]).opacity(.9)
