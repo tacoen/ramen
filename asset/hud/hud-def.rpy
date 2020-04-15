@@ -57,13 +57,6 @@ init -95 python:
                 config.screen_width / 2 - 16,
                 config.screen_height - (config.screen_height / 10 + 4) - 48,
                 (8, 8, 8, 8)
-            ],
-            'stock': [
-                16,
-                config.screen_height / 10 + 4,
-                config.screen_width / 2 - 20,
-                config.screen_height - (config.screen_height / 10 + 4) - 48,
-                (8, 8, 8, 8)
             ]
         }
     )
@@ -198,7 +191,7 @@ screen hud_stats():
 
     frame background hud.ui.bgcolor[rbc.hud_set] style style['hud']['area']['stats']:
         vbox:
-            use hc_tbar('stats', 'Stats')
+            use hc_tbar('stats', 'Stats',False)
             vbox:
                 box_wrap_spacing 8
                 spacing 12

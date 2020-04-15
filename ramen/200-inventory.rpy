@@ -125,6 +125,23 @@ init -201 python:
             return res
 
 
+    def pocket_eatabel_transfer():
+    
+        items = []
+        
+        for i in pocket(): 
+            print pocket.container[i]
+            try: 
+                if pocket.container[i].eatable: items.append(i)
+            except: 
+                pass
+            
+        for i in items:
+            item_id = pocket.container[i].id
+            pocket.transfer(item_id,'stock')
+            
+        del items
+
 ### Inventory ############################################################
 
 screen inventory_ui(obj='pocket', max=None, returnvalue=False):
@@ -285,5 +302,3 @@ screen hc_item(obj, item):
                         ]
 
                 # textbutton "Give" action Null
-
-

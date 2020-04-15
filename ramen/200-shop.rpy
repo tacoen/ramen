@@ -131,7 +131,10 @@ screen shop_ui(obj):
                         $ maction = Function(obj.checkout)
                     else:
                         $ maction = Null
-                    textbutton "Pay (" + str(total) + " $)" action maction:
+                    textbutton "Pay (" + str(total) + " $)" action [ 
+                        maction, 
+                        Function(ramen_ingamenotify,msg=' -'+ str(total) +" $", ramen_icon='wallet') 
+                        ]:
                         xsize obj.ui.area['tag'][2] - 40 text_xalign 1.0 selected_background Color(obj.ui.bg)
                 else:
                     textbutton "Not Enough" action Null:
